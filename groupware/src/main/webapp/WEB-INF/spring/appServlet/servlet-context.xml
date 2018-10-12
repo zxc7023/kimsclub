@@ -21,8 +21,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kimsclub.groupware" />
-	
+	<context:component-scan base-package="com.kimsclub.groupware.controller"/>
 	
 	
 </beans:beans>
