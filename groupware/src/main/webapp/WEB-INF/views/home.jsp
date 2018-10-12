@@ -8,7 +8,8 @@
 <h1>
 	junki!  
 </h1>
-
+<h1>왜요</h1>
+<h1>왜요2</h1>
 <P>  The time on the server is ${serverTime}. </P>
 </body>
 </html>
