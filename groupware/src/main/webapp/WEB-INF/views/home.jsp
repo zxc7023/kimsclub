@@ -14,6 +14,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 </head>
 <body>
+<<<<<<< HEAD
 <section>
     <div class="container-fluid">
         <div class="row">
@@ -89,5 +90,13 @@
         </div>
     </div>
 </section>
+=======
+<h1>
+	junki!  
+</h1>
+<h1>왜요</h1>
+<h1>왜요2</h1>
+<P>  The time on the server is ${serverTime}. </P>
+>>>>>>> 119f013e5bd9b2eee0dffa6e1d9f6e215f7c3692
 </body>
 </html>
