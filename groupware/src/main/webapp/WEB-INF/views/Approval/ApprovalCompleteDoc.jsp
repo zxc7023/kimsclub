@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset=UTF-8">
-<title>Insert title here</title>
+<title>완료 문서함</title>
 </head>
 <body>
 <script src="resources/jquery-3.2.1.min.js"></script>
