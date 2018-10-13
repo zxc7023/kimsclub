@@ -1,5 +1,5 @@
-# propertiesÆÄÀÏ
-*.properties
+# properties file
+*pom.properties
 # Compiled class file
 *.class
 
