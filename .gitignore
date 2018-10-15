@@ -1,3 +1,6 @@
+/target/
+*.properties
+
 # properties file
 *pom.properties
 # Compiled class file
