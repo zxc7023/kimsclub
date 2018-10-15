@@ -110,8 +110,8 @@
 		<div class="container-fluid">
 			<div class="row">
 				<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-				<div class="col-8">
-					<table>
+				<div class="col-10 back">
+					<table class='day_selection_wrap'>
 						<tbody>
 							<tr>
 								<th>현황</th>
@@ -129,7 +129,7 @@
 							</tr>
 							<tr>
 								<th>휴가 기간</th>
-								<td colspan="3">
+								<td colspan="3" class="calendar_wrap">
 									<table id="calendar" border="3" align="center" style="border-color: #3333FF">
 										<tr>
 											<!-- label은 마우스로 클릭을 편하게 해줌 -->
