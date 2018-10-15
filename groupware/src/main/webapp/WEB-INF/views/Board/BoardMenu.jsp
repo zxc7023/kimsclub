@@ -14,6 +14,29 @@
 
 	});
 </script>
-
+	<div>
+		<div>
+			<div>
+				<a href="community" >커뮤니티</a>
+			</div>
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		
+		<div>
+			<div>
+				<a href="notice" >공지사항</a>
+			</div>
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		
+		</div>
+	</div> 
 </body>
 </html>

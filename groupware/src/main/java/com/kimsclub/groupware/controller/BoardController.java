@@ -17,17 +17,32 @@ public class BoardController {
 	@Autowired
 	BoardService service;
 	
+	//게시판 메인화면
+		@RequestMapping(value="/BoardMenu", method=RequestMethod.GET)
+		public String BoardMenu(){
+			return "/Board/BoardMenu";
+		}
+	
 	//커뮤니티 목록
-	@RequestMapping("/comlist")
+	@RequestMapping("/community")
 	public ModelAndView comlist(){
 		List<BoardVO> list =service.communityList();
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("comlist", list);
-		mav.setViewName("/Board/CommunityList");
+		mav.addObject("BoardList", list);
+		mav.setViewName("/Board/BoardList");
 		return mav;
 	}
 	
 	//공지사항 목록
+	@RequestMapping("/notice")
+	public ModelAndView noticelist(){
+		List<BoardVO> list = service.noticeList();
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("BoardList", list);
+		mav.setViewName("/Board/BoardList");
+		return mav;
+	}
+	
 	
 	//게시글(커뮤니티,공지사항)작성 화면
 	@RequestMapping(value="/BoardWrite", method=RequestMethod.GET)
@@ -41,7 +56,7 @@ public class BoardController {
 		vo.setBoard_type("c");
 		System.out.println(vo.getBoard_title());
 		service.insertBoard(vo);
-		return "redirect:/comlist";
+		return "redirect:/community";
 	}
 	
 }
