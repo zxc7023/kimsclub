@@ -18,12 +18,12 @@
 			if (sideMenu.hasClass('active') == true) {
 				TweenLite.to(sideMenu, 0.5, {
 					ease : Power2.easeOut,
-					left : -side_width
+					marginLeft : -side_width
 				});
 			} else {
 				TweenLite.to(sideMenu, 0.5, {
 					ease : Power2.easeOut,
-					left : 0
+					marginLeft : 0
 				});
 			}
 		});
