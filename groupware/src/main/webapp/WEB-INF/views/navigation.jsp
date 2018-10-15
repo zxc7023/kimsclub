@@ -37,7 +37,7 @@
 
 			<div class="col-2 sideBar">
 				<h1 class="logo">
-					<a href="#"> <img src="resources/images/logo.png" />
+					<a href="#"> <img src="${pageContext.request.contextPath}/resources/images/logo.png" />
 					</a>
 				</h1>
 				<ul class="list-group list-group_1">
@@ -54,10 +54,10 @@
 							</ul>
 
 						</div></li>
-					<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu02" role="button" aria-expanded="false" aria-controls="menu02">2</a>
+					<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu02" role="button" aria-expanded="false" aria-controls="menu02">휴가</a>
 						<div class="depth-2 collapse" id="pc-menu02">
 							<ul class="list-group">
-								<li class="list-group-item"><a href="#">2-1</a></li>
+								<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoff_writeform">휴가 신청</a></li>
 								<li class="list-group-item"><a href="#">2-2</a></li>
 							</ul>
 
