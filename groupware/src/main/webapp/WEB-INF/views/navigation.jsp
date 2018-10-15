@@ -6,10 +6,11 @@
 		var depth_1 = $('.sideBar .depth-1');
 		var sideButn = $('.sideBar-btn');
 		var sideMenu = $('.sideBar');
+		var content = $('.sideBar + div');
 		var side_width = sideMenu.outerWidth();
 
 		depth_1.click(function() {
-			$(this).toggleClass('active')
+			$(this).toggleClass('active');
 		});
 
 		sideButn.click(function() {
@@ -20,11 +21,14 @@
 					ease : Power2.easeOut,
 					marginLeft : -side_width
 				});
+				content.addClass('col-12').removeClass('col-10');
+				
 			} else {
 				TweenLite.to(sideMenu, 0.5, {
 					ease : Power2.easeOut,
 					marginLeft : 0
 				});
+				content.addClass('col-10').removeClass('col-12');
 			}
 		});
 
