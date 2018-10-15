@@ -20,7 +20,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Override
 	public List<BoardVO> noticeList() {
-		return null;
+		return dao.noticeList();
 	}
 	
 	@Override

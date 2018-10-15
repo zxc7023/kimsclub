@@ -1,43 +1,18 @@
 @charset "UTF-8";
-/*공통*/
-.sideBar { background: #343a40; position: fixed; top: 0; left: 0; height: -webkit-fill-available; }
 
-.sideBar.active { -webkit-transform: 0; -moz-transform: rotate(0); -ms-transform: rotate(0); -o-transform: rotate(0); transform: rotate(0); transition: transform .85s ease, opacity .85s ease; }
 
-.sideBar ul { overflow: hidden; }
+table {
+	border: 1px solid #444444;
+}
 
-.sideBar ul.list-group_1 { margin: 0 -15px; }
+th, td {
+	border: 1px solid #444444;
+}
 
-.sideBar ul li { border: none; background: #343a40 !important; padding: 0; }
+.calendar .sunday {
+	color: #F79DC2;
+}
 
-.sideBar ul li a { display: block; padding: 0.75rem 1.5rem; color: #fff; text-decoration: none; }
-
-.sideBar ul li a:hover { background: #343f50; }
-
-.sideBar ul .depth-1.active a:after { transition: transform .35s ease, opacity .35s ease; -webkit-transform: rotate(0); -moz-transform: rotate(0); -ms-transform: rotate(0); -o-transform: rotate(0); transform: rotate(0); }
-
-.sideBar ul .depth-1 > a:after { display: inline-block; width: 0; height: 0; margin-left: 0.255em; vertical-align: 0.255em; content: ""; border-top: 0.3em solid; border-right: 0.3em solid transparent; border-bottom: 0; border-left: 0.3em solid transparent; float: right; -webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); -ms-transform: rotate(-90deg); -o-transform: rotate(-90deg); transform: rotate(-90deg); transition: transform .35s ease, opacity .35s ease; margin-top: 0.5rem; }
-
-.sideBar ul .depth-1 > a + .depth-2 ul { background: #343f50; }
-
-.sideBar ul .depth-1 > a + .depth-2 ul li { padding-left: 0; background: transparent !important; }
-
-.sideBar ul .depth-1 > a + .depth-2 ul li a { font-size: 0.85rem; color: #8f8f8f; }
-
-.sideBar ul .depth-1 > a + .depth-2 ul li a.active { color: #fff; }
-
-.sideBar ul.sub-list { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.75); }
-
-.sideBar ul.sub-list li a { display: block; color: #8f8F8F; font-size: 0.8rem; }
-
-.sideBar .logo { padding: 2rem 2rem 1.5rem 2rem; }
-
-.sideBar .logo a { display: block; }
-
-.sideBar .logo a img { width: 100%; vertical-align: top; }
-
-.sideBar .sideBar-btn { width: 3rem; height: 3rem; background: #343a40; position: absolute; top: 0; right: -3rem; }
-
-.sideBar .sideBar-btn span { position: relative; padding: 0.65rem; border-top: 0.1rem solid rgba(255, 255, 255, 0.75); border-bottom: 0.1rem solid rgba(255, 255, 255, 0.75); display: block; box-sizing: border-box; width: 50%; margin: 0 auto; }
-
-.sideBar .sideBar-btn span:before { content: ''; position: absolute; top: 50%; left: 0; right: 0; width: 80%; height: 0.1rem; background: rgba(255, 255, 255, 0.75); }
+.calendar .saturday {
+	color: skyblue;
+}

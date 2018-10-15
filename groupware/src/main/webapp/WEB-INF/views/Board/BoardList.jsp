@@ -14,15 +14,15 @@
 
 	});
 </script>
-<table>
-<c:forEach items="${comlist}" var="list">
+<table border="2">
+	<tr><td>번호</td><td>작성자</td><td>제목</td><td>작성일시</td><td>조회</td></tr>
+<c:forEach items="${BoardList}" var="list">
 	<tr>
 		<td>${list.board_no}</td>
 		<td>${list.board_writer}</td>
 		<td>${list.board_title}</td>
 		<td>${list.board_date}</td>
 		<td>${list.board_viewcount}</td>
-		
 	</tr>
 </c:forEach>
 </table>
