@@ -22,7 +22,6 @@ public class BoardController {
 		public String BoardMenu(){
 			return "/Board/BoardMenu";
 		}
-	
 	//커뮤니티 목록
 	@RequestMapping("/community")
 	public ModelAndView comlist(){
@@ -32,7 +31,6 @@ public class BoardController {
 		mav.setViewName("/Board/BoardList");
 		return mav;
 	}
-	
 	//공지사항 목록
 	@RequestMapping("/notice")
 	public ModelAndView noticelist(){
@@ -42,8 +40,15 @@ public class BoardController {
 		mav.setViewName("/Board/BoardList");
 		return mav;
 	}
-	
-	
+	//게시글(커뮤니티,공지사항)세부 화면
+	@RequestMapping("/detail")
+	public ModelAndView BoardDetail() {
+		/*List<BoardVO> list = service.noticeList();*/
+		ModelAndView mav = new ModelAndView();
+		/*mav.addObject("BoardList", list);*/
+		mav.setViewName("/Board/BoardDetail");
+		return mav;	
+	}
 	//게시글(커뮤니티,공지사항)작성 화면
 	@RequestMapping(value="/BoardWrite", method=RequestMethod.GET)
 	public String BoardWrite(){
