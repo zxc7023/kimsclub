@@ -1,5 +1,9 @@
 # properties file
 *pom.properties
+
+# manifest.mf
+*MANIFEST.MF
+
 # Compiled class file
 *.class
 
