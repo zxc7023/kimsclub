@@ -3,11 +3,12 @@ package com.kimsclub.groupware.vo;
 public class BoardVO {
 
 	int board_no;
-	int board_writer;
+	String board_writer;
 	String board_title;
 	String board_contents;
-	String date;
-	int viewcount;
+	String board_date;
+	int board_viewcount;
+	String board_type;
 	
 	public int getBoard_no() {
 		return board_no;
@@ -15,10 +16,10 @@ public class BoardVO {
 	public void setBoard_no(int board_no) {
 		this.board_no = board_no;
 	}	
-	public int getBoard_writer() {
+	public String getBoard_writer() {
 		return board_writer;
 	}
-	public void setBoard_writer(int board_writer) {
+	public void setBoard_writer(String board_writer) {
 		this.board_writer = board_writer;
 	}
 	public String getBoard_title() {
@@ -33,17 +34,30 @@ public class BoardVO {
 	public void setBoard_contents(String board_contents) {
 		this.board_contents = board_contents;
 	}
-	public String getDate() {
-		return date;
+	public String getBoard_date() {
+		return board_date;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setBoard_date(String board_date) {
+		this.board_date = board_date;
 	}
-	public int getViewcount() {
-		return viewcount;
+	public int getBoard_viewcount() {
+		return board_viewcount;
 	}
-	public void setViewcount(int viewcount) {
-		this.viewcount = viewcount;
+	public void setBoard_viewcount(int board_viewcount) {
+		this.board_viewcount = board_viewcount;
 	}
+	public String getBoard_type() {
+		return board_type;
+	}
+	public void setBoard_type(String board_type) {
+		this.board_type = board_type;
+	}
+	
+	@Override
+	public String toString() {
+		return "BoardVO [board_no=" + board_no + ", board_writer=" + board_writer + ", board_title=" + board_title
+				+ ", board_contents=" + board_contents + ", date=" + board_date + ", viewcount=" + board_viewcount + "]";
+	}
+	
 	
 }

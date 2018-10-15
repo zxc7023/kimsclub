@@ -14,6 +14,17 @@
 
 	});
 </script>
-
+<table>
+<c:forEach items="${comlist}" var="list">
+	<tr>
+		<td>${list.board_no}</td>
+		<td>${list.board_writer}</td>
+		<td>${list.board_title}</td>
+		<td>${list.board_date}</td>
+		<td>${list.board_viewcount}</td>
+		
+	</tr>
+</c:forEach>
+</table>
 </body>
 </html>
