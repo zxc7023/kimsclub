@@ -4,16 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style type="text/css">
-table {
-	border: 1px solid #444444;
-}
-
-th, td {
-	border: 1px solid #444444;
-}
-</style>
-<script src="/resources/js/jquery-3.2.1.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/default.css">
+<link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/navigation.css">
+<link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/dayoff/day_selection.css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	var today = new Date();//오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
 	var date = new Date();//today의 Date를 세어주는 역할
@@ -34,7 +35,8 @@ th, td {
 				.getDate());
 		buildCalendar();//달력 cell 만들어 출력
 	}
-	function buildCalendar() {//현재 달 달력 만들기
+	function buildCalendar() {
+		//현재 달 달력 만들기
 		var doMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 		//이번 달의 첫째 날,
 		//new를 쓰는 이유 : new를 쓰면 이번달의 로컬 월을 정확하게 받아온다.     
@@ -104,56 +106,55 @@ th, td {
 <title>휴가 신청</title>
 </head>
 <body>
-	<table>
-		<tbody>
-			<tr>
-				<th>현황</th>
-				<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
-			</tr>
-			<tr>
-				<th>작성자</th>
-				<td colspan="3">사원이름</td>
-			</tr>
-			<tr>
-				<th>처리</th>
-				<td>
-					<button>결재선 선택</button>
-				</td>
-			</tr>
-			<tr>
-				<th>휴가 기간</th>
-				<td colspan="3">
-					<table id="calendar" border="3" align="center" style="border-color: #3333FF">
-						<tr>
-							<!-- label은 마우스로 클릭을 편하게 해줌 -->
-							<td>
-								<label onclick="prevCalendar()"><</label>
-							</td>
-							<td align="center" id="tbCalendarYM" colspan="5">yyyy년 m월</td>
-							<td>
-								<label onclick="nextCalendar()">> </label>
-							</td>
-						</tr>
-						<tr>
-							<td align="center">
-								<font color="#F79DC2">일 
-							</td>
-							<td align="center">월</td>
-							<td align="center">화</td>
-							<td align="center">수</td>
-							<td align="center">목</td>
-							<td align="center">금</td>
-							<td align="center">
-								<font color="skyblue">토 
-							</td>
-						</tr>
-					</table>
-					<script language="javascript" type="text/javascript">
-						buildCalendar();//
-					</script>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
+	<div class="col-8">
+		<table>
+			<tbody>
+				<tr>
+					<th>현황</th>
+					<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
+				</tr>
+				<tr>
+					<th>작성자</th>
+					<td colspan="3">사원이름</td>
+				</tr>
+				<tr>
+					<th>처리</th>
+					<td>
+						<button>결재선 선택</button>
+					</td>
+				</tr>
+				<tr>
+					<th>휴가 기간</th>
+					<td colspan="3">
+						<table id="calendar" border="3" align="center" style="border-color: #3333FF">
+							<tr>
+								<!-- label은 마우스로 클릭을 편하게 해줌 -->
+								<td>
+									<label onclick="prevCalendar()"><</label>
+								</td>
+								<td align="center" id="tbCalendarYM" colspan="5">yyyy년 m월</td>
+								<td>
+									<label onclick="nextCalendar()">> </label>
+								</td>
+							</tr>
+							<tr>
+								<td align="center" class="sunday">일</td>
+								<td align="center">월</td>
+								<td align="center">화</td>
+								<td align="center">수</td>
+								<td align="center">목</td>
+								<td align="center">금</td>
+								<td align="center" class="saturday">토</td>
+							</tr>
+						</table>
+						<script language="javascript" type="text/javascript">
+							buildCalendar();//
+						</script>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
