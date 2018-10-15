@@ -6,6 +6,9 @@
 # MANIFEST.MF
 *.MANIFEST.MF
 
+# webstorm .idea/
+*.idea
+
 # Log file
 *.log
 
