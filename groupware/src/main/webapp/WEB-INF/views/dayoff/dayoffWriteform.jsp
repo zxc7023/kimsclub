@@ -106,55 +106,61 @@
 <title>휴가 신청</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-	<div class="col-8">
-		<table>
-			<tbody>
-				<tr>
-					<th>현황</th>
-					<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
-				</tr>
-				<tr>
-					<th>작성자</th>
-					<td colspan="3">사원이름</td>
-				</tr>
-				<tr>
-					<th>처리</th>
-					<td>
-						<button>결재선 선택</button>
-					</td>
-				</tr>
-				<tr>
-					<th>휴가 기간</th>
-					<td colspan="3">
-						<table id="calendar" border="3" align="center" style="border-color: #3333FF">
+	<section>
+		<div class="container-fluid">
+			<div class="row">
+				<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
+				<div class="col-8">
+					<table>
+						<tbody>
 							<tr>
-								<!-- label은 마우스로 클릭을 편하게 해줌 -->
+								<th>현황</th>
+								<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
+							</tr>
+							<tr>
+								<th>작성자</th>
+								<td colspan="3">사원이름</td>
+							</tr>
+							<tr>
+								<th>처리</th>
 								<td>
-									<label onclick="prevCalendar()"><</label>
-								</td>
-								<td align="center" id="tbCalendarYM" colspan="5">yyyy년 m월</td>
-								<td>
-									<label onclick="nextCalendar()">> </label>
+									<button>결재선 선택</button>
 								</td>
 							</tr>
 							<tr>
-								<td align="center" class="sunday">일</td>
-								<td align="center">월</td>
-								<td align="center">화</td>
-								<td align="center">수</td>
-								<td align="center">목</td>
-								<td align="center">금</td>
-								<td align="center" class="saturday">토</td>
+								<th>휴가 기간</th>
+								<td colspan="3">
+									<table id="calendar" border="3" align="center" style="border-color: #3333FF">
+										<tr>
+											<!-- label은 마우스로 클릭을 편하게 해줌 -->
+											<td>
+												<label onclick="prevCalendar()"><</label>
+											</td>
+											<td align="center" id="tbCalendarYM" colspan="5">yyyy년 m월</td>
+											<td>
+												<label onclick="nextCalendar()">> </label>
+											</td>
+										</tr>
+										<tr>
+											<td align="center" class="sunday">일</td>
+											<td align="center">월</td>
+											<td align="center">화</td>
+											<td align="center">수</td>
+											<td align="center">목</td>
+											<td align="center">금</td>
+											<td align="center" class="saturday">토</td>
+										</tr>
+									</table>
+									<script language="javascript" type="text/javascript">
+										buildCalendar();//
+									</script>
+								</td>
 							</tr>
-						</table>
-						<script language="javascript" type="text/javascript">
-							buildCalendar();//
-						</script>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
 </body>
 </html>

@@ -22,6 +22,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-		<jsp:include page="navigation.jsp"></jsp:include>
+	<section>
+		<div class="container-fluid">
+			<jsp:include page="navigation.jsp"></jsp:include>
+		</div>
+	</section>
 </body>
 </html>

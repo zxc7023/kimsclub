@@ -31,66 +31,60 @@
 	});
 </script>
 
-<section>
-	<div class="container-fluid">
-		<div class="row">
+<div class="col-2 sideBar">
+	<h1 class="logo">
+		<a href="#"> <img src="${pageContext.request.contextPath}/resources/images/logo.png" />
+		</a>
+	</h1>
+	<ul class="list-group list-group_1">
+		<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu01" role="button" aria-expanded="false" aria-controls="menu01">결재</a>
+			<div class="depth-2 collapse" id="pc-menu01">
+				<ul class="list-group">
+					<li class="list-group-item"><a href="#">새문서함</a></li>
+					<li class="list-group-item"><a href="#">결재문서함</a></li>
+					<li class="list-group-item"><a href="#">진행문서</a></li>
+					<li class="list-group-item"><a href="#">반려문서</a></li>
+					<li class="list-group-item"><a href="#">완료문서</a></li>
+					<li class="list-group-item"><a href="#">참조문서</a></li>
 
-			<div class="col-2 sideBar">
-				<h1 class="logo">
-					<a href="#"> <img src="${pageContext.request.contextPath}/resources/images/logo.png" />
-					</a>
-				</h1>
-				<ul class="list-group list-group_1">
-					<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu01" role="button" aria-expanded="false" aria-controls="menu01">결재</a>
-						<div class="depth-2 collapse" id="pc-menu01">
-							<ul class="list-group">
-								<li class="list-group-item"><a href="#">새문서함</a></li>
-								<li class="list-group-item"><a href="#">결재문서함</a></li>
-								<li class="list-group-item"><a href="#">진행문서</a></li>
-								<li class="list-group-item"><a href="#">반려문서</a></li>
-								<li class="list-group-item"><a href="#">완료문서</a></li>
-								<li class="list-group-item"><a href="#">참조문서</a></li>
-
-							</ul>
-
-						</div></li>
-					<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu02" role="button" aria-expanded="false" aria-controls="menu02">휴가</a>
-						<div class="depth-2 collapse" id="pc-menu02">
-							<ul class="list-group">
-								<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoff_writeform">휴가 신청</a></li>
-								<li class="list-group-item"><a href="#">2-2</a></li>
-							</ul>
-
-						</div></li>
-					<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu03" role="button" aria-expanded="false" aria-controls="menu03">3</a>
-						<div class="depth-2 collapse" id="pc-menu03">
-							<ul class="list-group ">
-								<li class="list-group-item"><a href="#">3-1</a></li>
-								<li class="list-group-item"><a href="#">3-2</a></li>
-								<li class="list-group-item"><a href="#">3-3</a></li>
-							</ul>
-
-						</div></li>
-					<li class="list-group-item"><a href="#">4</a></li>
-					<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu05" role="button" aria-expanded="false" aria-controls="menu05">5</a>
-						<div class="depth-2 collapse" id="pc-menu05">
-							<ul class="list-group ">
-								<li class="list-group-item"><a href="#">5-1</a></li>
-								<li class="list-group-item"><a href="#">5-2</a></li>
-								<li class="list-group-item"><a href="#">5-3</a></li>
-							</ul>
-						</div></li>
 				</ul>
-				<ul class="list-group sub-list">
-					<li class="list-group-item"><a href="#">sub1</a></li>
-					<li class="list-group-item"><a href="#">sub2</a></li>
-					<li class="list-group-item"><a href="#">sub3</a></li>
-					<li class="list-group-item"><a href="#">sub4</a></li>
+
+			</div></li>
+		<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu02" role="button" aria-expanded="false" aria-controls="menu02">휴가</a>
+			<div class="depth-2 collapse" id="pc-menu02">
+				<ul class="list-group">
+					<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoff_writeform">휴가 신청</a></li>
+					<li class="list-group-item"><a href="#">2-2</a></li>
 				</ul>
-				<button type="button" class="sideBar-btn">
-					<span></span>
-				</button>
-			</div>
-		</div>
-	</div>
-</section>
+
+			</div></li>
+		<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu03" role="button" aria-expanded="false" aria-controls="menu03">3</a>
+			<div class="depth-2 collapse" id="pc-menu03">
+				<ul class="list-group ">
+					<li class="list-group-item"><a href="#">3-1</a></li>
+					<li class="list-group-item"><a href="#">3-2</a></li>
+					<li class="list-group-item"><a href="#">3-3</a></li>
+				</ul>
+
+			</div></li>
+		<li class="list-group-item"><a href="#">4</a></li>
+		<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu05" role="button" aria-expanded="false" aria-controls="menu05">5</a>
+			<div class="depth-2 collapse" id="pc-menu05">
+				<ul class="list-group ">
+					<li class="list-group-item"><a href="#">5-1</a></li>
+					<li class="list-group-item"><a href="#">5-2</a></li>
+					<li class="list-group-item"><a href="#">5-3</a></li>
+				</ul>
+			</div></li>
+	</ul>
+	<ul class="list-group sub-list">
+		<li class="list-group-item"><a href="#">sub1</a></li>
+		<li class="list-group-item"><a href="#">sub2</a></li>
+		<li class="list-group-item"><a href="#">sub3</a></li>
+		<li class="list-group-item"><a href="#">sub4</a></li>
+	</ul>
+	<button type="button" class="sideBar-btn">
+		<span></span>
+	</button>
+</div>
+
