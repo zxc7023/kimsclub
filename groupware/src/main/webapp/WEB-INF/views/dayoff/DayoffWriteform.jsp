@@ -122,38 +122,38 @@ th, td {
 			</tr>
 			<tr>
 				<th>휴가 기간</th>
+				<td colspan="3">
+					<table id="calendar" border="3" align="center" style="border-color: #3333FF">
+						<tr>
+							<!-- label은 마우스로 클릭을 편하게 해줌 -->
+							<td>
+								<label onclick="prevCalendar()"><</label>
+							</td>
+							<td align="center" id="tbCalendarYM" colspan="5">yyyy년 m월</td>
+							<td>
+								<label onclick="nextCalendar()">> </label>
+							</td>
+						</tr>
+						<tr>
+							<td align="center">
+								<font color="#F79DC2">일 
+							</td>
+							<td align="center">월</td>
+							<td align="center">화</td>
+							<td align="center">수</td>
+							<td align="center">목</td>
+							<td align="center">금</td>
+							<td align="center">
+								<font color="skyblue">토 
+							</td>
+						</tr>
+					</table>
+					<script language="javascript" type="text/javascript">
+						buildCalendar();//
+					</script>
+				</td>
 			</tr>
 		</tbody>
 	</table>
-
-
-	<table id="calendar" border="3" align="center" style="border-color: #3333FF">
-		<tr>
-			<!-- label은 마우스로 클릭을 편하게 해줌 -->
-			<td>
-				<label onclick="prevCalendar()"><</label>
-			</td>
-			<td align="center" id="tbCalendarYM" colspan="5">yyyy년 m월</td>
-			<td>
-				<label onclick="nextCalendar()">> </label>
-			</td>
-		</tr>
-		<tr>
-			<td align="center">
-				<font color="#F79DC2">일
-			</td>
-			<td align="center">월</td>
-			<td align="center">화</td>
-			<td align="center">수</td>
-			<td align="center">목</td>
-			<td align="center">금</td>
-			<td align="center">
-				<font color="skyblue">토
-			</td>
-		</tr>
-	</table>
-	<script language="javascript" type="text/javascript">
-		buildCalendar();//
-	</script>
 </body>
 </html>
