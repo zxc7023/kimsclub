@@ -23,7 +23,7 @@ public class EditorServiceImpl implements EditorService {
 		PrintWriter printWriter = null;	
 		String fileName = file.getOriginalFilename();
 		byte[] bytes = file.getBytes();
-		String uploadPath =  "D:/workspace_spring/.metadata/.plugins/org.eclipse.wst.server.core/tmp1/wtpwebapps/groupware/resources/upload/" + fileName;
+		String uploadPath =  "C:/Users/danawacomputer/git/kimsclub/groupware/src/main/webapp/resources/upload/" + fileName;
 		System.out.println(uploadPath);
 		out = new FileOutputStream(new File(uploadPath));
 		out.write(bytes);
