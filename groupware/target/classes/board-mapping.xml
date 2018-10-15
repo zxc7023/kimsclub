@@ -14,9 +14,17 @@
 		where BOARD.BOARD_NO=EMPLOYEE.EMPLOYEE_NO
 	</select> -->
 	
-	<select id="selectBoard" resultType="board">
+	<select id="selectComm" resultType="board">
 		select board_no, employee_name as board_writer, board_title, board_date, board_viewcount 
 		from board, employee
+		where BOARD.BOARD_NO=EMPLOYEE.EMPLOYEE_NO and BOARD.BOARD_TYPE='c'
+		order by board_no desc
+	</select>
+	
+	<select id="selectNotice" resultType="board">
+		select board_no, employee_name as board_writer, board_title, board_date, board_viewcount 
+		from board, employee
+		where BOARD.BOARD_NO=EMPLOYEE.EMPLOYEE_NO and BOARD.BOARD_TYPE='n'
 		order by board_no desc
 	</select>
 	

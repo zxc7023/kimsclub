@@ -18,7 +18,10 @@ public class BoardDAO {
 	}
 	
 	public List<BoardVO> communityList(){
-		return session.selectList("board.selectBoard");
+		return session.selectList("board.selectComm");
 	}
 	
+	public List<BoardVO> noticeList(){
+		return session.selectList("board.selectNotice");
+	}
 }

@@ -72,12 +72,11 @@
 
 						</div></li>
 					<li class="list-group-item"><a href="#">4</a></li>
-					<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu05" role="button" aria-expanded="false" aria-controls="menu05">5</a>
+					<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu05" role="button" aria-expanded="false" aria-controls="menu05">게시판</a>
 						<div class="depth-2 collapse" id="pc-menu05">
 							<ul class="list-group ">
-								<li class="list-group-item"><a href="#">5-1</a></li>
-								<li class="list-group-item"><a href="#">5-2</a></li>
-								<li class="list-group-item"><a href="#">5-3</a></li>
+								<li class="list-group-item"><a href="#">커뮤니티</a></li>
+								<li class="list-group-item"><a href="#">공지사항</a></li>
 							</ul>
 						</div></li>
 				</ul>
