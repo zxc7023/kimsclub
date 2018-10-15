@@ -33,8 +33,7 @@
 
 <div class="col-2 sideBar">
 	<h1 class="logo">
-		<a href="#"> <img src="${pageContext.request.contextPath}/resources/images/logo.png" />
-		</a>
+		<a href="<%=application.getContextPath()%>"> <img src="${pageContext.request.contextPath}/resources/images/logo.png"/></a>
 	</h1>
 	<ul class="list-group list-group_1">
 		<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu01" role="button" aria-expanded="false" aria-controls="menu01">결재</a>
