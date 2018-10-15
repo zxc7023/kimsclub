@@ -11,7 +11,7 @@ public class DayoffController {
 	@RequestMapping(value = "/dayoff_writeform", method=RequestMethod.GET)
 	public String write_dayoff() {
 		System.out.println("write_dayoff() 메소드 호출");
-		return "dayoff/DayoffWriteform";
+		return "dayoff/dayoff_writeform";
 	}
 	
 }
