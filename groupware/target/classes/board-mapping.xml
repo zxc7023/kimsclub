@@ -17,6 +17,7 @@
 	<select id="selectBoard" resultType="board">
 		select board_no, employee_name as board_writer, board_title, board_date, board_viewcount 
 		from board, employee
+		order by board_no desc
 	</select>
 	
 	

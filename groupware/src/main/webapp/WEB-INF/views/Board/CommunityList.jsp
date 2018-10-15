@@ -22,7 +22,6 @@
 		<td>${list.board_title}</td>
 		<td>${list.board_date}</td>
 		<td>${list.board_viewcount}</td>
-		
 	</tr>
 </c:forEach>
 </table>
