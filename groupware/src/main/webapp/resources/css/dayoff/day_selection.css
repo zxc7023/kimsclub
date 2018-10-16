@@ -9,12 +9,15 @@ th, td {
 	border: 1px solid #444444;
 }
 
-.calendar .sunday {
+td.sunday {
 	color: #F79DC2;
+	
 }
-
-.calendar .saturday {
-	color: skyblue;
+td.saturday {
+	color: blue;
+}
+td.full_absence{
+	color : skyblue;
 }
 
 .day_selection_wrap{

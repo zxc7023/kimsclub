@@ -15,7 +15,28 @@
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/navigation.css">
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/dayoff/day_selection.css">
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript">
+<script>
+	$(document).ready(function() {
+		$("#calendar td").click(function(){
+			alert($(this).text());
+			if($(this).hasClass("full_absence")){
+				alert("풀차")
+				$(this).addClass("am_absence")
+			}else if($(this).hasClass("am_absence")){
+				alert("전차")
+				$(this).addClass("pm_absence")
+			}else if($(this).hasClass("pm_absence")){
+				alert("후차");
+				$(this).removeClass("pm_absence")
+			}else{
+				alert("암것도 없음");
+				$(this).addClass("full_absence")
+			}
+			return false;
+		});
+	});
+</script>
+<script>
 	var today = new Date();//오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
 	var date = new Date();//today의 Date를 세어주는 역할
 	function prevCalendar() {//이전 달
@@ -79,18 +100,21 @@
 			//1일부터 마지막 일까지 돌림
 			cell = row.insertCell();//열 한칸한칸 계속 만들어주는 역할
 			cell.innerHTML = i;//셀을 1부터 마지막 day까지 HTML 문법에 넣어줌
+			//cell.className += "full_absence";
 			cnt = cnt + 1;//열의 갯수를 계속 다음으로 위치하게 해주는 역할
 			if (cnt % 7 == 1) {/*일요일 계산*/
 				//1주일이 7일 이므로 일요일 구하기
 				//월화수목금토일을 7로 나눴을때 나머지가 1이면 cnt가 1번째에 위치함을 의미한다
-				cell.innerHTML = "<font color=#F79DC2>" + i
+				cell.innerHTML = i;
+				cell.classList.add("sunday");
 				//1번째의 cell에만 색칠
 			}
 			if (cnt % 7 == 0) {/* 1주일이 7일 이므로 토요일 구하기*/
 				//월화수목금토일을 7로 나눴을때 나머지가 0이면 cnt가 7번째에 위치함을 의미한다
-				cell.innerHTML = "<font color=skyblue>" + i
+				cell.innerHTML = i
+				cell.classList.add("saturday");
 				//7번째의 cell에만 색칠
-				row = calendar.insertRow();
+				row = tbCalendar.insertRow();
 				//토요일 다음에 올 셀을 추가
 			}
 			/*오늘의 날짜에 노란색 칠하기*/
@@ -130,29 +154,29 @@
 							<tr>
 								<th>휴가 기간</th>
 								<td colspan="3" class="calendar_wrap">
-									<table id="calendar" border="3" align="center" style="border-color: #3333FF">
+									<table id="calendar">
 										<tr>
 											<!-- label은 마우스로 클릭을 편하게 해줌 -->
 											<td>
 												<label onclick="prevCalendar()"><</label>
 											</td>
-											<td align="center" id="tbCalendarYM" colspan="5">yyyy년 m월</td>
+											<td id="tbCalendarYM" colspan="5">yyyy년 m월</td>
 											<td>
 												<label onclick="nextCalendar()">> </label>
 											</td>
 										</tr>
 										<tr>
-											<td align="center" class="sunday">일</td>
-											<td align="center">월</td>
-											<td align="center">화</td>
-											<td align="center">수</td>
-											<td align="center">목</td>
-											<td align="center">금</td>
-											<td align="center" class="saturday">토</td>
+											<td>일</td>
+											<td>월</td>
+											<td>화</td>
+											<td>수</td>
+											<td>목</td>
+											<td>금</td>
+											<td>토</td>
 										</tr>
 									</table>
-									<script language="javascript" type="text/javascript">
-										buildCalendar();//
+									<script type="text/javascript">
+										buildCalendar();
 									</script>
 								</td>
 							</tr>
