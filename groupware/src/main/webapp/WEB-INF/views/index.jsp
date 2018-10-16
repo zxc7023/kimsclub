@@ -25,8 +25,8 @@
 	<section>
 		<div class="container-fluid">
 			<div class="row">
-				<jsp:include page="navigation.jsp"></jsp:include>
-			</div>
+					<jsp:include page="navigation.jsp"></jsp:include>
+				 </div>
 		</div>
 	</section>
 </body>

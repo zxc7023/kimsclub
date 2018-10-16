@@ -21,21 +21,19 @@
 					ease : Power2.easeOut,
 					marginLeft : -side_width
 				});
-				content.addClass('col-12').removeClass('col-10');
 				
 			} else {
 				TweenLite.to(sideMenu, 0.5, {
 					ease : Power2.easeOut,
 					marginLeft : 0
 				});
-				content.addClass('col-10').removeClass('col-12');
 			}
 		});
 
 	});
 </script>
 
-<div class="col-2 sideBar">
+<div class="col-2 sideBar cont-wrap">
 	<h1 class="logo">
 		<a href="<%=application.getContextPath()%>"> <img src="${pageContext.request.contextPath}/resources/images/logo.png"/></a>
 	</h1>

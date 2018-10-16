@@ -1,5 +1,14 @@
 @import url(http://fonts.googleapis.com/css?family=Noto+Sans);
 
+.row{
+	display:block  !important;
+	position:relative;
+}
+.cont-wrap{
+	position:relative;
+	float:left;
+}
+
 body {
   font-family: 'Noto Sans', sans-serif;
   color: '#333';

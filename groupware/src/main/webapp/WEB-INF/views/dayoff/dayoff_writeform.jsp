@@ -113,9 +113,9 @@
 <body>
 	<section>
 		<div class="container-fluid">
-			<div class="row">
+		<div class="row">
 				<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-				<div class="col-10 back">
+				<div class="col-10 back cont-wrap">
 					<table class='day_selection_wrap'>
 						<tbody>
 							<tr>
@@ -156,7 +156,7 @@
 					</table>
 				</div>
 			</div>
-		</div>
+			</div>
 	</section>
 </body>
 </html>
