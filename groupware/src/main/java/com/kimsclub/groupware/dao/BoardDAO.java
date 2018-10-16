@@ -24,4 +24,9 @@ public class BoardDAO {
 	public List<BoardVO> noticeList(){
 		return session.selectList("board.selectNotice");
 	}
+	
+	public List<BoardVO> detail(){
+		return session.selectOne("board.selectDetail", arg1)
+		
+	}
 }

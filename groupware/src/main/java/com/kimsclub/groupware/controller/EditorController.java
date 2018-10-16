@@ -2,6 +2,7 @@ package com.kimsclub.groupware.controller;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,7 +31,7 @@ public class EditorController {
 	public void ckeditorImageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile upload) throws IOException{
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset-utf-8");
-
+		System.out.println("ckeditorImageUpload 메소드 실행");
 		fileService.ckeditorImageUpload(request, response, upload);
 
 	}
