@@ -116,7 +116,12 @@
 		<div class="row">
 				<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
 				<div class="col-10 back cont-wrap">
-					<table class='day_selection_wrap'>
+				<div class="row">
+					<table class='day_selection_wrap col-10'>
+					<colgroup>
+					<col width="150" >
+					<col width="auto">
+					</colgroup>
 						<tbody>
 							<tr>
 								<th>현황</th>
@@ -135,13 +140,13 @@
 							<tr>
 								<th>휴가 기간</th>
 								<td colspan="3" class="calendar_wrap">
-									<table id="calendar" border="3" align="center" style="border-color: #3333FF">
+									<table id="calendar" class="col-10" >
 										<tr>
 											<!-- label은 마우스로 클릭을 편하게 해줌 -->
 											<td>
 												<label onclick="prevCalendar()"><</label>
 											</td>
-											<td align="center" id="tbCalendarYM" colspan="5">yyyy년 m월</td>
+											<td align="center" id="tbCalendarYM" colspan="13">yyyy년 m월</td>
 											<td>
 												<label onclick="nextCalendar()">> </label>
 											</td>
@@ -154,6 +159,7 @@
 							</tr>
 						</tbody>
 					</table>
+					</div>
 				</div>
 			</div>
 			</div>
