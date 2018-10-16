@@ -15,6 +15,8 @@
 <link href="${pageContext.request.contextPath}/resources/css/fullcalendar.print.min.css" rel='stylesheet' media='print' />
 <script src="${pageContext.request.contextPath}/resources/js/fullcalendar.min.js"></script>
 
+<script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
+
 <script>
   $(document).ready(function() {
 
