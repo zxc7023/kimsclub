@@ -28,4 +28,12 @@ public class BoardServiceImpl implements BoardService {
 		dao.insertBoard(vo);
 	}
 
+	@Override
+	public List<BoardVO> detail() {
+		
+		return null;
+	}
+	
+	
+
 }

@@ -28,18 +28,22 @@ public class BoardController {
 		List<BoardVO> list =service.communityList();
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("BoardList", list);
+		mav.addObject("board_type","c");
 		mav.setViewName("/Board/BoardList");
 		return mav;
 	}
+	
 	//공지사항 목록
 	@RequestMapping("/notice")
 	public ModelAndView noticelist(){
 		List<BoardVO> list = service.noticeList();
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("BoardList", list);
+		mav.addObject("board_type","n");
 		mav.setViewName("/Board/BoardList");
 		return mav;
 	}
+	
 	//게시글(커뮤니티,공지사항)세부 화면
 	@RequestMapping("/detail")
 	public ModelAndView BoardDetail() {
@@ -49,6 +53,7 @@ public class BoardController {
 		mav.setViewName("/Board/BoardDetail");
 		return mav;	
 	}
+	
 	//게시글(커뮤니티,공지사항)작성 화면
 	@RequestMapping(value="/BoardWrite", method=RequestMethod.GET)
 	public String BoardWrite(){
@@ -58,10 +63,9 @@ public class BoardController {
 	//게시글(커뮤니티,공지사항)작성 처리 
 	@RequestMapping(value="/BoardWrite", method=RequestMethod.POST)
 	public String BoardList(BoardVO vo) {
-		vo.setBoard_type("c");
-		System.out.println(vo.getBoard_title());
+		System.out.println("보드타입");
+		System.out.println(vo.getBoard_type());
 		service.insertBoard(vo);
 		return "redirect:/community";
 	}
-	
 }
