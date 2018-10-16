@@ -19,7 +19,8 @@ th, td {
 
 .day_selection_wrap{
 	position:relative;
-	margin:0 auto;
+	margin:10% auto;
+	width: 80%;
 }
 .calendar_wrap{
 	position:relative;
