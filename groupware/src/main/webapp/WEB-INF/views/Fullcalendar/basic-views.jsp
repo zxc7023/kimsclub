@@ -105,6 +105,8 @@
     max-width: 900px;
     margin: 0 auto;
   }
+.fc-sun {color:#e31b23}
+.fc-sat {color:#007dc3}
 
 </style>
 
