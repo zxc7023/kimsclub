@@ -16,3 +16,17 @@ th, td {
 .calendar .saturday {
 	color: skyblue;
 }
+
+.day_selection_wrap{
+	position:relative;
+	margin:0 auto;
+}
+.calendar_wrap{
+	position:relative;
+	overflow:hidden;
+	height:200px;
+}
+
+.day_selection_wrap #calendar{
+	top:0;
+}
