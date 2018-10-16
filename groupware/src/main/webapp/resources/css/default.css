@@ -229,3 +229,8 @@ body {
     height: 12px;
     margin-right: 2px;
 }
+
+.back{
+	position:relative;
+	z-index:-1;
+}

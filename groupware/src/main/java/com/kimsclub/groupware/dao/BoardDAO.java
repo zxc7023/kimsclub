@@ -24,4 +24,10 @@ public class BoardDAO {
 	public List<BoardVO> noticeList(){
 		return session.selectList("board.selectNotice");
 	}
+	
+	public List<BoardVO> detail(){
+		//성욱이형 커밋을 잘하자 10번 외칩니다.
+		//return session.selectOne("board.selectDetail", arg1);
+		return null;
+	}
 }

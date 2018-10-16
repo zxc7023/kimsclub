@@ -20,10 +20,15 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
+
 	
 	<context:component-scan base-package="com.kimsclub.groupware.controller"/>
 	<context:component-scan base-package="com.kimsclub.groupware.service"/>
 	<context:component-scan base-package="com.kimsclub.groupware.dao"/>
 	<context:component-scan base-package="com.kimsclub.groupware.vo"/>
+	
+	<!-- 파일 업로드 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</beans:bean>
 	
 </beans:beans>
