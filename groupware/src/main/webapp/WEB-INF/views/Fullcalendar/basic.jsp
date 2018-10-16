@@ -17,9 +17,10 @@
 </head>
 <body>
   <div id="top">
-        <a href="https://github.com/nhnent/tui.calendar">
+<%--         <a href="https://github.com/nhnent/tui.calendar">
             <img src="${pageContext.request.contextPath}/resources/toast/images/img-bi.png" srcset="${pageContext.request.contextPath}/resources/toast/images/img-bi@2x.png 2x,${pageContext.request.contextPath}/resources/toast/images/img-bi@3x.png 3x">
-        </a>
+        </a> --%>
+        
     </div>
     <div id="lnb">
         <div class="lnb-new-schedule">
@@ -40,7 +41,7 @@
             </div>
         </div>
         <div class="lnb-footer">
-            © NHN Entertainment Corp.
+            © KITRI Kim's Club.
         </div>
     </div>
     <div id="right">
@@ -94,7 +95,8 @@
                     <li role="presentation">
                         <a role="menuitem" data-action="toggle-narrow-weekend">
                             <input type="checkbox" class="tui-full-calendar-checkbox-square" value="toggle-narrow-weekend">
-                            <span class="checkbox-title"></span>Narrower than weekdays
+                            <span class="checkbox-title"></span>평일보다 좁게 보기
+
                         </a>
                     </li>
                 </ul>
