@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*공통*/
-.sideBar { background: #343a40; position: fixed; top: 0; left: 0; height: -webkit-fill-available; }
+.sideBar { background: #343a40; position:relative;   height:100vh}
 
 .sideBar.active { -webkit-transform: 0; -moz-transform: rotate(0); -ms-transform: rotate(0); -o-transform: rotate(0); transform: rotate(0); transition: transform .85s ease, opacity .85s ease; }
 
@@ -36,7 +36,7 @@
 
 .sideBar .logo a img { width: 100%; vertical-align: top; }
 
-.sideBar .sideBar-btn { width: 3rem; height: 3rem; background: #343a40; position: absolute; top: 0; right: -3rem; }
+.sideBar .sideBar-btn { width: 3rem; height: 3rem; background: #343a40; position: absolute; top: 0; right: -3rem; z-index:3;border:none;}
 
 .sideBar .sideBar-btn span { position: relative; padding: 0.65rem; border-top: 0.1rem solid rgba(255, 255, 255, 0.75); border-bottom: 0.1rem solid rgba(255, 255, 255, 0.75); display: block; box-sizing: border-box; width: 50%; margin: 0 auto; }
 

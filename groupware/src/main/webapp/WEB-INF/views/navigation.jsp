@@ -6,10 +6,11 @@
 		var depth_1 = $('.sideBar .depth-1');
 		var sideButn = $('.sideBar-btn');
 		var sideMenu = $('.sideBar');
+		var content = $('.sideBar + div');
 		var side_width = sideMenu.outerWidth();
 
 		depth_1.click(function() {
-			$(this).toggleClass('active')
+			$(this).toggleClass('active');
 		});
 
 		sideButn.click(function() {
@@ -18,12 +19,13 @@
 			if (sideMenu.hasClass('active') == true) {
 				TweenLite.to(sideMenu, 0.5, {
 					ease : Power2.easeOut,
-					left : -side_width
+					marginLeft : -side_width
 				});
+				
 			} else {
 				TweenLite.to(sideMenu, 0.5, {
 					ease : Power2.easeOut,
-					left : 0
+					marginLeft : 0
 				});
 			}
 		});
@@ -31,10 +33,9 @@
 	});
 </script>
 
-<div class="col-2 sideBar">
+<div class="col-2 sideBar cont-wrap">
 	<h1 class="logo">
-		<a href="#"> <img src="${pageContext.request.contextPath}/resources/images/logo.png" />
-		</a>
+		<a href="<%=application.getContextPath()%>"> <img src="${pageContext.request.contextPath}/resources/images/logo.png"/></a>
 	</h1>
 	<ul class="list-group list-group_1">
 		<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu01" role="button" aria-expanded="false" aria-controls="menu01">결재</a>
@@ -54,7 +55,7 @@
 			<div class="depth-2 collapse" id="pc-menu02">
 				<ul class="list-group">
 					<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoff_writeform">휴가 신청</a></li>
-					<li class="list-group-item"><a href="#">2-2</a></li>
+					<li class="list-group-item"><a href="#">휴가현</a></li>
 				</ul>
 
 			</div></li>

@@ -1,4 +1,17 @@
 @import url(http://fonts.googleapis.com/css?family=Noto+Sans);
+.container-fluid{
+	min-width:1200px;
+}
+
+.row{
+	display:block  !important;
+	position:relative;
+	overflow:hidden;
+}
+.cont-wrap{
+	position:relative;
+	float:left;
+}
 
 body {
   font-family: 'Noto Sans', sans-serif;
@@ -228,4 +241,8 @@ body {
     width: 12px;
     height: 12px;
     margin-right: 2px;
+}
+
+.back{
+	position:relative;
 }
