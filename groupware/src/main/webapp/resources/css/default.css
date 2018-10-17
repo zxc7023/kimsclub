@@ -1,8 +1,12 @@
 @import url(http://fonts.googleapis.com/css?family=Noto+Sans);
+.container-fluid{
+	min-width:1200px;
+}
 
 .row{
 	display:block  !important;
 	position:relative;
+	overflow:hidden;
 }
 .cont-wrap{
 	position:relative;

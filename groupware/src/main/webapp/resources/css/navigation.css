@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /*공통*/
-.sideBar { background: #343a40; position:relative; height: -webkit-fill-available; }
+.sideBar { background: #343a40; position:relative;   height:100vh}
 
 .sideBar.active { -webkit-transform: 0; -moz-transform: rotate(0); -ms-transform: rotate(0); -o-transform: rotate(0); transform: rotate(0); transition: transform .85s ease, opacity .85s ease; }
 

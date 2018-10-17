@@ -55,7 +55,7 @@
 			<div class="depth-2 collapse" id="pc-menu02">
 				<ul class="list-group">
 					<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoff_writeform">휴가 신청</a></li>
-					<li class="list-group-item"><a href="#">2-2</a></li>
+					<li class="list-group-item"><a href="#">휴가현</a></li>
 				</ul>
 
 			</div></li>

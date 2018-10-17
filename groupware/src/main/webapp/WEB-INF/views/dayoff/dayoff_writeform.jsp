@@ -20,18 +20,15 @@
 	var today = new Date();//오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
 	var date = new Date();//today의 Date를 세어주는 역할
 	var lastdate;
-	
+
 	function prevCalendar() {
 		alert("알람울림");
 	}
 	function nextCalendar() {
-		today=lastdate;
+		today = lastdate;
 		buildCalendar();
 	}
-	
-	
-	
-	
+
 	/* 	function prevCalendar() {//이전 달
 	 // 이전 달을 today에 값을 저장하고 달력에 today를 넣어줌
 	 //today.getFullYear() 현재 년도//today.getMonth() 월  //today.getDate() 일 
@@ -74,7 +71,7 @@
 		while (tbCalendar.rows.length > 0) {
 			//열을 지워줌
 			//기본 열 크기는 body 부분에서 2로 고정되어 있다.
-			tbCalendar.deleteRow(tbCalendar.rows.length-1);
+			tbCalendar.deleteRow(tbCalendar.rows.length - 1);
 			//테이블의 tr 갯수 만큼의 열 묶음은 -1칸 해줘야지 
 			//30일 이후로 담을달에 순서대로 열이 계속 이어진다.
 		}
@@ -119,7 +116,7 @@
 			 } */
 		}
 		lastdate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 15);
-		 
+
 	}
 </script>
 <title>휴가 신청</title>
@@ -130,37 +127,43 @@
 			<div class="row">
 				<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
 				<div class="col-10 back cont-wrap">
-					<table class='day_selection_wrap'>
-						<tbody>
-							<tr>
-								<th>현황</th>
-								<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
-							</tr>
-							<tr>
-								<th>작성자</th>
-								<td colspan="3">사원이름</td>
-							</tr>
-							<tr>
-								<th>처리</th>
-								<td>
-									<button>결재선 선택</button>
-								</td>
-							</tr>
-							<tr>
-								<th>휴가 기간</th>
-								<td class="calendar_wrap">
-									<table id="calendar">
-									</table>
-									<button onclick="prevCalendar()">앞</button>
-									<button onclick="nextCalendar()">뒤</button>
-									<script type="text/javascript">
-										buildCalendar();//
-									</script>
-								</td>
-							</tr>
-							
-						</tbody>
-					</table>
+					<div class="row">
+						<table class='day_selection_wrap col-10'>
+							<colgroup>
+								<col width="150">
+								<col width="auto">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>현황</th>
+									<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
+								</tr>
+								<tr>
+									<th>작성자</th>
+									<td colspan="3">사원이름</td>
+								</tr>
+								<tr>
+									<th>처리</th>
+									<td>
+										<button>결재선 선택</button>
+									</td>
+								</tr>
+								<tr>
+									<th>휴가 기간</th>
+									<td colspan="3" class="calendar_wrap">
+										<table id="calendar" class="col-10">
+										</table>
+										<button onclick="prevCalendar()">앞</button>
+										<button onclick="nextCalendar()">뒤</button>
+										<script type="text/javascript">
+											buildCalendar();//
+										</script>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
