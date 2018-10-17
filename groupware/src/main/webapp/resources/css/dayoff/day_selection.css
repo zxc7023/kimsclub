@@ -1,14 +1,5 @@
 @charset "UTF-8";
 
-
-table {
-	border: 1px solid #444444;
-}
-
-th, td {
-	border: 1px solid #444444;
-}
-
 .calendar .sunday {
 	color: #F79DC2;
 }
@@ -18,15 +9,33 @@ th, td {
 }
 
 .day_selection_wrap{
+	margin:10rem auto 0 auto;
 	position:relative;
-	margin:0 auto;
+	border-bottom:1px solid #dedede;
 }
+.day_selection_wrap tr{
+	border-top:1px solid #dedede;
+}
+
+.day_selection_wrap th{
+	text-align:center;
+	line-height:2.5rem;
+	background:#f9f9f9;
+	font-size:1rem;
+	font-weight:normal;
+}
+
+.day_selection_wrap td{
+	font-size:1rem
+}
+
 .calendar_wrap{
 	position:relative;
 	overflow:hidden;
 	height:200px;
 }
 
-.day_selection_wrap #calendar{
+.calendar_wrap table{
 	top:0;
+	margin: 0 auto;
 }
