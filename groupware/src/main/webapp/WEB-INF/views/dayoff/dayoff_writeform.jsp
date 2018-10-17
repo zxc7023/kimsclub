@@ -17,15 +17,19 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	var week = new Array('일', '월', '화', '수', '목', '금', '토');
-	var today = new Date();//오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
-	var start_date;
-	var end_date;
-
+	var month = new Array('1','2','3','4','5','6','7','8','9','10','11','12');
+	
+	var today = new Date();
+	var cal_start_date = today;
+	var last_date;
+	var cal_end_date;
+	
 	function prevCalendar() {
-		alert("알람울림");
+		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),cal_start_date.getDate()-15);
+		buildCalendar();
 	}
 	function nextCalendar() {
-		today = cal_last_date;
+		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),cal_start_date.getDate()+15);
 		buildCalendar();
 	}
 
@@ -48,88 +52,57 @@
 	 } */
 
 	function buildCalendar() {
-		var lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-		
-		//end_date = 
-		//이번 달의 마지막 날
-		//new를 써주면 정확한 월을 가져옴, getMonth()+1을 해주면 다음달로 넘어가는데
-		//day를 1부터 시작하는게 아니라 0부터 시작하기 때문에 
-		//대로 된 다음달 시작일(1일)은 못가져오고 1 전인 0, 즉 전달 마지막일 을 가져오게 된다
+		 
+		 //start_date 시작일이 포함된 달의 마지막 날을 담은 date 객체
+		 last_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1,0);
+		 console.log('이번달의 마지막날 : ' + last_date)
+		 
+		//캘린더 html 요소를 찾아서 변수에 저장.
 		var tbCalendar = document.getElementById("calendar");
-		//날짜를 찍을 테이블 변수 만듬, 일 까지 다 찍힘
-		//var tbCalendarYM = document.getElementById("tbCalendarYM");
-		//테이블에 정확한 날짜 찍는 변수
-		//innerHTML : js 언어를 HTML의 권장 표준 언어로 바꾼다
-		//new를 찍지 않아서 month는 +1을 더해줘야 한다. 
-		//tbCalendarYM.innerHTML = today.getFullYear() + "년 " + (today.getMonth() + 1) + "월";
 
-		//왼쪽 오른쪽 버튼을 눌렀을때 초기화 작업.
+		//왼쪽,오른쪽 버튼을 눌렀을때 초기화 작업.
 		while (tbCalendar.rows.length > 0) {
-			//열을 지워줌
-			//기본 열 크기는 body 부분에서 2로 고정되어 있다.
 			tbCalendar.deleteRow(tbCalendar.rows.length - 1);
-			//테이블의 tr 갯수 만큼의 열 묶음은 -1칸 해줘야지 
-			//30일 이후로 담을달에 순서대로 열이 계속 이어진다.
 		}
+				
+		//첫번재 tr 연도.달
+		//월을 나타내줄 tr
+		var cnt =0;
+		var flag =0;
 		
-		var row = null;
-		
-		//첫번재 tr 작성
-		row1 = tbCalendar.insertRow();
-		cell1 = row1.insertCell();
-		/* alert('마지막날짜 : ' + lastDate.getDate());
-		alert('오늘날짜 : '+ today.getDate());
-		alert(parseInt(lastDate.getDate()- today.getDate())+1); */
-		cell1.colSpan = lastDate.getDate() - today.getDate() +1 ;
-		cell1.innerHTML = today.getFullYear() + "." + (today.getMonth()+1);
- 		if( parseInt(lastDate.getDate()-(today.getDate()))+1 != 15){
-			alert(parseInt(lastDate.getDate()-(today.getDate()))+1);
-			cell1_1 = row1.insertCell();
-			cell1_1.colSpan = 15 - (lastDate.getDate()-today.getDate()+1);
-			cell1_1.innerHTML =  lastDate.getFullYear() +"."+ (lastDate.getMonth()+1);
-		} 
-		
-		
-		row2 = tbCalendar.insertRow();
-		row3 = tbCalendar.insertRow();
-		//테이블에 새로운 열 삽입//즉, 초기화
-		var cnt = 0;// count, 셀의 갯수를 세어주는 역할
-		// 1일이 시작되는 칸을 맞추어 줌
-		/* 		for (i = 0; i < doMonth.getDay(); i++) {
-		 //이번달의 day만큼 돌림
-		 cell = row.insertCell();//열 한칸한칸 계속 만들어주는 역할
-		 cnt = cnt + 1;//열의 갯수를 계속 다음으로 위치하게 해주는 역할
-		 } */
-		//달력 출력
+		var row1 = tbCalendar.insertRow(0);
+		//두번째 tr : 요일
+		row2 = tbCalendar.insertRow(1);
+		//세번째 tr : 일자
+		row3 = tbCalendar.insertRow(2);
+		row4 = tbCalendar.insertRow(3);
 		for (i = 0; i < 15; i++) {
 			cell2 = row2.insertCell();//요일을 나타낼 셀(td)
 			cell3 = row3.insertCell();//일자를 나타낼 셀(td)
-			var cell_date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + i);
+			cell4 = row4.insertCell();//일자를 나타낼 셀(td)
+			var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() + i);
 			cell2.innerHTML = week[cell_date.getDay()];
-			cell3.innerHTML = cell_date.getDate();//현재일로부터 15일뒤의 날까지 보여준다.
-			cnt = cnt + 1;//열의 갯수를 계속 다음으로 위치하게 해주는 역할
-			/* 			if (cnt % 7 == 1) {//일요일 계산
-			 //1주일이 7일 이므로 일요일 구하기
-			 //월화수목금토일을 7로 나눴을때 나머지가 1이면 cnt가 1번째에 위치함을 의미한다
-			 cell.innerHTML = "<font color=#F79DC2>" + i
-			 //1번째의 cell에만 색칠
-			 }
-			 if (cnt % 7 == 0) {//1주일이 7일 이므로 토요일 구하기
-			 //월화수목금토일을 7로 나눴을때 나머지가 0이면 cnt가 7번째에 위치함을 의미한다
-			 cell.innerHTML = "<font color=skyblue>" + i
-			 //7번째의 cell에만 색칠
-			 row = calendar.insertRow();
-			 //토요일 다음에 올 셀을 추가
-			 }
-			 //오늘의 날짜에 노란색 칠하기
-			 if (today.getFullYear() == date.getFullYear()
-			 && today.getMonth() == date.getMonth()
-			 && i == date.getDate()) {
-			 //달력에 있는 년,달과 내 컴퓨터의 로컬 년,달이 같고, 일이 오늘의 일과 같으면
-			 cell.bgColor = "#FAF58C";//셀의 배경색을 노랑으로 
-			 } */
+			cell3.innerHTML = cell_date.getDate();
+			if(flag==0){
+				if(cell_date.getDate()==last_date.getDate()){
+					flag=1;
+				}
+				cnt++;			
+			}
 		}
-		cal_last_date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 15);
+		//첫번째 tr에 cell 하나 추가
+		cell1 = row1.insertCell();
+		//한페이지당 15개씩 일수를 표현하는데 같은달에 포함된 일수인지 확인 작업이 필요함.
+		
+		console.log(cnt);
+		cell1.colSpan = cnt;
+		cell1.innerHTML = cal_start_date.getFullYear() + "." + month[cal_start_date.getMonth()];
+		if(cnt<15){
+			cell2 = row1.insertCell();
+			cell2.colSpan = 15 - cnt;
+			cell2_date= new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1, 1);
+			cell2.innerHTML = cell2_date.getFullYear() + "." + month[cell2_date.getMonth()];
+		}
 
 	}
 </script>
