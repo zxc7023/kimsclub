@@ -1,0 +1,30 @@
+@charset "UTF-8";
+.day_status{
+	margin:0 auto;
+}
+ul.nav-tabs{
+	overflow:hidden;
+	background:#fff;
+	border-top:none
+}
+
+ul.nav-tabs li{
+	font-size:15px;
+	line-height:30px;
+}
+
+ul.nav-tabs li a.active{
+	border:1px solid #f3f3f3;
+	border-bottom:#fff;
+	font-weight:bolder;
+}
+
+ul.nav-tabs li a{
+	display:block;
+	color:#000;
+	padding:10px 20px;
+}
+ul.nav-tabs li a:hover{
+	text-decoration:none;
+	background:#f3f3f3;
+}

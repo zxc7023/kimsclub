@@ -243,6 +243,18 @@ body {
     margin-right: 2px;
 }
 
-.back{
-	position:relative;
+.clearfix {
+    overflow: auto;
 }
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+ 

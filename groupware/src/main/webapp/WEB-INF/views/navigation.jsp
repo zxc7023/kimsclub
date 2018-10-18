@@ -6,27 +6,23 @@
 		var depth_1 = $('.sideBar .depth-1');
 		var sideButn = $('.sideBar-btn');
 		var sideMenu = $('.sideBar');
-		var content = $('.sideBar + div');
 		var side_width = sideMenu.outerWidth();
 
 		depth_1.click(function() {
 			$(this).toggleClass('active');
 		});
+		sideButn.css({left:side_width});
 
 		sideButn.click(function() {
-			sideMenu.toggleClass('active');
+			sideMenu.toggleClass('active');	
 
 			if (sideMenu.hasClass('active') == true) {
-				TweenLite.to(sideMenu, 0.5, {
-					ease : Power2.easeOut,
-					marginLeft : -side_width
-				});
+				TweenLite.to(sideMenu, 0.5, { ease : Power2.easeOut, marginLeft : -side_width });
+				TweenLite.to(sideButn, 0.5, { ease : Power2.easeOut, left :0});
 				
 			} else {
-				TweenLite.to(sideMenu, 0.5, {
-					ease : Power2.easeOut,
-					marginLeft : 0
-				});
+				TweenLite.to(sideMenu, 0.5, { ease : Power2.easeOut, marginLeft : 0 });
+				TweenLite.to(sideButn, 0.5, { ease : Power2.easeOut, left : side_width });
 			}
 		});
 
@@ -84,8 +80,9 @@
 		<li class="list-group-item"><a href="#">sub3</a></li>
 		<li class="list-group-item"><a href="#">sub4</a></li>
 	</ul>
-	<button type="button" class="sideBar-btn">
-		<span></span>
-	</button>
 </div>
+<button class="sideBar-btn">
+	<span></span>
+</button>
+
 
