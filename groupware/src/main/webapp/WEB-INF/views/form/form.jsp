@@ -31,29 +31,21 @@
 			<table>
 				<tr>
 					<th><p><input type="checkbox" name="all" class="check-all"></p></th>
+					<th>양식 번호</th>
 					<th>사용 여부</th>
 					<th>양식명</th>
 					<th>설명</th>
 				</tr>
-				<!-- 예시 -->
+				<c:forEach items="${FormList}" var="list">
 				<tr>
-					<td><p><input type="checkbox" name="check" class="check"></p></td>
-					<td>사용</td>
-					<td>양식1</td>
-					<td>설명</td>
+					<td><p><input type="checkbox" name="check" class="check" value="${list.form_no}"></p></td>
+					<td>${list.form_no}</td>
+					<td>${list.form_activation}</td>
+					<td><a href="createform?form_no=${list.form_no}">${list.form_name}</a></td>
+					<td>${list.form_desc}</td>
+					<td></td>
 				</tr>
-				<tr>
-					<td><p><input type="checkbox" name="check" class="check"></p></td>
-					<td>사용</td>
-					<td>양식2</td>
-					<td>설명</td>
-				</tr>
-				<tr>
-					<td><p><input type="checkbox" name="check" class="check"></p></td>
-					<td>사용</td>
-					<td>양식3</td>
-					<td>설명</td>
-				</tr>
+				</c:forEach>
 			</table>
 		</div><!-- form_list_table end -->
 		<div id="form_page"></div><!-- form_page end -->
