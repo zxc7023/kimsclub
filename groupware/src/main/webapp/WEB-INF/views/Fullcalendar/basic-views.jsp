@@ -9,6 +9,7 @@
 
 <title>일정</title>
 
+    
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/moment.min.js"></script>
 <link href="${pageContext.request.contextPath}/resources/css/fullcalendar.min.css" rel='stylesheet' />
@@ -16,9 +17,15 @@
 <script src="${pageContext.request.contextPath}/resources/js/fullcalendar.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
+<script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/gcal.js'></script> 
 
 <script>
+
   $(document).ready(function() {
+      var date = new Date(); 
+      var d = date.getDate(); 
+      var m = date.getMonth(); 
+      var y = date.getFullYear(); 
 
     $('#calendar').fullCalendar({
       header: {
@@ -26,10 +33,19 @@
         center: 'title',
         right: 'month,basicWeek,basicDay'
       },
-      defaultDate: '2018-03-12',
       navLinks: true, // can click day/week names to navigate views
       editable: true,
       eventLimit: true, // allow "more" link when too many events
+      weekNumbers : true,
+      googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE",
+      eventSources : [
+          // 대한민국의 공휴일
+          {
+                googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com"
+              , className : "koHolidays"
+              , color : "#FF0000"
+              , textColor : "#FFFFFF"
+          }],
       events: [
         {
           title: 'All Day Event',
@@ -85,13 +101,25 @@
           url: 'http://google.com/',
           start: '2018-03-28'
         }
-      ]
+      ],
+      dayClick: function(start, end) {
+    	  var title = prompt('Event Title:');
+          var eventData;
+          if (title) {
+            eventData = {
+              title: title,
+              start: start,
+              end: end
+            };
+            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+          }
+          $('#calendar').fullCalendar('unselect');
+      } 
     });
 
   });
 
 </script>
-
 <style>
 
   body {
@@ -105,14 +133,16 @@
     max-width: 900px;
     margin: 0 auto;
   }
-.fc-sun {color:#e31b23}
+  
+  .fc-sun {color:#e31b23}
 .fc-sat {color:#007dc3}
 
 </style>
-
 </head>
 <body>
-일정이다!
+
+    
   <div id='calendar'></div>
+
 </body>
 </html>
