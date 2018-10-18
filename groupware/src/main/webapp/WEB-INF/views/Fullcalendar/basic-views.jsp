@@ -9,6 +9,14 @@
 
 <title>일정</title>
 
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/toast/dist/tui-calendar.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/toast/css/default.css"></link>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/toast/css/icons.css"></link>
+    <!--상위 테스트  -->
     
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/moment.min.js"></script>
@@ -141,8 +149,14 @@
 </head>
 <body>
 
+
+
+
+
+
     
   <div id='calendar'></div>
+
 
 </body>
 </html>
