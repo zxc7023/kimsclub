@@ -8,10 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/dayoff/*")
 public class DayoffController {
 	
-	@RequestMapping(value = "/dayoff_writeform", method=RequestMethod.GET)
-	public String write_dayoff() {
+	@RequestMapping(value = "/dayoffWriteform", method=RequestMethod.GET)
+	public String writeDayoff() {
 		System.out.println("write_dayoff() 메소드 호출");
 		return "dayoff/dayoff_writeform";
 	}
 	
+	@RequestMapping(value = "/dayoffStatus", method=RequestMethod.GET)
+	public String readDayoffStatus() {
+		System.out.println("write_dayoff() 메소드 호출");
+		return "dayoff/dayoff_status";
+	}
 }
