@@ -10,13 +10,6 @@
 <title>일정</title>
 
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
-    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/toast/dist/tui-calendar.css" />
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/toast/css/default.css"></link>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/toast/css/icons.css"></link>
-    <!--상위 테스트  -->
     
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/moment.min.js"></script>
@@ -36,8 +29,16 @@
       var y = date.getFullYear(); 
 
     $('#calendar').fullCalendar({
+    	  customButtons: {
+    		    myCustomButton: {
+    		      text: '일정추가',
+    		      click: function() {
+    		        alert('clicked the custom button!');
+    		      }
+    		    }
+    		  },
       header: {
-        left: 'prev,next today',
+        left: 'prev,next today myCustomButton',
         center: 'title',
         right: 'month,basicWeek,basicDay'
       },
@@ -105,6 +106,10 @@
           start: '2018-03-13T07:00:00'
         },
         {
+            title: 'Birthday Party',
+            start: '2018-10-13T07:00:00'
+          },
+        {
           title: 'Click for Google',
           url: 'http://google.com/',
           start: '2018-03-28'
@@ -122,7 +127,11 @@
             $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
           }
           $('#calendar').fullCalendar('unselect');
-      } 
+      },
+
+      eventClick: function (event, jsEvent, view) { 
+          alert(event.title); }
+      
     });
 
   });
@@ -149,14 +158,7 @@
 </head>
 <body>
 
-
-
-
-
-
-    
   <div id='calendar'></div>
-
 
 </body>
 </html>
