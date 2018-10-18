@@ -14,49 +14,33 @@
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/default.css">
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/navigation.css">
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/dayoff/day_selection.css">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	var week = new Array('일', '월', '화', '수', '목', '금', '토');
-	var month = new Array('1','2','3','4','5','6','7','8','9','10','11','12');
-	
+	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+			'11', '12');
+
 	var today = new Date();
 	var cal_start_date = today;
 	var last_date;
-	var cal_end_date;
-	
+
 	function prevCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),cal_start_date.getDate()-15);
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth(), cal_start_date.getDate() - 15);
 		buildCalendar();
 	}
+
 	function nextCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),cal_start_date.getDate()+15);
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth(), cal_start_date.getDate() + 15);
 		buildCalendar();
 	}
-
-	/* 	function prevCalendar() {//이전 달
-	 // 이전 달을 today에 값을 저장하고 달력에 today를 넣어줌
-	 //today.getFullYear() 현재 년도//today.getMonth() 월  //today.getDate() 일 
-	 //getMonth()는 현재 달을 받아 오므로 이전달을 출력하려면 -1을 해줘야함
-	 today = new Date(today.getFullYear(), today.getMonth() - 1, today
-	 .getDate());
-	 buildCalendar(); //달력 cell 만들어 출력 
-	 } */
-
-	/* 	function nextCalendar() {//다음 달
-	 // 다음 달을 today에 값을 저장하고 달력에 today 넣어줌
-	 //today.getFullYear() 현재 년도//today.getMonth() 월  //today.getDate() 일 
-	 //getMonth()는 현재 달을 받아 오므로 다음달을 출력하려면 +1을 해줘야함
-	 today = new Date(today.getFullYear(), today.getMonth() + 1, today
-	 .getDate());
-	 buildCalendar();//달력 cell 만들어 출력
-	 } */
 
 	function buildCalendar() {
-		 
-		 //start_date 시작일이 포함된 달의 마지막 날을 담은 date 객체
-		 last_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1,0);
-		 console.log('이번달의 마지막날 : ' + last_date)
-		 
+
+		//start_date 시작일이 포함된 달의 마지막 날을 담은 date 객체
+		last_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth() + 1, 0);
+
 		//캘린더 html 요소를 찾아서 변수에 저장.
 		var tbCalendar = document.getElementById("calendar");
 
@@ -64,12 +48,12 @@
 		while (tbCalendar.rows.length > 0) {
 			tbCalendar.deleteRow(tbCalendar.rows.length - 1);
 		}
-				
+
 		//첫번재 tr 연도.달
 		//월을 나타내줄 tr
-		var cnt =0;
-		var flag =0;
-		
+		var cnt = 0;
+		var flag = 0;
+
 		var row1 = tbCalendar.insertRow(0);
 		//두번째 tr : 요일
 		row2 = tbCalendar.insertRow(1);
@@ -80,32 +64,44 @@
 			cell2 = row2.insertCell();//요일을 나타낼 셀(td)
 			cell3 = row3.insertCell();//일자를 나타낼 셀(td)
 			cell4 = row4.insertCell();//일자를 나타낼 셀(td)
-			var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() + i);
+			var cell_date = new Date(cal_start_date.getFullYear(),
+					cal_start_date.getMonth(), cal_start_date.getDate() + i);
 			cell2.innerHTML = week[cell_date.getDay()];
 			cell3.innerHTML = cell_date.getDate();
-			if(flag==0){
-				if(cell_date.getDate()==last_date.getDate()){
-					flag=1;
+			if (flag == 0) {
+				if (cell_date.getDate() == last_date.getDate()) {
+					flag = 1;
 				}
-				cnt++;			
+				cnt++;
 			}
 		}
 		//첫번째 tr에 cell 하나 추가
 		cell1 = row1.insertCell();
-		//한페이지당 15개씩 일수를 표현하는데 같은달에 포함된 일수인지 확인 작업이 필요함.
-		
-		console.log(cnt);
+
 		cell1.colSpan = cnt;
-		cell1.innerHTML = cal_start_date.getFullYear() + "." + month[cal_start_date.getMonth()];
-		if(cnt<15){
+		cell1.innerHTML = cal_start_date.getFullYear() + "."
+				+ month[cal_start_date.getMonth()];
+		if (cnt < 15) {
 			cell2 = row1.insertCell();
 			cell2.colSpan = 15 - cnt;
-			cell2_date= new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1, 1);
-			cell2.innerHTML = cell2_date.getFullYear() + "." + month[cell2_date.getMonth()];
+			cell2_date = new Date(cal_start_date.getFullYear(), cal_start_date
+					.getMonth() + 1, 1);
+			cell2.innerHTML = cell2_date.getFullYear() + "."
+					+ month[cell2_date.getMonth()];
 		}
 
 	}
 </script>
+
+<script>
+	$(document).ready(function() {
+		$("#calendar tr").click(function(){
+			
+		});
+		
+	});
+</script>
+
 <title>휴가 신청</title>
 </head>
 <body>
@@ -143,11 +139,10 @@
 										<button onclick="prevCalendar()">앞</button>
 										<button onclick="nextCalendar()">뒤</button>
 										<script type="text/javascript">
-											buildCalendar();//
+											buildCalendar();
 										</script>
 									</td>
 								</tr>
-
 							</tbody>
 						</table>
 					</div>
