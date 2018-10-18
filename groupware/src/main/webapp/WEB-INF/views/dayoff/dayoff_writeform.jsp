@@ -17,10 +17,10 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
-		$(document).on("click",$("#calendar tbody td"),function() {
-			alert($("#calendar tbody td").data("dayoff_date"));
+	 	$(document).on("click",$(this).data("dayoff_date"),function() {
+			//alert($(this));
 			return false;
-		})
+		});
 	});
 
 	var week = new Array('일', '월', '화', '수', '목', '금', '토');

@@ -2,7 +2,7 @@
 
 /.settings/
 
-#classpath
+# classpath  
 .classpath
 
 /target/
