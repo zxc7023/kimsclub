@@ -123,7 +123,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-				<div class="col-10 back cont-wrap">
+				<div class="col-10  cont-wrap ">
 					<div class="row">
 						<table class='day_selection_wrap col-10'>
 							<colgroup>
