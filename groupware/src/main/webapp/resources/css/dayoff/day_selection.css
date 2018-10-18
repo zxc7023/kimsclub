@@ -41,12 +41,12 @@
 	text-align: center;
 }
 
-
-.calendar_wrap table tbody td{
-		border:1px solid #dedede;
+.calendar_wrap table td{
+	border:1px solid #dedede;
 }
 
-.calendar_wrap table tbody tr:nth-child(4){
+
+.calendar_wrap table tbody tr{
 	height: 72px;
 	border: 1px solid gray;
 }
