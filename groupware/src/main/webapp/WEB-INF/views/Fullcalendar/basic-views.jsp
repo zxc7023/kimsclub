@@ -109,7 +109,7 @@
             eventData = {
               title: title,
               start: start,
-              end: end
+              end: d
             };
             $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
           }
