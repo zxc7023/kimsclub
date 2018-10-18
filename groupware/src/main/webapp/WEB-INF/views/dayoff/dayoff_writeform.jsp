@@ -16,12 +16,9 @@
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/dayoff/day_selection.css">
 <script type="text/javascript">
 
-	$(document).ready(function() {
-	 	$(document).on("click",$(this).data("dayoff_date"),function() {
-			//alert($(this));
-			return false;
-		});
-	});
+	function myfunction(){
+		alert('김하나');
+	}
 
 	var week = new Array('일', '월', '화', '수', '목', '금', '토');
 	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
@@ -55,10 +52,7 @@
 		if(tbCalendar.find("tr").length > 0) {
 			tbCalendar.find("tr").remove();
 		}
-		console.log("테이블 초기화 작업완료 tr의 개수 : " + tbCalendar.find("tr").length);
 		
-
-
 		var cnt = 0;
 		var flag = 0;
 
@@ -93,6 +87,7 @@
 			var cell3 = row3.find("td:last-child").text(cell_date.getDate());
 			var cell4 = row4.find("td:last-child");
 			cell4.attr("data-dayoff_date",cell_date.getFullYear() + "/" + cell_date.getMonth() + "/" + cell_date.getDate());
+			
 		
 			
 			if (flag == 0) {
@@ -102,6 +97,36 @@
 				cnt++;
 			}
 		}
+		
+		row4.find("td").each(function(){
+			$(this).click(function(){
+				var div = "<div></div>";
+				console.log($(this).prop('tagName'));
+				console.log($(this));
+				switch ($(this).attr("class")) {
+				case "full_absence" :
+					alert("오전반차를 선택했습니다.");
+					$(this).find("div").attr("class","am_absence");
+					break;
+				case "am_absence" :
+					alert("오후반차를 선택했습니다.");
+					$(this).find("div").attr("class","pm_absence");
+					break;
+				case "pm_absence" :
+					alert("없음을 선택했습니다.");
+					$(this).find("div").removeAttr("class");
+					break;
+				default :
+					alert('풀차를 선택했습니다.');
+					$(this).append("<div class='full_absence'></div>");
+					
+				}
+			
+				//alert($(this).data("dayoff_date"));
+				
+				
+			});
+		});
 		
 		//첫번째 tr에 cell 하나 추가
 		row1.append(td);
@@ -152,8 +177,8 @@
 											<thead></thead>
 											<tbody></tbody>
 										</table>
-										<button onclick="prevCalendar()">앞</button>
-										<button onclick="nextCalendar()">뒤</button>
+										<button id="before" onclick="prevCalendar()">앞</button>
+										<button id="next" onclick="nextCalendar()">뒤</button>
 										<script type="text/javascript">
 											buildCalendar();
 										</script>
