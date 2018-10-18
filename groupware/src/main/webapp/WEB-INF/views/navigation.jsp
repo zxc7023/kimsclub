@@ -54,8 +54,8 @@
 		<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu02" role="button" aria-expanded="false" aria-controls="menu02">휴가</a>
 			<div class="depth-2 collapse" id="pc-menu02">
 				<ul class="list-group">
-					<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoff_writeform">휴가 신청</a></li>
-					<li class="list-group-item"><a href="#">휴가현</a></li>
+					<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoffWriteform">휴가 신청</a></li>
+					<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoffStatus">휴가 현황</a></li>
 				</ul>
 
 			</div></li>
