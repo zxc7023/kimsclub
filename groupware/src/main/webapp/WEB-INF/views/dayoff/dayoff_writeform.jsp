@@ -14,94 +14,104 @@
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/default.css">
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/navigation.css">
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/dayoff/day_selection.css">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
+
+	$(document).ready(function() {
+	 	$(document).on("click",$(this).data("dayoff_date"),function() {
+			//alert($(this));
+			return false;
+		});
+	});
+
 	var week = new Array('일', '월', '화', '수', '목', '금', '토');
-	var month = new Array('1','2','3','4','5','6','7','8','9','10','11','12');
-	
+	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+			'11', '12');
+
 	var today = new Date();
 	var cal_start_date = today;
 	var last_date;
-	var cal_end_date;
-	
+
 	function prevCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),cal_start_date.getDate()-15);
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth(), cal_start_date.getDate() - 15);
 		buildCalendar();
 	}
+
 	function nextCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),cal_start_date.getDate()+15);
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth(), cal_start_date.getDate() + 15);
 		buildCalendar();
 	}
-
-	/* 	function prevCalendar() {//이전 달
-	 // 이전 달을 today에 값을 저장하고 달력에 today를 넣어줌
-	 //today.getFullYear() 현재 년도//today.getMonth() 월  //today.getDate() 일 
-	 //getMonth()는 현재 달을 받아 오므로 이전달을 출력하려면 -1을 해줘야함
-	 today = new Date(today.getFullYear(), today.getMonth() - 1, today
-	 .getDate());
-	 buildCalendar(); //달력 cell 만들어 출력 
-	 } */
-
-	/* 	function nextCalendar() {//다음 달
-	 // 다음 달을 today에 값을 저장하고 달력에 today 넣어줌
-	 //today.getFullYear() 현재 년도//today.getMonth() 월  //today.getDate() 일 
-	 //getMonth()는 현재 달을 받아 오므로 다음달을 출력하려면 +1을 해줘야함
-	 today = new Date(today.getFullYear(), today.getMonth() + 1, today
-	 .getDate());
-	 buildCalendar();//달력 cell 만들어 출력
-	 } */
 
 	function buildCalendar() {
-		 
-		 //start_date 시작일이 포함된 달의 마지막 날을 담은 date 객체
-		 last_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1,0);
-		 console.log('이번달의 마지막날 : ' + last_date)
-		 
-		//캘린더 html 요소를 찾아서 변수에 저장.
-		var tbCalendar = document.getElementById("calendar");
 
-		//왼쪽,오른쪽 버튼을 눌렀을때 초기화 작업.
-		while (tbCalendar.rows.length > 0) {
-			tbCalendar.deleteRow(tbCalendar.rows.length - 1);
+		//start_date 시작일이 포함된 달의 마지막 날을 담은 date 객체
+		last_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() + 1, 0);
+
+		//캘린더 html 요소를 찾아서 변수에 저장.
+		var tbCalendar = $("#calendar");
+
+		//초기에 테이블이의 row(tr)이 존재하는경우 초기화
+		if(tbCalendar.find("tr").length > 0) {
+			tbCalendar.find("tr").remove();
 		}
-				
-		//첫번재 tr 연도.달
-		//월을 나타내줄 tr
-		var cnt =0;
-		var flag =0;
+		console.log("테이블 초기화 작업완료 tr의 개수 : " + tbCalendar.find("tr").length);
 		
-		var row1 = tbCalendar.insertRow(0);
-		//두번째 tr : 요일
-		row2 = tbCalendar.insertRow(1);
-		//세번째 tr : 일자
-		row3 = tbCalendar.insertRow(2);
-		row4 = tbCalendar.insertRow(3);
+
+
+		var cnt = 0;
+		var flag = 0;
+
+		var tr = "<tr></tr>";
+		var td = "<td></td>";
+		var thead = tbCalendar.find("thead");
+		var tbody = tbCalendar.find("tbody");
+		
+		//thead의 첫 번째 row 추가 및 변수 선언
+		thead.append(tr);
+		var row1 = tbCalendar.find("thead tr:last-child").addClass("year_month");
+		
+		//thead의 두 번째 row 추가 및 변수 선언
+		thead.append(tr);
+		var row2 = tbCalendar.find("thead tr:nth-child(2)").addClass("day");
+		
+		//thead의 세 번째 row 추가 및 변수 선언
+		thead.append(tr);
+		var row3 = tbCalendar.find("thead tr:nth-child(3)").addClass("day-name");
+		
+		//tbody의 첫 번째 row 추가 및 변수 선언
+		tbody.append(tr);
+		var row4 = tbCalendar.find("tbody tr");
+		
 		for (i = 0; i < 15; i++) {
-			cell2 = row2.insertCell();//요일을 나타낼 셀(td)
-			cell3 = row3.insertCell();//일자를 나타낼 셀(td)
-			cell4 = row4.insertCell();//일자를 나타낼 셀(td)
-			var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() + i);
-			cell2.innerHTML = week[cell_date.getDay()];
-			cell3.innerHTML = cell_date.getDate();
-			if(flag==0){
-				if(cell_date.getDate()==last_date.getDate()){
-					flag=1;
+			row2.append(td);
+			row3.append(td);
+			row4.append(td);
+			
+			var cell_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(), cal_start_date.getDate() + i);
+			var cell2 = row2.find("td:last-child").text(week[cell_date.getDay()]);
+			var cell3 = row3.find("td:last-child").text(cell_date.getDate());
+			var cell4 = row4.find("td:last-child");
+			cell4.attr("data-dayoff_date",cell_date.getFullYear() + "/" + cell_date.getMonth() + "/" + cell_date.getDate());
+		
+			
+			if (flag == 0) {
+				if (cell_date.getDate() == last_date.getDate()) {
+					flag = 1;
 				}
-				cnt++;			
+				cnt++;
 			}
 		}
-		//첫번째 tr에 cell 하나 추가
-		cell1 = row1.insertCell();
-		//한페이지당 15개씩 일수를 표현하는데 같은달에 포함된 일수인지 확인 작업이 필요함.
 		
-		console.log(cnt);
-		cell1.colSpan = cnt;
-		cell1.innerHTML = cal_start_date.getFullYear() + "." + month[cal_start_date.getMonth()];
-		if(cnt<15){
-			cell2 = row1.insertCell();
-			cell2.colSpan = 15 - cnt;
-			cell2_date= new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1, 1);
-			cell2.innerHTML = cell2_date.getFullYear() + "." + month[cell2_date.getMonth()];
+		//첫번째 tr에 cell 하나 추가
+		row1.append(td);
+		var cell1_1 = row1.find("td:last-child").attr("colspan",cnt);
+		cell1_1.text(cal_start_date.getFullYear() + "."+ month[cal_start_date.getMonth()]);
+		if (cnt < 15) {
+			row1.append(td);
+			var cell1_2 = row1.find("td:last-child").attr("colspan",15 - cnt); 
+			cell1_2_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() + 1, 1);
+			cell1_2.text(cell1_2_date.getFullYear() + "." + month[cell1_2_date.getMonth()]);
 		}
 
 	}
@@ -139,15 +149,16 @@
 									<th>휴가 기간</th>
 									<td colspan="3" class="calendar_wrap">
 										<table id="calendar" class="col-10">
+											<thead></thead>
+											<tbody></tbody>
 										</table>
 										<button onclick="prevCalendar()">앞</button>
 										<button onclick="nextCalendar()">뒤</button>
 										<script type="text/javascript">
-											buildCalendar();//
+											buildCalendar();
 										</script>
 									</td>
 								</tr>
-
 							</tbody>
 						</table>
 					</div>

@@ -16,7 +16,7 @@ public class DayoffController {
 	
 	@RequestMapping(value = "/dayoffStatus", method=RequestMethod.GET)
 	public String readDayoffStatus() {
-		System.out.println("write_dayoff() 메소드 호출");
+		System.out.println("readDayoffStatus() 메소드 호출");
 		return "dayoff/dayoff_status";
 	}
 }

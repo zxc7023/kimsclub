@@ -46,7 +46,7 @@
 					<li class="list-group-item"><a href="#">진행문서</a></li>
 					<li class="list-group-item"><a href="#">반려문서</a></li>
 					<li class="list-group-item"><a href="#">완료문서</a></li>
-					<li class="list-group-item"><a href="#">참조문서</a></li>
+					<li class="list-group-item"><a href="<%=application.getContextPath()%>/form">양식관리</a></li>
 
 				</ul>
 
