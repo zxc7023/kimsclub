@@ -127,29 +127,24 @@
 		row4.find("td").each(function() {
 			$(this).click(function() {
 				var div = "<div></div>";
-				console.log($(this).prop('tagName'));
-				console.log($(this));
 				switch ($(this).attr("class")) {
-				case "full_absence":
-					alert("오전반차를 선택했습니다.");
+				case "choose_day":
+					$(this).attr("class","choose_day_am");
 					$(this).find("div").attr("class", "am_absence");
 					break;
-				case "am_absence":
-					alert("오후반차를 선택했습니다.");
+				case "choose_day_am":
+					$(this).attr("class","choose_day_pm")
 					$(this).find("div").attr("class", "pm_absence");
 					break;
-				case "pm_absence":
-					alert("없음을 선택했습니다.");
-					$(this).find("div").removeAttr("class");
+				case "choose_day_pm":
+					$(this).removeAttr("class");
+					$(this).find("div").remove();
 					break;
 				default:
-					alert('풀차를 선택했습니다.');
+					$(this).attr("class","choose_day")
 					$(this).append("<div class='full_absence'></div>");
 
 				}
-
-				//alert($(this).data("dayoff_date"));
-
 			});
 		});
 
