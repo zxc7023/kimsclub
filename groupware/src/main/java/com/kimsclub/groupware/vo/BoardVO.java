@@ -52,12 +52,14 @@ public class BoardVO {
 	public void setBoard_type(String board_type) {
 		this.board_type = board_type;
 	}
-	
 	@Override
 	public String toString() {
 		return "BoardVO [board_no=" + board_no + ", board_writer=" + board_writer + ", board_title=" + board_title
-				+ ", board_contents=" + board_contents + ", date=" + board_date + ", viewcount=" + board_viewcount + "]";
+				+ ", board_contents=" + board_contents + ", board_date=" + board_date + ", board_viewcount="
+				+ board_viewcount + ", board_type=" + board_type + "]";
 	}
+	
+	
 	
 	
 }
