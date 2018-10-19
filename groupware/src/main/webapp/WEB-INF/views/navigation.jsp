@@ -212,7 +212,24 @@
 						<li><a href="${pageContext.request.contextPath}/dayoff/dayoffStatus">휴가현황</a></li>
 						<li><a href="#">근태현황</a></li>
 					</ul> <!-- /.nav-second-level --></li>
-
+					
+				<li><a href="#"><i class="fas fa-file-signature"></i> 결재<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level collapse">
+						<li><a href="#">새문서함</a></li>
+						<li><a href="#">결재문서함</a></li>
+						<li><a href="#">진행문서함</a></li>
+						<li><a href="#">반려문서함</a></li>
+						<li><a href="#">완료문서함</a></li>
+						<!-- 문서양식관리는 나중에 아이디 넘겨주면 관리자확인이 되면 보여지게 변경 -->
+						<li><a href="${pageContext.request.contextPath}/form">문서양식관리</a></li>
+						
+						<li><a href="#">문서수발<span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level collapse">
+								<li><a href="#">발송문서함</a></li>
+								<li><a href="#">수신문서함</a></li>
+								<li><a href="#">공람문서함</a></li>
+							</ul> <!-- /.nav-third-level --></li>
+					</ul> <!-- /.nav-second-level --></li>
 			</ul>
 		</div>
 		<!-- /.sidebar-collapse -->

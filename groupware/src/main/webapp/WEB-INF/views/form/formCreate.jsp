@@ -1,21 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<title>양식 관리 페이지</title>
-<script src="resources/js/jquery-3.2.1.min.js"></script>
-<!-- navigation -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+<!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<!-- Bootstrap Core CSS -->
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- MetisMenu CSS -->
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+<!-- jQuery -->
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
-<link rel="stylesheet" href="resources/css/default.css">
-<link rel="stylesheet" href="resources/css/navigation.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<!-- Custom Theme JavaScript -->
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+
+<!-- ckeditor -->
 <script src="resources/ckeditor/ckeditor.js"></script>
 <script>
 $(document).ready(function() {
@@ -43,57 +62,119 @@ $(document).ready(function() {
 	    });
 });//ready end
 </script>
+<!-- 
+<style type="text/css">
+.form-label-group {
+	position: relative;
+}
+
+.form-label-group>input, .form-label-group>label {
+	padding: var(- -input-padding-y) var(- -input-padding-x);
+	height: auto;
+}
+
+.form-label-group>label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	width: 100%;
+	margin-bottom: 0;
+	/* Override default `<label>` margin */
+	line-height: 1.5;
+	color: #495057;
+	border: 1px solid transparent;
+	border-radius: 0.25rem;
+	-webkit-transition: all 0.1s ease-in-out;
+	transition: all 0.1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+	color: transparent;
+}
+
+.form-label-group input:-ms-input-placeholder {
+	color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+	color: transparent;
+}
+
+.form-label-group input::placeholder {
+	color: transparent;
+}
+
+.form-label-group input:not (:placeholder-shown ) {
+	padding-top: calc(var(- -input-padding-y)+ var(- -input-padding-y)* (2/3));
+	padding-bottom: calc(var(- -input-padding-y)/3);
+}
+
+.form-label-group input:not (:placeholder-shown ) ~ label {
+	padding-top: calc(var(- -input-padding-y)/3);
+	padding-bottom: calc(var(- -input-padding-y)/3);
+	font-size: 12px;
+	color: #777;
+}
+</style>
+ -->
 </head>
-<body class="bg-dark">
-<div class="card card-register mx-auto mt-5">
-	<div class="card-header">양식 생성</div>
-	<div class="card-body">
-		<form>
-		<div class="form-group">
-			<div class="form-row">
-				<div class="col-md-6">
-					<div class="form-label-group">
-                    	<input type="text" id="form_name" class="form-control" placeholder="양식 이름" required="required" autofocus="autofocus">
+<body>
+
+	<!-- 아래의 구조로 복사하시오 -->
+	<!-- 전체 div-->
+	<div id="wrapper">
+
+		<!-- header,navigation div -->
+		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
+
+		<!-- content div -->
+		<div id="page-wrapper" style="min-height: 927px;">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">결재</h1>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">양식 생성</div>
+					<div class="panel-body">
+						<form>
+							<div class="form-group">
+								<div class="form-row">
+									<div class="col-md-9">
+										<div class="form-label-group">
+					                    	<input type="text" id="form_name" name="form_name" class="form-control" placeholder="양식 이름" required="required" autofocus="autofocus">
+											<label for="form_name">양식 이름</label>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-label-group">
+											<input type="radio" name="form_activation" value="Y"><label for="useForm">사용</label>
+											<input type="radio" name="form_activation" value="N" checked="checked"><label for="unUseForm">미사용</label>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-label-group">
+											<input type="text" id="form_desc" name="form_desc" class="form-control" placeholder="양식 설명" required="required" maxlength="150">
+											<label for="form_desc">양식 설명</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<textarea name="ckeditor" id="ckeditor"></textarea>
+								</div>
+								<div class="col-lg-12">
+									<a class="btn btn-primary btn-block" href="/groupware/createform">확인</a>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-				<div class="col-md-6"></div>
 			</div>
 		</div>
-		<div class="col-lg-12">
-			<textarea name="ckeditor" id="ckeditor"></textarea>
-		</div>
-		<div id="setting">
-		<table class="setting_table">
-			<caption>기본 설정 입력 양식</caption>
-			<colgroup>
-				<col style="width:20%">
-				<col style="width:30%">
-				<col style="width:20%">
-				<col style="width:30%">
-			</colgroup>
-			<tbody>
-				<tr>
-					<th scope="row">양식명</th>
-					<td>
-							<label><input type="text" class="txt-input" title="양식명" name="form_title" value="" maxlength="20"></label>
-					</td>
-					<th scope="row">사용 여부</th>
-					<td>
-						<input type="radio" id="useForm" name="form_use_flag" value="Y"><label for="useForm">사용</label>
-						<input type="radio" id="unUseForm" name="form_use_flag" class="mgl_20" value="N" ><label for="unUseForm">미사용</label>
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">설명</th>
-					<td colspan="3">
-						<label><input type="text" class="txt-input" title="설명" name="form_comment" value="" maxlength="150"></label>
-					</td>
-			</tbody>
-		</table>
-		</div><!-- setting end -->
-			<a class="btn btn-primary btn-block" href="/groupware/createform">확인</a>
-		</form>
-	</div><!-- wrap end -->
-</div><!-- content end -->
+	</div>
 </body>
 </html>
