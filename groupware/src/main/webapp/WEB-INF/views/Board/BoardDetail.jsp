@@ -11,9 +11,24 @@
 <script src="resources/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
+		
 	});
 </script>
-
+<table>
+	<tr>
+		<td>날짜</td><td>${detailVO.board_date}</td>
+	</tr>
+	<tr>
+		<td>작성자</td><td>${detailVO.board_writer}</td>
+	</tr>
+</table>
+<table>	
+	<tr>
+		<td>내용</td>
+	</tr>
+	<tr>
+	<td>${detailVO.board_contents}</td>
+	</tr>
+</table>
 </body>
 </html>

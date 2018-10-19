@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script src="resources/jquery-3.2.1.min.js"></script>
+<script src="resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 
@@ -25,7 +25,7 @@
 	<c:forEach items="${BoardList}" var="list">
 	<tr>
 		<td>${list.board_no}</td>
-		<td><a href="detail?boardType=${board_type}&board_no=${list.board_no}">${list.board_title}</a></td>
+		<td><a href="detail?board_type=${board_type}&board_no=${list.board_no}">${list.board_title}</a></td>
 		<td>${list.board_writer}</td>
 		<td>${list.board_date}</td>
 		<td>${list.board_viewcount}</td>

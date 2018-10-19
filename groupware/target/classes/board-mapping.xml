@@ -2,31 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
-	<insert id="insertBoard" parameterType="board">
-		insert into 
+		
+	<insert id="insertBoard" parameterType="board" >
+		<selectKey resultType="int" keyProperty="board_no" order="BEFORE">
+			select nvl(max(board_no),0)+1 from board where board_type=#{board_type}
+		</selectKey>
+		insert into
 		board(board_no, board_writer_no, board_title, board_contents, board_date, board_viewcount, board_type) 
-		values ((select nvl(max(board_no),0)+1 from board),101,#{board_title},#{board_contents},sysdate,0,#{board_type})
+		values (#{board_no},2,#{board_title},#{board_contents},sysdate,0,#{board_type})
 	</insert>
 	
-	<!-- <select id="selectBoard" resultType="board">
-		select board_no, employee_name as board_writer, board_title, board_date, board_viewcount  
-		from board, employee 
-		where BOARD.BOARD_NO=EMPLOYEE.EMPLOYEE_NO
-	</select> -->
 	
 	<select id="selectComm" resultType="board">
 		select board_no, employee_name as board_writer, board_title, board_date, board_viewcount 
 		from board, employee
-		where BOARD.BOARD_NO=EMPLOYEE.EMPLOYEE_NO and BOARD.BOARD_TYPE='c'
+		where BOARD.BOARD_WRITER_NO=EMPLOYEE.EMPLOYEE_NO and BOARD.BOARD_TYPE='c'
 		order by board_no desc
 	</select>
 	
 	<select id="selectNotice" resultType="board">
 		select board_no, employee_name as board_writer, board_title, board_date, board_viewcount 
 		from board, employee
-		where BOARD.BOARD_NO=EMPLOYEE.EMPLOYEE_NO and BOARD.BOARD_TYPE='n'
+		where BOARD.BOARD_WRITER_NO=EMPLOYEE.EMPLOYEE_NO and BOARD.BOARD_TYPE='n'
 		order by board_no desc
 	</select>
+
+	<select id="selectDetail" resultType="board" parameterType="board" >
+		select board_no, employee_name as board_writer, board_title, board_contents, board_date, board_viewcount,board_type
+		from board, employee
+		where board.board_writer_no=EMPLOYEE.EMPLOYEE_NO and board_type=#{board_type} and board_no=#{board_no}
+	</select>
 	
+	<update id="updateViewcnt" parameterType="board" >
+		update board set board_viewcount=board_viewcount+1 where board_type=#{board_type} and board_no=#{board_no}
+	</update>
 	
 </mapper>

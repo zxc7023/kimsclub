@@ -29,9 +29,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> detail() {
-		
-		return null;
+	public BoardVO detail(BoardVO vo) {
+		return dao.detail(vo);
+	}
+
+	@Override
+	public BoardVO viewcnt(BoardVO vo) {
+		return dao.viewcnt(vo);
 	}
 	
 	
