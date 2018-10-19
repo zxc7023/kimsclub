@@ -59,6 +59,10 @@
 
 
 <script type="text/javascript">
+
+	var total_day = 0.0;
+
+	
 	var week = new Array('일', '월', '화', '수', '목', '금', '토');
 	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
 			'11', '12');
@@ -148,6 +152,7 @@
 				case "choose_day":
 					$(this).attr("class","choose_day_am");
 					$(this).find("div").attr("class", "am_absence");
+					total_day = total_day - 0.5;
 					break;
 				case "choose_day_am":
 					$(this).attr("class","choose_day_pm")
@@ -156,15 +161,18 @@
 				case "choose_day_pm":
 					$(this).removeAttr("class");
 					$(this).find("div").remove();
+					total_day = total_day - 0.5;
 					break;
 				default:
 					$(this).attr("class","choose_day")
 					$(this).append("<div class='full_absence'></div>");
-
+					total_day = total_day + 1.0;
 				}
+				var dayVar = $("#total_day");
+				dayVar.text(total_day);
 			});
 		});
-
+		
 		//첫번째 tr에 cell 하나 추가
 		row1.append(td);
 		var cell1_1 = row1.find("td:last-child").attr("colspan", cnt);
@@ -240,9 +248,9 @@
 															<thead></thead>
 															<tbody></tbody>
 														</table>
-														<button id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"> </button>
-														<button id="next" onclick="nextCalendar()"  class="glyphicon glyphicon-chevron-right"></button>
-														<p>휴가신청 현황 : <span>0</span> 일</p> 
+														<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"> </button>
+														<button type="button" id="next" onclick="nextCalendar()"  class="glyphicon glyphicon-chevron-right"></button>
+														<p>휴가신청 현황 : <span id="total_day"></span>일</p> 
 														<script
 															type="text/javascript">
 															buildCalendar();
