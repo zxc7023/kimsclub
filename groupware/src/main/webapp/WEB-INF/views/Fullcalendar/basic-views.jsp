@@ -39,22 +39,28 @@
     		      click: function() {
 
     		    	  $('.modal').modal('show');
-
-    		    	  
+ 
     		      }
     		    }
     		  },
      		  eventRender: function(event, $el) {
     		        $el.popover({
     		          title: event.title,
-    		       /*    content: event.start, */
-    		          content: "일정시간"+event.start +event.end+
-    		          "일정제목"+ event.title,
+    		          content: event.content,
     		          trigger: 'hover',
     		          placement: 'top',
     		          container: 'body'
     		        });
     		      }, 
+    		      eventClick: function(event) { 
+    		          PopUpShow(); 
+    		          $j('#title').html(event.title); 
+    		          $j('#start').html(moment(event.start).format("DD MMMM YYYY")); 
+    		          $j('#test-desc').html(event.description); 
+    		          $j('#test-img').html(event.attachment[0].fileUrl); 
+    		          console.log(event); 
+    		          return false; 
+    		         },
       header: {
         left: 'prev,next today myCustomButton',
         center: 'title',
@@ -113,7 +119,9 @@
         },
         {
           title: 'Meeting',
+          content: 'description for Click for Google',
           start: '2018-10-12T14:30:00'
+          
         },
         {
           title: 'Happy Hour',
@@ -130,13 +138,9 @@
         {
             title: 'Birthday Party',
             start: '2018-10-13T07:00:00',
+            content: 'description for Click for Google',
             end: '2018-10-13T12:30:00'
-          },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2018-03-28'
-        }
+          }
       ],
 
       select: function(start, end) {
@@ -149,6 +153,7 @@
           // Display the modal and set the values to the event values.
           $('.modal').modal('show');
           $('.modal').find('#title').val(event.title);
+          $('.modal').find('#content').val(event.content);
           $('.modal').find('#starts-at').val(event.start);
           $('.modal').find('#ends-at').val(event.end);
 
@@ -168,6 +173,7 @@
       if (title) {
           var eventData = {
               title: title,
+              content:content,
               start: $('#starts-at').val(),
               end: $('#ends-at').val()
           };
@@ -217,27 +223,33 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">일정추가</h4>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <label class="col-xs-4" for="title">일정 제목</label>
-                        <input type="text" name="title" id="title" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <label class="col-xs-4" for="starts-at">시작</label>
-                        <input type="text" name="starts_at" id="starts-at" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <label class="col-xs-4" for="ends-at">종료</label>
-                        <input type="text" name="ends_at" id="ends-at" />
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-4" for="title">일정 제목</label> <input
+								type="text" name="title" id="title" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-4" for="content">내용</label> <input
+								type="text" name="content" id="content" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-4" for="starts-at">시작</label> <input
+								type="text" name="starts_at" id="starts-at" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<label class="col-xs-4" for="ends-at">종료</label> <input
+								type="text" name="ends_at" id="ends-at" />
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
                 <button type="button" class="btn btn-primary" id="save-event">저장</button>
             </div>
