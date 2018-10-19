@@ -37,8 +37,8 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
-
-
+<!-- dayoff_writeform.css -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_writeform.css">
 
 
 <script type="text/javascript">
@@ -185,55 +185,66 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">휴가 신청</h1>
+					<h1 class="page-header">휴가/근태</h1>
 				</div>
 			</div>
 
-			<div class="col-lg-12">
-				<table class='day_selection_wrap col-10'>
-					<colgroup>
-						<col width="150">
-						<col width="auto">
-					</colgroup>
-					<tbody>
-						<tr>
-							<th>현황</th>
-							<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
-						</tr>
-						<tr>
-							<th>작성자</th>
-							<td colspan="3">사원이름</td>
-						</tr>
-						<tr>
-							<th>처리</th>
-							<td>
-								<button>결재선 선택</button>
-							</td>
-						</tr>
-						<tr>
-							<th>휴가 기간</th>
-							<td colspan="3" class="calendar_wrap">
-								<table id="calendar" class="col-10">
-									<thead></thead>
-									<tbody></tbody>
-								</table>
-								<button id="before" onclick="prevCalendar()">앞</button>
-								<button id="next" onclick="nextCalendar()">뒤</button>
-								<script type="text/javascript">
-									buildCalendar();
-								</script>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<!-- 				<div class="panel panel-primary">
-					<div class="panel-heading">판넬의 헤딩</div>
-					<div class="panel-body">판넬의 바디</div>
-				</div> -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">휴가신청양식</div>
+						<div class="panel-body">
+							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+								<div class="row">
+									<div class="col-sm-12">
+										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+											<tbody>
+												<tr role="row">
+													<td class="col-lg-2">현황</td>
+													<td>휴가 현황을 보여줄 예정입니다.</td>
+												</tr>
+												<tr role="row">
+													<td class="col-lg-2">작성자</td>
+													<td>사원이름</td>
+												</tr>
+												<tr role="row">
+													<td class="col-lg-2">처리</td>
+													<td>
+														<button>결재선 선택</button>
+													</td>
+												</tr>
+												<tr role="row">
+													<td class="col-lg-2">휴가기간</td>
+										 				<td class="calendar_wrap">
+														<table id="calendar" class="col-10">
+															<thead></thead>
+															<tbody></tbody>
+														</table>
+														<button id="before" onclick="prevCalendar()">앞</button>
+														<button id="next" onclick="nextCalendar()">뒤</button>
+														<script type="text/javascript">
+															buildCalendar();
+														</script>
+													</td> 
+												</tr>
+												<tr role="row">
+													<td>휴가종류</td>
+													<td> 
+														<select>
+															<option></option>
+															<option></option>
+															<option></option>
+														</select>></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-
-
-
 		</div>
 	</div>
 </body>

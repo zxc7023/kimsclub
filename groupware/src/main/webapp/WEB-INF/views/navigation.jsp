@@ -210,10 +210,7 @@
 					<ul class="nav nav-second-level collapse">
 						<li><a href="${pageContext.request.contextPath}/dayoff/dayoffWriteform">휴가신청</a></li>
 						<li><a href="${pageContext.request.contextPath}/dayoff/dayoffStatus">휴가현황</a></li>
-						<li><a href="notifications.html">Notifications</a></li>
-						<li><a href="typography.html">Typography</a></li>
-						<li><a href="icons.html"> Icons</a></li>
-						<li><a href="grid.html">Grid</a></li>
+						<li><a href="#">근태현황</a></li>
 					</ul> <!-- /.nav-second-level --></li>
 
 			</ul>
