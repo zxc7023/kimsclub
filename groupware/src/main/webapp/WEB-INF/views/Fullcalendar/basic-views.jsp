@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/css/result-light.css">
 
 <link href="${pageContext.request.contextPath}/resources/css/fullcalendar.min.css" rel='stylesheet' />
+<link href="${pageContext.request.contextPath}/resources/css/fullcalendar.css" rel='stylesheet' />
       <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/css/bootstrap-datetimepicker.min.css">
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js"></script>
@@ -39,7 +40,10 @@
     		    myCustomButton: {
     		      text: '일정추가',
     		      click: function() {
-    		        alert('clicked the custom button!');
+
+    		    	  $('.modal').modal('show');
+
+    		    	  
     		      }
     		    }
     		  },
@@ -194,31 +198,31 @@
 <body>
 
 <div id='calendar'></div>
-<div id='datepicker'></div>
+<!-- <div id='datepicker'></div> -->
 
 <div class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Create new event</h4>
+                <h4 class="modal-title">일정추가</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-12">
-                        <label class="col-xs-4" for="title">Event title</label>
+                        <label class="col-xs-4" for="title">일정 제목</label>
                         <input type="text" name="title" id="title" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <label class="col-xs-4" for="starts-at">Starts at</label>
+                        <label class="col-xs-4" for="starts-at">시작</label>
                         <input type="text" name="starts_at" id="starts-at" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        <label class="col-xs-4" for="ends-at">Ends at</label>
+                        <label class="col-xs-4" for="ends-at">종료</label>
                         <input type="text" name="ends_at" id="ends-at" />
                     </div>
                 </div>
