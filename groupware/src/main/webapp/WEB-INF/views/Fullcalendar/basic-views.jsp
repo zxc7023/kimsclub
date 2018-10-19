@@ -27,15 +27,12 @@
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/js/bootstrap-datetimepicker.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
 <script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/gcal.js'></script> 
+<script class="cssdesk" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js" type="text/javascript"></script>
 <script>
 
   $(document).ready(function() {
-      var date = new Date(); 
-      var d = date.getDate(); 
-      var m = date.getMonth(); 
-      var y = date.getFullYear(); 
-
     $('#calendar').fullCalendar({
+    	
     	  customButtons: {
     		    myCustomButton: {
     		      text: '일정추가',
@@ -47,6 +44,17 @@
     		      }
     		    }
     		  },
+     		  eventRender: function(event, $el) {
+    		        $el.popover({
+    		          title: event.title,
+    		       /*    content: event.start, */
+    		          content: "일정시간"+event.start +event.end+
+    		          "일정제목"+ event.title,
+    		          trigger: 'hover',
+    		          placement: 'top',
+    		          container: 'body'
+    		        });
+    		      }, 
       header: {
         left: 'prev,next today myCustomButton',
         center: 'title',
@@ -65,8 +73,9 @@
           {
                 googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com"
               , className : "koHolidays"
-              , color : "#FF0000"
-              , textColor : "#FFFFFF"
+              , color : "#FFFFFF"
+              , textColor : "#FF0000"
+              
           }],
       events: [
         {
@@ -95,32 +104,33 @@
         },
         {
           title: 'Meeting',
-          start: '2018-03-12T10:30:00',
-          end: '2018-03-12T12:30:00'
+          start: '2018-10-10T10:30:00',
+          end: '2018-10-10T12:30:00'
         },
         {
           title: 'Lunch',
-          start: '2018-03-12T12:00:00'
+          start: '2018-10-12T12:00:00'
         },
         {
           title: 'Meeting',
-          start: '2018-03-12T14:30:00'
+          start: '2018-10-12T14:30:00'
         },
         {
           title: 'Happy Hour',
-          start: '2018-03-12T17:30:00'
+          start: '2018-10-12T17:30:00'
         },
         {
           title: 'Dinner',
-          start: '2018-03-12T20:00:00'
+          start: '2018-10-12T20:00:00'
         },
         {
           title: 'Birthday Party',
-          start: '2018-03-13T07:00:00'
+          start: '2018-10-13T07:00:00'
         },
         {
             title: 'Birthday Party',
-            start: '2018-10-13T07:00:00'
+            start: '2018-10-13T07:00:00',
+            end: '2018-10-13T12:30:00'
           },
         {
           title: 'Click for Google',
@@ -228,8 +238,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="save-event">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-primary" id="save-event">저장</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
