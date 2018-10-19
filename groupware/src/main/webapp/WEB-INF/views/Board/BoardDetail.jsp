@@ -19,6 +19,9 @@
 		<td>날짜</td><td>${detailVO.board_date}</td>
 	</tr>
 	<tr>
+		<td>제목</td><td>${detailVO.board_title}</td>
+	</tr>
+	<tr>
 		<td>작성자</td><td>${detailVO.board_writer}</td>
 	</tr>
 </table>

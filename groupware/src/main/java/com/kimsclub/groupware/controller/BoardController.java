@@ -2,9 +2,10 @@ package com.kimsclub.groupware.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,28 +24,20 @@ public class BoardController {
 			return "/Board/BoardMenu";
 		}
 		
-	//커뮤니티 게시글 목록
-	@RequestMapping("/community")
-	public ModelAndView comlist(){
-		List<BoardVO> list =service.communityList();
+	//게시판(커뮤니티,공지사항 별)게시글 목록
+	@RequestMapping("/boardList")
+	public ModelAndView boardList(HttpServletRequest request){
+		//게시판 타입(board_type):커뮤니티:c, 공지사항:n
+		String board_type = request.getParameter("board_type");
+		List<BoardVO> list =service.boardList(board_type);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("BoardList", list);
-		mav.addObject("board_type","c");
+		mav.addObject("board_type",board_type);
 		mav.setViewName("/Board/BoardList");
 		return mav;
-	}
-	
-	//공지사항 게시글 목록
-	@RequestMapping("/notice")
-	public ModelAndView noticelist(){
-		List<BoardVO> list = service.noticeList();
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("BoardList", list);
-		mav.addObject("board_type","n");
-		mav.setViewName("/Board/BoardList");
-		return mav;
-	}
-	
+	}	
+		
 	//게시글(커뮤니티,공지사항)세부 화면
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
 	public ModelAndView BoardDetail(BoardVO vo) {
@@ -69,10 +62,6 @@ public class BoardController {
 	@RequestMapping(value="/BoardWrite", method=RequestMethod.POST)
 	public String BoardList(BoardVO vo) {
 	 	service.insertBoard(vo);
-	 	if(vo.getBoard_type().equals("c")) {
-	 		return "redirect:/community";
-	 	}else{
-	 		return "redirect:/notice";
-	 	}
+	 	return "redirect:/boardList?board_type="+vo.getBoard_type();
 	}
 }

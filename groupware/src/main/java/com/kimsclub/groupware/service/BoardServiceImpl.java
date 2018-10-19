@@ -13,31 +13,30 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardDAO dao;
 	
+	//게시판 게시글 조회
 	@Override
-	public List<BoardVO> communityList() {
-		return dao.communityList();
+	public List<BoardVO> boardList(String board_type) {
+		return dao.boardList(board_type);
 	}
-	
-	@Override
-	public List<BoardVO> noticeList() {
-		return dao.noticeList();
-	}
-	
+	//게시판 게시글 등록
 	@Override
 	public void insertBoard(BoardVO vo) {
 		dao.insertBoard(vo);
 	}
-
+	//게시판 게시글 내용 보기
 	@Override
 	public BoardVO detail(BoardVO vo) {
 		return dao.detail(vo);
 	}
-
+	//게시판 게시글 조회수 카운트
 	@Override
 	public BoardVO viewcnt(BoardVO vo) {
 		return dao.viewcnt(vo);
 	}
-	
-	
+
+	@Override
+	public List<BoardVO> listAll(int start, int end, String searchOption, String keyword) {
+		return dao.listAll(start, end, searchOption, keyword);
+	}
 
 }

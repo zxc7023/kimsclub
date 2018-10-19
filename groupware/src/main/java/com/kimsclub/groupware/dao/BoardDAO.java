@@ -1,6 +1,8 @@
 package com.kimsclub.groupware.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +21,9 @@ public class BoardDAO {
 		session.insert("board.insertBoard", vo);
 	}
 	
-	//커뮤니티 게시판 리스트 조회 
-	public List<BoardVO> communityList(){
-		return session.selectList("board.selectComm");
-	}
-	
-	//공지사항 게시판 리스트 조회
-	public List<BoardVO> noticeList(){
-		return session.selectList("board.selectNotice");
+	//게시판(커뮤니티, 공지사항) 조회
+	public List<BoardVO> boardList(String board_type){
+		return session.selectList("board.selectBoard", board_type);
 	}
 	
 	//작성된 게시글 내용 조회
@@ -39,5 +36,13 @@ public class BoardDAO {
 	public BoardVO viewcnt(BoardVO vo) {
 		session.update("board.updateViewcnt",vo);
 		return vo;
+	}
+	
+	public List<BoardVO> listAll(int start, int end, String searchOption, String keyword){
+		Map<String, Object>map = new HashMap<String, Object>();
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		map.put("end", end);
+		return session.selectList("board.listAll", map);
 	}
 }
