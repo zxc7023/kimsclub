@@ -6,36 +6,30 @@
 		var depth_1 = $('.sideBar .depth-1');
 		var sideButn = $('.sideBar-btn');
 		var sideMenu = $('.sideBar');
-		var content = $('.sideBar + div');
 		var side_width = sideMenu.outerWidth();
 
 		depth_1.click(function() {
 			$(this).toggleClass('active');
 		});
+		sideButn.css({left:side_width});
 
 		sideButn.click(function() {
-			sideMenu.toggleClass('active');
+			sideMenu.toggleClass('active');	
 
 			if (sideMenu.hasClass('active') == true) {
-				TweenLite.to(sideMenu, 0.5, {
-					ease : Power2.easeOut,
-					marginLeft : -side_width
-				});
-				content.addClass('col-12').removeClass('col-10');
+				TweenLite.to(sideMenu, 0.5, { ease : Power2.easeOut, marginLeft : -side_width });
+				TweenLite.to(sideButn, 0.5, { ease : Power2.easeOut, left :0});
 				
 			} else {
-				TweenLite.to(sideMenu, 0.5, {
-					ease : Power2.easeOut,
-					marginLeft : 0
-				});
-				content.addClass('col-10').removeClass('col-12');
+				TweenLite.to(sideMenu, 0.5, { ease : Power2.easeOut, marginLeft : 0 });
+				TweenLite.to(sideButn, 0.5, { ease : Power2.easeOut, left : side_width });
 			}
 		});
 
 	});
 </script>
 
-<div class="col-2 sideBar">
+<div class="col-2 sideBar cont-wrap">
 	<h1 class="logo">
 		<a href="<%=application.getContextPath()%>"> <img src="${pageContext.request.contextPath}/resources/images/logo.png"/></a>
 	</h1>
@@ -48,7 +42,7 @@
 					<li class="list-group-item"><a href="#">진행문서</a></li>
 					<li class="list-group-item"><a href="#">반려문서</a></li>
 					<li class="list-group-item"><a href="#">완료문서</a></li>
-					<li class="list-group-item"><a href="#">참조문서</a></li>
+					<li class="list-group-item"><a href="<%=application.getContextPath()%>/form">양식관리</a></li>
 
 				</ul>
 
@@ -56,8 +50,8 @@
 		<li class="depth-1 list-group-item"><a data-toggle="collapse" href="#pc-menu02" role="button" aria-expanded="false" aria-controls="menu02">휴가</a>
 			<div class="depth-2 collapse" id="pc-menu02">
 				<ul class="list-group">
-					<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoff_writeform">휴가 신청</a></li>
-					<li class="list-group-item"><a href="#">2-2</a></li>
+					<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoffWriteform">휴가 신청</a></li>
+					<li class="list-group-item"><a href="<%=application.getContextPath()%>/dayoff/dayoffStatus">휴가 현황</a></li>
 				</ul>
 
 			</div></li>
@@ -86,8 +80,9 @@
 		<li class="list-group-item"><a href="#">sub3</a></li>
 		<li class="list-group-item"><a href="#">sub4</a></li>
 	</ul>
-	<button type="button" class="sideBar-btn">
-		<span></span>
-	</button>
 </div>
+<button class="sideBar-btn">
+	<span></span>
+</button>
+
 

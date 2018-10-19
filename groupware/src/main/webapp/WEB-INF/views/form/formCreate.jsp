@@ -6,8 +6,17 @@
 <meta charset="UTF-8">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <title>양식 관리 페이지</title>
-<script src="resources/ckeditor/ckeditor.js"></script>
 <script src="resources/js/jquery-3.2.1.min.js"></script>
+<!-- navigation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
+<link rel="stylesheet" href="resources/css/default.css">
+<link rel="stylesheet" href="resources/css/navigation.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<script src="resources/ckeditor/ckeditor.js"></script>
 <script>
 $(document).ready(function() {
 	 $(function(){
@@ -35,15 +44,24 @@ $(document).ready(function() {
 });//ready end
 </script>
 </head>
-<body>
-<div id="content">
-	<div id="content_title">양식 생성</div><!-- content_title end -->
-	<div id="wrap">
-		<div id="approval_menu">
-			<ul>
-				<li><a href="/groupware/createform">확인</a></li>
-			</ul>
-		</div><!-- form_menu end -->
+<body class="bg-dark">
+<div class="card card-register mx-auto mt-5">
+	<div class="card-header">양식 생성</div>
+	<div class="card-body">
+		<form>
+		<div class="form-group">
+			<div class="form-row">
+				<div class="col-md-6">
+					<div class="form-label-group">
+                    	<input type="text" id="form_name" class="form-control" placeholder="양식 이름" required="required" autofocus="autofocus">
+					</div>
+				</div>
+				<div class="col-md-6"></div>
+			</div>
+		</div>
+		<div class="col-lg-12">
+			<textarea name="ckeditor" id="ckeditor"></textarea>
+		</div>
 		<div id="setting">
 		<table class="setting_table">
 			<caption>기본 설정 입력 양식</caption>
@@ -62,7 +80,7 @@ $(document).ready(function() {
 					<th scope="row">사용 여부</th>
 					<td>
 						<input type="radio" id="useForm" name="form_use_flag" value="Y"><label for="useForm">사용</label>
-						<input type="radio" id="unUseForm" name="form_use_flag" class="mgl_20" value="N" checked=""><label for="unUseForm">미사용</label>
+						<input type="radio" id="unUseForm" name="form_use_flag" class="mgl_20" value="N" ><label for="unUseForm">미사용</label>
 					</td>
 				</tr>
 				<tr>
@@ -73,22 +91,8 @@ $(document).ready(function() {
 			</tbody>
 		</table>
 		</div><!-- setting end -->
-		<div id="form_content">
-			<form class="form-horizontal" role="form" id="editorForm" method="post" action="/">
-		    <div class="form-group">
-		        <div class="form-group">
-		            <div class="col-lg-12">
-		                <textarea name="ckeditor" id="ckeditor"></textarea>
-		            </div>
-		        </div>
-		        <div class="form-group">
-		            <div class="col-lg-12" align="right">
-		                <button type="submit" class="btn btn-default">저장</button>
-		            </div>
-		        </div>
-		    </div>
-			</form>
-		</div><!-- form_content end -->
+			<a class="btn btn-primary btn-block" href="/groupware/createform">확인</a>
+		</form>
 	</div><!-- wrap end -->
 </div><!-- content end -->
 </body>

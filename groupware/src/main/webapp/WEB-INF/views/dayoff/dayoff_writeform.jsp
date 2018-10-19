@@ -14,93 +14,131 @@
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/default.css">
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/navigation.css">
 <link rel="stylesheet" href=" ${pageContext.request.contextPath}/resources/css/dayoff/day_selection.css">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-	var today = new Date();//오늘 날짜//내 컴퓨터 로컬을 기준으로 today에 Date 객체를 넣어줌
-	var date = new Date();//today의 Date를 세어주는 역할
-	function prevCalendar() {//이전 달
-		// 이전 달을 today에 값을 저장하고 달력에 today를 넣어줌
-		//today.getFullYear() 현재 년도//today.getMonth() 월  //today.getDate() 일 
-		//getMonth()는 현재 달을 받아 오므로 이전달을 출력하려면 -1을 해줘야함
-		today = new Date(today.getFullYear(), today.getMonth() - 1, today
-				.getDate());
-		buildCalendar(); //달력 cell 만들어 출력 
+
+	function myfunction(){
+		alert('김하나');
 	}
 
-	function nextCalendar() {//다음 달
-		// 다음 달을 today에 값을 저장하고 달력에 today 넣어줌
-		//today.getFullYear() 현재 년도//today.getMonth() 월  //today.getDate() 일 
-		//getMonth()는 현재 달을 받아 오므로 다음달을 출력하려면 +1을 해줘야함
-		today = new Date(today.getFullYear(), today.getMonth() + 1, today
-				.getDate());
-		buildCalendar();//달력 cell 만들어 출력
+	var week = new Array('일', '월', '화', '수', '목', '금', '토');
+	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+			'11', '12');
+
+	var today = new Date();
+	var cal_start_date = today;
+	var last_date;
+
+	function prevCalendar() {
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth(), cal_start_date.getDate() - 15);
+		buildCalendar();
 	}
+
+	function nextCalendar() {
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth(), cal_start_date.getDate() + 15);
+		buildCalendar();
+	}
+
 	function buildCalendar() {
-		//현재 달 달력 만들기
-		var doMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-		//이번 달의 첫째 날,
-		//new를 쓰는 이유 : new를 쓰면 이번달의 로컬 월을 정확하게 받아온다.     
-		//new를 쓰지 않았을때 이번달을 받아오려면 +1을 해줘야한다. 
-		//왜냐면 getMonth()는 0~11을 반환하기 때문
-		var lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-		//이번 달의 마지막 날
-		//new를 써주면 정확한 월을 가져옴, getMonth()+1을 해주면 다음달로 넘어가는데
-		//day를 1부터 시작하는게 아니라 0부터 시작하기 때문에 
-		//대로 된 다음달 시작일(1일)은 못가져오고 1 전인 0, 즉 전달 마지막일 을 가져오게 된다
-		var tbCalendar = document.getElementById("calendar");
-		//날짜를 찍을 테이블 변수 만듬, 일 까지 다 찍힘
-		var tbCalendarYM = document.getElementById("tbCalendarYM");
-		//테이블에 정확한 날짜 찍는 변수
-		//innerHTML : js 언어를 HTML의 권장 표준 언어로 바꾼다
-		//new를 찍지 않아서 month는 +1을 더해줘야 한다. 
-		tbCalendarYM.innerHTML = today.getFullYear() + "년 "
-				+ (today.getMonth() + 1) + "월";
 
-		/*while은 이번달이 끝나면 다음달로 넘겨주는 역할*/
-		while (tbCalendar.rows.length > 2) {
-			//열을 지워줌
-			//기본 열 크기는 body 부분에서 2로 고정되어 있다.
-			tbCalendar.deleteRow(tbCalendar.rows.length - 1);
-			//테이블의 tr 갯수 만큼의 열 묶음은 -1칸 해줘야지 
-			//30일 이후로 담을달에 순서대로 열이 계속 이어진다.
+		//start_date 시작일이 포함된 달의 마지막 날을 담은 date 객체
+		last_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() + 1, 0);
+
+		//캘린더 html 요소를 찾아서 변수에 저장.
+		var tbCalendar = $("#calendar");
+
+		//초기에 테이블이의 row(tr)이 존재하는경우 초기화
+		if(tbCalendar.find("tr").length > 0) {
+			tbCalendar.find("tr").remove();
 		}
-		var row = null;
-		row = tbCalendar.insertRow();
-		//테이블에 새로운 열 삽입//즉, 초기화
-		var cnt = 0;// count, 셀의 갯수를 세어주는 역할
-		// 1일이 시작되는 칸을 맞추어 줌
-		for (i = 0; i < doMonth.getDay(); i++) {
-			/*이번달의 day만큼 돌림*/
-			cell = row.insertCell();//열 한칸한칸 계속 만들어주는 역할
-			cnt = cnt + 1;//열의 갯수를 계속 다음으로 위치하게 해주는 역할
+		
+		var cnt = 0;
+		var flag = 0;
+
+		var tr = "<tr></tr>";
+		var td = "<td></td>";
+		var thead = tbCalendar.find("thead");
+		var tbody = tbCalendar.find("tbody");
+		
+		//thead의 첫 번째 row 추가 및 변수 선언
+		thead.append(tr);
+		var row1 = tbCalendar.find("thead tr:last-child").addClass("year_month");
+		
+		//thead의 두 번째 row 추가 및 변수 선언
+		thead.append(tr);
+		var row2 = tbCalendar.find("thead tr:nth-child(2)").addClass("day");
+		
+		//thead의 세 번째 row 추가 및 변수 선언
+		thead.append(tr);
+		var row3 = tbCalendar.find("thead tr:nth-child(3)").addClass("day-name");
+		
+		//tbody의 첫 번째 row 추가 및 변수 선언
+		tbody.append(tr);
+		var row4 = tbCalendar.find("tbody tr");
+		
+		for (i = 0; i < 15; i++) {
+			row2.append(td);
+			row3.append(td);
+			row4.append(td);
+			
+			var cell_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(), cal_start_date.getDate() + i);
+			var cell2 = row2.find("td:last-child").text(week[cell_date.getDay()]);
+			var cell3 = row3.find("td:last-child").text(cell_date.getDate());
+			var cell4 = row4.find("td:last-child");
+			cell4.attr("data-dayoff_date",cell_date.getFullYear() + "/" + cell_date.getMonth() + "/" + cell_date.getDate());
+			
+		
+			
+			if (flag == 0) {
+				if (cell_date.getDate() == last_date.getDate()) {
+					flag = 1;
+				}
+				cnt++;
+			}
 		}
-		/*달력 출력*/
-		for (i = 1; i <= lastDate.getDate(); i++) {
-			//1일부터 마지막 일까지 돌림
-			cell = row.insertCell();//열 한칸한칸 계속 만들어주는 역할
-			cell.innerHTML = i;//셀을 1부터 마지막 day까지 HTML 문법에 넣어줌
-			cnt = cnt + 1;//열의 갯수를 계속 다음으로 위치하게 해주는 역할
-			if (cnt % 7 == 1) {/*일요일 계산*/
-				//1주일이 7일 이므로 일요일 구하기
-				//월화수목금토일을 7로 나눴을때 나머지가 1이면 cnt가 1번째에 위치함을 의미한다
-				cell.innerHTML = "<font color=#F79DC2>" + i
-				//1번째의 cell에만 색칠
-			}
-			if (cnt % 7 == 0) {/* 1주일이 7일 이므로 토요일 구하기*/
-				//월화수목금토일을 7로 나눴을때 나머지가 0이면 cnt가 7번째에 위치함을 의미한다
-				cell.innerHTML = "<font color=skyblue>" + i
-				//7번째의 cell에만 색칠
-				row = calendar.insertRow();
-				//토요일 다음에 올 셀을 추가
-			}
-			/*오늘의 날짜에 노란색 칠하기*/
-			if (today.getFullYear() == date.getFullYear()
-					&& today.getMonth() == date.getMonth()
-					&& i == date.getDate()) {
-				//달력에 있는 년,달과 내 컴퓨터의 로컬 년,달이 같고, 일이 오늘의 일과 같으면
-				cell.bgColor = "#FAF58C";//셀의 배경색을 노랑으로 
-			}
+		
+		row4.find("td").each(function(){
+			$(this).click(function(){
+				var div = "<div></div>";
+				console.log($(this).prop('tagName'));
+				console.log($(this));
+				switch ($(this).attr("class")) {
+				case "full_absence" :
+					alert("오전반차를 선택했습니다.");
+					$(this).find("div").attr("class","am_absence");
+					break;
+				case "am_absence" :
+					alert("오후반차를 선택했습니다.");
+					$(this).find("div").attr("class","pm_absence");
+					break;
+				case "pm_absence" :
+					alert("없음을 선택했습니다.");
+					$(this).find("div").removeAttr("class");
+					break;
+				default :
+					alert('풀차를 선택했습니다.');
+					$(this).append("<div class='full_absence'></div>");
+					
+				}
+			
+				//alert($(this).data("dayoff_date"));
+				
+				
+			});
+		});
+		
+		//첫번째 tr에 cell 하나 추가
+		row1.append(td);
+		var cell1_1 = row1.find("td:last-child").attr("colspan",cnt);
+		cell1_1.text(cal_start_date.getFullYear() + "."+ month[cal_start_date.getMonth()]);
+		if (cnt < 15) {
+			row1.append(td);
+			var cell1_2 = row1.find("td:last-child").attr("colspan",15 - cnt); 
+			cell1_2_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() + 1, 1);
+			cell1_2.text(cell1_2_date.getFullYear() + "." + month[cell1_2_date.getMonth()]);
 		}
+
 	}
 </script>
 <title>휴가 신청</title>
@@ -110,54 +148,45 @@
 		<div class="container-fluid">
 			<div class="row">
 				<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-				<div class="col-10 back">
-					<table class='day_selection_wrap'>
-						<tbody>
-							<tr>
-								<th>현황</th>
-								<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
-							</tr>
-							<tr>
-								<th>작성자</th>
-								<td colspan="3">사원이름</td>
-							</tr>
-							<tr>
-								<th>처리</th>
-								<td>
-									<button>결재선 선택</button>
-								</td>
-							</tr>
-							<tr>
-								<th>휴가 기간</th>
-								<td colspan="3" class="calendar_wrap">
-									<table id="calendar" border="3" align="center" style="border-color: #3333FF">
-										<tr>
-											<!-- label은 마우스로 클릭을 편하게 해줌 -->
-											<td>
-												<label onclick="prevCalendar()"><</label>
-											</td>
-											<td align="center" id="tbCalendarYM" colspan="5">yyyy년 m월</td>
-											<td>
-												<label onclick="nextCalendar()">> </label>
-											</td>
-										</tr>
-										<tr>
-											<td align="center" class="sunday">일</td>
-											<td align="center">월</td>
-											<td align="center">화</td>
-											<td align="center">수</td>
-											<td align="center">목</td>
-											<td align="center">금</td>
-											<td align="center" class="saturday">토</td>
-										</tr>
-									</table>
-									<script language="javascript" type="text/javascript">
-										buildCalendar();//
-									</script>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+				<div class="col-10  cont-wrap ">
+					<div class="row">
+						<table class='day_selection_wrap col-10'>
+							<colgroup>
+								<col width="150">
+								<col width="auto">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>현황</th>
+									<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
+								</tr>
+								<tr>
+									<th>작성자</th>
+									<td colspan="3">사원이름</td>
+								</tr>
+								<tr>
+									<th>처리</th>
+									<td>
+										<button>결재선 선택</button>
+									</td>
+								</tr>
+								<tr>
+									<th>휴가 기간</th>
+									<td colspan="3" class="calendar_wrap">
+										<table id="calendar" class="col-10">
+											<thead></thead>
+											<tbody></tbody>
+										</table>
+										<button id="before" onclick="prevCalendar()">앞</button>
+										<button id="next" onclick="nextCalendar()">뒤</button>
+										<script type="text/javascript">
+											buildCalendar();
+										</script>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
