@@ -46,6 +46,29 @@
 .calendar_wrap table td{
 	border:1px solid #dedede;
 	width:5%;
+	position:relative;
+}
+
+.calendar_wrap table td > div{
+	position:absolute;
+	width:100%;
+	left:0;
+	background:#8cbbee;
+}
+
+.calendar_wrap table td.choose_day > div{
+	top:0;
+	height:100%;
+}
+
+.calendar_wrap table td.choose_day_am > div{
+	top:0;
+	height:50%;
+}
+
+.calendar_wrap table td.choose_day_pm > div{
+	top:50%;
+	height:50%;
 }
 
 .calendar_wrap #before,
