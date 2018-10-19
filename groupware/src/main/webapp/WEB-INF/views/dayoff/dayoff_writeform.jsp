@@ -184,37 +184,41 @@
 		<div id="page-wrapper" style="min-height: 927px;">
 
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-sm-12">
 					<h1 class="page-header">휴가/근태</h1>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-sm-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">휴가신청양식</div>
 						<div class="panel-body">
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 								<div class="row">
-									<div class="col-sm-12">
+									<form class="col-sm-12">
 										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+											<colgroup>
+												<col width="150">
+												<col width="auto">
+											</colgroup>
 											<tbody>
 												<tr role="row">
-													<td class="col-lg-2">현황</td>
+													<td>현황</td>
 													<td>휴가 현황을 보여줄 예정입니다.</td>
 												</tr>
 												<tr role="row">
-													<td class="col-lg-2">작성자</td>
+													<td>작성자</td>
 													<td>사원이름</td>
 												</tr>
 												<tr role="row">
-													<td class="col-lg-2">처리</td>
+													<td>처리</td>
 													<td>
 														<button>결재선 선택</button>
 													</td>
 												</tr>
 												<tr role="row">
-													<td class="col-lg-2">휴가기간</td>
+													<td>휴가기간</td>
 										 				<td class="calendar_wrap">
 														<table id="calendar" class="col-10">
 															<thead></thead>
@@ -231,14 +235,19 @@
 													<td>휴가종류</td>
 													<td> 
 														<select>
-															<option></option>
-															<option></option>
-															<option></option>
-														</select>></td>
+															<option>김하나</option>
+															<option>바보</option>
+															<option>똥멍텅구리</option>
+														</select>
+													</td>
+												</tr>
+												<tr role="row">
+													<td>사유</td>
+													<td><input type="text" name="reason"></td>
 												</tr>
 											</tbody>
 										</table>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>
