@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -11,34 +12,50 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <!-- Bootstrap Core CSS -->
-<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
 
 <!-- Bootstrap Core CSS -->
-<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
 
 <!-- MetisMenu CSS -->
-<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css"
+	rel="stylesheet">
 
 <!-- Custom CSS -->
-<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css"
+	rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	crossorigin="anonymous">
 
 <!-- jQuery -->
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script
+	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
-<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
+<script
+	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+<script
+	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <!-- dayoff_writeform.css -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_writeform.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_writeform.css">
 
 
 <script type="text/javascript">
@@ -194,10 +211,14 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">휴가신청양식</div>
 						<div class="panel-body">
-							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+							<div
+								class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 								<div class="row">
 									<form class="col-sm-12">
-										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+										<table
+											class="table table-bordered dataTable no-footer dtr-inline"
+											id="dataTables-example" role="grid"
+											aria-describedby="dataTables-example_info">
 											<colgroup>
 												<col width="150">
 												<col width="auto">
@@ -219,27 +240,27 @@
 												</tr>
 												<tr role="row">
 													<td>휴가기간</td>
-										 				<td class="calendar_wrap">
+													<td class="calendar_wrap">
 														<table id="calendar" class="col-10">
 															<thead></thead>
 															<tbody></tbody>
 														</table>
-														<button id="before" onclick="prevCalendar()">앞</button>
-														<button id="next" onclick="nextCalendar()">뒤</button>
-														<script type="text/javascript">
+														<button id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"> </button>
+														<button id="next" onclick="nextCalendar()"  class="glyphicon glyphicon-chevron-right"></button>
+														<p>휴가신청 현황 : <span>0</span> 일</p> 
+														<script
+															type="text/javascript">
 															buildCalendar();
 														</script>
-													</td> 
+													</td>
 												</tr>
 												<tr role="row">
 													<td>휴가종류</td>
-													<td> 
-														<select>
+													<td><select>
 															<option>김하나</option>
 															<option>바보</option>
 															<option>똥멍텅구리</option>
-														</select>
-													</td>
+													</select></td>
 												</tr>
 												<tr role="row">
 													<td>사유</td>

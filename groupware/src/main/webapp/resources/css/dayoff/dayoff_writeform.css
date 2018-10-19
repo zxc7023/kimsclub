@@ -32,19 +32,37 @@
 .calendar_wrap{
 	position:relative;
 	overflow:hidden;
-	height:300px;
+	height:100% !important;
 }
 
 .calendar_wrap table{
 	top:0;
-	margin: 0 auto;
+	width:90%;
+	height:60%;
+	margin: auto;
 	text-align: center;
 }
 
 .calendar_wrap table td{
 	border:1px solid #dedede;
+	width:5%;
 }
 
+.calendar_wrap #before,
+.calendar_wrap #next{
+	position:absolute;
+	top:40%;	
+	width:4rem;
+	height:4rem;
+	border-radius:100%;
+}
+
+.calendar_wrap #before{
+	left:0;
+}
+.calendar_wrap #next{
+	right:0;
+}
 
 .calendar_wrap table tbody tr{
 	height: 72px;
