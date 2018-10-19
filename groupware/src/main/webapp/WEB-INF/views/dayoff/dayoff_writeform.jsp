@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -11,37 +12,57 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <!-- Bootstrap Core CSS -->
-<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
 
 <!-- Bootstrap Core CSS -->
-<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
 
 <!-- MetisMenu CSS -->
-<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css"
+	rel="stylesheet">
 
 <!-- Custom CSS -->
-<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css"
+	rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	crossorigin="anonymous">
 
 <!-- jQuery -->
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script
+	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
-<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
+<script
+	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+<script
+	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
-
-
+<!-- dayoff_writeform.css -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_writeform.css">
 
 
 <script type="text/javascript">
+
+	var total_day = 0.0;
+
+	
 	var week = new Array('일', '월', '화', '수', '목', '금', '토');
 	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
 			'11', '12');
@@ -127,32 +148,31 @@
 		row4.find("td").each(function() {
 			$(this).click(function() {
 				var div = "<div></div>";
-				console.log($(this).prop('tagName'));
-				console.log($(this));
 				switch ($(this).attr("class")) {
-				case "full_absence":
-					alert("오전반차를 선택했습니다.");
+				case "choose_day":
+					$(this).attr("class","choose_day_am");
 					$(this).find("div").attr("class", "am_absence");
+					total_day = total_day - 0.5;
 					break;
-				case "am_absence":
-					alert("오후반차를 선택했습니다.");
+				case "choose_day_am":
+					$(this).attr("class","choose_day_pm")
 					$(this).find("div").attr("class", "pm_absence");
 					break;
-				case "pm_absence":
-					alert("없음을 선택했습니다.");
-					$(this).find("div").removeAttr("class");
+				case "choose_day_pm":
+					$(this).removeAttr("class");
+					$(this).find("div").remove();
+					total_day = total_day - 0.5;
 					break;
 				default:
-					alert('풀차를 선택했습니다.');
+					$(this).attr("class","choose_day")
 					$(this).append("<div class='full_absence'></div>");
-
+					total_day = total_day + 1.0;
 				}
-
-				//alert($(this).data("dayoff_date"));
-
+				var dayVar = $("#total_day");
+				dayVar.text(total_day);
 			});
 		});
-
+		
 		//첫번째 tr에 cell 하나 추가
 		row1.append(td);
 		var cell1_1 = row1.find("td:last-child").attr("colspan", cnt);
@@ -184,56 +204,80 @@
 		<div id="page-wrapper" style="min-height: 927px;">
 
 			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header">휴가 신청</h1>
+				<div class="col-sm-12">
+					<h1 class="page-header">휴가/근태</h1>
 				</div>
 			</div>
 
-			<div class="col-lg-12">
-				<table class='day_selection_wrap col-10'>
-					<colgroup>
-						<col width="150">
-						<col width="auto">
-					</colgroup>
-					<tbody>
-						<tr>
-							<th>현황</th>
-							<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
-						</tr>
-						<tr>
-							<th>작성자</th>
-							<td colspan="3">사원이름</td>
-						</tr>
-						<tr>
-							<th>처리</th>
-							<td>
-								<button>결재선 선택</button>
-							</td>
-						</tr>
-						<tr>
-							<th>휴가 기간</th>
-							<td colspan="3" class="calendar_wrap">
-								<table id="calendar" class="col-10">
-									<thead></thead>
-									<tbody></tbody>
-								</table>
-								<button id="before" onclick="prevCalendar()">앞</button>
-								<button id="next" onclick="nextCalendar()">뒤</button>
-								<script type="text/javascript">
-									buildCalendar();
-								</script>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<!-- 				<div class="panel panel-primary">
-					<div class="panel-heading">판넬의 헤딩</div>
-					<div class="panel-body">판넬의 바디</div>
-				</div> -->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">휴가신청양식</div>
+						<div class="panel-body">
+							<div
+								class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+								<div class="row">
+									<form class="col-sm-12">
+										<table
+											class="table table-bordered dataTable no-footer dtr-inline"
+											id="dataTables-example" role="grid"
+											aria-describedby="dataTables-example_info">
+											<colgroup>
+												<col width="150">
+												<col width="auto">
+											</colgroup>
+											<tbody>
+												<tr role="row">
+													<td>현황</td>
+													<td>휴가 현황을 보여줄 예정입니다.</td>
+												</tr>
+												<tr role="row">
+													<td>작성자</td>
+													<td>사원이름</td>
+												</tr>
+												<tr role="row">
+													<td>처리</td>
+													<td>
+														<button>결재선 선택</button>
+													</td>
+												</tr>
+												<tr role="row">
+													<td>휴가기간</td>
+													<td class="calendar_wrap">
+														<table id="calendar" class="col-10">
+															<thead></thead>
+															<tbody></tbody>
+														</table>
+														<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"> </button>
+														<button type="button" id="next" onclick="nextCalendar()"  class="glyphicon glyphicon-chevron-right"></button>
+														<p>휴가신청 현황 : <span id="total_day"></span>일</p> 
+														<script
+															type="text/javascript">
+															buildCalendar();
+														</script>
+													</td>
+												</tr>
+												<tr role="row">
+													<td>휴가종류</td>
+													<td><select>
+															<option>김하나</option>
+															<option>바보</option>
+															<option>똥멍텅구리</option>
+													</select></td>
+												</tr>
+												<tr role="row">
+													<td>사유</td>
+													<td><input type="text" name="reason"></td>
+												</tr>
+											</tbody>
+										</table>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-
-
-
 		</div>
 	</div>
 </body>
