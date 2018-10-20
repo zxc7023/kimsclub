@@ -220,7 +220,7 @@
 							<ul class="nav nav-third-level collapse">
 								<li><a href="#"><i class="fas fa-cog"></i> 기본 설정</a></li>
 								<li><a href="#"><i class="far fa-calendar-plus"></i> 휴가 생성</a></li>
-								<li><a href="#"><i class="fas fa-user-chart"></i> 직원 휴가 관리</a></li>
+								<li><a href="#"><i class="fas fa-address-card"></i> 직원 휴가 관리</a></li>
 							</ul> <!-- /.nav-third-level -->
 						</li>
 					</ul> <!-- /.nav-second-level -->
