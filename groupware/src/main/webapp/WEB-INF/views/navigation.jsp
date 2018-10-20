@@ -206,13 +206,26 @@
 						<li><a href="login.html">Login Page</a></li>
 					</ul> <!-- /.nav-second-level --></li>
 
-				<li><a href="#"><i class="fas fa-plane-departure"></i> 휴가/근태<span class="fa arrow"></span></a>
+
+				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> 인사 관리<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
-						<li><a href="${pageContext.request.contextPath}/dayoff/dayoffWriteform">휴가신청</a></li>
-						<li><a href="${pageContext.request.contextPath}/dayoff/dayoffStatus">휴가현황</a></li>
-						<li><a href="#">근태현황</a></li>
-					</ul> <!-- /.nav-second-level --></li>
-					
+						<li><a href="#"><i class="fas fa-plane-departure"></i> 휴가/근태<span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level collapse">
+								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffWriteform"><i class="far fa-edit"></i> 휴가 신청</a></li>
+								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffStatus"><i class="fas fa-history"></i> 휴가 현황</a></li>
+								<li><a href="#"><i class="fas fa-business-time"></i> 근태 현황</a></li>
+							</ul> <!-- /.nav-third-level -->
+						</li>
+						<li><a href="#"><i class="fas fa-user-lock"></i> 휴가 관리<span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level collapse">
+								<li><a href="#"><i class="fas fa-cog"></i> 기본 설정</a></li>
+								<li><a href="#"><i class="far fa-calendar-plus"></i> 휴가 생성</a></li>
+								<li><a href="#"><i class="fas fa-user-chart"></i> 직원 휴가 관리</a></li>
+							</ul> <!-- /.nav-third-level -->
+						</li>
+					</ul> <!-- /.nav-second-level -->
+				</li>
+						
 				<li><a href="#"><i class="fas fa-file-signature"></i> 결재<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
 						<li><a href="#">새문서함</a></li>
