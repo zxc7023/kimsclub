@@ -61,6 +61,29 @@
 	height:100%;
 }
 
+.calendar_wrap table td div:before{
+	 position:absolute;
+	 width:2rem;
+	 height:2rem;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	margin:auto;
+	color:#fff
+}
+.calendar_wrap table td.choose_day .full_absence:before{
+	content:'일 ';
+}
+
+.calendar_wrap table td.choose_day_am .am_absence:before{
+	content:'전 ';
+}
+
+.calendar_wrap table td.choose_day_pm .pm_absence:before{
+	content:'후  ';
+}
+
 .calendar_wrap table td.choose_day_am > div{
 	top:0;
 	height:50%;
