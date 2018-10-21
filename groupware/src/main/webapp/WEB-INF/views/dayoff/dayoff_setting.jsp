@@ -97,7 +97,7 @@
 												<tr role="row">
 													<c:forEach items="${requestScope.dayoffCreateCondition}" var="list">
 														<td>
-															<input type="text" value="${list.vacation_day}">
+															<input class="form-control" type="text" name="vacation_day" value="${list.vacation_day}">
 														</td>
 													</c:forEach>
 												</tr>
