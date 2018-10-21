@@ -51,7 +51,7 @@
 <!-- <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.js"></script> -->
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_setting.css">
 
 <script>
 	$(document).ready(function() {
@@ -82,10 +82,10 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">휴가 생성 조건</div>
 						<div class="panel-body">
-							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+				
 								<div>
 									<form>
-										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+										<table class="table table-bordered  " id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<thead>
 												<tr role="row">
 													<c:forEach items="${requestScope.dayoffCreateCondition}" var="list">
@@ -106,7 +106,7 @@
 									</form>
 								</div>
 							</div>
-						</div>
+						
 					</div>
 				</div>
 			</div>
