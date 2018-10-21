@@ -26,6 +26,13 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
 	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
+<!-- DataTables CSS -->
+<!-- <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet"> -->
+
+<!-- DataTables Responsive CSS -->
+<!-- <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet"> -->
+
+
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
@@ -38,11 +45,21 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
+<!-- <!-- DataTables JavaScript -->
+<!-- <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.js"></script> -->
+
 <!-- dayoff_writeform.css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_writeform.css">
 
-
 <script type="text/javascript">
+	$(document).ready(function() {
+/* 		$('#dataTables-example').DataTable({
+			responsive : true
+		}); */
+	});
+
 	Map = function() {
 		this.map = new Object();
 	};
@@ -53,9 +70,9 @@
 		get : function(key) {
 			return this.map[key];
 		},
-		getAll : function(){   
-	        return this.map; 
-	    },
+		getAll : function() {
+			return this.map;
+		},
 		containsKey : function(key) {
 			return key in this.map;
 		},
@@ -99,7 +116,7 @@
 			return count;
 		}
 	};
-	
+
 	var dayMap = new Map();
 
 	var total_day = 0.0;
@@ -167,18 +184,18 @@
 			var cell2 = row2.find("td:last-child").text(week[cell_date.getDay()]);
 			var cell3 = row3.find("td:last-child").text(cell_date.getDate());
 			var cell4 = row4.find("td:last-child");
-			
+
 			var dayoff_date = cell_date.getFullYear() + "/" + cell_date.getMonth() + "/" + cell_date.getDate();
 			cell4.attr("data-dayoff_date", dayoff_date);
-			
-			if(dayMap.containsKey(dayoff_date)){
+
+			if (dayMap.containsKey(dayoff_date)) {
 				value = dayMap.get(dayoff_date);
 				switch (value) {
 				case "choose_day":
 					cell4.attr("class", "choose_day");
 					cell4.append("<div class='full_absence'></div>");
 					break;
-				
+
 				case "choose_day_am":
 					cell4.attr("class", "choose_day_am");
 					cell4.append("<div class='am_absence'></div>");
@@ -189,8 +206,7 @@
 					break;
 				}
 			}
-			
-			
+
 			if (flag == 0) {
 				if (cell_date.getDate() == last_date.getDate()) {
 					flag = 1;
@@ -208,12 +224,12 @@
 					$(this).attr("class", "choose_day_am");
 					$(this).find("div").attr("class", "am_absence");
 					//total_day = total_day - 0.5;
-					dayMap.put($(this).data("dayoff_date"),"choose_day_am");
+					dayMap.put($(this).data("dayoff_date"), "choose_day_am");
 					break;
 				case "choose_day_am":
 					$(this).attr("class", "choose_day_pm")
 					$(this).find("div").attr("class", "pm_absence");
-					dayMap.put($(this).data("dayoff_date"),"choose_day_pm");
+					dayMap.put($(this).data("dayoff_date"), "choose_day_pm");
 					break;
 				case "choose_day_pm":
 					$(this).removeAttr("class");
@@ -225,13 +241,13 @@
 					$(this).attr("class", "choose_day")
 					$(this).append("<div class='full_absence'></div>");
 					//total_day = total_day + 1.0;
-					dayMap.put($(this).data("dayoff_date"),"choose_day");
+					dayMap.put($(this).data("dayoff_date"), "choose_day");
 				}
 				var dayVar = $("#total_day");
-				
+
 				total_day = 0;
 				var keys = dayMap.getAll();
-				for(key in keys){
+				for (key in keys) {
 					var value = dayMap.get(key);
 					switch (value) {
 					case "choose_day":
@@ -241,8 +257,8 @@
 						total_day += 0.5;
 						break;
 					}
-				}			
-				dayVar.text(total_day);		
+				}
+				dayVar.text(total_day);
 			});
 		});
 
@@ -271,7 +287,7 @@
 		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
 
 		<!-- content div -->
-		<div id="page-wrapper" style="min-height: 927px;">
+		<div id="page-wrapper">
 
 			<div class="row">
 				<div class="col-sm-12">
@@ -328,7 +344,7 @@
 												<tr role="row">
 													<td>휴가종류</td>
 													<td>
-														<select>
+														<select class="form-control">
 															<option>김하나</option>
 															<option>바보</option>
 															<option>똥멍텅구리</option>
@@ -338,7 +354,7 @@
 												<tr role="row">
 													<td>사유</td>
 													<td>
-														<input type="text" name="reason">
+														<input class="form-control" type="text" name="reason">
 													</td>
 												</tr>
 											</tbody>
