@@ -37,13 +37,66 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
-<style type="text/css">
-.btn-i {
-border-right: 1px white;
-}
-</style>
 <script>
-	$(document).ready(function() {
+	$(document).ready(function() {	
+		//양식 활성화,비활성화 버튼 클릭 시 form_activation 수정
+		$('.btn-form').click(function(){
+			var checkArr = [];
+			var checkNum=0;
+			
+			//체크된 번호들 배열에 입력 및 개수 구하기
+			$('.check:checked').each(function(){
+				$(this).parent().next().addClass('use');
+				checkArr.push($(this).val());
+				checkNum++;
+			});
+			//ajax내 배열 사용하기위한 설정
+			jQuery.ajaxSettings.traditional = true;
+			
+			//삭제 버튼 클릭
+			if($(this).val()=='삭제'){
+				var result = confirm('정말로 삭제하시겠습니까?'); 
+				if(result) {
+					$.ajax({   
+			            type : "GET",
+			            url : "/groupware/removeForm",
+			            data : {"form_no": checkArr},
+			            error : function(){
+			                alert('삭제 실패!!');
+			                $('.use').removeClass('use');
+			            },
+			            success : function(data){
+			            	$('.use').parent().remove();
+			                alert("총"+checkNum+"개의 양식이 삭제되었습니다.");
+			                $('.use').removeClass('use');
+			            }     
+		        	});
+				}else { 
+					$('.use').removeClass('use');
+				}
+			}
+			
+			//활성화 비활성화 버튼 클릭시
+			else{
+				$.ajax({   
+		            type : "GET",
+		            url : "/groupware/useForm",
+		            data : {"use" : $(this).val(),"form_no": checkArr},
+		            error : function(){
+		                alert('변경실패!!');
+		                //$('.use').removeClass('use');
+		            },
+		            success : function(data){
+		                $('.use').html(data);
+		                alert("총"+checkNum+"개의 양식이 "+data+" 되었습니다.");
+		                //$('.use').removeClass('use');
+		            }     
+	        	});
+			}
+		});
+		
+
+		//모든 체크박스 선택 함수
 		$('.check-all').click(function() {
 			$('.check').prop('checked', this.checked);
 		});
@@ -79,16 +132,16 @@ border-right: 1px white;
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<button onclick="location='createform'" class="btn btn-info">
-										<i class="fa fa-plus-circle" style="border-right:solid white 1px;"></i>양식 생성
+										양식 생성
 									</button>
-									<button class="btn btn-info">
-										<i class="fa fa-minus-circle btn-i"></i>양식 삭제
+									<button class="btn btn-info btn-form" value="삭제">
+										양식 삭제
 									</button>
-									<button class="btn btn-info">
-										<i class="fa fa-check-circle btn-i"></i>양식 활성화
+									<button class="btn btn-info btn-form" value="활성화">
+										양식 활성화
 									</button>
-									<button class="btn btn-info">
-										<i class="fa fa-times-circle btn-i"></i>양식 비활성화
+									<button class="btn btn-info btn-form" value="비활성화">
+										양식 비활성화
 									</button>
 								</div>
 								<div class="panel-body">
@@ -105,12 +158,10 @@ border-right: 1px white;
 											<c:forEach items="${FormList}" var="list">
 												<tr>
 													<td>
-														<p>
-															<input type="checkbox" name="check" class="check" value="${list.form_no}"> ${list.form_no}
-														</p>
+														<input type="checkbox" name="check" class="check" value="${list.form_no}"> ${list.form_no}
 													</td>
 													<td>${list.form_activation}</td>
-													<td><a href="createform?form_no=${list.form_no}">${list.form_name}</a></td>
+													<td><a href="modifyform?form_no=${list.form_no}">${list.form_name}</a></td>
 													<td>${list.form_desc}</td>
 												</tr>
 											</c:forEach>

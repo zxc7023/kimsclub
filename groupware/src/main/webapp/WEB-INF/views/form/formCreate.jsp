@@ -45,7 +45,6 @@ $(document).ready(function() {
 	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
 	        });
 	         
-	         
 	        CKEDITOR.on('dialogDefinition', function( ev ){
 	            var dialogName = ev.data.name;
 	            var dialogDefinition = ev.data.definition;
@@ -62,62 +61,67 @@ $(document).ready(function() {
 	    });
 });//ready end
 </script>
-<!-- 
 <style type="text/css">
 .form-label-group {
-	position: relative;
+  position: relative;
+  margin: 4px 0px 4px;
+  
 }
 
-.form-label-group>input, .form-label-group>label {
-	padding: var(- -input-padding-y) var(- -input-padding-x);
-	height: auto;
+.form-label-group > input{
+  padding: var(--input-padding-y) var(--input-padding-x);
+  height: 44px;
+}
+.form-label-group > label {
+  padding: var(--input-padding-y) var(--input-padding-x);
+  height: auto;
 }
 
-.form-label-group>label {
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: block;
-	width: 100%;
-	margin-bottom: 0;
-	/* Override default `<label>` margin */
-	line-height: 1.5;
-	color: #495057;
-	border: 1px solid transparent;
-	border-radius: 0.25rem;
-	-webkit-transition: all 0.1s ease-in-out;
-	transition: all 0.1s ease-in-out;
+.form-label-group > label {
+	padding-top:10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  /* Override default `<label>` margin */
+  line-height: 1.5;
+  color: #495057;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .form-label-group input::-webkit-input-placeholder {
-	color: transparent;
+  color: transparent;
 }
 
 .form-label-group input:-ms-input-placeholder {
-	color: transparent;
+  color: transparent;
 }
 
 .form-label-group input::-ms-input-placeholder {
-	color: transparent;
+  color: transparent;
 }
 
 .form-label-group input::placeholder {
-	color: transparent;
+  color: transparent;
 }
 
-.form-label-group input:not (:placeholder-shown ) {
-	padding-top: calc(var(- -input-padding-y)+ var(- -input-padding-y)* (2/3));
-	padding-bottom: calc(var(- -input-padding-y)/3);
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+  padding-bottom: calc(var(--input-padding-y) / 3);
 }
 
-.form-label-group input:not (:placeholder-shown ) ~ label {
-	padding-top: calc(var(- -input-padding-y)/3);
-	padding-bottom: calc(var(- -input-padding-y)/3);
-	font-size: 12px;
-	color: #777;
+.form-label-group input:not(:placeholder-shown) ~ label {
+  padding-top: calc(var(--input-padding-y) / 3);
+  padding-bottom: calc(var(--input-padding-y) / 3);
+  font-size: 12px;
+  color: #777;
 }
 </style>
- -->
 </head>
 <body>
 
@@ -141,19 +145,23 @@ $(document).ready(function() {
 				<div class="panel panel-primary">
 					<div class="panel-heading">양식 생성</div>
 					<div class="panel-body">
-						<form>
+						<form action="/groupware/createform" method="post">
 							<div class="form-group">
 								<div class="form-row">
-									<div class="col-md-9">
+									<div class="col-md-8">
 										<div class="form-label-group">
 					                    	<input type="text" id="form_name" name="form_name" class="form-control" placeholder="양식 이름" required="required" autofocus="autofocus">
 											<label for="form_name">양식 이름</label>
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-2">
 										<div class="form-label-group">
-											<input type="radio" name="form_activation" value="Y"><label for="useForm">사용</label>
-											<input type="radio" name="form_activation" value="N" checked="checked"><label for="unUseForm">미사용</label>
+											<label><input type="radio" name="form_activation" value="활성화">양식 활성화</label>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-label-group">
+											<label><input type="radio" name="form_activation" value="비활성화" checked="checked" >양식 비활성화</label>
 										</div>
 									</div>
 									<div class="col-md-12">
@@ -164,10 +172,10 @@ $(document).ready(function() {
 									</div>
 								</div>
 								<div class="col-lg-12">
-									<textarea name="ckeditor" id="ckeditor"></textarea>
+									<textarea name="form_contents" id="ckeditor"></textarea>
 								</div>
 								<div class="col-lg-12">
-									<a class="btn btn-primary btn-block" href="/groupware/createform">확인</a>
+									<input type="submit" class="btn-primary btn-block" value="확인">
 								</div>
 							</div>
 						</form>
