@@ -5,70 +5,176 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<!-- Bootstrap Core CSS -->
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Bootstrap Core CSS -->
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- MetisMenu CSS -->
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css"
+	rel="stylesheet">
+
+<!-- Custom CSS -->
+<link
+	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css"
+	rel="stylesheet">
+
+<!-- Custom Fonts -->
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	crossorigin="anonymous">
+
+<!-- jQuery -->
 <script
 	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet"
-	href=" ${pageContext.request.contextPath}/resources/css/default.css">
-<link rel="stylesheet"
-	href=" ${pageContext.request.contextPath}/resources/css/navigation.css">
-<link rel="stylesheet"
-	href=" ${pageContext.request.contextPath}/resources/css/dayoff/day_status.css">
 
-<script>
-	$(document).ready(function() {
-		$('.tab-pane').click(function(e) {
-			e.preventDefault()
-			$(this).tab('show')
-		})
-	});
+<!-- Bootstrap Core JavaScript -->
+<script
+	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script
+	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script
+	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+
+<!-- dayoff_writeform.css -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/dayoff/day_status.css">
+
+
+<script type="text/javascript">
+	
 </script>
-<title>Insert title here</title>
+<title>휴가현황</title>
 </head>
 <body>
-	<section>
-		<div class="container-fluid">
+
+	<!-- 아래의 구조로 복사하시오 -->
+	<!-- 전체 div-->
+	<div id="wrapper">
+
+		<!-- header,navigation div -->
+		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
+
+		<!-- content div -->
+		<div id="page-wrapper">
+
 			<div class="row">
-				<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-
-				<div class="col-10  cont-wrap">
-					<div class="row">
-						<div class="col-10 day_status">
-								<!-- Nav tabs -->
-								<ul class="nav nav-tabs" role="tablist">
-									<li role="presentation" >
-										<a href="#home" aria-controls="home" role="tab" data-toggle="tab" class="active">내휴가 </a>
-									</li>
-									<li role="presentation">
-										<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">휴가캘린더 </a>
-									</li>
-									<li role="presentation">
-										<a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">휴가신청관리 </a>
-									</li>
-								</ul>
-
-								<!-- Tab panes -->
-								<div class="tab-content">
-									<div role="tabpanel" class="tab-pane active" id="home">kjhjhgjhgjkh.</div>
-									<div role="tabpanel" class="tab-pane" id="profile">123123123.</div>
-									<div role="tabpanel" class="tab-pane" id="messages">adsfadsfasdf.</div>
-								</div>
-							</div>
-						</div>
-					</div>
+				<div class="col-sm-12">
+					<h1 class="page-header">휴가현황</h1>
 				</div>
 			</div>
-	</section>
 
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="">
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#tab01" data-toggle="tab">휴가
+									생성 내역</a></li>
+							<li><a href="#tab02" data-toggle="tab">휴가 신청 내역</a></li>
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content ">
+							<div class="tab-pane fade in active" id="tab01">
+								<table>
+									<caption>휴가 생성 내역</caption>
+									<colgroup>
+										<col width="20%">
+										<col width="10%">
+										<col width="10%">
+										<col width="20%">
+										<col width="50%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th rowspan="2" >생성일</th>
+											<th colspan="2">생성 내역</th>
+											<th rowspan="2">내용</th>
+											<th rowspan="2">비고</th>
+										</tr>
+										<tr>
+											<th>발생</th>
+											<th>최종</th>
+										</tr> 
+									</thead>
+									<tbody>
+										<tr>
+											<td>2018.09.27</td>
+											<td>19일</td>
+											<td>49일</td>
+											<td>정기 휴가</td>
+											<td>금년발생일(13), 전년이월(6), 최종연차(49)</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="tab-pane fade" id="tab02">
+								<div>
+									<table>
+										<caption>휴가 신청 내역</caption>
+										<colgroup>
+											<col width="7%">
+											<col width="12%">
+											<col width="12%">
+											<col width="10%">
+											<col width="12%">
+											<col width="12%">
+											<col width="12%">
+											<col width="12%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th scope="row">번호</th>
+												<th scope="row">신청자</th>
+												<th scope="row">휴가 종류</th>
+												<th scope="row">일수</th>
+												<th scope="row">기간</th>
+												<th scope="row">상태</th>
+												<th scope="row">상세</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>김준기</td>
+												<td>연차</td>
+												<td>1</td>
+												<td>
+													<p>2018.01.02 ~ 2018.01.02</p>
+												</td>
+												<td>결재 완료</td>
+												<td><button>상세</button></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
