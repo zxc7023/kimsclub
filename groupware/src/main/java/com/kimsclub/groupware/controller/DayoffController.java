@@ -1,6 +1,11 @@
 package com.kimsclub.groupware.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,10 +41,31 @@ public class DayoffController {
 	 * @return
 	 */
 	@RequestMapping(value = "/dayoffSetting", method = RequestMethod.GET)
-	public String setDayoff(Model model) {
+	public String readDayoffSetting(Model model) {
 		List<DayoffCreateConditionVO> conditionList = service.getDayoffCreateCondition();
-		
 		model.addAttribute("dayoffCreateCondition",conditionList);
 		return "dayoff/dayoff_setting";
+	}
+	
+	
+	@RequestMapping(value = "/dayoffSetting", method = RequestMethod.POST)
+	public String setDayoffSetting(int[] year_in_office, int[] dayoff_days, Model model,HttpServletResponse response){
+		List<DayoffCreateConditionVO> list = new ArrayList<>();
+		
+		for(int i=0; i < year_in_office.length; i++) {
+			list.add(new DayoffCreateConditionVO(year_in_office[i],dayoff_days[i]));
+		}
+		service.modifyDayoffCreateCondition(list);
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.println("<script>alert('수정이 완료되었습니다.');</script>");
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "redirect:/dayoff/dayoffSetting";
 	}
 }
