@@ -15,15 +15,21 @@ public class BoardDAO {
 	@Autowired
 	SqlSession session;
 	
+	//게시판(커뮤니티, 공지사항) 조회
+	public List<BoardVO> boardList(int start, int end, String board_type, String searchOption, String keyword){
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("start",start);
+		map.put("end",end);
+		map.put("board_type", board_type);
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		return session.selectList("board.selectBoard", map);
+	}
+	
 	//게시글 등록
 	public void insertBoard(BoardVO vo) {
 		System.out.println("타입:"+vo.getBoard_type());
 		session.insert("board.insertBoard", vo);
-	}
-	
-	//게시판(커뮤니티, 공지사항) 조회
-	public List<BoardVO> boardList(String board_type){
-		return session.selectList("board.selectBoard", board_type);
 	}
 	
 	//작성된 게시글 내용 조회
@@ -38,11 +44,12 @@ public class BoardDAO {
 		return vo;
 	}
 	
-	public List<BoardVO> listAll(int start, int end, String searchOption, String keyword){
-		Map<String, Object>map = new HashMap<String, Object>();
+	//게시글 수 카운트
+	public int countArticle(String board_type, String searchOption, String keyword) {
+		Map<String,String> map = new HashMap<String,String>();
 		map.put("searchOption", searchOption);
 		map.put("keyword", keyword);
-		map.put("end", end);
-		return session.selectList("board.listAll", map);
+		map.put("board_type", board_type);
+		return session.selectOne("board.countArticle",map);
 	}
 }

@@ -15,14 +15,16 @@ public class BoardServiceImpl implements BoardService {
 	
 	//게시판 게시글 조회
 	@Override
-	public List<BoardVO> boardList(String board_type) {
-		return dao.boardList(board_type);
+	public List<BoardVO> boardList(int start, int end, String board_type, String searchOption, String keyword) {
+		return dao.boardList(start, end, board_type, searchOption, keyword);
 	}
+	
 	//게시판 게시글 등록
 	@Override
 	public void insertBoard(BoardVO vo) {
 		dao.insertBoard(vo);
 	}
+	
 	//게시판 게시글 내용 보기
 	@Override
 	public BoardVO detail(BoardVO vo) {
@@ -35,8 +37,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> listAll(int start, int end, String searchOption, String keyword) {
-		return dao.listAll(start, end, searchOption, keyword);
+	public int countArticle(String board_type, String searchOption, String keyword) {
+		return dao.countArticle(board_type, searchOption, keyword);
 	}
 
+	
 }

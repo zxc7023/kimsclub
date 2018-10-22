@@ -3,32 +3,68 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 		
+<!-- 게시글 등록 -->
 	<insert id="insertBoard" parameterType="board" >
 		<selectKey resultType="int" keyProperty="board_no" order="BEFORE">
 			select nvl(max(board_no),0)+1 from board where board_type=#{board_type}
 		</selectKey>
 		insert into
 		board(board_no, board_writer_no, board_title, board_contents, board_date, board_viewcount, board_type) 
-		values (#{board_no},2,#{board_title},#{board_contents},sysdate,0,#{board_type})
+		values (#{board_no},3,#{board_title},#{board_contents},sysdate,0,#{board_type})
 	</insert>
 	
-	<select id="selectBoard" resultType="board" parameterType="string">
-		select board_no, employee_name as board_writer, board_title, board_date, board_viewcount 
-		from board, employee
-		where BOARD.BOARD_WRITER_NO=EMPLOYEE.EMPLOYEE_NO and BOARD.BOARD_TYPE=#{board_type}
-		order by board_no desc
+<!-- 게시판 조회 -->	
+	<select id="selectBoard" resultType="board" parameterType="map" >
+		<include refid="pagingHeader"></include>
+		select rownum,board_no, employee_name as board_writer, board_title, board_date, board_viewcount 
+		from board, employee 
+		where BOARD.BOARD_WRITER_NO=EMPLOYEE.EMPLOYEE_NO and board_type= #{board_type} and
+		<include refid="search"></include>
+		order by board_no desc, board_date desc
+		<include refid="pagingFooter"></include>
 	</select>
 	
+<!-- 게시글 레코드 갯수 -->
+	<select id="countArticle" resultType="int">
+		select count(*) 
+		from board, employee 
+		where BOARD.BOARD_WRITER_NO=EMPLOYEE.EMPLOYEE_NO and board_type= #{board_type} and
+		<include refid="search"></include>
+	</select>	
+
+<!-- 검색sql -->
+	<sql id="search">
+		<choose>
+			<!-- 제목+내용 검색 일경우 -->
+			<when test="searchOption == 'all'">
+			(board_title like '%'||#{keyword}||'%' or board_contents like '%'||#{keyword}||'%')
+			</when>
+			<!-- 검색 옵션이 하나일 경우 -->
+			<otherwise>
+			 (${searchOption} like '%'||#{keyword}||'%')
+			</otherwise>
+		</choose>
+	</sql>
+	
+<!-- 페이징sql -->
+	<sql id="pagingHeader">
+		select * from (select rownum as rn, A.*from(
+	</sql>	
+	<sql id="pagingFooter">
+		)A
+		)where rn between #{start} and #{end}
+	</sql>
+	
+<!-- 게시글 자세히 조회  -->	
 	<select id="selectDetail" resultType="board" parameterType="board" >
 		select board_no, employee_name as board_writer, board_title, board_contents, board_date, board_viewcount,board_type
 		from board, employee
 		where board.board_writer_no=EMPLOYEE.EMPLOYEE_NO and board_type=#{board_type} and board_no=#{board_no}
 	</select>
-	
+<!-- 게시글 조회수 증가 -->	
 	<update id="updateViewcnt" parameterType="board" >
 		update board set board_viewcount=board_viewcount+1 where board_type=#{board_type} and board_no=#{board_no}
 	</update>
-	
 	
 	
 </mapper>
