@@ -1,8 +1,8 @@
 package com.kimsclub.groupware.vo;
 
 public class BoardPageVO {
-	public static final int PAGE_SCALE=10;
-	public static final int BLOCK_SCALE=10;
+	public static final int PAGE_SCALE=5;
+	public static final int BLOCK_SCALE=5;
 	
 	private int curPage; //현재 페이지 번호
 	private int prevPage; //이전 페이지
@@ -32,7 +32,6 @@ public class BoardPageVO {
 		setPageRange();
 		setTotBlock(); //전체 페이지 블록 갯수 계산
 		setBlockRange(); //페이지 블록의 시작, 끝 번호 계산
-		
 	}
 
 	public void setBlockRange() {
@@ -45,7 +44,7 @@ public class BoardPageVO {
 		//마지막 블록이 범위를 초과하지 않도록 계산
 		if(blockEnd>totPage) blockEnd = totPage;
 		//이전에 눌렀을 때 이동할 페이지 번호
-		prevPage = (curPage ==1)? 1:(curBlock-1)*BLOCK_SCALE;
+		prevPage = (curPage ==1)?1:(curBlock-1)*BLOCK_SCALE;
 		//다음 눌렀을때 이동할 페이지 번호
 		nextPage = curBlock > totBlock?(curBlock * BLOCK_SCALE) : (curBlock*BLOCK_SCALE)+1;
 		//마지막 페이지가 범위를 초과하지 않도록 처리

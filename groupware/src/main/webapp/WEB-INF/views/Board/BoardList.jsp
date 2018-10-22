@@ -38,10 +38,9 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
-<script src="resources/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-
+		
 	});
 </script>
 <title>Insert title here</title>
@@ -171,7 +170,7 @@
 	</tr>
 	<tr>
 		<c:if test="${map.boardPager.curBlock>1}">
-			<a href="javascript:list('1')">[처음]</a>
+			<a href="boardList?curPage=1&board_type=${map.board_type}">[처음]</a>
 		</c:if>
 		
 		<c:if test="${map.boardPager.curBlock>1}">
@@ -190,11 +189,11 @@
 		</c:forEach>
 				
 		<c:if test="${map.boardPager.curBlock <= map.boardPager.totBlock}">
-			<a href="javascript:list('${map.boardPager.nextPage}')">[다음]</a>
+			<a href="boardList?curPage=${map.boardPager.nextPage}&board_type=${map.board_type}">[다음]</a>
 		</c:if>
 		
 		<c:if test="${map.boardPager.curPage <= map.boardPager.totPage}">
-			<a href="javascript:list('${map.boardPager.totPage}')">[끝]</a>
+			<a href="boardList?curPage=${map.boardPager.totPage}&board_type=${map.board_type}">[끝]</a>
 		</c:if>
 		
     </tr>

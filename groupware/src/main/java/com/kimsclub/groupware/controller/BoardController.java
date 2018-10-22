@@ -52,6 +52,15 @@ public class BoardController {
 		map.put("count", count); //게시글 갯수
 		map.put("boardPager", boardPager); //게시글 페이징
 		
+		System.out.println("curBlock:"+boardPager.getCurBlock());
+		System.out.println("totBlock:"+boardPager.getTotBlock());
+		System.out.println("totPage:"+boardPager.getTotPage());
+		
+		System.out.println("현재 페이지:"+boardPager.getCurPage());
+		System.out.println("이전 페이지:"+boardPager.getPrevPage());
+		System.out.println("다음 페이지:"+boardPager.getNextPage());
+		
+		
 		mav.addObject("map", map);
 		mav.setViewName("/Board/BoardList");
 		return mav;

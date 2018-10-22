@@ -177,10 +177,10 @@
 						<li><a href="flot.html">Flot Charts</a></li>
 						<li><a href="morris.html">Morris.js Charts</a></li>
 					</ul> <!-- /.nav-second-level --></li>
-				<li><a href="tables.html"><i class="fa fa-table fa-fw"></i> 게시판<span class="fa arrow"></span></a>
+				<li><a><i class="fa fa-table fa-fw"></i> 게시판<span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-						<li><a href="boardList?board_type=c">커뮤니티</a></li>
-						<li><a href="boardList?board_type=n">공지사항</a></li>
+						<li><a href="${pageContext.request.contextPath}/boardList?board_type=c">커뮤니티</a></li>
+						<li><a href="${pageContext.request.contextPath}/boardList?board_type=n">공지사항</a></li>
 					</ul></li>
 				<li><a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a></li>
 				<li><a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
