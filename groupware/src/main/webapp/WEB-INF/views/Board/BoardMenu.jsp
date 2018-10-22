@@ -17,7 +17,7 @@
 	<div>
 		<div>
 			<div>
-				<a href="community" >커뮤니티</a>
+				<a href="boardList?board_type=c" >커뮤니티</a>
 			</div>
 			<ul>
 				<li></li>
@@ -28,7 +28,7 @@
 		
 		<div>
 			<div>
-				<a href="notice" >공지사항</a>
+				<a href="boardList?board_type=n" >공지사항</a>
 			</div>
 			<ul>
 				<li></li>
