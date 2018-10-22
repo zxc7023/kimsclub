@@ -3,8 +3,38 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="form">
 
-	<select id="selectForm" resultType="form">
-		SELECT * FROM form ORDER BY form_no
+	<select id="selectAllForm" resultType="form">
+		SELECT * FROM form ORDER BY form_no desc
 	</select>
 	
+	<select id="selectUsedForm" resultType="form">
+		SELECT * 
+		FROM form
+		WHERE form_activation='활성화' 
+		ORDER BY form_no desc
+	</select>
+
+	<select id="selectForm" resultType="form" parameterType="int">
+		SELECT * 
+		FROM form
+		WHERE form_no = #{form_no}
+	</select>
+	
+	<insert id="insertForm" parameterType="board">
+	 	INSERT INTO
+		form(form_no, form_name, form_desc, form_contents, form_activation) 
+		VALUES((SELECT nvl(max(form_no),0)+1 FROM form),#{form_name},#{form_desc}, #{form_contents}, #{form_activation})
+	</insert>
+	
+	<update id="updateFormActivation" parameterType="hashmap">
+		UPDATE form 
+		SET form_activation = #{activation} 
+		WHERE form_no IN<foreach collection="form_no" item="form_no" open="(" close=")" separator=",">#{form_no}</foreach>
+	</update>
+	
+	<delete id="deleteForm" parameterType="hashmap">
+		DELETE 
+		FROM form 
+		WHERE form_no IN<foreach collection="form_no" item="form_no" open="(" close=")" separator=",">#{form_no}</foreach>
+	</delete>
 </mapper>

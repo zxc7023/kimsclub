@@ -5,7 +5,6 @@ public class FormVO {
 	private String form_name;
 	private String form_desc;
 	private String form_contents;
-	private String form_contents_path;
 	private String form_activation;
 
 	public int getForm_no() {
@@ -31,12 +30,6 @@ public class FormVO {
 	}
 	public void setForm_contents(String form_contents) {
 		this.form_contents = form_contents;
-	}
-	public String getForm_contents_path() {
-		return form_contents_path;
-	}
-	public void setForm_contents_path(String form_contents_path) {
-		this.form_contents_path = form_contents_path;
 	}
 	public String getForm_activation() {
 		return form_activation;

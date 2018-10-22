@@ -1,6 +1,8 @@
 package com.kimsclub.groupware.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,36 @@ public class FormServiceImpl implements FormService{
 	
 	@Override
 	public List<FormVO> getFormList() {
-		return dao.selectForm();
+		return dao.selectAllForm();
 	}
 
+	@Override
+	public void useForm(String activation, String[] form_no) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("activation", activation);
+		map.put("form_no",form_no);
+		dao.activationForm(map);
+	}
+
+	@Override
+	public void deleteForm(String[] form_no) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("form_no",form_no);
+		dao.deleteForm(map);
+	}
+
+	@Override
+	public void saveForm(FormVO vo) {
+		dao.insertForm(vo);
+	}
+
+	@Override
+	public List<FormVO> getUsedFormList() {
+		return dao.selectUsedForm();
+	}
+
+	@Override
+	public FormVO modifyForm(int form_no) {
+		return dao.selectForm(form_no);
+	}
 }

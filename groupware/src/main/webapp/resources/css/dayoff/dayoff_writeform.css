@@ -1,0 +1,116 @@
+@charset "UTF-8";
+
+.calendar .sunday {
+	color: #F79DC2;
+}
+
+.calendar .saturday {
+	color: skyblue;
+}
+
+.day_selection_wrap{
+	margin:10rem auto 0 auto;
+	position:relative;
+	border-bottom:1px solid #dedede;
+}
+.day_selection_wrap tr{
+	border-top:1px solid #dedede;
+}
+
+.day_selection_wrap th{
+	text-align:center;
+	line-height:2.5rem;
+	background:#f9f9f9;
+	font-size:1rem;
+	font-weight:normal;
+}
+
+.day_selection_wrap td{
+	font-size:1rem
+}
+
+.calendar_wrap{
+	position:relative;
+	overflow:hidden;
+	height:100% !important;
+}
+
+.calendar_wrap table{
+	top:0;
+	width:90%;
+	height:60%;
+	margin: auto;
+	text-align: center;
+}
+
+.calendar_wrap table td{
+	border:1px solid #dedede;
+	width:5%;
+	position:relative;
+}
+
+.calendar_wrap table td > div{
+	position:absolute;
+	width:100%;
+	left:0;
+	background:#8cbbee;
+}
+
+.calendar_wrap table td.choose_day > div{
+	top:0;
+	height:100%;
+}
+
+.calendar_wrap table td div:before{
+	 position:absolute;
+	 width:2rem;
+	 height:2rem;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	margin:auto;
+	color:#fff
+}
+.calendar_wrap table td.choose_day .full_absence:before{
+	content:'일 ';
+}
+
+.calendar_wrap table td.choose_day_am .am_absence:before{
+	content:'전 ';
+}
+
+.calendar_wrap table td.choose_day_pm .pm_absence:before{
+	content:'후  ';
+}
+
+.calendar_wrap table td.choose_day_am > div{
+	top:0;
+	height:50%;
+}
+
+.calendar_wrap table td.choose_day_pm > div{
+	top:50%;
+	height:50%;
+}
+
+.calendar_wrap #before,
+.calendar_wrap #next{
+	position:absolute;
+	top:40%;	
+	width:4rem;
+	height:4rem;
+	border-radius:100%;
+}
+
+.calendar_wrap #before{
+	left:0;
+}
+.calendar_wrap #next{
+	right:0;
+}
+
+.calendar_wrap table tbody tr{
+	height: 72px;
+	border: 1px solid gray;
+}

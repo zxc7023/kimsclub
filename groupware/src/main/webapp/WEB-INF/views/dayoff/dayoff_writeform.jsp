@@ -23,7 +23,15 @@
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+<!-- DataTables CSS -->
+<!-- <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet"> -->
+
+<!-- DataTables Responsive CSS -->
+<!-- <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet"> -->
+
 
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
@@ -37,36 +45,103 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
+<!-- <!-- DataTables JavaScript -->
+<!-- <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.js"></script> -->
 
-
-
+<!-- dayoff_writeform.css -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_writeform.css">
 
 <script type="text/javascript">
+	$(document).ready(function() {
+/* 		$('#dataTables-example').DataTable({
+			responsive : true
+		}); */
+	});
+
+	Map = function() {
+		this.map = new Object();
+	};
+	Map.prototype = {
+		put : function(key, value) {
+			this.map[key] = value;
+		},
+		get : function(key) {
+			return this.map[key];
+		},
+		getAll : function() {
+			return this.map;
+		},
+		containsKey : function(key) {
+			return key in this.map;
+		},
+		containsValue : function(value) {
+			for ( var prop in this.map) {
+				if (this.map[prop] == value)
+					return true;
+			}
+			return false;
+		},
+		isEmpty : function(key) {
+			return (this.size() == 0);
+		},
+		clear : function() {
+			for ( var prop in this.map) {
+				delete this.map[prop];
+			}
+		},
+		remove : function(key) {
+			delete this.map[key];
+		},
+		keys : function() {
+			var keys = new Array();
+			for ( var prop in this.map) {
+				keys.push(prop);
+			}
+			return keys;
+		},
+		values : function() {
+			var values = new Array();
+			for ( var prop in this.map) {
+				values.push(this.map[prop]);
+			}
+			return values;
+		},
+		size : function() {
+			var count = 0;
+			for ( var prop in this.map) {
+				count++;
+			}
+			return count;
+		}
+	};
+
+	var dayMap = new Map();
+
+	var total_day = 0.0;
+
 	var week = new Array('일', '월', '화', '수', '목', '금', '토');
-	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-			'11', '12');
+	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12');
 
 	var today = new Date();
 	var cal_start_date = today;
 	var last_date;
 
 	function prevCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
-				.getMonth(), cal_start_date.getDate() - 15);
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() - 15);
 		buildCalendar();
 	}
 
 	function nextCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
-				.getMonth(), cal_start_date.getDate() + 15);
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() + 15);
 		buildCalendar();
 	}
 
 	function buildCalendar() {
 
 		//start_date 시작일이 포함된 달의 마지막 날을 담은 date 객체
-		last_date = new Date(cal_start_date.getFullYear(), cal_start_date
-				.getMonth() + 1, 0);
+		last_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() + 1, 0);
 
 		//캘린더 html 요소를 찾아서 변수에 저장.
 		var tbCalendar = $("#calendar");
@@ -86,8 +161,7 @@
 
 		//thead의 첫 번째 row 추가 및 변수 선언
 		thead.append(tr);
-		var row1 = tbCalendar.find("thead tr:last-child")
-				.addClass("year_month");
+		var row1 = tbCalendar.find("thead tr:last-child").addClass("year_month");
 
 		//thead의 두 번째 row 추가 및 변수 선언
 		thead.append(tr);
@@ -95,8 +169,7 @@
 
 		//thead의 세 번째 row 추가 및 변수 선언
 		thead.append(tr);
-		var row3 = tbCalendar.find("thead tr:nth-child(3)")
-				.addClass("day-name");
+		var row3 = tbCalendar.find("thead tr:nth-child(3)").addClass("day-name");
 
 		//tbody의 첫 번째 row 추가 및 변수 선언
 		tbody.append(tr);
@@ -107,14 +180,32 @@
 			row3.append(td);
 			row4.append(td);
 
-			var cell_date = new Date(cal_start_date.getFullYear(),
-					cal_start_date.getMonth(), cal_start_date.getDate() + i);
-			var cell2 = row2.find("td:last-child").text(
-					week[cell_date.getDay()]);
+			var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() + i);
+			var cell2 = row2.find("td:last-child").text(week[cell_date.getDay()]);
 			var cell3 = row3.find("td:last-child").text(cell_date.getDate());
 			var cell4 = row4.find("td:last-child");
-			cell4.attr("data-dayoff_date", cell_date.getFullYear() + "/"
-					+ cell_date.getMonth() + "/" + cell_date.getDate());
+
+			var dayoff_date = cell_date.getFullYear() + "/" + cell_date.getMonth() + "/" + cell_date.getDate();
+			cell4.attr("data-dayoff_date", dayoff_date);
+
+			if (dayMap.containsKey(dayoff_date)) {
+				value = dayMap.get(dayoff_date);
+				switch (value) {
+				case "choose_day":
+					cell4.attr("class", "choose_day");
+					cell4.append("<div class='full_absence'></div>");
+					break;
+
+				case "choose_day_am":
+					cell4.attr("class", "choose_day_am");
+					cell4.append("<div class='am_absence'></div>");
+					break;
+				case "choose_day_pm":
+					cell4.attr("class", "choose_day_pm");
+					cell4.append("<div class='pm_absence'></div>");
+					break;
+				}
+			}
 
 			if (flag == 0) {
 				if (cell_date.getDate() == last_date.getDate()) {
@@ -126,45 +217,60 @@
 
 		row4.find("td").each(function() {
 			$(this).click(function() {
+				//alert($(this).data("dayoff_date"));
 				var div = "<div></div>";
-				console.log($(this).prop('tagName'));
-				console.log($(this));
 				switch ($(this).attr("class")) {
-				case "full_absence":
-					alert("오전반차를 선택했습니다.");
+				case "choose_day":
+					$(this).attr("class", "choose_day_am");
 					$(this).find("div").attr("class", "am_absence");
+					//total_day = total_day - 0.5;
+					dayMap.put($(this).data("dayoff_date"), "choose_day_am");
 					break;
-				case "am_absence":
-					alert("오후반차를 선택했습니다.");
+				case "choose_day_am":
+					$(this).attr("class", "choose_day_pm")
 					$(this).find("div").attr("class", "pm_absence");
+					dayMap.put($(this).data("dayoff_date"), "choose_day_pm");
 					break;
-				case "pm_absence":
-					alert("없음을 선택했습니다.");
-					$(this).find("div").removeAttr("class");
+				case "choose_day_pm":
+					$(this).removeAttr("class");
+					$(this).find("div").remove();
+					//total_day = total_day - 0.5;
+					dayMap.remove($(this).data("dayoff_date"));
 					break;
 				default:
-					alert('풀차를 선택했습니다.');
+					$(this).attr("class", "choose_day")
 					$(this).append("<div class='full_absence'></div>");
-
+					//total_day = total_day + 1.0;
+					dayMap.put($(this).data("dayoff_date"), "choose_day");
 				}
+				var dayVar = $("#total_day");
 
-				//alert($(this).data("dayoff_date"));
-
+				total_day = 0;
+				var keys = dayMap.getAll();
+				for (key in keys) {
+					var value = dayMap.get(key);
+					switch (value) {
+					case "choose_day":
+						total_day += 1.0;
+						break;
+					default:
+						total_day += 0.5;
+						break;
+					}
+				}
+				dayVar.text(total_day);
 			});
 		});
 
 		//첫번째 tr에 cell 하나 추가
 		row1.append(td);
 		var cell1_1 = row1.find("td:last-child").attr("colspan", cnt);
-		cell1_1.text(cal_start_date.getFullYear() + "."
-				+ month[cal_start_date.getMonth()]);
+		cell1_1.text(cal_start_date.getFullYear() + "." + month[cal_start_date.getMonth()]);
 		if (cnt < 15) {
 			row1.append(td);
 			var cell1_2 = row1.find("td:last-child").attr("colspan", 15 - cnt);
-			cell1_2_date = new Date(cal_start_date.getFullYear(),
-					cal_start_date.getMonth() + 1, 1);
-			cell1_2.text(cell1_2_date.getFullYear() + "."
-					+ month[cell1_2_date.getMonth()]);
+			cell1_2_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() + 1, 1);
+			cell1_2.text(cell1_2_date.getFullYear() + "." + month[cell1_2_date.getMonth()]);
 		}
 
 	}
@@ -181,59 +287,85 @@
 		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
 
 		<!-- content div -->
-		<div id="page-wrapper" style="min-height: 927px;">
+		<div id="page-wrapper">
 
 			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header">휴가 신청</h1>
+				<div class="col-sm-12">
+					<h1 class="page-header">휴가/근태</h1>
 				</div>
 			</div>
 
-			<div class="col-lg-12">
-				<table class='day_selection_wrap col-10'>
-					<colgroup>
-						<col width="150">
-						<col width="auto">
-					</colgroup>
-					<tbody>
-						<tr>
-							<th>현황</th>
-							<td colspan="3">휴가 현황을 보여줄 예정입니다.</td>
-						</tr>
-						<tr>
-							<th>작성자</th>
-							<td colspan="3">사원이름</td>
-						</tr>
-						<tr>
-							<th>처리</th>
-							<td>
-								<button>결재선 선택</button>
-							</td>
-						</tr>
-						<tr>
-							<th>휴가 기간</th>
-							<td colspan="3" class="calendar_wrap">
-								<table id="calendar" class="col-10">
-									<thead></thead>
-									<tbody></tbody>
-								</table>
-								<button id="before" onclick="prevCalendar()">앞</button>
-								<button id="next" onclick="nextCalendar()">뒤</button>
-								<script type="text/javascript">
-									buildCalendar();
-								</script>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<!-- 				<div class="panel panel-primary">
-					<div class="panel-heading">판넬의 헤딩</div>
-					<div class="panel-body">판넬의 바디</div>
-				</div> -->
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">휴가신청양식</div>
+						<div class="panel-body">
+							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+								<div class="row">
+									<form class="col-sm-12">
+										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid"
+											aria-describedby="dataTables-example_info">
+											<colgroup>
+												<col width="150">
+												<col width="auto">
+											</colgroup>
+											<tbody>
+												<tr role="row">
+													<td>현황</td>
+													<td>휴가 현황을 보여줄 예정입니다.</td>
+												</tr>
+												<tr role="row">
+													<td>작성자</td>
+													<td>사원이름</td>
+												</tr>
+												<tr role="row">
+													<td>처리</td>
+													<td>
+														<button>결재선 선택</button>
+													</td>
+												</tr>
+												<tr role="row">
+													<td>휴가기간</td>
+													<td class="calendar_wrap">
+														<table id="calendar" class="col-10">
+															<thead></thead>
+															<tbody></tbody>
+														</table>
+														<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"></button>
+														<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right"></button>
+														<p>
+															휴가신청 현황 : <span id="total_day">0</span>일
+														</p>
+														<script type="text/javascript">
+															buildCalendar();
+														</script>
+													</td>
+												</tr>
+												<tr role="row">
+													<td>휴가종류</td>
+													<td>
+														<select class="form-control">
+															<option>김하나</option>
+															<option>바보</option>
+															<option>똥멍텅구리</option>
+														</select>
+													</td>
+												</tr>
+												<tr role="row">
+													<td>사유</td>
+													<td>
+														<input class="form-control" type="text" name="reason">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-
-
-
 		</div>
 	</div>
 </body>

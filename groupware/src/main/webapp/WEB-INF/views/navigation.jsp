@@ -171,7 +171,7 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav in" id="side-menu">
-				<li><a href="index.html" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
+				<li><a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a></li>
 				<li><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
 						<li><a href="flot.html">Flot Charts</a></li>
@@ -210,16 +210,43 @@
 						<li><a href="login.html">Login Page</a></li>
 					</ul> <!-- /.nav-second-level --></li>
 
-				<li><a href="#"><i class="fas fa-plane-departure"></i> 휴가/근태<span class="fa arrow"></span></a>
-					<ul class="nav nav-second-level collapse">
-						<li><a href="${pageContext.request.contextPath}/dayoff/dayoffWriteform">휴가신청</a></li>
-						<li><a href="${pageContext.request.contextPath}/dayoff/dayoffStatus">휴가현황</a></li>
-						<li><a href="notifications.html">Notifications</a></li>
-						<li><a href="typography.html">Typography</a></li>
-						<li><a href="icons.html"> Icons</a></li>
-						<li><a href="grid.html">Grid</a></li>
-					</ul> <!-- /.nav-second-level --></li>
 
+				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> 인사 관리<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level collapse">
+						<li><a href="#"><i class="fas fa-plane-departure"></i> 휴가/근태<span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level collapse">
+								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffWriteform"><i class="far fa-edit"></i> 휴가 신청</a></li>
+								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffStatus"><i class="fas fa-history"></i> 휴가 현황</a></li>
+								<li><a href="#"><i class="fas fa-business-time"></i> 근태 현황</a></li>
+							</ul> <!-- /.nav-third-level -->
+						</li>
+						<li><a href="#"><i class="fas fa-user-lock"></i> 휴가 관리<span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level collapse">
+								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffSetting"><i class="fas fa-cog"></i> 기본 설정</a></li>
+								<li><a href="#"><i class="far fa-calendar-plus"></i> 휴가 생성</a></li>
+								<li><a href="#"><i class="fas fa-address-card"></i> 직원 휴가 관리</a></li>
+							</ul> <!-- /.nav-third-level -->
+						</li>
+					</ul> <!-- /.nav-second-level -->
+				</li>
+						
+				<li><a href="#"><i class="fas fa-file-signature"></i> 결재<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level collapse">
+						<li><a href="#">새문서함</a></li>
+						<li><a href="#">결재문서함</a></li>
+						<li><a href="#">진행문서함</a></li>
+						<li><a href="#">반려문서함</a></li>
+						<li><a href="#">완료문서함</a></li>
+						<!-- 문서양식관리는 나중에 아이디 넘겨주면 관리자확인이 되면 보여지게 변경 -->
+						<li><a href="${pageContext.request.contextPath}/form">문서양식관리</a></li>
+						
+						<li><a href="#">문서수발<span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level collapse">
+								<li><a href="#">발송문서함</a></li>
+								<li><a href="#">수신문서함</a></li>
+								<li><a href="#">공람문서함</a></li>
+							</ul> <!-- /.nav-third-level --></li>
+					</ul> <!-- /.nav-second-level --></li>
 			</ul>
 		</div>
 		<!-- /.sidebar-collapse -->
