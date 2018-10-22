@@ -12,54 +12,42 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <!-- Bootstrap Core CSS -->
-<link
-	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Bootstrap Core CSS -->
-<link
-	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- MetisMenu CSS -->
-<link
-	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css"
-	rel="stylesheet">
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
 <!-- Custom CSS -->
-<link
-	href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css"
-	rel="stylesheet">
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
 <!-- jQuery -->
-<script
-	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script
-	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
-<script
-	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script
-	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
 
 <!-- dayoff_writeform.css -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/dayoff/day_status.css">
-
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/day_status.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
 <script type="text/javascript">
-	
+$(document).ready(function() {
+	    $('#calendar').fullCalendar({
+	    })
+	});	
 </script>
 <title>휴가현황</title>
 </head>
@@ -86,9 +74,9 @@
 					<div class="">
 						<!-- Nav tabs -->
 						<ul class="nav nav-tabs">
-							<li class="active"><a href="#tab01" data-toggle="tab">휴가
-									생성 내역</a></li>
+							<li class="active"><a href="#tab01" data-toggle="tab">휴가 생성 내역</a></li>
 							<li><a href="#tab02" data-toggle="tab">휴가 신청 내역</a></li>
+							<li><a href="#tab03" data-toggle="tab">휴가 캘랜더 </a></li>
 						</ul>
 
 						<!-- Tab panes -->
@@ -105,7 +93,7 @@
 									</colgroup>
 									<thead>
 										<tr>
-											<th rowspan="2" >생성일</th>
+											<th rowspan="2">생성일</th>
 											<th colspan="2">생성 내역</th>
 											<th rowspan="2">내용</th>
 											<th rowspan="2">비고</th>
@@ -113,7 +101,7 @@
 										<tr>
 											<th>발생</th>
 											<th>최종</th>
-										</tr> 
+										</tr>
 									</thead>
 									<tbody>
 										<tr>
@@ -168,10 +156,11 @@
 								</div>
 
 							</div>
-
+							<div class="tab-pane fade" id="tab03">
+								<div><div id="calendar"></div></div>
+							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>

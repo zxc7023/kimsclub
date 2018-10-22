@@ -84,32 +84,25 @@
 						<div class="panel-body">
 				
 								<div>
-									<h3>
-										휴가 일수<br>
-										<small>연차별 휴가일수를 설정하세요.</small>
-									</h3>
-									<form action="${pageContext.request.contextPath}/dayoff/dayoffSetting" method="post">
+									<form>
 										<table class="table table-bordered  " id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<thead>
 												<tr role="row">
-													<th>연차</th>
 													<c:forEach items="${requestScope.dayoffCreateCondition}" var="list">
-														<th><input type="hidden" name="year_in_office" value="${list.year_in_office}"> ${list.year_in_office}</th>
+														<th>${list.year_in_office}</th>
 													</c:forEach>
 												</tr>
 											</thead>
 											<tbody>
 												<tr role="row">
-													<th>휴가일</th>
 													<c:forEach items="${requestScope.dayoffCreateCondition}" var="list">
 														<td>
-															<input class="form-control" type="text" name="dayoff_days" value="${list.dayoff_days}">
+															<input class="form-control" type="text" name="vacation_day" value="${list.vacation_day}">
 														</td>
 													</c:forEach>
 												</tr>
 											</tbody>
 										</table>
-										<input type="submit" class="btn btn-outline btn-default" value="저장">
 									</form>
 								</div>
 							</div>

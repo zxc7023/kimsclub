@@ -49,7 +49,7 @@
 		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
 
 		<!-- content div -->
-		<div id="page-wrapper" style="min-height: 927px;">
+		<div id="page-wrapper"  >
 
 			<div class="row">
 				<div class="col-lg-12">
