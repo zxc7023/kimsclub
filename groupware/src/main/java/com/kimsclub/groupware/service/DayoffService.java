@@ -13,4 +13,9 @@ public interface DayoffService {
 	 * @return
 	 */
 	public List<DayoffCreateConditionVO> getDayoffCreateCondition();
+	
+	/**
+	 * 연차에 해당하는 휴가일수를 수정한다.
+	 */
+	public void modifyDayoffCreateCondition(List<DayoffCreateConditionVO> list);
 }

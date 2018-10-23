@@ -55,6 +55,11 @@
 
 <script>
 	$(document).ready(function() {
+		console.log($("form").serializeArray());
+		$("form").submit(function(){
+			alert("호출");
+			return false;
+		})
 	});
 </script>
 
@@ -84,25 +89,32 @@
 						<div class="panel-body">
 				
 								<div>
-									<form>
+									<h3>
+										휴가 일수<br>
+										<small>연차별 휴가일수를 설정하세요.</small>
+									</h3>
+									<form action="${pageContext.request.contextPath}/dayoff/dayoffSetting" method="post">
 										<table class="table table-bordered  " id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<thead>
 												<tr role="row">
+													<th>연차</th>
 													<c:forEach items="${requestScope.dayoffCreateCondition}" var="list">
-														<th>${list.year_in_office}</th>
+														<th><input type="hidden" name="year_in_office" value="${list.year_in_office}"> ${list.year_in_office}</th>
 													</c:forEach>
 												</tr>
 											</thead>
 											<tbody>
 												<tr role="row">
+													<th>휴가일</th>
 													<c:forEach items="${requestScope.dayoffCreateCondition}" var="list">
 														<td>
-															<input class="form-control" type="text" name="vacation_day" value="${list.vacation_day}">
+															<input class="form-control" type="text" name="dayoff_days" value="${list.dayoff_days}">
 														</td>
 													</c:forEach>
 												</tr>
 											</tbody>
 										</table>
+										<input type="submit" class="btn btn-outline btn-default" value="저장">
 									</form>
 								</div>
 							</div>

@@ -1,6 +1,8 @@
 package com.kimsclub.groupware.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +15,21 @@ public class BoardDAO {
 	@Autowired
 	SqlSession session;
 	
+	//게시판(커뮤니티, 공지사항) 조회
+	public List<BoardVO> boardList(int start, int end, String board_type, String searchOption, String keyword){
+		Map<String, Object> map =new HashMap<String, Object>();
+		map.put("start",start);
+		map.put("end",end);
+		map.put("board_type", board_type);
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		return session.selectList("board.selectBoard", map);
+	}
+	
 	//게시글 등록
 	public void insertBoard(BoardVO vo) {
 		System.out.println("타입:"+vo.getBoard_type());
 		session.insert("board.insertBoard", vo);
-	}
-	
-	//커뮤니티 게시판 리스트 조회 
-	public List<BoardVO> communityList(){
-		return session.selectList("board.selectComm");
-	}
-	
-	//공지사항 게시판 리스트 조회
-	public List<BoardVO> noticeList(){
-		return session.selectList("board.selectNotice");
 	}
 	
 	//작성된 게시글 내용 조회
@@ -39,5 +42,14 @@ public class BoardDAO {
 	public BoardVO viewcnt(BoardVO vo) {
 		session.update("board.updateViewcnt",vo);
 		return vo;
+	}
+	
+	//게시글 수 카운트
+	public int countArticle(String board_type, String searchOption, String keyword) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		map.put("board_type", board_type);
+		return session.selectOne("board.countArticle",map);
 	}
 }
