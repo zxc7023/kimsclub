@@ -19,5 +19,12 @@ public class DayoffServiceImpl implements DayoffService {
 		return dao.getDayoffCondition();
 	}
 
+	@Override
+	public void modifyDayoffCreateCondition(List<DayoffCreateConditionVO> list) {
+		dao.modifyDayoffCondition(list);
+	}
+	
+	
+
 
 }

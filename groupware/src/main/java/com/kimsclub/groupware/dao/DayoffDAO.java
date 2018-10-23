@@ -15,6 +15,13 @@ public class DayoffDAO {
 	SqlSession session;
 	
 	public List<DayoffCreateConditionVO> getDayoffCondition(){
-		return session.selectList("dayoff.selectCondition");
+		return session.selectList("dayoff.selectCreateCondition");
+	}
+
+	public void modifyDayoffCondition(List<DayoffCreateConditionVO> list) {
+		for(DayoffCreateConditionVO vo : list) {
+			session.update("dayoff.updateCreateCondition",vo);			
+		}
+		
 	}
 }

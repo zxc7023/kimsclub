@@ -148,7 +148,7 @@ $(document).ready(function() {
 								<div class="form-row">
 									<div class="col-md-8">
 										<div class="form-label-group">
-					                    	<input type="text" id="form_name" name="form_name" class="form-control" required="required" autofocus="autofocus" value="${fvo.form_name }">
+					                    	<input type="text" id="form_name" name="form_name" class="form-control" required="required" autofocus="autofocus" value="${fvo.form_name}">
 											<label for="form_name">양식 이름</label>
 										</div>
 									</div>
@@ -171,6 +171,9 @@ $(document).ready(function() {
 								</div>
 								<div class="col-lg-12">
 									<textarea name="form_contents" id="ckeditor">${fvo.form_contents}</textarea>
+								</div>
+								<div class="col-lg-12">
+									<input type="hidden" name="form_no" value="${fvo.form_no}"/>
 								</div>
 								<div class="col-lg-12">
 									<input type="submit" class="btn-primary btn-block" value="확인">

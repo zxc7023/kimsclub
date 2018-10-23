@@ -51,6 +51,7 @@ public class FormController {
 	@RequestMapping(value = "/createform", method=RequestMethod.POST)
 	public String save_form(FormVO vo){
 		System.out.println("save_form() 메소드 호출");
+		System.out.println(vo.getForm_no());
 		service.saveForm(vo);
 		return "redirect:/form";
 	}

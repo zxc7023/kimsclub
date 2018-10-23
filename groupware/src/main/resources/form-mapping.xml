@@ -26,6 +26,12 @@
 		VALUES((SELECT nvl(max(form_no),0)+1 FROM form),#{form_name},#{form_desc}, #{form_contents}, #{form_activation})
 	</insert>
 	
+	<update id="modifyForm" parameterType="form">
+		UPDATE form 
+		SET form_activation = #{form_activation}, form_name = #{form_name}, form_desc = #{form_desc}, form_contents = #{form_contents} 
+		WHERE form_no = #{form_no}
+	</update>
+	
 	<update id="updateFormActivation" parameterType="hashmap">
 		UPDATE form 
 		SET form_activation = #{activation} 
