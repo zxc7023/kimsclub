@@ -55,6 +55,11 @@
 
 <script>
 	$(document).ready(function() {
+		console.log($("form").serializeArray());
+		$("form").submit(function(){
+			alert("호출");
+			return false;
+		})
 	});
 </script>
 
