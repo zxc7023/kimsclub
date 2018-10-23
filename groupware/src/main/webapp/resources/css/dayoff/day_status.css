@@ -14,4 +14,19 @@ th{
 th:last-child{
 	border-right:none;
 }
+.fc-basic-view .fc-body .fc-row{
+	height:95px !important;
+}
 
+.fc-scroller.fc-day-grid-container{
+	height:570px !important;
+	overflow:hidden;
+}
+
+.tab-content {
+	height:-webkit-fill-available;
+}
+
+.fc-sun {
+	color:#f44e4e;
+}
