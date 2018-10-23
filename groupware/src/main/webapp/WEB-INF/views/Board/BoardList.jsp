@@ -68,8 +68,10 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            
+                            <!-- 게시글 검색 div -->
                             <div class="row">
                             	<div class="col-sm-6">
                             		<div class="dataTables_length" id="dataTables-example_length">
@@ -86,36 +88,82 @@
                             	
                             	<div class="col-sm-6">
                             		<div id="dataTables-example_filter" class="dataTables_filter">
-                            				<label>Search:
-                            					<input type="search" class="form-control input-sm" placeholder="" aria-controls="dataTables-example"> 
-                            				</label>
+	                            		<select name="searchOption" aria-controls="dataTables-example" class="form-control input-sm">
+	                            			<option value="all">제목+내용</option>
+											<option value="employee_name">작성자</option>
+											<option value="board_title">제목</option>
+											<option value="board_contents">내용</option>
+	                            		</select>
+                            				<input type="search" name="keyword" class="form-control input-sm" placeholder="" aria-controls="dataTables-example"> 
+											<input type="hidden" name="board_type" value="${map.board_type}">
+											<input type="submit" class="btn btn-default" >
                             		</div>
                             	</div>
                             </div>
-							
-                                <thead>
-                                    <tr>
-                                        <th>번호</th>
-                                        <th>제목</th>
-                                        <th>작성자</th>
-                                        <th>날짜</th>
-                                        <th>조회수</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <c:forEach var="list" items="${map.list}" >
-                                <tr class="odd gradeA">
-                                        <td>${list.board_no}</td>
-                                        <td><a href="detail?board_type=${map.board_type}&board_no=${list.board_no}">${list.board_title}</a></td>
-                                        <td>${list.board_writer}</td>
-                                        <td class="center">${list.board_date}</td>
-                                        <td class="center">${list.board_viewcount}</td>
-                                </tr>
-                                </c:forEach>
-
-                                </tbody>
-                             </div>
-                            </table>
+                            
+                            <!-- 게시글 목록 테이블 div -->
+                            <div class="row">
+	                            <div class="col-sm-12">
+									<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+		                                <thead>
+		                                    <tr>
+		                                        <th>번호</th>
+		                                        <th>제목</th>
+		                                        <th>작성자</th>
+		                                        <th>날짜</th>
+		                                        <th>조회수</th>
+		                                    </tr>
+		                                </thead>
+		                                
+		                                <tbody>
+		                                <c:forEach var="list" items="${map.list}" >
+		                                <tr class="odd gradeA">
+		                                        <td>${list.board_no}</td>
+		                                        <td><a href="detail?board_type=${map.board_type}&board_no=${list.board_no}">${list.board_title}</a></td>
+		                                        <td>${list.board_writer}</td>
+		                                        <td class="center">${list.board_date}</td>
+		                                        <td class="center">${list.board_viewcount}</td>
+		                                </tr>
+		                                </c:forEach>
+		                                </tbody>
+		                            </table>
+	                            </div>
+                            </div>
+                            
+                            <!-- 페이징 처리 div -->
+                            <div class="row">
+                            	<div class="col-sm-6">
+		                            <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+		                            <ul class="pagination">	      
+		                                                  
+		                            	<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
+											<a href="boardList?curPage=${map.boardPager.prevPage}&board_type=${map.board_type}">Previous</a>
+		                            	</li>
+		                            	
+				                       	<li class="paginate_button " aria-controls="dataTables-example" tabindex="0">
+				                           	<c:forEach var="num" begin="${map.boardPager.blockBegin}" end="${map.boardPager.blockEnd }"  >	
+				                           		<c:choose>
+				                           			<c:when test="${num == map.boardPager.curPage}">
+				                           				<span style="color:orange">${num}</span>&nbsp;
+				                           			</c:when>
+				                           			<c:otherwise>
+														<a href="boardList?curPage=${num}&board_type=${map.board_type}">${num}</a>&nbsp;
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>
+										</li>
+		                            		                            
+		                            	<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
+		                            		<c:if test="${map.boardPager.curBlock <= map.boardPager.totBlock}">
+												<a href="boardList?curPage=${map.boardPager.nextPage}&board_type=${map.board_type}">Next</a>
+											</c:if>
+		                            	</li>
+		                            </ul>
+		                            </div>
+                           		</div>
+                            </div>
+                            		    
+                            </div>
                             
                             
                             <!-- /.table-responsive -->
@@ -133,6 +181,7 @@
             </div>
 	</div>
 </div>
+
 <form action="boardList" method="get">
 	<select name="searchOption">
 		<option value="all">제목+내용</option>
@@ -174,7 +223,7 @@
 		</c:if>
 		
 		<c:if test="${map.boardPager.curBlock>1}">
-			<a href="javascript:list('${map.boardPager.prevPage}')">[이전]</a>
+			<a href="boardList?curPage=${map.boardPager.prevPage}&board_type=${map.board_type}">[이전]</a>
 		</c:if>
 		
 		<c:forEach var="num" begin="${map.boardPager.blockBegin}" end="${map.boardPager.blockEnd }"  >

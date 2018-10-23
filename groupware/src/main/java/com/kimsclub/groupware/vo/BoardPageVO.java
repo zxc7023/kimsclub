@@ -1,8 +1,8 @@
 package com.kimsclub.groupware.vo;
 
 public class BoardPageVO {
-	public static final int PAGE_SCALE=5;
-	public static final int BLOCK_SCALE=5;
+	public static final int PAGE_SCALE=5; //게시글 출력 행
+	public static final int BLOCK_SCALE=5; //한블럭 당 페이지 수
 	
 	private int curPage; //현재 페이지 번호
 	private int prevPage; //이전 페이지
@@ -36,7 +36,7 @@ public class BoardPageVO {
 
 	public void setBlockRange() {
 		//현재 페이지가 몇번째 페이지 블록에 속하는지 계산
-		curBlock = (int)Math.ceil((curPage-1) / BLOCK_SCALE)+1;
+		curBlock = (int)((curPage-1) / BLOCK_SCALE)+1;
 		//현재 페이지 블록의 시작, 끝 번호 계산
 		blockBegin = (curBlock-1)*BLOCK_SCALE+1;
 		//페이지 블록의 끝번호
@@ -44,9 +44,11 @@ public class BoardPageVO {
 		//마지막 블록이 범위를 초과하지 않도록 계산
 		if(blockEnd>totPage) blockEnd = totPage;
 		//이전에 눌렀을 때 이동할 페이지 번호
-		prevPage = (curPage ==1)?1:(curBlock-1)*BLOCK_SCALE;
+		/*prevPage = (curPage==1)?1:(curBlock-1)*BLOCK_SCALE;*/
+		prevPage = (curPage==1)?1:curPage-1;
 		//다음 눌렀을때 이동할 페이지 번호
-		nextPage = curBlock > totBlock?(curBlock * BLOCK_SCALE) : (curBlock*BLOCK_SCALE)+1;
+		/*nextPage = curBlock > totBlock?(curBlock * BLOCK_SCALE) : (curBlock*BLOCK_SCALE)+1;*/
+		nextPage = curPage+1;
 		//마지막 페이지가 범위를 초과하지 않도록 처리
 		if(nextPage>=totPage) nextPage = totPage;
 	}
@@ -99,7 +101,7 @@ public class BoardPageVO {
 	public void setTotBlock() {
 		//전체 페이지 갯수/10
 		//91/10 => 9.1=>10개
-		totBlock = (int)Math.ceil(totPage/BLOCK_SCALE);
+		totBlock = (int)Math.ceil(totPage*1.0/BLOCK_SCALE);
 	}
 
 	public int getCurBlock() {
