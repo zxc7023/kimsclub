@@ -36,6 +36,7 @@
 
 <!-- ckeditor -->
 <script src="resources/ckeditor/ckeditor.js"></script>
+
 <script>
 $(document).ready(function() {
 	 $(function(){
@@ -57,7 +58,6 @@ $(document).ready(function() {
 	                    break;
 	            }
 	        });
-	         
 	    });
 });//ready end
 </script>

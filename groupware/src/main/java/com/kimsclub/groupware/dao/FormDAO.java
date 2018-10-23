@@ -38,4 +38,8 @@ public class FormDAO {
 	public FormVO selectForm(int form_no) {
 		return session.selectOne("form.selectForm", form_no);
 	}
+	
+	public void modifyForm(FormVO vo) {
+		session.update("form.modifyForm", vo);
+	}
 }

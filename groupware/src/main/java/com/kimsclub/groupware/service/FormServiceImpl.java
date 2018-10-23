@@ -37,7 +37,15 @@ public class FormServiceImpl implements FormService{
 
 	@Override
 	public void saveForm(FormVO vo) {
-		dao.insertForm(vo);
+		//새 양식 생성
+		if(vo.getForm_no()==0) {
+			dao.insertForm(vo);
+		}
+		
+		//양식 수정
+		if(vo.getForm_no()!=0) {
+			dao.modifyForm(vo);
+		}
 	}
 
 	@Override
