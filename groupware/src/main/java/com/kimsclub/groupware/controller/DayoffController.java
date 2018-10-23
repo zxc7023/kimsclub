@@ -56,16 +56,7 @@ public class DayoffController {
 			list.add(new DayoffCreateConditionVO(year_in_office[i],dayoff_days[i]));
 		}
 		service.modifyDayoffCreateCondition(list);
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out;
-		try {
-			out = response.getWriter();
-			out.println("<script>alert('수정이 완료되었습니다.');</script>");
-			out.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		return "redirect:/dayoff/dayoffSetting";
 	}
 }
