@@ -8,6 +8,6 @@
 	<typeAliases>
 		<typeAlias type="com.kimsclub.groupware.vo.BoardVO" alias="board" />
 		<typeAlias type="com.kimsclub.groupware.vo.FormVO" alias="form" />
-		<typeAlias type="com.kimsclub.groupware.vo.DayoffCreateConditionVO" alias="DayoffCreateCondition"/>
+		<typeAlias type="com.kimsclub.groupware.vo.DayoffCreateTermsVO" alias="DayoffCreateTerms"/>
 	</typeAliases>
 </configuration>

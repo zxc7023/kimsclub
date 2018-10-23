@@ -27,9 +27,12 @@
 	</bean>
 	
 	<!-- 2-3. SQLSession생성 -->
-	<bean id="session" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg ref="sqlSessionFactory"/>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"/>
+		<constructor-arg index="1" value="BATCH" />
 	</bean>
+	
+	
 	
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kimsclub.groupware.vo.DayoffCreateConditionVO;
+import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 
 @Repository
 public class DayoffDAO {
@@ -14,13 +14,13 @@ public class DayoffDAO {
 	@Autowired
 	SqlSession session;
 	
-	public List<DayoffCreateConditionVO> getDayoffCondition(){
-		return session.selectList("dayoff.selectCreateCondition");
+	public List<DayoffCreateTermsVO> getDayoffCreateTerms(){
+		return session.selectList("dayoff.selectCreateTerms");
 	}
 
-	public void modifyDayoffCondition(List<DayoffCreateConditionVO> list) {
-		for(DayoffCreateConditionVO vo : list) {
-			session.update("dayoff.updateCreateCondition",vo);			
+	public void modifyDayoffCreateTerms(List<DayoffCreateTermsVO> list) {
+		for(DayoffCreateTermsVO vo : list) {
+			session.update("dayoff.updateCreateTerms",vo);			
 		}
 		
 	}

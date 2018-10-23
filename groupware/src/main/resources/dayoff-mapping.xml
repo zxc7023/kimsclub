@@ -3,11 +3,11 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dayoff">
 	
-	<select id="selectCreateCondition" resultType="DayoffCreateCondition">
-		select * from dayoff_create_condition
+	<select id="selectCreateTerms" resultType="DayoffCreateTerms">
+		select * from dayoff_create_terms
 	</select>
 	
-	<update id="updateCreateCondition" parameterType="DayoffCreateCondition">
-		update dayoff_create_condition set dayoff_days = #{dayoff_days}  where year_in_office = #{year_in_office}
+	<update id="updateCreateTerms" parameterType="DayoffCreateTerms">
+		update dayoff_create_terms set dayoff_days = #{dayoff_days}  where year_in_office = #{year_in_office}
 	</update>
 </mapper>
