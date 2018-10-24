@@ -10,4 +10,8 @@
 	<update id="updateCreateTerms" parameterType="DayoffCreateTerms">
 		update dayoff_create_terms set dayoff_days = #{dayoff_days}  where year_in_office = #{year_in_office}
 	</update>
+	
+	<select id="selectDayoffKinds" resultType="DayoffKinds">
+		select * from dayoff_kinds	
+	</select>
 </mapper>

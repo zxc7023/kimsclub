@@ -122,7 +122,7 @@
 										<small>연차별 휴가일수를 설정하세요.</small>
 									</h3>
 									<form action="${pageContext.request.contextPath}/dayoff/dayoffSetting" id="daysSettingForm" method="post">
-										<table class="table table-bordered  " id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+										<table class="table table-bordered" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<thead>
 												<tr role="row">
 													<th>연차</th>
@@ -155,7 +155,30 @@
 				<div class="col-sm-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">휴가 종류</div>
-						<div class="panel-body"></div>
+						<div class="panel-body">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>휴가명</th>
+											<th>차감 여부</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${requestScope.DayoffKinds}" var="list2">
+											<tr>
+												<td>
+													<input class="form-control" type="text" name="dayoff_name" value="${list2.dayoff_name}">
+												</td>
+												<td>
+													
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

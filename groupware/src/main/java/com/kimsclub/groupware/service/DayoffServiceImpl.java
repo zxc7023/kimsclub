@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kimsclub.groupware.dao.DayoffDAO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
+import com.kimsclub.groupware.vo.DayoffKindsVO;
 
 @Service
 public class DayoffServiceImpl implements DayoffService {
@@ -22,6 +23,11 @@ public class DayoffServiceImpl implements DayoffService {
 	@Override
 	public void modifyDayoffCreateTerms(List<DayoffCreateTermsVO> list) {
 		dao.modifyDayoffCreateTerms(list);
+	}
+
+	@Override
+	public List<DayoffKindsVO> getDayoffKinds() {
+		return dao.getDayoffKinds();
 	}
 	
 	

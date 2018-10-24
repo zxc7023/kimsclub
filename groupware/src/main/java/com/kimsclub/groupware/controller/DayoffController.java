@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kimsclub.groupware.service.DayoffService;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
+import com.kimsclub.groupware.vo.DayoffKindsVO;
 
 @Controller
 @RequestMapping(value = "/dayoff/*")
@@ -42,8 +43,10 @@ public class DayoffController {
 	 */
 	@RequestMapping(value = "/dayoffSetting", method = RequestMethod.GET)
 	public String readDayoffSetting(Model model) {
-		List<DayoffCreateTermsVO> termsList = service.getDayoffCreateTerms();
-		model.addAttribute("DayoffCreateTerms",termsList);
+		List<DayoffCreateTermsVO> createTermsList = service.getDayoffCreateTerms();
+		model.addAttribute("DayoffCreateTerms",createTermsList);
+		List<DayoffKindsVO> kindsList = service.getDayoffKinds();
+		model.addAttribute("DayoffKinds",kindsList);
 		return "dayoff/dayoff_setting";
 	}
 	

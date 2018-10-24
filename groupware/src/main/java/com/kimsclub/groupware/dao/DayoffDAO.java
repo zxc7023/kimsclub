@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
+import com.kimsclub.groupware.vo.DayoffKindsVO;
 
 @Repository
 public class DayoffDAO {
@@ -22,6 +23,10 @@ public class DayoffDAO {
 		for(DayoffCreateTermsVO vo : list) {
 			session.update("dayoff.updateCreateTerms",vo);			
 		}
-		
 	}
+	
+	public List<DayoffKindsVO> getDayoffKinds(){
+		return session.selectList("dayoff.selectDayoffKinds");
+	}
+	
 }
