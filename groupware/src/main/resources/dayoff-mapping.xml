@@ -14,4 +14,8 @@
 	<select id="selectDayoffKinds" resultType="DayoffKinds">
 		select * from dayoff_kinds	
 	</select>
+
+	<insert id="insertDayoffKinds" parameterType="DayoffKinds">
+		insert into dayoff_kinds values (dayoff_type_code_seq.nextval,#{dayoff_name},#{dayoff_deduction},#{dayoff_activation})
+	</insert>
 </mapper>
