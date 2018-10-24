@@ -23,6 +23,8 @@
 <script
 	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+
+
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script type='text/javascript'
@@ -65,7 +67,7 @@
 					<div class="myform form ">
 						<div class="logo mb-3">
 							<div class="col-md-12 text-center">
-								<h1>일정등록</h1>
+								<h1>일정수정하기</h1>
 							</div>
 						</div>
 						<form action="" method="post" name="add">
@@ -120,12 +122,14 @@
 								</div>
 							</div>
 							<!--  -->
-							
-							<div class="col-md-12 text-center ">
-
-								<button class=" btn btn-block mybtn tx-tfm">취소</button>
-								<button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">저장</button>
+							<div >
+								<a href="#">삭제하기</a>
 							</div>
+							<div class="col-md-12 text-center ">
+								<button type="submit"
+									class=" btn btn-block mybtn btn-primary tx-tfm">수정</button>
+							</div>
+
 
 						</form>
 

@@ -1,5 +1,6 @@
 package com.kimsclub.groupware.service;
 
-public class TestService {
-
+public interface TestService {
+	public String joinAB(String a,String b);
+	
 }
