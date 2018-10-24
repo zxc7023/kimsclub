@@ -1,9 +1,12 @@
 package com.kimsclub.groupware.vo;
 
 public class BoardPageVO {
-	public static final int PAGE_SCALE=5;
+	/*public static final int PAGE_SCALE=5;*/
 	public static final int BLOCK_SCALE=5;
 	
+	private int page_scale;//페이지당 보여줄 글의 수
+	private int count; //총 개수
+
 	private int curPage; //현재 페이지 번호
 	private int prevPage; //이전 페이지
 	private int nextPage; //다음 페이지
@@ -26,7 +29,22 @@ public class BoardPageVO {
 	//생성자
 	//BoardPageVO(레코드 갯수, 현재 페이지 번호)
 	public BoardPageVO(int count, int curPage) {
+		this.count = count;
+		this.page_scale = 5;//기존 PAGE_SCALE 값
 		curBlock=1; //현재 페이지 블록 번호
+		this.curPage = curPage; //현재 페이지 설정
+		setTotPage(count); //전체 페이지 갯수 계산
+		setPageRange();
+		setTotBlock(); //전체 페이지 블록 갯수 계산
+		setBlockRange(); //페이지 블록의 시작, 끝 번호 계산
+		
+	}
+	
+	//test용 페이지 스케일 추가
+	public BoardPageVO(int count, int curPage, int page_scale) {
+		this.count = count;
+		curBlock=1; //현재 페이지 블록 번호
+		this.page_scale = page_scale;
 		this.curPage = curPage; //현재 페이지 설정
 		setTotPage(count); //전체 페이지 갯수 계산
 		setPageRange();
@@ -54,9 +72,17 @@ public class BoardPageVO {
 	public void setPageRange() {
 		//where rn between #{start} and #{end}
 		//시작번호=(현재페이지-1)*페이지당 게시물수+1
-		pageBegin = (curPage-1)*PAGE_SCALE+1;
+		pageBegin = (curPage-1)*page_scale+1;
 		//끝번호 = 시작번호+페이지당 게시물수-1
-		pageEnd = pageBegin+PAGE_SCALE-1;
+		pageEnd = pageBegin+page_scale-1;
+	}
+
+	public int getPage_scale() {
+		return page_scale;
+	}
+
+	public void setPage_scale(int page_scale) {
+		this.page_scale = page_scale;
 	}
 
 	public int getCurPage() {
@@ -89,7 +115,7 @@ public class BoardPageVO {
 
 	public void setTotPage(int count) {
 		//Math.ceil(실수) 올림 처리
-		totPage=(int)Math.ceil(count*1.0/PAGE_SCALE);
+		totPage=(int)Math.ceil(count*1.0/page_scale);
 	}
 
 	public int getTotBlock() {
@@ -158,4 +184,11 @@ public class BoardPageVO {
 		this.blockEnd = blockEnd;
 	}
 	
+	public int getCount() {
+		return count;
+	}
+	
+	public void setCount(int count) {
+		this.count = count;
+	}
 }
