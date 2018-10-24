@@ -1,21 +1,22 @@
 package com.kimsclub.groupware.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kimsclub.groupware.service.DayoffService;
-import com.kimsclub.groupware.vo.DayoffCreateConditionVO;
+import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
+import com.kimsclub.groupware.vo.DayoffKindsVO;
 
 @Controller
 @RequestMapping(value = "/dayoff/*")
@@ -42,21 +43,20 @@ public class DayoffController {
 	 */
 	@RequestMapping(value = "/dayoffSetting", method = RequestMethod.GET)
 	public String readDayoffSetting(Model model) {
-		List<DayoffCreateConditionVO> conditionList = service.getDayoffCreateCondition();
-		model.addAttribute("dayoffCreateCondition",conditionList);
+		List<DayoffCreateTermsVO> createTermsList = service.getDayoffCreateTerms();
+		model.addAttribute("DayoffCreateTerms",createTermsList);
+		List<DayoffKindsVO> kindsList = service.getDayoffKinds();
+		model.addAttribute("DayoffKinds",kindsList);
 		return "dayoff/dayoff_setting";
 	}
 	
 	
 	@RequestMapping(value = "/dayoffSetting", method = RequestMethod.POST)
-	public String setDayoffSetting(int[] year_in_office, int[] dayoff_days, Model model,HttpServletResponse response){
-		List<DayoffCreateConditionVO> list = new ArrayList<>();
-		
-		for(int i=0; i < year_in_office.length; i++) {
-			list.add(new DayoffCreateConditionVO(year_in_office[i],dayoff_days[i]));
-		}
-		service.modifyDayoffCreateCondition(list);
-		
-		return "redirect:/dayoff/dayoffSetting";
+	@ResponseBody
+	public Map<String, String> setDayoffSetting(@RequestBody List<DayoffCreateTermsVO> list, Model model,HttpServletResponse response){
+		service.modifyDayoffCreateTerms(list);
+		Map<String,String> map = new HashMap<String, String>();
+		map.put("result", "1");
+		return map; 
 	}
 }

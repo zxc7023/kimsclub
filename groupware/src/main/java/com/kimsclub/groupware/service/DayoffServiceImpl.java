@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kimsclub.groupware.dao.DayoffDAO;
-import com.kimsclub.groupware.vo.DayoffCreateConditionVO;
+import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
+import com.kimsclub.groupware.vo.DayoffKindsVO;
 
 @Service
 public class DayoffServiceImpl implements DayoffService {
@@ -15,14 +16,21 @@ public class DayoffServiceImpl implements DayoffService {
 	DayoffDAO dao;
 
 	@Override
-	public List<DayoffCreateConditionVO> getDayoffCreateCondition() {
-		return dao.getDayoffCondition();
+	public List<DayoffCreateTermsVO> getDayoffCreateTerms() {
+		return dao.getDayoffCreateTerms();
 	}
 
 	@Override
-	public void modifyDayoffCreateCondition(List<DayoffCreateConditionVO> list) {
-		dao.modifyDayoffCondition(list);
+	public void modifyDayoffCreateTerms(List<DayoffCreateTermsVO> list) {
+		dao.modifyDayoffCreateTerms(list);
 	}
+
+	@Override
+	public List<DayoffKindsVO> getDayoffKinds() {
+		return dao.getDayoffKinds();
+	}
+	
+	
 	
 	
 

@@ -1,20 +1,16 @@
 package com.kimsclub.groupware.vo;
 
-public class DayoffCreateConditionVO {
+public class DayoffCreateTermsVO {
 	int year_in_office;
 	int dayoff_days;
-	
-	public DayoffCreateConditionVO() {
-		
+
+	public DayoffCreateTermsVO() {
 	}
-	
-	
-	public DayoffCreateConditionVO(int year_in_office, int dayoff_days) {
-		super();
+
+	public DayoffCreateTermsVO(int year_in_office, int dayoff_days) {
 		this.year_in_office = year_in_office;
 		this.dayoff_days = dayoff_days;
 	}
-
 
 	public int getYear_in_office() {
 		return year_in_office;
@@ -31,6 +27,11 @@ public class DayoffCreateConditionVO {
 	public void setDayoff_days(int dayoff_days) {
 		this.dayoff_days = dayoff_days;
 	}
-	
-		
+
+	@Override
+	public String toString() {
+		return "DayoffCreateTermsVO [year_in_office=" + year_in_office + ", dayoff_days=" + dayoff_days + "]";
+	}
+
+
 }
