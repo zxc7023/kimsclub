@@ -9,27 +9,26 @@
 
 <title>일정</title>
 
-  <script
-    type="text/javascript"
-    src="//code.jquery.com/jquery-2.2.4.js"
-    
-  ></script>
+  <script type="text/javascript" src="//code.jquery.com/jquery-2.2.4.js"></script>
+<!--   <link rel="stylesheet" type="text/css" href="/css/result-light.css"> -->
 
-    <link rel="stylesheet" type="text/css" href="/css/result-light.css">
-
+<link href="${pageContext.request.contextPath}/resources/css/materialFullCalendar.css" rel='stylesheet' />
 <link href="${pageContext.request.contextPath}/resources/css/fullcalendar.min.css" rel='stylesheet' />
 <link href="${pageContext.request.contextPath}/resources/css/fullcalendar.css" rel='stylesheet' />
-      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/css/bootstrap-datetimepicker.min.css">
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/css/bootstrap-datetimepicker.min.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/fullcalendar.min.js"></script>
-      <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/js/bootstrap-datetimepicker.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
 <script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/gcal.js'></script> 
 <script class="cssdesk" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js" type="text/javascript"></script>
-<script>
 
+
+
+
+<script>
   $(document).ready(function() {
     $('#calendar').fullCalendar({
     	
@@ -61,7 +60,7 @@
       navLinks: true, // can click day/week names to navigate views
       editable: true,
       eventLimit: true, // allow "more" link when too many events
-      weekNumbers : true,
+     /*  weekNumbers : true, */
       navLinks: true, // can click day/week names to navigate views
       selectable: true,
       selectHelper: true,
@@ -162,8 +161,10 @@
   // Whenever the user clicks on the "save" button om the dialog
   $('#save-event').on('click', function() {
       var title = $('#title').val();
+      alert(title);
       if (title) {
           var eventData = {
+         	  id : hello,
               title: title,
               content:content,
               start: $('#starts-at').val(),
@@ -180,6 +181,11 @@
       $('.modal').modal('hide');
       
     });
+  
+  /* 삭제 */
+  $('#delete-event').on('click', function() {
+	 
+  	});
 
   });
 
@@ -192,7 +198,7 @@
 		text-align: center;
 		font-size: 14px;
 		font-family: 'Roboto', sans-serif;
-		background:url(http://www.digiphotohub.com/wp-content/uploads/2015/09/bigstock-Abstract-Blurred-Background-Of-92820527.jpg);
+		background:url(https://i.pinimg.com/originals/e4/28/46/e42846872bd92ee0f1ec8ecc64a18bd3.jpg);		
 		}
 		
 	#wrap {
@@ -252,8 +258,11 @@ box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
 </head>
 <body>
 
+  
+
+
+
 <div id='calendar'></div>
-<!-- <div id='datepicker'></div> -->
 
 <div class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -290,6 +299,7 @@ box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
 				</div>
 				<div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-default" id="delete-event">삭제</button>
                 <button type="button" class="btn btn-primary" id="save-event">저장</button>
             </div>
         </div><!-- /.modal-content -->
