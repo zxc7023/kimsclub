@@ -40,7 +40,7 @@
       selectable: true,
       selectHelper: true,
       eventLimit: true, // allow "more" link when too many events
-      googleCalendarApiKey : "AIzaSyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
+      googleCalendarApiKey : "AISyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
       eventSources : [
           // 대한민국의 공휴일
           {

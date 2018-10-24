@@ -13,7 +13,6 @@ var initializeCalendar = function() {
   $('.calendar').fullCalendar({
       editable: true,
       eventLimit: true, // allow "more" link when too many events
-      googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE",
       // create events
       events: events(),
       defaultTimedEventDuration: '00:30:00',
