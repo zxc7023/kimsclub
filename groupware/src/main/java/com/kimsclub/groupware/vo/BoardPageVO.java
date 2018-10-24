@@ -1,8 +1,8 @@
 package com.kimsclub.groupware.vo;
 
 public class BoardPageVO {
-	public static final int PAGE_SCALE=5; //게시글 출력 행
-	public static final int BLOCK_SCALE=5; //한블럭 당 페이지 수
+	public static final int PAGE_SCALE=10; //게시글 출력 행
+	public static final int BLOCK_SCALE=10; //한블럭 당 페이지 수
 	
 	private int curPage; //현재 페이지 번호
 	private int prevPage; //이전 페이지
