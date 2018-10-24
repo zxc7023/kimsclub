@@ -1,14 +1,42 @@
-<%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Kitri 대여</title>
-<link rel="stylesheet" href="css/layout.css">
-<script src="jquery-3.2.1.min.js"></script>
+
+<!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<!-- Bootstrap Core CSS -->
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Core CSS -->
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- MetisMenu CSS -->
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+<!-- jQuery -->
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+
 <script type="text/javascript">
 var idcheck=0;
 var pwcheck=0;
@@ -121,78 +149,52 @@ function cancle(){
 	location.href="main.jsp";
 }
 </script>
+
 </head>
 <body>
-<%String userid = (String)session.getAttribute("userid");%>
-<c:set var="id" value="<%=userid %>"/>
-	<!-- header -->
-	<header>
-		<div id="header">
-			<div class="head_cont">
-				<!-- logo -->
-				<h1>
-					<a href="main.jsp">
-						<img src="images/logo.jpg" alt="Kitri 대여" style="width: 146px; heigth: 44px;" >
-					</a>
-				</h1>
-				<!-- top menu -->
-				<div  class="nav_lnb">
-					<!-- top -->
-					<div class="gnb">
-						<ul class="top">
-							<c:if test= "${userid==null}">
-								<li><a href="login.jsp" ><span>로그인</span></a></li>
-								<li class="two"><a href="user_join.jsp"><span>회원가입</span></a></li>
-							</c:if>
-							<c:if test="${userid!=null}">
-								<c:if test="${userid==\"administrator\"}">
-									<li><a href="logout.jsp"><span>${userid}님 로그아웃</span></a></li>
-									<li class="two"><a href="UserInfoServlet"><span>관리자 페이지</span></a></li>
-								</c:if>
-								<c:if test="${userid!=\"administrator\"}">
-									<li><a href="logout.jsp"><span>${userid}님 로그아웃</span></a></li>
-									<li class="two"><a href="UserInfoServlet"><span>마이페이지</span></a></li>
-								</c:if>
-							</c:if>
-						</ul>
+
+	<!-- 아래의 구조로 복사하시오 -->
+	<!-- 전체 div-->
+	<div id="wrapper">
+
+		<!-- header,navigation div -->
+		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
+
+		<!-- content div -->
+		<div id="page-wrapper"  >
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">회원가입</h1>
+				</div>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">판넬의 헤딩</div>
+					<div class="panel-body">
+						<form class="myForm" id="userinfoForm" action="UserJoinServlet" method="post" onsubmit="return checkvalue()" name=userinfo>
+							<input type="hidden" name="num">
+							<h1 class="myFormTitle">회원가입</h1>
+							<h3 >이름:</h3><input type="text" class="myFormInput" name="name"><br>
+							<h3 style="display: inline;">아이디:</h3><div id="idResult" style="display: inline;"></div><input type="text" class="myFormInput" name="id" id ="id"><br>
+							<h3>비밀번호:</h3><input type="password" class="myFormInput" name="pw"><br>
+							<h3 style="display: inline;">비밀번호 확인:</h3><div id="pwResult" style="display: inline;"></div><input type="password" class="myFormInput" name="pwcheck" id="pwcheck"><br>
+							<h3 style="display: inline;">주소:</h3>
+							<input type="button" class="postcode" onclick="sample6_execDaumPostcode()" value="주소 찾기">
+							<input type="text" class="myFormInput" name="addr" id="addr" readonly="readonly"><br>
+							<h3>이메일:</h3><input type="text" name="email" class="myFormInput" placeholder="example@example.com"><br>
+							<h3>휴대폰번호:</h3><br><input type="text" class="myFormHpInput" name="hp1" pattern="[0-9]{2,3}" size="1" maxlength="3" oninvalid="this.setCustomValidity('010,011,012중에 입력해주세요')"><h3 id="mid">-</h3>
+							<input type="text" class="myFormHpInput" name="hp2" pattern="[0-9]{3,4}" size="1" maxlength="4" oninvalid="this.setCustomValidity('3자리및4자리숫자를 입력하세요')"><h3 id="mid">-</h3>
+							<input type="text" class="myFormHpInput" name="hp3" pattern="[0-9]{3,4}" size="1" maxlength="4" oninvalid="this.setCustomValidity('3자리및4자리숫자를 입력하세요')"><br>
+							<input type="submit" class="myFormButton" value="회원가입">
+						</form>
 					</div>
 				</div>
-			</div><!-- div class=header_cont 종료 -->
-		</div><!-- div id=header 종료 -->
-	</header>
-	<div id="bg"></div>
-	<div id ="wrap">
-		<!-- sidemenu -->
-		<div id="sidemenu" >
-			<ul>
-				<li id="sideTitle">회원가입</li>
-			</ul>
+			</div>
 		</div>
-		<section id="section">
-			<div id="sectionTitle">
-				<h1>※ 회원가입</h1>
-			</div>
-			<div>
-				<form class="myForm" id="userinfoForm" action="UserJoinServlet" method="post" onsubmit="return checkvalue()" name=userinfo>
-				<input type="hidden" name="num">
-				<h1 class="myFormTitle">회원가입</h1>
-				<h3 >이름:</h3><input type="text" class="myFormInput" name="name"><br>
-				<h3 style="display: inline;">아이디:</h3><div id="idResult" style="display: inline;"></div><input type="text" class="myFormInput" name="id" id ="id"><br>
-				<h3>비밀번호:</h3><input type="password" class="myFormInput" name="pw"><br>
-				<h3 style="display: inline;">비밀번호 확인:</h3><div id="pwResult" style="display: inline;"></div><input type="password" class="myFormInput" name="pwcheck" id="pwcheck"><br>
-				<h3 style="display: inline;">주소:</h3>
-				<input type="button" class="postcode" onclick="sample6_execDaumPostcode()" value="주소 찾기">
-				<input type="text" class="myFormInput" name="addr" id="addr" readonly="readonly"><br>
-				<h3>이메일:</h3><input type="text" name="email" class="myFormInput" placeholder="example@example.com"><br>
-				<h3>휴대폰번호:</h3><br><input type="text" class="myFormHpInput" name="hp1" pattern="[0-9]{2,3}" size="1" maxlength="3" oninvalid="this.setCustomValidity('010,011,012중에 입력해주세요')"><h3 id="mid">-</h3>
-				<input type="text" class="myFormHpInput" name="hp2" pattern="[0-9]{3,4}" size="1" maxlength="4" oninvalid="this.setCustomValidity('3자리및4자리숫자를 입력하세요')"><h3 id="mid">-</h3>
-				<input type="text" class="myFormHpInput" name="hp3" pattern="[0-9]{3,4}" size="1" maxlength="4" oninvalid="this.setCustomValidity('3자리및4자리숫자를 입력하세요')"><br>
-				<input type="submit" class="myFormButton" value="회원가입">
-			</form>
-			</div>
-		</section>
 	</div>
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
     function sample6_execDaumPostcode() {
         new daum.Postcode({
@@ -203,7 +205,7 @@ function cancle(){
                 // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                 var fullAddr = ''; // 최종 주소 변수
                 var extraAddr = ''; // 조합형 주소 변수
-
+                
                 // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                     fullAddr = data.roadAddress;

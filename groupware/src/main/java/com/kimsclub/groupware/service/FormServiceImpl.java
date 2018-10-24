@@ -8,18 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kimsclub.groupware.dao.FormDAO;
+import com.kimsclub.groupware.dao.TestDAO;
+import com.kimsclub.groupware.vo.BoardPageVO;
 import com.kimsclub.groupware.vo.FormVO;
 
 @Service("FormService")
 public class FormServiceImpl implements FormService{
 	@Autowired
 	FormDAO dao;
+	@Autowired
+	TestDAO tdao;
 	
 	@Override
-	public List<FormVO> getFormList() {
-		return dao.selectAllForm();
+	public List<FormVO> getFormList(Map<String, Object> map) {
+		return tdao.selectObjectList(map);
 	}
 
+	
 	@Override
 	public void useForm(String activation, String[] form_no) {
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -57,4 +62,11 @@ public class FormServiceImpl implements FormService{
 	public FormVO modifyForm(int form_no) {
 		return dao.selectForm(form_no);
 	}
+
+
+	@Override
+	public int getFormNum(Map<String, Object> map) {
+		return tdao.countAticle(map);
+	}
+
 }

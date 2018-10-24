@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test">
+		
+	<!-- 리스트 조회 -->		
+	<select id="selectList" resultType="form" parameterType="hashmap" >
+		<include refid="pagingHeader"></include>
+		select rownum, B.*
+		from (${fromOption}) B
+		<where>
+			${whereOption}
+			<if test="searchOption != null">
+				<include refid="search"/>
+			</if>
+			<if test="order != null">
+				order by ${order} desc
+			</if>
+		</where>
+		<include refid="pagingFooter"></include>
+	</select>
+	
+<!-- 게시글 레코드 갯수 -->
+	<select id="countArticle" resultType="int" parameterType="hashmap">
+		select count(*) 
+		from ${fromOption}
+		<where>
+			${whereOption}
+			<if test="searchOption != null">
+				<include refid="search"/>
+			</if>
+			</where>
+	</select>	
+
+<!-- 검색sql -->
+	<sql id="search">
+		<foreach collection="searchOption" item="searchOption" open="AND (" close=" )" separator=" OR ">${searchOption} LIKE '%'||#{keyword}||'%'</foreach>
+	</sql>
+
+<!-- 페이징sql -->
+	<sql id="pagingHeader">
+		select * from (select rownum as rn, A.*from(
+	</sql>	
+	<sql id="pagingFooter">
+		)A
+		)where rn between #{start} and #{end}
+	</sql>
+	
+</mapper>
