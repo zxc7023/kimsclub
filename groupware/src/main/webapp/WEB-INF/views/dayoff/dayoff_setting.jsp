@@ -55,9 +55,37 @@
 
 <script>
 	$(document).ready(function() {
-		console.log($("form").serializeArray());
-		$("form").submit(function(){
-			alert("호출");
+		console.log($("form#daysSettingForm").serializeArray());
+		
+		$("form#daysSettingForm").submit(function(){
+			var tmpArr = $("form#daysSettingForm").serializeArray();
+			var toSendArr = [];
+			for (i = 0; i < tmpArr.length; i+=2) { 
+				var dayoffCreateObj = new Object();
+				dayoffCreateObj.year_in_office = tmpArr[i].value;
+				dayoffCreateObj.dayoff_days = tmpArr[i+1].value;
+				toSendArr.push(dayoffCreateObj);
+			}
+			console.log(toSendArr);
+		 	$.ajax({   
+				method : "post",
+        	    dataType : "json",
+       	   		contentType: 'application/json;charset=UTF-8',
+       	     	url : "${pageContext.request.contextPath}/dayoff/dayoffSetting",
+       	     	data : JSON.stringify(toSendArr),
+            	error : function(){
+            		alert('전송 실패');
+              	},
+          	  	success : function(server_result){
+					var server_json = server_result;
+					var result = server_json.result;
+					if(result == "1"){
+						alert("수정 성공")
+					}else{
+						alert("수정 실패");
+					}
+            	}     
+    		}); 
 			return false;
 		})
 	});
@@ -93,21 +121,22 @@
 										휴가 일수<br>
 										<small>연차별 휴가일수를 설정하세요.</small>
 									</h3>
-									<form action="${pageContext.request.contextPath}/dayoff/dayoffSetting" method="post">
-										<table class="table table-bordered  " id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+									<form action="${pageContext.request.contextPath}/dayoff/dayoffSetting" id="daysSettingForm" method="post">
+										<table class="table table-bordered" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<thead>
 												<tr role="row">
 													<th>연차</th>
-													<c:forEach items="${requestScope.dayoffCreateCondition}" var="list">
-														<th><input type="hidden" name="year_in_office" value="${list.year_in_office}"> ${list.year_in_office}</th>
+													<c:forEach items="${requestScope.DayoffCreateTerms}" var="list">
+														<th>${list.year_in_office}</th>
 													</c:forEach>
 												</tr>
 											</thead>
 											<tbody>
 												<tr role="row">
 													<th>휴가일</th>
-													<c:forEach items="${requestScope.dayoffCreateCondition}" var="list">
+													<c:forEach items="${requestScope.DayoffCreateTerms}" var="list">
 														<td>
+															<input type="hidden" name="year_in_office" value="${list.year_in_office}"> 
 															<input class="form-control" type="text" name="dayoff_days" value="${list.dayoff_days}">
 														</td>
 													</c:forEach>
@@ -126,7 +155,30 @@
 				<div class="col-sm-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">휴가 종류</div>
-						<div class="panel-body"></div>
+						<div class="panel-body">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th>휴가명</th>
+											<th>차감 여부</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${requestScope.DayoffKinds}" var="list2">
+											<tr>
+												<td>
+													<input class="form-control" type="text" name="dayoff_name" value="${list2.dayoff_name}">
+												</td>
+												<td>
+													
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

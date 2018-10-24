@@ -34,12 +34,20 @@ public class BoardController {
 			@RequestParam(defaultValue="") String keyword,
 			@RequestParam(defaultValue="1") int curPage){
 		
+		
 		//게시글 수
 		int count = service.countArticle(board_type, searchOption, keyword);
 		
 		BoardPageVO boardPager = new BoardPageVO(count, curPage);
+		
 		int start = boardPager.getPageBegin();
 		int end = boardPager.getPageEnd();
+		
+		System.out.println("count:"+count);
+		System.out.println("curPage:"+curPage);
+			
+		System.out.println("start:"+start);
+		System.out.println("end:"+end);
 		
 		List<BoardVO> list = service.boardList(start,end,board_type,searchOption,keyword);
 		
@@ -52,19 +60,12 @@ public class BoardController {
 		map.put("count", count); //게시글 갯수
 		map.put("boardPager", boardPager); //게시글 페이징
 		
-		System.out.println("curBlock:"+boardPager.getCurBlock());
-		System.out.println("totBlock:"+boardPager.getTotBlock());
-		System.out.println("totPage:"+boardPager.getTotPage());
-		
-		System.out.println("현재 페이지:"+boardPager.getCurPage());
-		System.out.println("이전 페이지:"+boardPager.getPrevPage());
-		System.out.println("다음 페이지:"+boardPager.getNextPage());
-		
+	
 		
 		mav.addObject("map", map);
 		mav.setViewName("/Board/BoardList");
 		return mav;
-	}	
+	}
 		
 	//게시글(커뮤니티,공지사항)세부 화면
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
