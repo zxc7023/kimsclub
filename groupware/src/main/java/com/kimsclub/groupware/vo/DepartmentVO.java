@@ -29,4 +29,9 @@ public class DepartmentVO {
 	public void setDepartment_parent_no(int department_parent_no) {
 		this.department_parent_no = department_parent_no;
 	}
+	@Override
+	public String toString() {
+		return "DepartmentVO [level=" + level + ", department_name=" + department_name + ", department_no=" + department_no + ", department_parent_no=" + department_parent_no + "]";
+	}
+	
 }

@@ -48,4 +48,12 @@
 		)where rn between #{start} and #{end}
 	</sql>
 	
+	
+	<select id="selectOrgList" resultType="department">
+	select level,department_name, department_no, department_parent_no, CONNECT_BY_ISLEAF
+	from department
+	start with department_parent_no is null
+	connect by prior department_no = department_parent_no
+	</select>
+	
 </mapper>
