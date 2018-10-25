@@ -5,47 +5,25 @@
 		
 	<!-- 리스트 조회 -->		
 	<select id="selectList" resultType="department">
-		
-	
-		<include refid="pagingHeader"></include>
-		select rownum, B.*
-		from (${fromOption}) B
-		<where>
-			${whereOption}
-			<if test="searchOption != null">
-				<include refid="search"/>
-			</if>
-			<if test="order != null">
-				order by ${order} desc
-			</if>
-		</where>
-		<include refid="pagingFooter"></include>
+		select level,department_name, department_no, department_parent_no, CONNECT_BY_ISLEAF as child,
+		(select NVL(sum(CONNECT_BY_ISLEAF),0) from department b start with b.department_parent_no = a.department_no connect by prior b.department_no = b.department_parent_no) leaf
+		from department a
+		start with department_parent_no is null
+		connect by prior department_no = department_parent_no
 	</select>
 	
-<!-- 게시글 레코드 갯수 -->
-	<select id="countArticle" resultType="int" parameterType="hashmap">
-		select count(*) 
-		from ${fromOption}
-		<where>
-			${whereOption}
-			<if test="searchOption != null">
-				<include refid="search"/>
-			</if>
-			</where>
-	</select>	
+	<select id="selectMaxLevel" resultType="int">
+		select max(level)
+		from department
+   		start with department_parent_no is null
+		connect by prior department_no = department_parent_no
+	</select>
 
-<!-- 검색sql -->
-	<sql id="search">
-		<foreach collection="searchOption" item="searchOption" open="AND (" close=" )" separator=" OR ">${searchOption} LIKE '%'||#{keyword}||'%'</foreach>
-	</sql>
-
-<!-- 페이징sql -->
-	<sql id="pagingHeader">
-		select * from (select rownum as rn, A.*from(
-	</sql>	
-	<sql id="pagingFooter">
-		)A
-		)where rn between #{start} and #{end}
-	</sql>
+	<select id="selectMaxLeaf" resultType="int">
+		select sum(CONNECT_BY_ISLEAF) as leaf
+		from department
+   		start with department_parent_no is null
+		connect by prior department_no = department_parent_no
+	</select>
 	
 </mapper>
