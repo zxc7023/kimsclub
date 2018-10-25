@@ -345,9 +345,9 @@
 													<td>휴가종류</td>
 													<td>
 														<select class="form-control">
-															<option>김하나</option>
-															<option>바보</option>
-															<option>똥멍텅구리</option>
+															<c:forEach items="${requestScope.dayoffKindList}" var="kind">
+																<option>${kind.dayoff_name}</option>
+															</c:forEach>
 														</select>
 													</td>
 												</tr>

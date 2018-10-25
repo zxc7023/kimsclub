@@ -20,4 +20,6 @@ public interface DayoffService {
 	
 	
 	public List<DayoffKindsVO> getDayoffKinds();
+
+	public void createDayoffkinds(DayoffKindsVO vo);
 }
