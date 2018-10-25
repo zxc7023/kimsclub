@@ -12,7 +12,7 @@ import com.kimsclub.groupware.service.DepartmentService;
 import com.kimsclub.groupware.vo.DepartmentVO;
 
 @Controller
-public class departmentController {
+public class DepartmentController {
 	
 	@Autowired
 	DepartmentService service;
@@ -23,9 +23,12 @@ public class departmentController {
 		
 		ModelAndView mav = new ModelAndView();
 		List<DepartmentVO> dlist = service.getDepartmentList();
+		int[] size = service.getMaxSize();
+		System.out.println();
 		mav.addObject("dlist",dlist);
+		mav.addObject("max_level",size[0]);
+		mav.addObject("max_leaf",size[1]);
 		mav.setViewName("department/department");
-		
 		return mav;
 	}
 }

@@ -7,5 +7,6 @@ import com.kimsclub.groupware.vo.DepartmentVO;
 public interface DepartmentService {
 
 	List<DepartmentVO> getDepartmentList();
-
+	public int[] getMaxSize();
+	List<DepartmentVO> getDepartments();
 }
