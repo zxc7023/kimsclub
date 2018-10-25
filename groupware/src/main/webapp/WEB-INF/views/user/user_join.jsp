@@ -171,11 +171,10 @@ function cancle(){
 
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
-					<div class="panel-heading">판넬의 헤딩</div>
+					<div class="panel-heading">회원가입</div>
 					<div class="panel-body">
 						<form class="myForm" id="userinfoForm" action="UserJoinServlet" method="post" onsubmit="return checkvalue()" name=userinfo>
 							<input type="hidden" name="num">
-							<h1 class="myFormTitle">회원가입</h1>
 							<h3 >이름:</h3><input type="text" class="myFormInput" name="name"><br>
 							<h3 style="display: inline;">아이디:</h3><div id="idResult" style="display: inline;"></div><input type="text" class="myFormInput" name="id" id ="id"><br>
 							<h3>비밀번호:</h3><input type="password" class="myFormInput" name="pw"><br>
