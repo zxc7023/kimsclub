@@ -104,7 +104,7 @@
 		$('.check-all').click(function() {
 			$('.check').prop('checked', this.checked);
 		});
-		
+
 		// 페이지당 보여줄 개수 변경시 호출
 		$('.pg-scale').change(function() {
 			location.href = 'form?page_scale=' + $(this).val();
@@ -168,7 +168,10 @@
 												<div class="col-sm-4">
 													<div id="dataTables-example_filter" class="dataTables_filter">
 														<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword">
-														</label><button class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button>		
+														</label>
+														<button class="btn btn-primary btn-sm">
+															<i class="fa fa-search"></i>
+														</button>
 													</div>
 												</div>
 											</form>
@@ -202,17 +205,15 @@
 											<div class="col-sm-6">
 												<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
 													<ul class="pagination">
-														<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
-														<c:if test="${page.curBlock > 1}"><a href="form?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a></c:if></li>
-															<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
-																<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0">
-																	<a href="form?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a>
-            		                                 			</li>
-	                                             			</c:forEach>
-														<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
-														<c:if test="${page.curBlock <= page.totBlock}">
+														<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
+																<a href="form?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
+															</c:if></li>
+														<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
+															<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="form?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
+														</c:forEach>
+														<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
 																<a href="form?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
-														</c:if></li>
+															</c:if></li>
 													</ul>
 												</div>
 											</div>
@@ -225,5 +226,6 @@
 				</div>
 			</div>
 		</div>
+	</div>
 </body>
 </html>
