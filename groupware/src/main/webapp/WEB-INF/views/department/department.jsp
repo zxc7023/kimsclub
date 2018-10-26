@@ -1,15 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<%@page import="com.kimsclub.groupware.vo.DepartmentVO"%>
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<% %>
+
 <title>Insert title here</title>
 <script src="resources/js/jquery-3.2.1.min.js"></script>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="resources/js/org/jquery-ui.min.js"></script>
+<script src="resources/js/org/jquery.tablednd.js"></script>
+<script src="resources/js/org/main.js"></script>
+<script src="resources/js/org/jorgtree.js"></script>
+<script src="resources/js/org/insa.js"></script>
+<script src="resources/js/org/org_map.js"></script>
+<script src="resources/js/org/org_tree.js"></script>
+<script src="resources/js/org/orgmanage.js"></script> -->
+<link rel="stylesheet" type="text/css" href="resources/js/org/style.css">
+
 <script>
 	$(document).ready(function(){
 		var row=0;
@@ -29,12 +38,6 @@
 		</c:forEach>
 	});//ready end
 </script>
-<style>
-  td {
-    width: 100%;
-    border: 1px solid #444444;
-  }
-</style>
 
 </head>
 <body>
