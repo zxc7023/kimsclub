@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="selectUsedForm" resultType="form">
-		SELECT * 
+		SELECT form_no,form_name,form_desc, form_activation
 		FROM form
 		WHERE form_activation='활성화' 
 		ORDER BY form_no desc
@@ -16,6 +16,12 @@
 
 	<select id="selectForm" resultType="form" parameterType="int">
 		SELECT * 
+		FROM form
+		WHERE form_no = #{form_no}
+	</select>
+
+	<select id="loadForm" resultType="string" parameterType="int">
+		SELECT form_contents
 		FROM form
 		WHERE form_no = #{form_no}
 	</select>

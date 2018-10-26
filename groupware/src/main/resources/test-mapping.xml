@@ -6,7 +6,13 @@
 	<!-- 리스트 조회 -->		
 	<select id="selectList" resultType="form" parameterType="hashmap" >
 		<include refid="pagingHeader"></include>
-		select rownum, B.*
+		select rownum 
+		<if test="selectOption != null">
+			, ${selectOption}
+		</if>
+		<if test="selectOption == null">
+		, B.*
+		</if>
 		from (${fromOption}) B
 		<where>
 			${whereOption}
