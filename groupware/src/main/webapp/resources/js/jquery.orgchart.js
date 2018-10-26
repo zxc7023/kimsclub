@@ -218,6 +218,7 @@
         }
 
         this.formatNode = function(opts){
+        	var countString = '';
             var nameString = '',
                 descString = '';
             if(typeof data.department_name !== 'undefined'){
@@ -226,13 +227,18 @@
             if(typeof data.description !== 'undefined'){
                 descString = '<p>'+self.data.description+'</p>';
             }
+            
+            if(typeof data.department_people_cnt !== 'undefined'){
+            	countString = '<div>'+ self.data.department_people_cnt+'명</div>'
+            }
+            
             if(opts.showControls){
                 var buttonsHtml = "<div class='org-add-button'>"+opts.newNodeText+"</div><div class='org-del-button'></div>";
             }
             else{
                 buttonsHtml = '';
             }
-            return "<div class='node' node-department_no='"+this.data.department_no+"'>"+nameString+descString+buttonsHtml+"</div>";
+            return "<div class='node' node-department_no='"+this.data.department_no+"'>"+nameString+descString+countString+buttonsHtml+"</div>";
         }
     }
 

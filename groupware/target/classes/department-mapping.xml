@@ -27,11 +27,16 @@
 	</select>
 	
 	
-	<select id="selectOrgList" resultType="department">
+<!-- 	<select id="selectOrgList" resultType="department">
 	select level,department_name, department_no, department_parent_no, CONNECT_BY_ISLEAF
 	from department
 	start with department_parent_no is null
 	connect by prior department_no = department_parent_no
+	</select> -->
+	
+	<select id="selectOrgList" resultType="department">
+		select department_name, department_no, department_parent_no , (select count(department_no) from EMPLOYEE where a.department_no = department_no) as department_people_cnt
+		from department a
 	</select>
 	
 </mapper>

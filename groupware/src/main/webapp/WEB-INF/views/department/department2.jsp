@@ -49,13 +49,14 @@
 <script>
 	$(document).ready(function() {
  		var testData = ${requestScope.testData};
-        org_chart = $('#orgChart').orgChart({
+        var org_chart = $('#orgChart').orgChart({
             data: testData, //데이터
             showControls: true, //보여줄지말지
-            allowEdit: false, //제목이 수정가능할지 아닐지
+            allowEdit: true, //제목이 수정가능할지 아닐지
             onAddNode: function(node){ 
                // log('Created new node on node '+node.data.id);
-                org_chart.newNode(node.data.department_no); 
+                org_chart.newNode(node.data.department_no);
+                console.log(org_chart.getData());
             },
             onDeleteNode: function(node){
                 //log('Deleted node '+node.data.id);
@@ -66,6 +67,9 @@
             },
             newNodeText: '부서'
 
+        });
+        $("#orgSave").click(function(){
+        	console.log(org_chart.getData());
         });
 	});
 </script>
@@ -84,7 +88,10 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<div id="orgChart" class="orgChart"></div>
+						<div id="orgChart" class="orgChart"></div>
+				</div>
+				<div>
+					<button id="orgSave">저장</button>
 				</div>
 			</div>
 		</div>
