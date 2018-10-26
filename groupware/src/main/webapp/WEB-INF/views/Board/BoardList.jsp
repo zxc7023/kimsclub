@@ -51,7 +51,7 @@
 		});
 	//글쓰기 버튼 클릭시	
 		$("#writeBtn").click(function(){
-			location.href = "BoardWrite?boardType="+boardType;
+			location.href = "BoardWrite?board_type="+boardType;
 		});
 	
 	//게시판 타입 heading
@@ -169,7 +169,7 @@
 	                            	<!-- 글쓰기 버튼  -->
 	                            	<div class="col-sm-6">
 	                            		 <div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
-	                            		 <button id="writeBtn" type="button" class="btn btn-outline btn-primary">글쓰기</button>
+	                            		 <button id="writeBtn" type="button" class="btn btn-primary"><i class="fa fa-edit"></i></button>
 	                            		 </div>
 	                            	</div>
 	                            
@@ -186,10 +186,10 @@
 						                           	<c:forEach var="num" begin="${map.boardPager.blockBegin}" end="${map.boardPager.blockEnd }"  >	
 						                           		<c:choose>
 						                           			<c:when test="${num == map.boardPager.curPage}">
-						                           				<span style="color:orange">${num}</span>&nbsp;
+						                           				<span style="color:orange">${num}</span>
 						                           			</c:when>
 						                           			<c:otherwise>
-																<a href="boardList?curPage=${num}&board_type=${map.board_type}&searchOption=${map.searchOption}&keyword=${map.keyword}">${num}</a>&nbsp;
+																<a href="boardList?curPage=${num}&board_type=${map.board_type}&searchOption=${map.searchOption}&keyword=${map.keyword}">${num}</a>
 															</c:otherwise>
 														</c:choose>
 													</c:forEach>

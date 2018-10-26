@@ -43,7 +43,34 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+		//댓글 쓰기 버튼 클릭
+		$("#save").click(function(){
+			
+			$.ajax({
+				type : "post",
+				url: "${pageContext.request.contextPath}/ReplyWrite",
+				/* dataType : 'text', */
+				data: $("#replyWrite").serialize(), //serialize()사용으로 form에 있는 데이터를 한번에 url파라미터 형식 테스트 문자열로 변환
+				error : function(request,status,error){
+	                alert('실패');
+	            },
+	            success : function(data){
+	                listReply();
+
+	            }
+			});
+		});
 		
+		//댓글 목록 
+		function listReply(){
+			$.ajax({
+				type :"post",
+				url: "${pageContext.request.contextPath}/ReplyList",
+				success: function(result){
+					alert("성공");
+				}
+			});
+		}
 	});
 	
 </script>
@@ -56,73 +83,119 @@
 	<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
 		<!-- content div -->
 		<div id="page-wrapper">
+		
+			<!-- 게시글 제목  row-->
 			<div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">풍팡</h1>
+                <div class="col-lg-6">
+                    <h1 class="page-header">${detailVO.board_title}</h1>
                 </div>
+                
+                <!-- 목록,수정,삭제 버튼 -->
+                <div class="col-lg-12">
+                     <div id="dataTables-example_filter" class="form-group input-group dataTables_filter">
+                     <button type="button" class="btn btn-outline btn-primary"><i class="fa fa-list"></i></button>
+	            		<button type="button" class="btn btn-success">수정</button>
+	            		<button type="button" class="btn btn-danger">삭제</button>
+            		</div>
+                </div>
+                
             </div>
 
 			<div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
+                    
+                    	<!-- 작성자, 작성일, 조회수 -->
                         <div class="panel-heading">
-                                                   왜요
+	                        ${detailVO.board_writer}
                         </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
+                        
+                        <!-- 게시글 내용 -->
+						<!-- css등록 style -->                        
+                        <div class="panel-body" style="height: auto; min-height: 600px;">
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                            <form id="writeSave" action="BoardWrite" method="post">
-                            
                             	<!-- 제목 입력 -->
                             	<div class="row">
 		                            <div class="col-lg-12">
 		                          		   <div class="form-group">
-	                                            <label>제목</label>
-                                      	  </div>
-	                          		 </div>
-                          		 </div>
-                          		 
-                          		 <!-- 내용 입력 -->
-                        		 <div class="row">
-                          		 	 <div class="col-sm-12">
-
-
-                           			 </div>
-                           		 </div>
-                           		 <input type="hidden" id="boardType" name="board_type" value="${param.boardType}" >
-                           		 <button id="save" type="button" class="btn btn-outline btn-primary">저장</button>                           		 
-                           	</form>
+		                          		   ${detailVO.board_contents}
+                                      	   </div>
+	                          		</div>
+                          		</div>
                             </div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
+                    
                     <!-- /.panel -->
                 </div>
+                
                 <!-- /.col-lg-12 -->
             </div>
-	    </div>
-   </div>
-
-<table>
-	<tr>
-		<td>날짜</td><td>${detailVO.board_date}</td>
-	</tr>
-	<tr>
-		<td>제목</td><td>${detailVO.board_title}</td>
-	</tr>
-	<tr>
-		<td>작성자</td><td>${detailVO.board_writer}</td>
-	</tr>
-</table>
-<table>	
-	<tr>
-		<td>내용</td>
-	</tr>
-	<tr>
-	<td>${detailVO.board_contents}</td>
-	</tr>
-</table>
-
-
+            
+            <div class="row">
+            	<div class="col-sm-6">
+            		<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
+            			댓글
+            		</div>
+            	</div>
+            	<div class="col-sm-6">
+            		<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+            		
+            		</div>
+            	</div>
+            </div>
+            
+            <div class="row">
+				<div class="col-sm-12">
+    	        <div class="well">
+    	        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td><i class="glyphicon glyphicon-user"></i></td>
+                                        </tr>
+                                    
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                    <thead>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+    	        
+    	        	<!-- 댓글 입력 -->
+    	        	<form id="replyWrite"  method="post">
+	    	        	<div class="form-group input-group">
+		                        <textarea class="form-control" rows="1" id="replyText" name="reply_contents" ></textarea>
+							    <span class="input-group-btn">
+							    	<input type="hidden" name="reply_board_type" value="${param.board_type}" >
+							    	<input type="hidden" name="board_no" value="${param.board_no}" >
+		                       		<button id="save" class="btn btn-primary" type="button"><i class="fa fa-comments"></i></button>
+		                        </span>
+	                    </div>
+                    </form>
+	            </div>
+    			</div>        
+        	</div>
+   		</div>
+</div>
 </body>
 </html>

@@ -36,6 +36,8 @@ public class FormController {
 		map.put("searchOption", search_option);
 		map.put("keyword", keyword);
 		map.put("order", "form_no");
+		//내용 제외
+		map.put("selectOption", "B.form_no, B.form_name, B.form_activation, B.form_desc");
 		BoardPageVO bpvo = new BoardPageVO(service.getFormNum(map), cur_page, page_scale); 
 		map.put("start", bpvo.getPageBegin());
 		map.put("end", bpvo.getPageEnd());
