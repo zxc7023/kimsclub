@@ -2,13 +2,14 @@ package com.kimsclub.groupware.vo;
 
 public class BoardVO {
 
-	int board_no;
-	String board_writer;
-	String board_title;
-	String board_contents;
-	String board_date;
-	int board_viewcount;
-	String board_type;
+	int board_no; //게시글 번호
+	int employee_no; //사원 번호
+	String board_writer; //게시글 작성자 이름
+	String board_title; //게시글 제목
+	String board_contents; //게시글 내용
+	String board_date; //게시글 작성 일자
+	int board_viewcount; //게시글 조회수
+	String board_type; //게시글 타입(커뮤니티:c, 공지사항:n)
 	
 	public int getBoard_no() {
 		return board_no;
@@ -16,6 +17,12 @@ public class BoardVO {
 	public void setBoard_no(int board_no) {
 		this.board_no = board_no;
 	}	
+	public int getEmployee_no() {
+		return employee_no;
+	}
+	public void setEmployee_no(int employee_no) {
+		this.employee_no = employee_no;
+	}
 	public String getBoard_writer() {
 		return board_writer;
 	}

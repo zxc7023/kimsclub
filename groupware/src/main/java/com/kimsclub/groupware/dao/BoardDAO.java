@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kimsclub.groupware.vo.BoardReplyVO;
 import com.kimsclub.groupware.vo.BoardVO;
 
 @Repository
@@ -28,7 +29,6 @@ public class BoardDAO {
 	
 	//게시글 등록
 	public void insertBoard(BoardVO vo) {
-		System.out.println("타입:"+vo.getBoard_type());
 		session.insert("board.insertBoard", vo);
 	}
 	
@@ -51,5 +51,16 @@ public class BoardDAO {
 		map.put("keyword", keyword);
 		map.put("board_type", board_type);
 		return session.selectOne("board.countArticle",map);
+	}
+	
+	//게시글 댓글 등록
+	public void insertBoardReply(BoardReplyVO vo) {
+		session.insert("board.insertBoardReply", vo);
+	}
+	
+	//게시글 댓글 목록
+	public List<BoardReplyVO> boardReplyList(BoardReplyVO vo) {
+		System.out.println(vo.getReply_board_type()+"asdf"+vo.getBoard_no());
+		return	session.selectList("board.selectBoardReply", vo);
 	}
 }
