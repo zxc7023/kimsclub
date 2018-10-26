@@ -28,5 +28,9 @@ public class DayoffDAO {
 	public List<DayoffKindsVO> getDayoffKinds(){
 		return session.selectList("dayoff.selectDayoffKinds");
 	}
+
+	public void insertDayoffKinds(DayoffKindsVO vo) {
+		session.insert("dayoff.insertDayoffKinds",vo);
+	}
 	
 }

@@ -1,124 +1,140 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="EUC-KR">
-<title>일정</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css">
-    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/toast/dist/tui-calendar.css" />
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/toast/css/default.css"></link>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/toast/css/icons.css"></link>
+
+<title>일정 등록</title>
+<!--부트스트램 css  -->
+<link rel="stylesheet"
+	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<link rel="stylesheet" href="/css/jquery-ui.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+<script
+	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+<script type='text/javascript'
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.kr.js "></script>
+
+<!--데이터타임  -->
+<script type='text/javascript'>
+	$(function() {
+		$('#input').datepicker({
+			calendarWeeks : false,
+			todayHighlight : true,
+			autoclose : true,
+			format : "yyyy/mm/dd",
+			language : "kr"
+		});
+
+	});
+	$(function() {
+		$('#output').datepicker({
+			calendarWeeks : false,
+			todayHighlight : true,
+			autoclose : true,
+			format : "yyyy/mm/dd",
+			language : "kr"
+		});
+
+	});
+</script>
+
+<style>
+</style>
 </head>
 <body>
-<div class="modal fade in" id="modal_calendar" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
-<div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-     <h4 class="modal-title">Add Event </h4>
-</div>
-      <div class="modal-body">
-         <form id="event_frm" class="form-horizontal">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-5 mx-auto">
+				<div id="first">
+					<div class="myform form ">
+						<div class="logo mb-3">
+							<div class="col-md-12 text-center">
+								<h1>일정등록</h1>
+							</div>
+						</div>
+						<form action="" method="post" name="add">
+							<div class="form-group">
+								<label for="exampleInputEmail1">일정제목</label> <input type="text"
+									name="title" class="form-control" id="title"
+									aria-describedby="emailHelp">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputEmail1">일정내용</label>
+								<textarea rows="5" cols="30" name="contents" id="contents"
+									class="form-control" aria-describedby="emailHelp"></textarea>
+							</div>
+							<!--시작날짜  -->
+							<div class="form-group">
+								<label for="exampleInputEmail1">시작날짜</label>
+								<div class="input-group date" id="input">
+									<input type="text" class="form-control"><span
+										class="input-group-addon"><i
+										class="glyphicon glyphicon-calendar"></i></span>
+								<select type="text"  class="form-control" size="1">
+    <option>am 0:00</option><option>am 0:30</option><option>am 1:00</option><option>am 1:30</option><option>am 2:00</option>
+    <option>am 2:30</option><option>am 3:00</option><option>am 3:30</option><option>am 4:00</option><option>am 4:30</option>
+    <option>am 5:00</option><option>am 5:30</option><option>am 6:00</option><option>am 6:30</option><option>am 7:00</option>
+    <option>am 7:30</option><option>am 8:00</option><option>am 8:30</option><option>am 9:00</option><option>am 9:30</option>
+    <option>am 10:00</option><option>am 10:30</option><option>am 11:00</option><option>am 11:30</option><option>am 12:00</option>
+    <option>am 12:30</option><option>pm 1:00</option><option>pm 1:30</option><option>pm 2:00</option><option selected="selected">pm 2:30</option>
+    <option>pm 3:00</option><option>pm 3:30</option><option>pm 4:00</option><option>pm 4:30</option><option>pm 5:00</option>
+    <option>pm 5:30</option><option>pm 6:00</option><option>pm 6:30</option><option>pm 7:00</option><option>pm 07:30</option>
+    <option>pm 8:00</option><option>pm 8:30</option><option>pm 9:00</option><option>pm 9:30</option><option>pm 10:00</option>
+    <option>pm 10:30</option><option>pm 11:00</option><option>pm 11:30</option></select>
+							</div></div>
 
-<div class="form-group">
-   <div class="form-group "><label class="control-label col-sm-3 " for="calendar_eventsubject">calendar_eventsubject</label><div class="col-sm-8"><input type="text" name="calendar_eventsubject" value="" id="calendar_eventsubject" placeholder="calendar_eventsubject" data-validation-required-message="Enter the calendar_eventsubject" class="form-control" required="">
-</div></div>  </div>
-  <div class="form-group">
-  <div class="form-group "><label class="control-label col-sm-3 " for="calendar_eventbody">calendar_eventbody</label><div class="col-sm-8"><textarea name="calendar_eventbody" cols="40" rows="3" id="calendar_eventbody" placeholder="calendar_eventbody" data-validation-required-message="Enter the calendar_eventbody" class="form-control" required=""></textarea>
-</div></div>
-       </div>
-      <div class="row">
-      <div class="form-group "><label class="control-label col-sm-3 " for="lbl_disp_code">common_date</label><div class="col-sm-8"><input type="text" name="lbl_disp_code" value="" id="lbl_disp_code" placeholder="common_date" data-validation-required-message="Enter the common_date" class="mts_date form-control" data-format="DD-MM-YYYY" data-single-date-picker="true" data-show-dropdowns="true" required="">
-</div></div>      <div class="control-label col-sm-3">
-    <label for="start_date">Start Date</label>
-    </div>
-    <div class="col-sm-7">
-    <input type="text" class="form-control hasDatepicker" id="event_start_date" placeholder="Start Date">
-    </div>
+							<!--종료날짜  -->
+							<div class="form-group">
+								<label for="exampleInputEmail1">종료날짜</label>
+								<div class="input-group date" id="output">
+									<input type="text" class="form-control"><span
+										class="input-group-addon"><i
+										class="glyphicon glyphicon-calendar"></i></span>
+										<select type="text"  class="form-control" size="1">
+    <option>am 0:00</option><option>am 0:30</option><option>am 1:00</option><option>am 1:30</option><option>am 2:00</option>
+    <option>am 2:30</option><option>am 3:00</option><option>am 3:30</option><option>am 4:00</option><option>am 4:30</option>
+    <option>am 5:00</option><option>am 5:30</option><option>am 6:00</option><option>am 6:30</option><option>am 7:00</option>
+    <option>am 7:30</option><option>am 8:00</option><option>am 8:30</option><option>am 9:00</option><option>am 9:30</option>
+    <option>am 10:00</option><option>am 10:30</option><option>am 11:00</option><option>am 11:30</option><option>am 12:00</option>
+    <option>am 12:30</option><option>pm 1:00</option><option>pm 1:30</option><option>pm 2:00</option><option selected="selected">pm 2:30</option>
+    <option>pm 3:00</option><option>pm 3:30</option><option>pm 4:00</option><option>pm 4:30</option><option>pm 5:00</option>
+    <option>pm 5:30</option><option>pm 6:00</option><option>pm 6:30</option><option>pm 7:00</option><option>pm 07:30</option>
+    <option>pm 8:00</option><option>pm 8:30</option><option>pm 9:00</option><option>pm 9:30</option><option>pm 10:00</option>
+    <option>pm 10:30</option><option>pm 11:00</option><option>pm 11:30</option></select>
+								</div>
+							</div>
+							<!--  -->
+							
+							<div class="col-md-12 text-center ">
 
-  </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="save_event">Save changes</button>
-       </div>
-      </div><!-- /.modal-content -->
-   </div><!-- /.modal-dialog -->
- </div>
+								<button class=" btn btn-block mybtn tx-tfm">취소</button>
+								<button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">저장</button>
+							</div>
 
-    <script>
-    $(document).ready(function() {
+						</form>
 
-        $('#calendar').fullCalendar({ 
-            customButtons: {
-                EventButton: {
-                    text:'Add Event',
-                    click:function(event, jsEvent, view){
-                        $('#modal_calendar').modal('show');
-                    }
-                }
-            },
+					</div>
+				</div>
 
-            utc: true, 
-            header: { 
-                left: 'prev,next today EventButton', 
-                center: 'title', 
-                right: 'month,agendaWeek,agendaDay' 
-            },   
+			</div>
+		</div>
+	</div>
 
-            editable: true, 
-            droppable: true, 
-        });
-
-        $('#event_start_date').datepicker();
-        $('#save_event').click(function() {
-            var subject =$('#calendar_eventsubject').val();
-            var body =$('#calendar_eventbody').val();
-            var start_date = $('#event_start_date').val();
-            if($('#calendar_event_subject').val() =='') {
-                alert('subject required'); return false;
-            } else {
-                $("#modal_calendar").modal('hide');
-            }
-
-            if($('#calendar_event_body').val() == '') {
-                alert('Body required'); return false;
-            } else {
-                $("#modal_calendar").modal('hide');
-            }
-
-            if($('#event_start_date').val() == '') {
-                alert('Start Date required'); return false;
-            } else {
-                $("#modal_calendar").modal('hide');
-            }
-
-            $.ajax({
-                cache: false,
-                type: "POST",
-                url:"calendar/save_event",
-                data :  {'subject' : subject,'body' : body,'start_date' : start_date},
-                dataType: 'json',
-                success: function(result){
-                    if (result!=null){
-                    }
-                }
-            });
-        });
-    });
-    </script>
-    <style>
-    .datepicker
-    {
-        z-index:1151 !important;}
-
-    </style>
 </body>
 </html>

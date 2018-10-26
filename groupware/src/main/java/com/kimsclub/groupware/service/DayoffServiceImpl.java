@@ -29,6 +29,11 @@ public class DayoffServiceImpl implements DayoffService {
 	public List<DayoffKindsVO> getDayoffKinds() {
 		return dao.getDayoffKinds();
 	}
+
+	@Override
+	public void createDayoffkinds(DayoffKindsVO vo) {
+		dao.insertDayoffKinds(vo);
+	}
 	
 	
 	

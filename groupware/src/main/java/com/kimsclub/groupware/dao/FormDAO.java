@@ -42,4 +42,9 @@ public class FormDAO {
 	public void modifyForm(FormVO vo) {
 		session.update("form.modifyForm", vo);
 	}
+
+	public String loadForm(int form_no) {
+		// TODO Auto-generated method stub
+		return session.selectOne("form.loadForm",form_no);
+	}
 }
