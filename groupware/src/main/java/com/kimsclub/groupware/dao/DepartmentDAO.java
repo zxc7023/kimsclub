@@ -19,4 +19,25 @@ public class DepartmentDAO {
 	}
 
 
+	public int selectDepartmentSeq() {
+		return session.selectOne("department.selectDepartmentSeq");
+	}
+
+
+	public void insertDepartment(DepartmentVO vo) {
+		session.insert("department.insertDepartment",vo);
+	}
+
+
+	public void updateDpartmentName(DepartmentVO vo) {
+		session.update("department.updateDepartment",vo);
+		
+	}
+
+
+	public void deleteDepartments(DepartmentVO vo) {
+		session.delete("department.deleteDepartments",vo);
+	}
+
+
 }

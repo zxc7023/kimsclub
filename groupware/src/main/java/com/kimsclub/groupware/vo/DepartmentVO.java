@@ -50,4 +50,12 @@ public class DepartmentVO {
 		this.department_parent_no = department_parent_no;
 	}
 
+	@Override
+	public String toString() {
+		return "DepartmentVO [department_name=" + department_name + ", department_no=" + department_no
+				+ ", department_parent_no=" + department_parent_no + ", department_people_cnt=" + department_people_cnt
+				+ "]";
+	}
+
+	
 }
