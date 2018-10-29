@@ -2,7 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="approvalLine">
-
+	<resultMap id="approvalLIneMap" type="approvalLine">
+		<id column="info_no" property="info_no" />
+		<result column="info_date" property="info_date" />
+		<association property="info_c" javaType="Employee">
+			<id column="id" property="id" />
+			<result column="password" property="password" />
+			<result column="name" property="name" />
+		</association>
+		<collection property="lines" ofType="OrderLine">
+			<id column="line_info_no" property="info_no" />
+			<id column="line_prod_no" property="line_p.prod_no" />
+			<result column="line_quantity" property="line_quantity" />
+			<association property="line_p" javaType="Product">
+				<id column="line_prod_no" property="prod_no" />
+				<result column="prod_name" property="prod_name" />
+				<result column="prod_price" property="prod_price" />
+			</association>
+		</collection>
+	</resultMap>
+	
 	
 	<select id="myApprovalLineList" resultType="approvalLine" parameterType="int">
 		SELECT DISTINCT approval_path.approval_path_no as approval_path_no, approval_path.approval_path_name as approval_path_name 
