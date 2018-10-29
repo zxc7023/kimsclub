@@ -13,17 +13,31 @@ public class DepartmentDAO {
 	@Autowired
 	SqlSession session;
 	
-	public List<DepartmentVO> getDepartments(){
+
+	public List<DepartmentVO> getSelectList() {
 		return session.selectList("department.selectOrgList");
 	}
-	public List<DepartmentVO> getSelectList() {
-		return session.selectList("department.selectList");
+
+
+	public int selectDepartmentSeq() {
+		return session.selectOne("department.selectDepartmentSeq");
 	}
 
-	public int[] getMaxSize() {
-		int[] size = new int[2];
-		size[0] = session.selectOne("department.selectMaxLevel");
-		size[1] = session.selectOne("department.selectMaxLeaf");
-		return size;
+
+	public void insertDepartment(DepartmentVO vo) {
+		session.insert("department.insertDepartment",vo);
 	}
+
+
+	public void updateDpartmentName(DepartmentVO vo) {
+		session.update("department.updateDepartment",vo);
+		
+	}
+
+
+	public void deleteDepartments(DepartmentVO vo) {
+		session.delete("department.deleteDepartments",vo);
+	}
+
+
 }

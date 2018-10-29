@@ -53,7 +53,7 @@ div.orgChart div.node {
   border : 1px solid #e7e7e7;
   display : inline-block;
   padding : 5px;
-  width : 96px;
+   width : 150px; 
   height : 60px;
   background: #ffffff; /* Old browsers */
   background: -moz-linear-gradient(top, #ffffff 0%, #fbfbfb 100%); /* FF3.6+ */
@@ -70,19 +70,19 @@ div.orgChart div.node {
   box-shadow: 1px 1px 0px #ddd;
 }
 
-.org-add-button,
+/* .org-add-button,
 .org-del-button,
 .org-confirm-del-button {
   position: absolute;
   font-size: 12px;
 }
-
-.org-add-button {
+ */
+/* .org-add-button {
   bottom: 3px;
   left: 5px;
   padding-left: 13px;
   background: url(/groupware/resources/images/add.png) no-repeat 0 3px;
-}
+} */
 
 .org-add-button:hover,
 .org-del-button:hover {
@@ -91,13 +91,13 @@ div.orgChart div.node {
   cursor: pointer;
 }
 
-.org-del-button {
+/* .org-del-button {
   background: url(/groupware/resources/images/delete.png) no-repeat;
   width: 12px;
   height: 12px;
   bottom: 7px;
   right: 5px;
-}
+} */
 
 .org-input { width: 90px; }
 

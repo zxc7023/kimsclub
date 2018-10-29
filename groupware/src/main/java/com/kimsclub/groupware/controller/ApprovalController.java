@@ -33,7 +33,6 @@ public class ApprovalController {
 	@ResponseBody
 	public String loadForm(@RequestParam("form_no")int form_no ){
 		System.out.println("loadForm() 메소드 호출");
-		System.out.println(service.loadForm(form_no));
 		return service.loadForm(form_no);
 	}
 	
@@ -91,6 +90,16 @@ public class ApprovalController {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("approval/approvalReturnDoc");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/approvalLine", method=RequestMethod.GET)
+	public ModelAndView approvalLine(){
+		System.out.println("approvalLine() 메소드 호출");
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("approval/approvalLine");
 		
 		return mav;
 	}

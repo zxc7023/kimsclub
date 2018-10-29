@@ -22,7 +22,8 @@
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
 
 <!-- DataTables CSS -->
@@ -48,25 +49,94 @@
 
 <script>
 	$(document).ready(function() {
- 		var testData = ${requestScope.testData};
-        org_chart = $('#orgChart').orgChart({
-            data: testData, //데이터
-            showControls: true, //보여줄지말지
-            allowEdit: false, //제목이 수정가능할지 아닐지
-            onAddNode: function(node){ 
-               // log('Created new node on node '+node.data.id);
-                org_chart.newNode(node.data.department_no); 
-            },
-            onDeleteNode: function(node){
-                //log('Deleted node '+node.data.id);
-                org_chart.deleteNode(node.data.department_no); 
-            },
-            onClickNode: function(node){
-               // log('Clicked node '+node.data.department_no);
-            },
-            newNodeText: '부서'
-
-        });
+		var department_json = ${requestScope.department_json};
+		var org_chart = $('#orgChart').orgChart({
+			data : department_json, //데이터
+			showControls : true, //보여줄지말지
+			allowEdit : true, //제목이 수정가능할지 아닐지
+			onAddNode : function(parent_node) {
+				$.ajax({
+					method : "post",
+					dataType : "json",
+					contentType : 'application/json;charset=UTF-8',
+					url :  "${pageContext.request.contextPath}/humanResources/getDepartmentSeq",
+					error : function() {
+						alert('전송 실패');
+					},
+					success : function(server_result) {
+						console.log("성공");
+					}
+				}).done(function(server_result){
+					var server_json = server_result;
+					department_no_seq = server_json.department_no;
+					org_chart.newNode(department_no_seq,parent_node.data.department_no);
+				});
+				console.log(org_chart.getData());
+			},
+			onDeleteNode : function(node) {
+				org_chart.deleteNode(node.data.department_no);
+			},
+			onDeleteNodeDB : function(node){
+				console.log(node);
+				$.ajax({
+					method : "post",
+					dataType : "json",
+					data : JSON.stringify(node),
+					contentType : 'application/json;charset=UTF-8',
+					url :  "${pageContext.request.contextPath}/humanResources/removeDepartments",
+					error : function() {
+						alert('전송 실패');
+					},
+					success : function(server_result) {
+						var server_json = server_result;
+						result = server_json.result;
+						console.log(result);
+					}
+				});
+			},
+			onClickNode : function(node) {
+				// log('Clicked node '+node.data.department_no);
+			},
+			onChangedNodeDB : function(node){
+				console.log(node);
+				$.ajax({
+					method : "post",
+					dataType : "json",
+					data : JSON.stringify(node),
+					contentType : 'application/json;charset=UTF-8',
+					url :  "${pageContext.request.contextPath}/humanResources/modifyDepartmentName",
+					error : function() {
+						alert('전송 실패');
+					},
+					success : function(server_result) {
+						var server_json = server_result;
+						result = server_json.result;
+						console.log(result);
+					}
+				});
+			},
+			onAddNodeDB : function(node){
+				console.log(node);
+				$.ajax({
+					method : "post",
+					dataType : "json",
+					data : JSON.stringify(node),
+					contentType : 'application/json;charset=UTF-8',
+					url :  "${pageContext.request.contextPath}/humanResources/addDepartment",
+					error : function() {
+						alert('전송 실패');
+					},
+					success : function(server_result) {
+						var server_json = server_result;
+						result = server_json.result;
+						console.log(result);
+					}
+				})
+			}
+		});
+		$("#orgSave").click(function() {
+			console.log(org_chart.getData());
+		});
 	});
 </script>
 <title>예제</title>
@@ -84,7 +154,7 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<div id="orgChart" class="orgChart"></div>
+					<div id="orgChart"></div>
 				</div>
 			</div>
 		</div>

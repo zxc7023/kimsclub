@@ -12,23 +12,32 @@ import com.kimsclub.groupware.vo.DepartmentVO;
 @Service("DepartmentService")
 public class DepartmentServiceImpl implements DepartmentService {
 
-
-	
 	@Autowired
 	DepartmentDAO dao;
-	
-	@Override
-	public List<DepartmentVO> getDepartments() {
-		return dao.getDepartments();
-	}
 
 	@Override
 	public List<DepartmentVO> getDepartmentList() {
 		return dao.getSelectList();
 	}
-	
-	public int[] getMaxSize() {
-		return dao.getMaxSize();
+
+	@Override
+	public int getDepartmentSeq() {
+		return dao.selectDepartmentSeq();
+	}
+
+	@Override
+	public void addDepartment(DepartmentVO vo) {
+		dao.insertDepartment(vo);
+	}
+
+	@Override
+	public void modifyDepartmentName(DepartmentVO vo) {
+		dao.updateDpartmentName(vo);
+	}
+
+	@Override
+	public void removeDepartment(DepartmentVO vo) {
+		dao.deleteDepartments(vo);
 	}
 
 }
