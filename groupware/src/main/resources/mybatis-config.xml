@@ -7,7 +7,9 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.kimsclub.groupware.vo.BoardVO" alias="board" />
+		<typeAlias type="com.kimsclub.groupware.vo.BoardReplyVO" alias="boardReply" />
 		<typeAlias type="com.kimsclub.groupware.vo.FormVO" alias="form" />
+		<typeAlias type="com.kimsclub.groupware.vo.DepartmentVO" alias="department" />
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffCreateTermsVO" alias="DayoffCreateTerms"/>
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffKindsVO" alias="DayoffKinds"/>
 	</typeAliases>

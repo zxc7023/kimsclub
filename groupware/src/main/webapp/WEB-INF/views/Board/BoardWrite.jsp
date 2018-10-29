@@ -136,7 +136,7 @@ $(document).ready(function() {
                           				  <textarea rows="35" id="ckeditor" cols="90" name="board_contents"></textarea>
                            			 </div>
                            		 </div>
-                           		 <input type="hidden" id="boardType" name="board_type" value="${param.boardType}" >
+                           		 <input type="hidden" id="boardType" name="board_type" value="${param.board_type}" >
                            		 <button id="save" type="button" class="btn btn-outline btn-primary">저장</button>                           		 
                            	</form>
                             </div>

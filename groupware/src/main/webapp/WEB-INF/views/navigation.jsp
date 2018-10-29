@@ -213,6 +213,7 @@
 
 				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> 인사 관리<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
+						<li><a href="${pageContext.request.contextPath}/humanResources/department"><i class="fas fa-boxes"></i> 조직도</a></li>
 						<li><a href="#"><i class="fas fa-plane-departure"></i> 휴가/근태<span class="fa arrow"></span></a>
 							<ul class="nav nav-third-level collapse">
 								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffWriteform"><i class="far fa-edit"></i> 휴가 신청</a></li>
@@ -230,21 +231,21 @@
 					</ul> <!-- /.nav-second-level -->
 				</li>
 						
-				<li><a href="#"><i class="fas fa-file-signature"></i> 결재<span class="fa arrow"></span></a>
+				<li><a href="${pageContext.request.contextPath}/approval"><i class="fas fa-file-signature"></i> 결재<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
-						<li><a href="#">새문서함</a></li>
-						<li><a href="#">결재문서함</a></li>
-						<li><a href="#">진행문서함</a></li>
-						<li><a href="#">반려문서함</a></li>
-						<li><a href="#">완료문서함</a></li>
+						<li><a href="${pageContext.request.contextPath}/approvalNewDoc">새문서함</a></li>
+						<li><a href="${pageContext.request.contextPath}/approvalDoc">결재문서함</a></li>
+						<li><a href="${pageContext.request.contextPath}/approvalProceedDoc">진행문서함</a></li>
+						<li><a href="${pageContext.request.contextPath}/approvalReturnDoc">반려문서함</a></li>
+						<li><a href="${pageContext.request.contextPath}/approvalCompleteDoc">완료문서함</a></li>
 						<!-- 문서양식관리는 나중에 아이디 넘겨주면 관리자확인이 되면 보여지게 변경 -->
 						<li><a href="${pageContext.request.contextPath}/form">문서양식관리</a></li>
 						
 						<li><a href="#">문서수발<span class="fa arrow"></span></a>
 							<ul class="nav nav-third-level collapse">
-								<li><a href="#">발송문서함</a></li>
-								<li><a href="#">수신문서함</a></li>
-								<li><a href="#">공람문서함</a></li>
+								<li><a href="${pageContext.request.contextPath}/approvalSendDoc">발송문서함</a></li>
+								<li><a href="${pageContext.request.contextPath}/approvalReceiveDoc">수신문서함</a></li>
+								<li><a href="${pageContext.request.contextPath}/approvalDisplayDoc">공람문서함</a></li>
 							</ul> <!-- /.nav-third-level --></li>
 					</ul> <!-- /.nav-second-level --></li>
 			</ul>

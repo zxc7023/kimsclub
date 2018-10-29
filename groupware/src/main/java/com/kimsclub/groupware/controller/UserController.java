@@ -13,4 +13,5 @@ public class UserController {
 		System.out.println("user_join() 메소드 호출");
 		return "user/user_join";
 	}
+	
 }
