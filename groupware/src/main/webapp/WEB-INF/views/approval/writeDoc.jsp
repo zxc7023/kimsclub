@@ -41,47 +41,93 @@
 <script src="resources/ckeditor/ckeditor.js"></script>
 <script>
 $(document).ready(function() {
-	 $(function(){
-      	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
-	            width:'100%',
-	            height:'400px',
-	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
-	        });
-	         
-	        CKEDITOR.on('dialogDefinition', function( ev ){
-	            var dialogName = ev.data.name;
-	            var dialogDefinition = ev.data.definition;
-	          
-	            switch (dialogName) {
-	                case 'image': //Image Properties dialog
-	                    //dialogDefinition.removeContents('info');
-	                    dialogDefinition.removeContents('Link');
-	                    dialogDefinition.removeContents('advanced');
-	                    break;
-	            }
-	        });
-	        
-	        $('.selectForm').change(function() {
-	        	$.ajax({
-					method : "GET",
-					url : "/groupware/loadForm",
-					data : {
-						"form_no" : $(this).val()
-					},
-					error : function() {
-						alert("양식 불러오기 실패");
-					},
-					success : function(data) {
-						alert(data);
-						$('.cke_contents').html(data);
-					}
-				});
-			});
+	//버튼 클릭시 팝업창 호출
+	$('.btn-ApprovalLine').click(function(){
+		var sw = screen.width;
+		var sh = screen.height;
+		var cw = document.body.clientWidth;
+		var ch = document.body.clientHeight;
+		var top  = sh / 2 - ch / 2 - 100;
+		var left = sw / 2 - cw / 2;
+		//팝업창 호출 부분('페이지','창 제목','크기')
+		window.open('/groupware/approvalLine','결재선 선택','width=400,height=400');
+		//팝업창 호출 위치 조정
+		window.moveTo(left, top);
+	});
+	
+	$(function(){
+	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
+			width:'100%',
+	    	height:'400px',
+	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
 	    });
+		CKEDITOR.on('dialogDefinition', function( ev ){
+			var dialogName = ev.data.name;
+			var dialogDefinition = ev.data.definition;
+			switch (dialogName) {
+				case 'image': //Image Properties dialog
+				//dialogDefinition.removeContents('info');
+				dialogDefinition.removeContents('Link');
+				dialogDefinition.removeContents('advanced');
+				break;
+			}
+		});
+	        
+	});
+	
+	$('.selectForm').change(function() {
+		if($(this).val()!='default'){
+			if(CKEDITOR.instances.ckeditor.getData()!=''){
+				$("#deleteCheckModal").modal('show'); //This can also be $("#deleteCheckModal").modal({ show: true });
+			}else{
+				loadForm();
+			}
+		}
+	});
+	
 });//ready end
+function loadForm(){
+	$.ajax({
+		method : "GET",
+		url : "/groupware/loadForm",
+		data : {
+			"form_no" : $('.selectFormNo:selected').val()
+		},
+		error : function() {
+			alert("양식 불러오기 실패");
+		},
+		success : function(data) {
+			CKEDITOR.instances.ckeditor.setData(data);
+		}
+	});
+}
 </script>
 </head>
 <body>
+<!-- modal -->
+	<div class="modal fade" id="deleteCheckModal"
+		aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="modalLabel" >주의!</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					저장하지 않은 문서 양식이 삭제 될 수 있습니다. 정말로 진행하시겠습니까?
+					<!--해당 글 삭제하는 주소값받는 input 태그-->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="loadForm();" data-dismiss="modal">확인</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
@@ -120,9 +166,9 @@ $(document).ready(function() {
 												<td>문서 양식</td>
 												<td>
 													<select class="selectForm">
-														<option selected="selected">양식 선택</option>
+														<option selected="selected" value="default">양식 선택</option>
 														<c:forEach items="${flist}" var="fvo">
-															<option value="${fvo.form_no}">${fvo.form_name}</option>
+															<option class="selectFormNo" value="${fvo.form_no}">${fvo.form_name}</option>
 														</c:forEach>
 													</select>
 												</td>
@@ -134,7 +180,7 @@ $(document).ready(function() {
 											<tr role="row">
 												<td>처리</td>
 												<td>
-													<button>결재선 선택</button>
+													<button class="btn-ApprovalLine">결재선 선택</button>
 												</td>
 											</tr>
 											<tr role="row">

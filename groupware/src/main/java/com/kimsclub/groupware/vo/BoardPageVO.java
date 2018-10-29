@@ -13,6 +13,7 @@ public class BoardPageVO {
 	private int curBlock; //현재 페이지 블록
 	private int prevBlock; //이전 페이지 블록
 	private int nextBlock; //다음 페이지 블록
+	private int count;
 	
 	//where rn between #{start} and #{end}
 	private int pageBegin; //#[start}
@@ -27,6 +28,7 @@ public class BoardPageVO {
 	//생성자
 	//BoardPageVO(레코드 갯수, 현재 페이지 번호)
 	public BoardPageVO(int count, int curPage) {
+		this.count = count;
 		curBlock=1; //현재 페이지 블록 번호
 		this.curPage = curPage; //현재 페이지 설정
 		setTotPage(count); //전체 페이지 갯수 계산
@@ -35,7 +37,8 @@ public class BoardPageVO {
 		setBlockRange(); //페이지 블록의 시작, 끝 번호 계산
 	}
 
-	public BoardPageVO(int count, int curPage,int page_scale) {
+	public BoardPageVO(int count, int curPage, int page_scale) {
+		this.count = count;
 		curBlock=1; //현재 페이지 블록 번호
 		this.page_scale = page_scale;
 		this.curPage = curPage; //현재 페이지 설정
@@ -170,5 +173,23 @@ public class BoardPageVO {
 	public void setBlockEnd(int blockEnd) {
 		this.blockEnd = blockEnd;
 	}
+
+	public int getPage_scale() {
+		return page_scale;
+	}
+
+	public void setPage_scale(int page_scale) {
+		this.page_scale = page_scale;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
+	
 	
 }
