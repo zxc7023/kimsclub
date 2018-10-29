@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kimsclub.groupware.service.ApprovalService;
+import com.kimsclub.groupware.vo.ApprovalLineVO;
 import com.kimsclub.groupware.vo.FormVO;
 
 @Controller
@@ -95,10 +96,11 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping(value = "/approvalLine", method=RequestMethod.GET)
-	public ModelAndView approvalLine(){
+	public ModelAndView approvalLine(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
 		System.out.println("approvalLine() 메소드 호출");
-		
+		List<ApprovalLineVO> alist = service.loadMyApprovalLine(employee_no);
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("alist", alist);
 		mav.setViewName("approval/approvalLine");
 		
 		return mav;
