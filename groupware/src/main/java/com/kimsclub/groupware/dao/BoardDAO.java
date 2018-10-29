@@ -53,6 +53,11 @@ public class BoardDAO {
 		return session.selectOne("board.countArticle",map);
 	}
 	
+	//게시판 게시글 삭제
+	public void deleteBoard(BoardVO vo) {
+		session.delete("board.deleteBoard",vo);
+	}
+	
 	//게시글 댓글 등록
 	public void insertBoardReply(BoardReplyVO vo) {
 		session.insert("board.insertBoardReply", vo);
@@ -60,7 +65,6 @@ public class BoardDAO {
 	
 	//게시글 댓글 목록
 	public List<BoardReplyVO> boardReplyList(BoardReplyVO vo) {
-		System.out.println(vo.getReply_board_type()+"asdf"+vo.getBoard_no());
 		return	session.selectList("board.selectBoardReply", vo);
 	}
 }

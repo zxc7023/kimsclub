@@ -3,7 +3,7 @@ package com.kimsclub.groupware.vo;
 public class BoardVO {
 
 	int board_no; //게시글 번호
-	int employee_no; //사원 번호
+	int board_writer_no; //게시글 작성자 사원번호
 	String board_writer; //게시글 작성자 이름
 	String board_title; //게시글 제목
 	String board_contents; //게시글 내용
@@ -17,11 +17,11 @@ public class BoardVO {
 	public void setBoard_no(int board_no) {
 		this.board_no = board_no;
 	}	
-	public int getEmployee_no() {
-		return employee_no;
+	public int getBoard_writer_no() {
+		return board_writer_no;
 	}
-	public void setEmployee_no(int employee_no) {
-		this.employee_no = employee_no;
+	public void setBoard_writer_no(int board_writer_no) {
+		this.board_writer_no = board_writer_no;
 	}
 	public String getBoard_writer() {
 		return board_writer;

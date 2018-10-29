@@ -41,11 +41,30 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <script type="text/javascript">
-
+	
+	//댓글 링크 클릭시 
+	function replyBtn(){
+		$(".replyForm").load();
+	}
+	
 	$(document).ready(function() {
+		
+		var boardType = "${param.board_type}";
+		var boardNo = ${param.board_no};
+		
+		//게시글 목록 버튼 클릭
+		$("#listBtn").click(function(){
+			location.href = "boardList?board_type="+boardType;
+		});
+		
+		//게시글 삭제 버튼 클릭
+		$("#deleteBtn").click(function(){
+			location.href = "BoardDelete?board_no="+boardNo+"&board_type="+boardType;
+		});
+		
+		
 		//댓글 쓰기 버튼 클릭
 		$("#save").click(function(){
-			
 			$.ajax({
 				type : "post",
 				url: "${pageContext.request.contextPath}/ReplyWrite",
@@ -55,22 +74,48 @@
 	                alert('실패');
 	            },
 	            success : function(data){
-	                listReply();
+	            	$("#replyText").val(""); 
+	            	listReply();
+	                
 
 	            }
 			});
 		});
 		
-		//댓글 목록 
+		listReply();
+		//댓글 목록
 		function listReply(){
 			$.ajax({
 				type :"post",
-				url: "${pageContext.request.contextPath}/ReplyList",
+				url : "${pageContext.request.contextPath}/ReplyList",
+				data : {"board_no" : $("#board_no").val(), 
+						"reply_board_type" : $("#reply_board_type").val() },
+				error : function(request,status,error){
+			    	alert('실패');
+			    },
 				success: function(result){
-					alert("성공");
+					var output="";
+					for(var i in result){
+						output += '<li class="left clearfix">';
+						output += '<span class="chat-img pull-left"><img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle"></span>';
+						output += '<div class="chat-body clearfix">';
+						output += '<div class="header">';
+						output += '<strong class="primary-font">'+result[i].reply_writer +'</strong>';
+						output += '<small class="text-muted"> '+result[i].reply_date+'</small>';
+						output += ' <i class="glyphicon glyphicon-share-alt text-muted"></i><a href="javascript:void(0)" onclick="replyBtn();" ><small class="text-muted">답글</small></a>'
+						output += '</div>';
+						output += '<p>'+result[i].reply_contents+'</p>';
+						output += '</div>';
+						output += '</li>';
+					}
+					
+					$('#replyInsert').html(output);
 				}
+						
 			});
 		}
+		
+		
 	});
 	
 </script>
@@ -92,18 +137,19 @@
                 
                 <!-- 목록,수정,삭제 버튼 -->
                 <div class="col-lg-12">
-                     <div id="dataTables-example_filter" class="form-group input-group dataTables_filter">
-                     <button type="button" class="btn btn-outline btn-primary"><i class="fa fa-list"></i></button>
-	            		<button type="button" class="btn btn-success">수정</button>
-	            		<button type="button" class="btn btn-danger">삭제</button>
-            		</div>
+                	<!-- <div id="dataTables-example_filter" class="form-group input-group dataTables_filter"> -->
+                	<label id="dataTables-example_filter" >
+	                	<button id="listBtn" type="button" class="btn btn-outline btn-primary"><i class="fa fa-list"></i></button>
+		            	<button type="button" class="btn btn-success">수정</button>
+		            	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">삭제</button>
+	            	</label>
+            		<!-- </div> -->
                 </div>
-                
             </div>
 
 			<div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
+            	<div class="col-lg-12">
+                	<div class="panel panel-default">
                     
                     	<!-- 작성자, 작성일, 조회수 -->
                         <div class="panel-heading">
@@ -112,25 +158,20 @@
                         
                         <!-- 게시글 내용 -->
 						<!-- css등록 style -->                        
-                        <div class="panel-body" style="height: auto; min-height: 600px;">
+                        <div class="panel-body" style="height: auto; min-height: 300px;">
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             	<!-- 제목 입력 -->
                             	<div class="row">
 		                            <div class="col-lg-12">
-		                          		   <div class="form-group">
+		                          		<div class="form-group">
 		                          		   ${detailVO.board_contents}
-                                      	   </div>
+                                    	</div>
 	                          		</div>
                           		</div>
                             </div>
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    
-                    <!-- /.panel -->
                 </div>
-                
-                <!-- /.col-lg-12 -->
             </div>
             
             <div class="row">
@@ -146,56 +187,52 @@
             	</div>
             </div>
             
+			<!-- 댓글목록 -->					
             <div class="row">
 				<div class="col-sm-12">
     	        <div class="well">
     	        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <td><i class="glyphicon glyphicon-user"></i></td>
-                                        </tr>
-                                    
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
-                                    <thead>
-                                </table>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
+                    <ul id="replyInsert" class="chat">
+                    	
+                    </ul> 
+                </div>
     	        
     	        	<!-- 댓글 입력 -->
+    	        	<div class="replyForm">
     	        	<form id="replyWrite"  method="post">
 	    	        	<div class="form-group input-group">
 		                        <textarea class="form-control" rows="1" id="replyText" name="reply_contents" ></textarea>
 							    <span class="input-group-btn">
-							    	<input type="hidden" name="reply_board_type" value="${param.board_type}" >
-							    	<input type="hidden" name="board_no" value="${param.board_no}" >
+							    	<input type="hidden" id="reply_board_type" name="reply_board_type" value="${param.board_type}" >
+							    	<input type="hidden" id="board_no" name="board_no" value="${param.board_no}" >
 		                       		<button id="save" class="btn btn-primary" type="button"><i class="fa fa-comments"></i></button>
 		                        </span>
 	                    </div>
                     </form>
+                    </div>
 	            </div>
     			</div>        
         	</div>
    		</div>
 </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">알림</h4>
+            </div>
+            <div class="modal-body">
+            	정말로 삭제 하시겠습니까?
+            </div>
+            <div class="modal-footer">
+            	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            	<button id="deleteBtn" type="button" class="btn btn-primary">Delete</button>
+       		</div>
+     	</div>
+	</div>
+</div>
+
 </body>
 </html>

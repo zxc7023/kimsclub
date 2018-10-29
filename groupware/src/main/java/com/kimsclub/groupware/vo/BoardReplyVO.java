@@ -10,7 +10,7 @@ public class BoardReplyVO {
 	private int reply_writer_no; //댓글 작성자 번호
 	private String reply_writer; //댓글 작성자 이름
 	private String reply_contents; //댓글 내용
-	private int reply_date; //댓글 작성일자
+	private String reply_date; //댓글 작성일자
 	private String reply_board_type; //게시판 댓글 타입(커뮤니티:c,공지사항:n)
 	
 	
@@ -62,10 +62,10 @@ public class BoardReplyVO {
 	public void setReply_contents(String reply_contents) {
 		this.reply_contents = reply_contents;
 	}
-	public int getReply_date() {
+	public String getReply_date() {
 		return reply_date;
 	}
-	public void setReply_date(int reply_date) {
+	public void setReply_date(String reply_date) {
 		this.reply_date = reply_date;
 	}
 	public String getReply_board_type() {
