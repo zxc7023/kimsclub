@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -10,24 +10,16 @@
 
 <title>일정 등록</title>
 <!--부트스트램 css  -->
-<link rel="stylesheet"
-	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<link rel="stylesheet" href="/css/jquery-ui.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
-<script
-	src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
-<script type='text/javascript'
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-<script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap-datepicker.kr.js "></script>
 
 <!--데이터타임  -->
@@ -58,6 +50,8 @@
 </style>
 </head>
 <body>
+
+<!--일정폼시작-->
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5 mx-auto">
@@ -71,13 +65,12 @@
 						<form action="" method="post" name="add">
 							<div class="form-group">
 								<label for="exampleInputEmail1">일정제목</label> <input type="text"
-									name="title" class="form-control" id="title"
-									aria-describedby="emailHelp">
+									name="title" class="form-control" id="title">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">일정내용</label>
 								<textarea rows="5" cols="30" name="contents" id="contents"
-									class="form-control" aria-describedby="emailHelp"></textarea>
+									class="form-control"></textarea>
 							</div>
 							<!--시작날짜  -->
 							<div class="form-group">
@@ -123,7 +116,7 @@
 							
 							<div class="col-md-12 text-center ">
 
-								<button class=" btn btn-block mybtn tx-tfm">취소</button>
+							<button class=" btn btn-block mybtn tx-tfm">취소</button>
 								<button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">저장</button>
 							</div>
 
@@ -135,6 +128,6 @@
 			</div>
 		</div>
 	</div>
-
+<!--일ㅈ엎-->
 </body>
 </html>
