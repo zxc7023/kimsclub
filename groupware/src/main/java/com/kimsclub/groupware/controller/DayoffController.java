@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -71,4 +70,22 @@ public class DayoffController {
 		service.createDayoffkinds(vo);
 		return "redirect:/dayoff/dayoffSetting"; 
 	}
+	
+
+	
+	@RequestMapping(value = "/dayoffCreation", method = RequestMethod.GET)
+	public String dayoffCreateView(Model model){
+		List<DayoffCreateTermsVO> createTermsList = service.getDayoffCreateTerms();
+		model.addAttribute("DayoffCreateTerms",createTermsList);
+		return "dayoff/dayoff_creation"; 
+	}
+	
+	@RequestMapping(value = "/createDayoffTotalEmployee", method = RequestMethod.POST)
+	public String createDayoffTotalEmployee() {
+		service.createDayoffTotalEmployee();
+		return null;
+	}
+	
+	
+	
 }
