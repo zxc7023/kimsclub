@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="approvalLine">
+
+	
+	<select id="myApprovalLineList" resultType="approvalLine" parameterType="int">
+		SELECT DISTINCT approval_path.approval_path_no as approval_path_no, approval_path.approval_path_name as approval_path_name 
+		FROM approval_path, approval_path_detail 
+		WHERE approval_path.APPROVAL_PATH_NO = approval_path_detail.approval_path_no AND approval_path.employee_no = 4 
+		ORDER BY approval_path.approval_path_no
+	</select>
+	
+	
+</mapper>
