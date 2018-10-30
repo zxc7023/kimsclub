@@ -37,40 +37,72 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$('.myApprovalLine').change(function(){
+		$.ajax({
+			method : "GET",
+			url : "/groupware/selectMyApprovalLine",
+			data : {
+				"approval_path_no" : $('.myApprovalLine option:selected').val()
+			},
+			error : function() {
+				alert("양식 불러오기 실패");
+			},
+			success : function(data) {
+				$('.approvalLine').html("");		
+				for(var i=0;i<data.length;i++){
+					$('.approvalLine').append("<li>"+data[i].employee.department.department_name+":"+data[i].employee.position+":"+data[i].employee.employee_name+"</li>");
 
+				}
+			}
+		});
+	});
+});
+</script>
 </head>
 <body>
 
 	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
-
-		<!-- header,navigation div -->
-		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-
 		<!-- content div -->
 		<div id="page-wrapper"  >
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">제목을 입력하세요</h1>
+					<h3 class="page-header">결재선 선택</h3>
 				</div>
 			</div>
 
 			<div class="col-lg-12">
-				<div class="panel panel-primary">
-					<div class="panel-heading">판넬의 헤딩</div>
-					<div class="panel-body">판넬의 바디</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">내 결재선</div>
+					<div class="panel-body">
+						<select class="form-control myApprovalLine" style="width:100%;height:100px;" id="select_menuline" multiple="multiple">
+							<c:forEach items="${alist}" var="alist">
+								<option value="${alist.approval_path_no}">${alist.approval_path_name}</option>
+							</c:forEach>
+						</select>
+					</div>
 				</div>
 			</div>
+			
+			<form class="col-lg-12">
+				<table class="table no-footer">
+					<tr>
+						<td rowspan="2">
+							<div class="col-lg-5 form-control" style="height: 500px;">1</div>
+						</td>
+						<td><div class="col-lg-2">2</div></td>
+						<td rowspan="2"><div class="col-lg-4 form-control" style="height: 500px;"><ul class="approvalLine"></ul></div></td></tr>
+					<tr><td><div class="col-lg-2"></div></td></tr>					
 
-			<div class="col-lg-12">
-				<div class="panel panel-primary">
-					<div class="panel-heading">판넬2의 헤딩</div>
-					<div class="panel-body">판넬2의 바디</div>
-				</div>
-			</div>
-
+					
+				</table>
+			
+			</form>
 		</div>
 	</div>
 </body>
