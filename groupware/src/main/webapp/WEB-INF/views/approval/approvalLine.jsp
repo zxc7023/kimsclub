@@ -39,9 +39,25 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$('.myApprovalLine').change(function(){ 
-		alert("왜요");
-		$('.approvalLine').append("<li>가지마요 준기짱</li>");
+	
+	$('.myApprovalLine').change(function(){
+		$.ajax({
+			method : "GET",
+			url : "/groupware/selectMyApprovalLine",
+			data : {
+				"approval_path_no" : $('.myApprovalLine option:selected').val()
+			},
+			error : function() {
+				alert("양식 불러오기 실패");
+			},
+			success : function(data) {
+				$('.approvalLine').html("");		
+				for(var i=0;i<data.length;i++){
+					$('.approvalLine').append("<li>"+data[i].employee.department.department_name+":"+data[i].employee.position+":"+data[i].employee.employee_name+"</li>");
+
+				}
+			}
+		});
 	});
 });
 </script>

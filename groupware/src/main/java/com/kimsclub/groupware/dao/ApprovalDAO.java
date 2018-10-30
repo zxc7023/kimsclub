@@ -18,4 +18,9 @@ public class ApprovalDAO {
 		return session.selectList("myApprovalLineList", employee_no);
 	}
 
+	public List<ApprovalLineVO> selectMyApprovalLine(int approval_path_no) {
+		// TODO Auto-generated method stub
+		return session.selectList("selectMyApprovalLine",approval_path_no);
+	}
+
 }

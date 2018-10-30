@@ -33,4 +33,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return adao.loadMyApprovalLine(employee_no);
 	}
 
+	@Override
+	public List<ApprovalLineVO> selectMyApprovalLine(int approval_path_no) {
+		return adao.selectMyApprovalLine(approval_path_no);
+	}
+
 }

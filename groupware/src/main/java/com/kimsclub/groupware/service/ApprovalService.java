@@ -16,4 +16,6 @@ public interface ApprovalService {
 
 	List<ApprovalLineVO> loadMyApprovalLine(int employee_no);
 
+	List<ApprovalLineVO> selectMyApprovalLine(int approval_path_no);
+
 }

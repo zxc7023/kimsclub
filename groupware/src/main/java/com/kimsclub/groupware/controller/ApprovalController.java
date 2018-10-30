@@ -2,6 +2,8 @@ package com.kimsclub.groupware.controller;
 
 import java.util.List;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,10 +101,18 @@ public class ApprovalController {
 	public ModelAndView approvalLine(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
 		System.out.println("approvalLine() 메소드 호출");
 		List<ApprovalLineVO> alist = service.loadMyApprovalLine(employee_no);
+		//List<DepartmentVO> dlist = service.loadDepartment();
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("alist", alist);
 		mav.setViewName("approval/approvalLine");
-		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/selectMyApprovalLine",method=RequestMethod.GET)
+	@ResponseBody
+	public List<ApprovalLineVO> selectMyApprovalLine(@RequestParam(name="approval_path_no", defaultValue="4")int approval_path_no){
+		System.out.println("selectMyApprovalLine() 메소드 호출");
+		List<ApprovalLineVO> alist = service.selectMyApprovalLine(approval_path_no);
+		return alist;
 	}
 }
