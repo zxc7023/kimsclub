@@ -95,19 +95,20 @@ var newEvent = function(start) {
 	$('#newEvent').modal('show');
 	$('#submit').unbind();
 	$('#submit').on('click', function() {
-		alert('펴라 ');
+		/*alert('펴라 ');*/
 		var title = $('input#title');
 		var content = $('#content');
+		var color = $('#color');
 		if (title) {
 			var eventData = {
 				title : title.val(),
 				content : content.val(),
-				start : start
-
+				color: color.val(),
+				start : start				
 			};
 			$cal.fullCalendar('renderEvent', eventData, true);
 			$('#newEvent').modal('hide');
-		} else {
+		} else  {
 			alert("제목을 입력해주세요.")
 		}
 		title.val("");
@@ -116,22 +117,26 @@ var newEvent = function(start) {
 }
 
 var editEvent = function(calEvent) {
-	alert('이벤트 수정');
+	/*alert('이벤트 수정');*/
   $('input#editTitle').val(calEvent.title);
   $('#content2').val(calEvent.content);
   $('#editEvent').modal('show');
-  if(calEvent.content !== 'undefined'){
+ /* if(calEvent.content !== 'undefined'){
 	  alert('없다');
   }else{
 	  alert("있다");
-  }
+  }*/
   $('#update').unbind();
   $('#update').on('click', function() {
     var title = $('input#editTitle').val();
+    var content2 = $('#content2').val();
+    var color2 = $('#color2').val();
     $('#editEvent').modal('hide');
     var eventData;
     if (title) {
-      calEvent.title = title
+      calEvent.title = title,
+      calEvent.content = content2,
+      calEvent.color = color2
       $cal.fullCalendar('updateEvent', calEvent);
     } else {
     alert("제목을 입력해주세요.")
@@ -140,8 +145,10 @@ var editEvent = function(calEvent) {
   $('#delete').on('click', function() {
     $('#delete').unbind();
     if (calEvent._id.includes("_fc")){
-      $cal1.fullCalendar('removeEvents', [getCal1Id(calEvent._id)]);
-      $cal2.fullCalendar('removeEvents', [calEvent._id]);
+    	$cal1.fullCalendar('removeEvents', [getCal1Id(calEvent._id)]);
+    	$cal2.fullCalendar('removeEvents', [calEvent._id]);
+/*      alert("cal1"+calEvent._id);
+      alert("cal2"+getCal1Id(calEvent._id));*/
     } else {
       $cal.fullCalendar('removeEvents', [calEvent._id]);
     }
@@ -160,7 +167,7 @@ var showTodaysDate = function() {
 
 
 var getCal1Id = function(cal2Id) {
-  var num = cal2Id.replace('_fc', '') - 1;
+  var num = cal2Id.replace('_fc', '') /*- 1*/;
   var id = "_fc" + num;
   return id;
 }

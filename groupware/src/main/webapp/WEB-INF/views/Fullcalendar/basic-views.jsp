@@ -29,7 +29,7 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 </head>
-<script>
+<!-- <script>
 $(function() {
       $("#starts-at").datepicker({
           dateFormat:'y/mm/dd', 
@@ -58,7 +58,7 @@ $(function() {
                                
        });
      });
-</script>
+</script> -->
 <body>
  <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -88,10 +88,12 @@ $(function() {
                             <!--t수정  -->
                             <label class="form-control-label">내용</label>
                             <textarea rows="5" cols="30" id="content"class="form-control"></textarea>
-                            <label class="form-control-label">색상</label> 
+                            <label class="form-control-label">색상</label>                                                        
                             <select name="color" id="color" class="form-control">
-								<option value="red" style="color: red;">빨강</option>
-								<option value="green"style="color: #00FF00;"selected="selected">초록</option>								
+								<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
+								<option value="#e0305a"style="background-color: #e0305a; ">빨강</option>
+								<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
+								<option value="#008bca" style="background-color: #008bca;"selected="selected">파란</option>								
 							</select> 
 							<label class="form-control-label">시작날짜</label>
                        		<input type="text"class="form-control" id="starts-at">
@@ -126,8 +128,17 @@ $(function() {
                             <!--t수정  -->
                             <label class="form-control-label">내용</label>
                             <textarea rows="5" cols="30" id="content2"class="form-control"></textarea>
-                            <label class="form-control-label">시작날짜</label>
-                       		<input type="text"class="form-control" id="starts-at">
+ 							<label class="form-control-label">색상</label>                                                        
+                            <select name="color" id="color" class="form-control">
+								<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
+								<option value="#e0305a"style="background-color: #e0305a; ">빨강</option>
+								<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
+								<option value="#008bca" style="background-color: #008bca;"selected="selected">파란</option>								
+							</select> 
+							<label class="form-control-label">시작날짜</label>
+                       		<input type="text"class="form-control" id="starts-at2">
+                            <label class="form-control-label">종료날짜</label> 
+                            <input type="text"class="form-control" id="ends-at2">
                             <!--수정끝  -->
                         </div>
                     </div>
