@@ -34,6 +34,11 @@ public class DayoffServiceImpl implements DayoffService {
 	public void createDayoffkinds(DayoffKindsVO vo) {
 		dao.insertDayoffKinds(vo);
 	}
+
+	@Override
+	public void createDayoffTotalEmployee() {
+		
+	}
 	
 	
 	
