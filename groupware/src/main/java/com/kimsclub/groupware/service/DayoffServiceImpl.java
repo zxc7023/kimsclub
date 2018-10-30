@@ -6,14 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kimsclub.groupware.dao.DayoffDAO;
+import com.kimsclub.groupware.dao.EmployeeDAO;
+import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
+import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Service
 public class DayoffServiceImpl implements DayoffService {
 
 	@Autowired
 	DayoffDAO dao;
+	EmployeeDAO empDao;
 
 	@Override
 	public List<DayoffCreateTermsVO> getDayoffCreateTerms() {
@@ -37,7 +41,13 @@ public class DayoffServiceImpl implements DayoffService {
 
 	@Override
 	public void createDayoffTotalEmployee() {
+		List<DayoffCreateRecodeVO> empList = dao.selectEmpDayoffDays();
 		
+		for(DayoffCreateRecodeVO vo : empList) {
+			System.out.println(vo);
+		}
+		dao.insertEmpsAnnualDayoff(empList);
+
 	}
 	
 	

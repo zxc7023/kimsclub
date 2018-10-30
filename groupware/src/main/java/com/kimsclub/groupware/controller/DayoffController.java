@@ -80,7 +80,7 @@ public class DayoffController {
 		return "dayoff/dayoff_creation"; 
 	}
 	
-	@RequestMapping(value = "/createDayoffTotalEmployee", method = RequestMethod.POST)
+	@RequestMapping(value = "/createDayoff", method = RequestMethod.GET)
 	public String createDayoffTotalEmployee() {
 		service.createDayoffTotalEmployee();
 		return null;

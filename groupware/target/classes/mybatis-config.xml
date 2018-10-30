@@ -14,5 +14,6 @@
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffCreateTermsVO" alias="DayoffCreateTerms"/>
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffKindsVO" alias="DayoffKinds"/>
 		<typeAlias type="com.kimsclub.groupware.vo.EmployeeVO" alias="employee" />
+		<typeAlias type="com.kimsclub.groupware.vo.DayoffCreateRecodeVO" alias="DayoffCreateRecode"/>
 	</typeAliases>
 </configuration>
