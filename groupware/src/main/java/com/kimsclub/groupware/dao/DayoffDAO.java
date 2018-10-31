@@ -45,4 +45,8 @@ public class DayoffDAO {
 		}
 	}
 	
+	public List<DayoffCreateRecodeVO> selectMyDayoffRecode(EmployeeVO vo) {
+		return session.selectList("dayoff.selecMytCreateRecode",vo);
+	}
+	
 }

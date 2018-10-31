@@ -40,14 +40,19 @@ public class DayoffServiceImpl implements DayoffService {
 	}
 
 	@Override
-	public void createDayoffTotalEmployee() {
+	public void createDayoffTotalEmployee(EmployeeVO admin) {
 		List<DayoffCreateRecodeVO> empList = dao.selectEmpDayoffDays();
 		
 		for(DayoffCreateRecodeVO vo : empList) {
-			System.out.println(vo);
+			vo.setDayoff_generator(admin.getEmployee_no());
 		}
 		dao.insertEmpsAnnualDayoff(empList);
 
+	}
+
+	@Override
+	public List<DayoffCreateRecodeVO> getMyCreateRecode(EmployeeVO vo) {
+		return dao.selectMyDayoffRecode(vo);
 	}
 	
 	
