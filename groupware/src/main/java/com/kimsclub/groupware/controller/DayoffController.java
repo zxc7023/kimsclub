@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kimsclub.groupware.service.DayoffService;
+import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
+import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Controller
 @RequestMapping(value = "/dayoff/*")
@@ -25,6 +27,10 @@ public class DayoffController {
 	@Autowired
 	DayoffService service;
 
+	/**
+	 *
+	 * @return 휴가신청 view
+	 */
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.GET)
 	public ModelAndView applyDayoff() {
 		System.out.println("write_dayoff() 메소드 호출");
@@ -35,14 +41,30 @@ public class DayoffController {
 		return mov;
 	}
 
+	
+	/**
+	 * 
+	 * @return view : 휴가현황(dayoff_status) model : 휴가생성 내역(DayoffCreateRecode) 
+	 */
 	@RequestMapping(value = "/dayoffStatus", method = RequestMethod.GET)
-	public String readDayoffStatus() {
-		System.out.println("readDayoffStatus() 메소드 호출");
-		return "dayoff/dayoff_status";
+	public ModelAndView readDayoffStatus() {
+		
+		//세션이 없어서 임시로 1번사원으로 실험
+		EmployeeVO tmpEmp = new EmployeeVO();
+		tmpEmp.setEmployee_no(1);
+		
+		
+		ModelAndView mov = new ModelAndView();
+		
+		List<DayoffCreateRecodeVO> createList = service.getMyCreateRecode(tmpEmp);
+		mov.addObject("createList",createList);
+		mov.setViewName("dayoff/dayoff_status");
+		
+		return mov;
 	}
 
 	/**
-	 * 인터셉터 기능을 넣어서 세션정보를 확인후 관리자인 경우에만 접근가능하도록
+	 * 관리자 기능
 	 * @return
 	 */
 	@RequestMapping(value = "/dayoffSetting", method = RequestMethod.GET)
@@ -80,12 +102,25 @@ public class DayoffController {
 		return "dayoff/dayoff_creation"; 
 	}
 	
-	@RequestMapping(value = "/createDayoffTotalEmployee", method = RequestMethod.POST)
-	public String createDayoffTotalEmployee() {
-		service.createDayoffTotalEmployee();
-		return null;
+	@RequestMapping(value = "/createDayoff", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> createDayoffTotalEmployee(EmployeeVO vo) {
+		
+		//세션정보가없어서 임시로 ajax로 보낸 데이터로 해당 관리자로 사용
+		System.out.println(vo.getEmployee_no());
+		
+		
+		Map<String,String> map = new HashMap<String, String>();
+		try {			
+			service.createDayoffTotalEmployee(vo);
+			map.put("result", "1");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
 	}
 	
+
 	
 	
 }

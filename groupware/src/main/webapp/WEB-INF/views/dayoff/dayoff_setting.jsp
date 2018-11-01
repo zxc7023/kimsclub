@@ -2,7 +2,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,45 +13,32 @@
 <meta name="author" content="">
 <!-- Bootstrap Core CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
 <!-- Bootstrap Core CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
 <!-- MetisMenu CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-
 <!-- Custom CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
-
 <!-- Custom Fonts -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-
-
 <!-- DataTables CSS -->
 <!-- <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet"> -->
-
 <!-- DataTables Responsive CSS -->
 <!-- <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet"> -->
-
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
-
 <!-- Bootstrap Core JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
-
 <!-- Metis Menu Plugin JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
-
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
-
 <!-- <!-- DataTables JavaScript -->
 <!-- <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.js"></script> -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_setting.css">
-
-<script>
+<script >
 	$(document)
 			.ready(
 					function() {
@@ -86,7 +72,7 @@
 															var server_json = server_result;
 															var result = server_json.result;
 															if (result == "1") {
-																alert("수정 성공")
+																alert("수정 성공");
 															} else {
 																alert("수정 실패");
 															}
@@ -96,7 +82,7 @@
 										});
 						$("#finish").click(function() {
 							$("#dayoff_kinds_form").submit();
-						}); 
+						});
 						$("#remove").click(function() {
 							alert("삭제");
 						});
@@ -106,32 +92,26 @@
 
 					});
 </script>
-
 <title>기본 설정</title>
 </head>
 <body>
 	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
-
 		<!-- header,navigation div -->
 		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-
 		<!-- content div -->
 		<div id="page-wrapper">
-
 			<div class="row">
 				<div class="col-sm-12">
 					<h1 class="page-header">휴가 관리</h1>
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">휴가 생성 조건</div>
 						<div class="panel-body">
-
 							<div>
 								<h3>
 									휴가 일수<br> <small>연차별 휴가일수를 설정하세요.</small>
@@ -150,10 +130,7 @@
 											<tr role="row">
 												<th>휴가일</th>
 												<c:forEach items="${requestScope.DayoffCreateTerms}" var="list">
-													<td>
-														<input type="hidden" name="year_in_office" value="${list.year_in_office}">
-														<input class="form-control" type="text" name="dayoff_days" value="${list.dayoff_days}">
-													</td>
+													<td><input type="hidden" name="year_in_office" value="${list.year_in_office}"> <input class="form-control" type="text" name="dayoff_days" value="${list.dayoff_days}"></td>
 												</c:forEach>
 											</tr>
 										</tbody>
@@ -162,7 +139,6 @@
 								</form>
 							</div>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -182,9 +158,7 @@
 										</colgroup>
 										<thead>
 											<tr>
-												<th>
-													<input type="checkbox" name="check-all" class="check-all">
-												</th>
+												<th><input type="checkbox" name="check-all" class="check-all"></th>
 												<th>휴가명</th>
 												<th>사용 여부</th>
 												<th>차감 여부</th>
@@ -193,37 +167,24 @@
 										<tbody>
 											<c:forEach items="${requestScope.DayoffKinds}" var="list2" varStatus="st">
 												<tr>
-													<td>
-														<input type="checkbox" name="dayoff_type_code" value="${list2.dayoff_type_code}">
-													</td>
-													<td>
-														<input class="form-control" type="text" name="dayoff_name" value="${list2.dayoff_name}">
-													</td>
-													<td>
-														<c:if test="${list2.dayoff_activation == 1}">
+													<td><input type="checkbox" name="dayoff_type_code" value="${list2.dayoff_type_code}"></td>
+													<td><input class="form-control" type="text" name="dayoff_name" value="${list2.dayoff_name}"></td>
+													<td><c:if test="${list2.dayoff_activation == 1}">
 															<input type="radio" checked="checked" name="dayoff_activation${st.index}">
 															<label>사용</label>
 															<input type="radio" name="dayoff_activation${st.index}">
 															<label>사용안함</label>
-														</c:if>
-														<c:if test="${list2.dayoff_activation == 0}">
+														</c:if> <c:if test="${list2.dayoff_activation == 0}">
 															<input type="radio" name="dayoff_activation${st.index}">
 															<label>사용</label>
 															<input type="radio" checked="checked" name="dayoff_activation${st.index}">
 															<label>사용안함</label>
-														</c:if>
-
-													</td>
-													<td>
-														<c:if test="${list2.dayoff_deduction == 1}">
+														</c:if></td>
+													<td><c:if test="${list2.dayoff_deduction == 1}">
 															<input type="checkbox" checked="checked" name="dayoff_deduction">
-														</c:if>
-														<c:if test="${list2.dayoff_deduction == 0}">
+														</c:if> <c:if test="${list2.dayoff_deduction == 0}">
 															<input type="checkbox" name="dayoff_deduction">
-														</c:if>
-														<label>연차에서 차감</label>
-													</td>
-
+														</c:if> <label>연차에서 차감</label></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -241,7 +202,6 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
@@ -255,34 +215,31 @@
 					<form id="dayoff_kinds_form" action="${pageContext.request.contextPath}/dayoff/createDayoffKinds" method="post">
 						<div class="container-fluid">
 							<div class="row">
-								<div class="col-lg-5" >							
+								<div class="col-lg-5">
 									<label for="dayoff_name" class="control-label">휴가 이름:</label>
 								</div>
-								<div class="col-lg-7">							
+								<div class="col-lg-7">
 									<input type="text" class="form-control" name="dayoff_name" id="dayoff_name">
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-lg-5">							
+								<div class="col-lg-5">
 									<label for="dayoff_name" class="control-label">사용 여부:</label>
 								</div>
-								<div class="col-lg-7">							
-									<input type="radio" name="dayoff_activation" value="1"><label class="control-label">사용</label>
-									<input type="radio" name="dayoff_activation" value="0"><label class="control-label">사용안함</label>
+								<div class="col-lg-7">
+									<input type="radio" name="dayoff_activation" value="1"><label class="control-label">사용</label> <input type="radio" name="dayoff_activation" value="0"><label class="control-label">사용안함</label>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-lg-5">							
+								<div class="col-lg-5">
 									<label for="dayoff_name" class="control-label">차감 여부:</label>
 								</div>
-								<div class="col-lg-7">							
+								<div class="col-lg-7">
 									<input type="checkbox" name="dayoff_deduction" value="1"><label class="control-label">차감함</label>
 								</div>
 							</div>
 						</div>
-					
 					</form>
-
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" id="finish">완료</button>
@@ -291,5 +248,6 @@
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>
