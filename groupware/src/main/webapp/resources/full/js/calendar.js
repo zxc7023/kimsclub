@@ -24,7 +24,6 @@ var initializeCalendar = function() {
          className : "Holidays",
          color : "#FFFFFF",
          textColor : "#FF0000",
-         
       }],
       defaultTimedEventDuration: '00:30:00',
       forceEventDuration: true,
@@ -45,22 +44,22 @@ var initializeRightCalendar = function()  {
   $cal2.fullCalendar('changeView', 'month');
   $cal2.fullCalendar('option', {
     slotEventOverlap: false,
-    allDaySlot: false,
+    allDaySlot: true,
     header: {
         left: 'today',
         center: 'prev title next',
         right: 'month,agendaWeek'
     },
+    
     selectable: true,
     selectHelper: true,
-    select: function(start, end) {
-        newEvent(start,end);
+    select: function() {
+        newEvent();
     },
     eventClick: function(calEvent, jsEvent, view) {
         editEvent(calEvent);
     },
     height: screen.height - 190,
-    contentHeight: 600
   });
 }
 
@@ -76,6 +75,11 @@ var initializeLeftCalendar = function() {
       navLinks: false,
       dayClick: function(date) {
           cal2GoTo(date);
+
+      },
+      eventClick: function(calEvent) {
+          cal2GoTo(calEvent.start);
+          cal2GoTo(calEvent.end);
       },
       height: screen.height - 730,
   });
@@ -93,27 +97,29 @@ var loadEvents = function() {
 }
 
 
-var newEvent = function(start,end) {
+var newEvent = function() {
   $('input#title').val("");
   $('#content').val("");
+  $('#starts-at').val("");
+  $('#ends-at').val("");
   $('#newEvent').modal('show');
   $('#submit').unbind();
   $('#submit').on('click', function() {
-	  $('.modal').find('#starts-at').val(event.start);
   var title = $('input#title').val();
 	var content = $('#content').val();
 	var color = $('#color').val();
-	var starts = $('#starts-at').val();
+	var start= $('#starts-at').val();
+	var end= $('#ends-at').val();
   if (title) {
     var eventData = {
         title: title,
 		content : content,
 		color: color,
-        start: start,
-        end: end
+		 start: start,
+         end: end
     };
     $cal2.fullCalendar('renderEvent', eventData, true);
-   
+
     $('#newEvent').modal('hide');
     }
   else {
@@ -125,18 +131,24 @@ var newEvent = function(start,end) {
 var editEvent = function(calEvent) {
   $('input#editTitle').val(calEvent.title);
   $('#content2').val(calEvent.content);
+  $('#starts-at2').val(calEvent.start);
+  $('#ends-at2').val(calEvent.end);
   $('#editEvent').modal('show');
   $('#update').unbind();
   $('#update').on('click', function() {
     var title = $('input#editTitle').val();
     var content = $('#content2').val();
     var color = $('#color2').val();
+    var start = $('#starts-at2').val();
+    var end = $('#ends-at2').val();
     $('#editEvent').modal('hide');
     var eventData;
     if (title) {
       calEvent.title = title,
       calEvent.color = color,
-      calEvent.content = content
+      calEvent.content = content,
+      calEvent.start = start,
+      calEvent.end = end
       $cal.fullCalendar('updateEvent', calEvent);
     } else {
     alert("제목을 입력해주세요.")
@@ -145,6 +157,7 @@ var editEvent = function(calEvent) {
   $('#delete').on('click', function() {
     $('#delete').unbind();
     if (calEvent._id.includes("_fc")){
+      $cal1.fullCalendar('removeEvents', [getCal1Id(calEvent._id)]);
       $cal2.fullCalendar('removeEvents', [calEvent._id]);
     } else {
       $cal.fullCalendar('removeEvents', [calEvent._id]);
@@ -162,6 +175,11 @@ var showTodaysDate = function() {
   $("#todaysDate").html("Today is " + m + "/" + d + "/" + y+"   킵스클럽");
 };
 
+var getCal1Id = function(cal2Id) {
+  var num = cal2Id.replace('_fc', '') - 1;
+  var id = "_fc" + num;
+  return id;
+}
 
 var disableEnter = function() {
   $('body').bind("keypress", function(e) {

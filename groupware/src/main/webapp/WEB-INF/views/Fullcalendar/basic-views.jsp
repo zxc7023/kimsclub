@@ -28,37 +28,9 @@
 	<!--  달력-->
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+	
+	  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.css"/>
 </head>
-<script>
-$(function() {
-      $("#starts-at").datepicker({
-          dateFormat:'yy-mm-dd', 
-          monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-          dayNamesMin:['일','월','화','수','목','금','토'],
-          changeMonth:true, // 월변경가능
-          changeYear:true,  // 년변경가능
-          showMonthAfterYear:true, // 년 뒤에 월표시
-          calendarWeeks: false,
-          todayHighlight: true,
-          autoclose: true,
-
-                              
-      });
-      $("#ends-at").datepicker({
-           dateFormat:'yy-mm-dd',
-           monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-           dayNamesMin:['일','월','화','수','목','금','토'],
-           changeMonth:true, // 월변경가능
-           changeYear:true,  // 년변경가능
-           showMonthAfterYear:true, // 년 뒤에 월표시
-           calendarWeeks: false,
-           todayHighlight: true,
-           autoclose: true,
-
-                               
-       });
-     });
-</script> 
 <body>
  <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -68,7 +40,11 @@ $(function() {
 
     <div class="container-fluid row">
          <div id='calendar1' class='calendar col-md-2 -ms-overflow-style: none;'>
-          <label class="form-control-label">공유 캘린더</label> <input type="button" value="만들기" style="position: absolute; right: 0;"> </div> 
+          <label class="form-control-label">공유 캘린더</label>
+          
+           <input type="button" value="만들기" style="position: absolute; right: 0;"/>
+          
+           </div> 
         <div id='calendar2' class='calendar col-md-10'></div>
     </div>
 
@@ -152,6 +128,19 @@ $(function() {
             </div>
         </div>
     </div>
+        <script src="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.full.js"></script>
+    <script>
+            /*jslint browser:true*/
+            /*global jQuery, document*/
+
+            jQuery(document).ready(function () {
+                'use strict';
+                
+                $.datetimepicker.setLocale('ko');
+                jQuery('#starts-at, #starts-at2, #ends-at, #ends-at2').datetimepicker({step:30});
+                
+            });
+        </script>
 </body>
  
   

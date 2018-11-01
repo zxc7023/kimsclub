@@ -24,15 +24,6 @@ public class CalendarController {
 		System.out.println("Fullcalendar() 메소드 호출");
 		return "Fullcalendar/views";
 	}
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String form4() {
-		System.out.println("Fullcalendar() 메소드 호출");
-		return "Fullcalendar/add";
-	}
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String form5() {
-		System.out.println("Fullcalendar() 메소드 호출");
-		return "Fullcalendar/edit";
-	}
+
 
 }
