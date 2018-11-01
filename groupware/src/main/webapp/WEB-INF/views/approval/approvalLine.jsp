@@ -109,11 +109,13 @@
 			    });
 			    
 			    $("#search").keypress(function (e) {
-		        if (e.which == 13){
-		                  
-		        }
-			    
-			});
+			        if (e.which == 13){
+			        	$('#approval'+i).removeClass("next");
+						$('#approval'+i).html("<label name='employee_no' no='"+data[i].employee.employee_no +"'>"+data[i].employee.department.department_name+"<br>("+data[i].employee.employee_name+" "+data[i].employee.position+")</label>");
+						$('#approval'+(i+1)).addClass("next");
+			        }
+			    });
+		});
 		 
 	});
 </script>
@@ -173,7 +175,7 @@
 									</tr>
 									<tr>
 										<td id="approval0" ></td>
-										<td id="approval1" class="ap"></td>
+										<td id="approval1" class="ap next"></td>
 										<td id="approval2" class="ap"></td>
 										<td id="approval3" class="ap"></td>
 										<td id="approval4" class="ap"></td>
