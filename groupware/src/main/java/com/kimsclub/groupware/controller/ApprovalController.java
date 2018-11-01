@@ -26,7 +26,6 @@ public class ApprovalController {
 	@RequestMapping(value = "/approval", method=RequestMethod.GET)
 	public ModelAndView approval(){
 		System.out.println("approval() 메소드 호출");
-		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("approval/approval");
 		
@@ -61,7 +60,7 @@ public class ApprovalController {
 		mav.addObject("elist", json);
 		mav.addObject("alist", alist);
 		mav.addObject("flist", flist);
-		mav.setViewName("approval/writeDoc_modal");
+		mav.setViewName("approval/writeDoc");
 		
 		return mav;
 	}
@@ -75,6 +74,22 @@ public class ApprovalController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
+	public ModelAndView approvalSaveDoc(@RequestParam(name="employee_no", defaultValue="4")int document_writer_no,
+			@RequestParam(name="approval_employee_no")int[] approval_approver_no,
+			@RequestParam(name="form_contents")String document_contents,
+			@RequestParam(name="document_title")String document_title
+			){
+		
+		System.out.println("approvalSaveDoc() 메소드 호출");
+		System.out.println(document_writer_no+":"+document_contents+":"+document_title+":"+approval_approver_no[0]);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("approval/approvalNewDoc");
+		
+		return mav;
+	}
+	
 	@RequestMapping(value = "/approvalDoc", method=RequestMethod.GET)
 	public ModelAndView approvalDoc(){
 		System.out.println("approvalDoc() 메소드 호출");
@@ -112,28 +127,12 @@ public class ApprovalController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/approvalLine", method=RequestMethod.GET)
-	public ModelAndView approvalLine(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
-		System.out.println("approvalLine() 메소드 호출");
+	@RequestMapping(value = "/myApprovalLine", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ApprovalLineVO> approvalLine(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
+		System.out.println("myApprovalLine() 메소드 호출");
 		List<ApprovalLineVO> alist = service.loadMyApprovalLine(employee_no);
-		List<EmployeeVO> elist = service.loadAllEmp();
-		
-		
-		
-		ObjectMapper mapper = new ObjectMapper();
-		String json = null;
-		
-		try {
-			json = mapper.writeValueAsString(elist);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("elist", json);
-		mav.addObject("alist", alist);
-		mav.setViewName("approval/approvalLine");
-		return mav;
+		return alist;
 	}
 	
 	@RequestMapping(value = "/selectMyApprovalLine",method=RequestMethod.GET)
