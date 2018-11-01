@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kimsclub.groupware.service.ApprovalService;
 import com.kimsclub.groupware.service.DayoffService;
 import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
@@ -26,6 +29,9 @@ public class DayoffController {
 	
 	@Autowired
 	DayoffService service;
+	
+	@Autowired
+	ApprovalService service2;
 
 	/**
 	 *
@@ -35,8 +41,22 @@ public class DayoffController {
 	public ModelAndView applyDayoff() {
 		System.out.println("write_dayoff() 메소드 호출");
 		List<DayoffKindsVO> kindsList = service.getDayoffKinds();
+		List<EmployeeVO> elist = service2.loadAllEmp();
+		
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+	
+		try {
+			json = mapper.writeValueAsString(elist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 		ModelAndView mov = new ModelAndView();
 		mov.setViewName("dayoff/dayoff_writeform");
+		mov.addObject("elist", json);
 		mov.addObject("dayoffKindList",kindsList);
 		return mov;
 	}
