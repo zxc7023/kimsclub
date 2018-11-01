@@ -48,10 +48,10 @@ background-color: #f5f5f5;
 $(document).ready(function() {
 	//버튼 클릭시 팝업창 호출
 	$('.btn-ApprovalLine').click(function(){
-		var left = (window.screen.width/2) - 300;
+		var left = (window.screen.width/2) - 375;
 		var top= (window.screen.height/2) - 350;
 		
-		window.open('/groupware/approvalLine', '결재선', 'status=no, height=700, width=600, left='+ left + ', top='+ top);
+		window.open('/groupware/approvalLine', '결재선', 'status=no, height=700, width=750, left='+ left + ', top='+ top);
 	});
 	
 	$(function(){
@@ -160,7 +160,7 @@ function loadApprovalLine(){
 											</tr>
 											<tr role="row">
 												<td class="odd">결재</td>
-												<td>
+												<td id="approvalLine">
 													<button class="btn-ApprovalLine" type="button">결재선 선택</button>
 												</td>
 												

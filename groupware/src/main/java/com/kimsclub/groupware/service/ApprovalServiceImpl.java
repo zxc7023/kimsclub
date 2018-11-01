@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kimsclub.groupware.dao.ApprovalDAO;
+import com.kimsclub.groupware.dao.EmployeeDAO;
 import com.kimsclub.groupware.dao.FormDAO;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
+import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.FormVO;
 
 @Service
@@ -16,6 +18,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	FormDAO fdao;
 	@Autowired
 	ApprovalDAO adao;
+	@Autowired
+	EmployeeDAO edao;
 	
 	@Override
 	public List<FormVO> getUseFormlist() {
@@ -38,4 +42,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return adao.selectMyApprovalLine(approval_path_no);
 	}
 
+	@Override
+	public List<EmployeeVO> loadAllEmp() {
+		return edao.loadAllEmp();
+	}
 }

@@ -2,8 +2,6 @@ package com.kimsclub.groupware.controller;
 
 import java.util.List;
 
-import javax.swing.plaf.synth.SynthSeparatorUI;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kimsclub.groupware.service.ApprovalService;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
+import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.FormVO;
 
 @Controller
@@ -101,8 +102,21 @@ public class ApprovalController {
 	public ModelAndView approvalLine(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
 		System.out.println("approvalLine() 메소드 호출");
 		List<ApprovalLineVO> alist = service.loadMyApprovalLine(employee_no);
-		//List<DepartmentVO> dlist = service.loadDepartment();
+		List<EmployeeVO> elist = service.loadAllEmp();
+		
+		
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		
+		try {
+			json = mapper.writeValueAsString(elist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("elist", json);
 		mav.addObject("alist", alist);
 		mav.setViewName("approval/approvalLine");
 		return mav;
