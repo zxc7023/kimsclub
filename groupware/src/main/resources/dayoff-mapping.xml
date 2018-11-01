@@ -39,7 +39,7 @@
 	<select id="selecMytCreateRecode" parameterType="Employee" resultType="DayoffCreateRecode">
 		select *
 		from dayoff_create_recode
-		where employee_no = #{employee_no}
+		where employee_no = #{employee_no} and to_char(sysdate,'yyyy') = to_char(generation_date,'yyyy')
 		order by generation_date asc
 	</select>
 </mapper>
