@@ -52,52 +52,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var tmpObj;
-		$("#finish").click(function(){
-			console.log(tmpObj);
-		});
-/* 	    
-	    $.widget( "custom.catcomplete", $.ui.autocomplete, {
-	        _create: function() {
-	          this._super();
-	          this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
-	        },
-	        _renderMenu: function( ul, items ) {
-	          var that = this,
-	            currentCategory = "";
-	          $.each( items, function( index, item ) {
-	            var li;
-	            if ( item.category != currentCategory ) {
-	              ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
-	              currentCategory = item.category;
-	            }
-	            li = that._renderItemData( ul, item );
-	            if ( item.category ) {
-	              li.attr( "aria-label", item.category + " : " + item.label );
-	            }
-	          });
-	        }
-	      });
-		var arr = ${elist};
-	    var data = [];
-	    for(var x in arr){
-	    	data.push({label : arr[x].employee_name, category : arr[x].department.department_name, no : arr[x].employee_no, position : arr[x].position});
-	    }
 		
-	    $( "#search" ).catcomplete({
-	        delay: 0,
-	        source: data,
-	        minLength : 2,
-	        select: function( event, ui ) {
-                alert(ui.item.no);
-                $("#test").text(ui.item);
-             }
-
-	      });
-	    
-	    $("#approvalLine").on("shown.bs.modal", function() { $("#search").catcomplete("option", "appendTo", "#approvalLine") })
-
-		     */
 	});
 	
 	
@@ -369,7 +324,7 @@
 												<tr role="row">
 													<td>처리</td>
 													<td>
-														<button type="button" class="btn btn-outline btn-default" data-toggle="modal" data-target="#approvalLine" id="LineSelectBtn">결재선 선택</button>
+														<button type="button" class="btn btn-outline btn-default" data-toggle="modal" data-target="#approvalLineSelect" id="LineSelectBtn">결재선 선택</button>
 													</td>
 												</tr>
 												<tr role="row">
@@ -412,35 +367,6 @@
 		</div>
 		<div id="test"></div>
 	</div>
-<!-- 	<div class="modal fade" id="approvalLine" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-md">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">결재선 선택</h4>
-				</div>
-				<div class="modal-body">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-lg-3">
-								<label for="search" class="control-label">이름</label>
-							</div>
-							<div class="col-lg-9">
-								<input type="text" class="form-control" name="employee_name" id="search">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="finish">완료</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
-	
 	<jsp:include page="/WEB-INF/views/approvalLineModal.jsp"></jsp:include>
 </body>
 </html>
