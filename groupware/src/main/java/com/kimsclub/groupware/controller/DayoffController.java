@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class DayoffController {
 	 * @return 휴가신청 view
 	 */
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.GET)
-	public ModelAndView applyDayoff() {
+	public ModelAndView applyDayoff(HttpSession session) {
 		System.out.println("write_dayoff() 메소드 호출");
 		List<DayoffKindsVO> kindsList = service.getDayoffKinds();
 		List<EmployeeVO> elist = service2.loadAllEmp();
@@ -53,11 +54,13 @@ public class DayoffController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		EmployeeVO vo =  (EmployeeVO) session.getAttribute("loginInfo");
 	
 		ModelAndView mov = new ModelAndView();
 		mov.setViewName("dayoff/dayoff_writeform");
 		mov.addObject("elist", json);
 		mov.addObject("dayoffKindList",kindsList);
+/*		mov.addObject("loginInfo",vo);*/
 		return mov;
 	}
 
@@ -67,16 +70,13 @@ public class DayoffController {
 	 * @return view : 휴가현황(dayoff_status) model : 휴가생성 내역(DayoffCreateRecode) 
 	 */
 	@RequestMapping(value = "/dayoffStatus", method = RequestMethod.GET)
-	public ModelAndView readDayoffStatus() {
+	public ModelAndView readDayoffStatus(HttpSession session) {
 		
-		//세션이 없어서 임시로 1번사원으로 실험
-		EmployeeVO tmpEmp = new EmployeeVO();
-		tmpEmp.setEmployee_no(1);
-		
+		EmployeeVO vo = (EmployeeVO) session.getAttribute("loginInfo");	
 		
 		ModelAndView mov = new ModelAndView();
 		
-		List<DayoffCreateRecodeVO> createList = service.getMyCreateRecode(tmpEmp);
+		List<DayoffCreateRecodeVO> createList = service.getMyCreateRecode(vo);
 		mov.addObject("createList",createList);
 		mov.setViewName("dayoff/dayoff_status");
 		

@@ -16,4 +16,9 @@ public class EmployeeDAO {
 	public List<EmployeeVO> loadAllEmp(){
 		return session.selectList("employee.loadAllEmployee"); 
 	}
+	
+	
+	public EmployeeVO login(EmployeeVO vo) {
+		return session.selectOne("employee.login",vo);
+	}
 }

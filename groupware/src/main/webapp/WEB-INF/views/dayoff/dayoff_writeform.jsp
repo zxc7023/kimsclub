@@ -319,7 +319,7 @@
 												</tr>
 												<tr role="row">
 													<td>작성자</td>
-													<td>사원이름</td>
+													<td>${sessionScope.loginInfo.employee_name}</td>
 												</tr>
 												<tr role="row">
 													<td>처리</td>

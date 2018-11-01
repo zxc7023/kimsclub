@@ -19,4 +19,9 @@
 		left join department d
 		on e.department_no = d.department_no
 	</select>
+	
+	
+	<select id="login" resultMap="employeeMap">
+		select * from employee where employee_no = #{employee_no} and password = #{password}
+	</select>
 </mapper>
