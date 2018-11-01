@@ -39,6 +39,10 @@
 
 <!-- ckeditor -->
 <script src="resources/ckeditor/ckeditor.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 .odd {
 background-color: #f5f5f5;
@@ -46,13 +50,7 @@ background-color: #f5f5f5;
 </style>
 <script>
 $(document).ready(function() {
-	//버튼 클릭시 팝업창 호출
-	$('.btn-ApprovalLine').click(function(){
-		var left = (window.screen.width/2) - 375;
-		var top= (window.screen.height/2) - 350;
-		
-		window.open('/groupware/approvalLine', '결재선', 'status=no, height=700, width=750, left='+ left + ', top='+ top);
-	});
+	
 	
 	$(function(){
 	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
@@ -71,12 +69,8 @@ $(document).ready(function() {
 			}
 		}
 	});
-// 	$(window).load(function(){
-// 			    $('#deleteCheckModal').modal('show');
-// 	});
-	
-	
 });//ready end
+
 function loadForm(){
 	$.ajax({
 		method : "GET",
@@ -86,20 +80,6 @@ function loadForm(){
 		},
 		error : function() {
 			alert("양식 불러오기 실패");
-		},
-		success : function(data) {
-			CKEDITOR.instances.ckeditor.setData(data);
-		}
-	});
-}
-
-//결재선 불러오기
-function loadApprovalLine(){
-	$.ajax({
-		method : "GET",
-		url : "/groupware/approvalLine",
-		error : function() {
-			alert("조직도 불러오기 실패");
 		},
 		success : function(data) {
 			CKEDITOR.instances.ckeditor.setData(data);
@@ -131,45 +111,90 @@ function loadApprovalLine(){
 					<div class="panel-heading">문서 작성</div>
 					<div class="panel-body">
 						<div class="panel panel-default">
-							<div class="panel-heading">
-								<button onclick="location='approvalDoc'" class="btn btn-info">기안하기</button>
-								<button onclick="location='approvalNewDoc'" class="btn btn-info">임시저장</button>
-							</div>
-							<div class="panel-body">
-								<form class="col-sm-12">
+							<form class="col-sm-12" action="/groupware/approvalNewDoc" method="post">
+								<div class="panel-heading">
+									<button onclick="location='approvalDoc'" class="btn btn-info">기안하기</button>
+									<button type="submit" class="btn btn-info">임시저장</button>
+								</div>
+								<div class="panel-body">
 									<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 										<colgroup>
 											<col width="150">
 											<col width="auto">
 										</colgroup>
 										<tbody>
-											<tr role="row">
+											<tr>
 												<td class="odd">문서 양식</td>
-												<td>
-													<select class="selectForm">
+												<td><select class="selectForm">
 														<option selected="selected" value="default">양식 선택</option>
 														<c:forEach items="${flist}" var="fvo">
 															<option class="selectFormNo" value="${fvo.form_no}">${fvo.form_name}</option>
 														</c:forEach>
-													</select>
-												</td>
+												</select></td>
 											</tr>
-											<tr role="row">
+											<tr>
 												<td class="odd">작성자</td>
 												<td>사원이름</td>
 											</tr>
-											<tr role="row">
+											<tr>
 												<td class="odd">결재</td>
-												<td id="approvalLine">
-													<button class="btn-ApprovalLine" type="button">결재선 선택</button>
+												<td>
+													<div role="row">
+														<div class="col-lg-10">
+														<div class="panel panel-default" id="approvalLine">
+																<table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+																	<colgroup>
+																		<col width="15%">
+																		<col width="17%">
+																		<col width="17%">
+																		<col width="17%">
+																		<col width="17%">
+																		<col width="17%">
+																	</colgroup>
+																	<tbody class="t-body">
+																		<tr>
+																			<th colspan="6">결재 순서
+																				<p class="fa fa-long-arrow-right"></p>
+																			</th>
+																		</tr>
+
+																		<tr>
+																			<td class="name"></td>
+																			<td class="name ap next"></td>
+																			<td class="name ap"></td>
+																			<td class="name ap"></td>
+																			<td class="name ap"></td>
+																			<td class="name ap"></td>
+																		</tr>
+																		<tr>
+																			<td class="stamp"></td>
+																			<td class="stamp"></td>
+																			<td class="stamp"></td>
+																			<td class="stamp"></td>
+																			<td class="stamp"></td>
+																			<td class="stamp"></td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+														<div class="col-lg-2">
+															<button class="btn-ApprovalLine" type="button" data-toggle="modal" data-target="#approvalLineSelect">결재선 선택</button>
+														</div>
+													</div>
 												</td>
-												
+
 											</tr>
-											<tr role="row">
+											<tr>
+												<td class="odd">문서 제목<br>
+												</td>
+												<td><input type="text" name="document_title" class="form-control" required="required" autofocus="autofocus"></td>
+											</tr>
+											<tr>
 												<td colspan="2" class="odd">문서 내용</td>
 											</tr>
-											<tr role="row">
-												<td  colspan="2">
+											<tr>
+												<td colspan="2">
 													<div class="col-lg-12">
 														<textarea name="form_contents" id="ckeditor" class="form"></textarea>
 													</div>
@@ -177,15 +202,15 @@ function loadApprovalLine(){
 											</tr>
 										</tbody>
 									</table>
-								</form>
-							</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+	</div>
+
 	<!-- 양식 수정 체크 modal -->
 	<div class="modal fade" id="deleteCheckModal"
 		aria-labelledby="modalLabel" aria-hidden="true">
@@ -213,27 +238,6 @@ function loadApprovalLine(){
 	</div>
 	
 	<!-- 결재선 불러오기 modal -->
-	<div class="modal fade" id="loadApprovalLineModal"
-		aria-labelledby="modalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title" id="modalLabel" >결재선 불러오기
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</h3>
-				</div>
-				<div class="modal-body">
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" onclick="loadForm();" data-dismiss="modal">확인</button>
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">취소</button>
-				</div>
-			</div>
-		</div>
-	</div>
+	<jsp:include page="/WEB-INF/views/approvalLineModal.jsp"></jsp:include>
 </body>
 </html>
