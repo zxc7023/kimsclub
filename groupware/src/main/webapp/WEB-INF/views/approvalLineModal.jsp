@@ -20,29 +20,45 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var arr = ${elist};
-		$('#approval0').html("<label><input type='hidden' name='approval_employee_no' value="+arr[0].employee_no +">"+arr[0].department.department_name+"<br>("+arr[0].employee_name+" "+arr[0].position+")</label>");
+	    $("#sortable").sortable({
+	        items: "td:not(.ui-state-disabled)"
+	    });
+	    $( "#sortable td" ).disableSelection();
+	    
+		//현재 결재선이 몇번 까지 등록되어있는지 확인하는 변수
+		var index=0;
 		
-		$('#confirm').click(function(){
-			alert($('.sendTable').parent().html());
-			$('#approvalLine').html($('.sendTable').parent().html());
-		});
+		var arr = ${elist};
+		
+		//로그인한 사원의 번호를 세션에서 받아오기
+		var employee_no = ${sessionScope.loginInfo.employee_no};
+		
+		//모달테이블 index 0번에 자신의 아이디 입력 및 index 변수에 1 입력
+		$('.modal_name[index=0]').html("<label><input type='hidden' name='approval_employee_no' value="+arr[0].employee_no +">"+arr[0].department.department_name+"<br>("+arr[0].employee_name+" "+arr[0].position+")</label>");
+		index=1;
+		
+		
+		//결재선 불러오기 버튼을 클릭하면 ajax를 통해 내 결재선을 가져와 modal에서 목록을 보여준다
 		function loadMyApprovalLine(){
 			$.ajax({
 				method : "GET",
 				url : "/groupware/myApprovalLine",
 				data : {
-					"employee_no" : 4 //나중에 세션에서 받아온 사원번호로 변경 
+					"employee_no" : employee_no
 				},
 				error : function() {
 					alert("내 결재선 불러오기 실패");
 				},
 				success : function(data) {
+					$('.myApprovalLine').html('<option selected="selected" value="default">자주 사용하는 결재선</option>');
+					for(var x in data){
+						$('.myApprovalLine').append("<option value="+data[x].approval_path_no+">"+data[x].approval_path_name+"</option>");
+					}
 				}
 			});
 		}
 
-		
+		//modal내의 내 결재선 목록을 선택하면 해당 결재선에 포함된 정보들을 가져온다
 		$('.myApprovalLine').change(function() {
 			if($(this).val()!='default'){
 				$.ajax({
@@ -55,18 +71,19 @@
 						alert("양식 불러오기 실패");
 					},
 					success : function(data) {
-						$('.ap').html("");
-						$('#approvalLineLoad').find('td').removeClass("next");
-						for (var i = 1; i < data.length; i++) {
-							$('#approval'+i).removeClass("next");
-							$('#approval'+i).html("<label><input type='hidden' name='approval_employee_no' value="+data[i].employee.employee_no +">"+data[i].employee.department.department_name+"<br>("+data[i].employee.employee_name+" "+data[i].employee.position+")</label>");
-							$('#approval'+(i+1)).addClass("next");
+						//modal내 테이블 초기화 및 해당하는 인덱스에 데이터 입력한다
+						$('.modal_name').html("");
+						index=0;
+						for (var x in data){
+							$('.modal_name[index='+x+']').html("<label><input type='hidden' name='approval_employee_no' value="+data[x].employee.employee_no +">"+data[x].employee.department.department_name+"<br>("+data[x].employee.employee_name+" "+data[x].employee.position+")</label>");
+							index++;
 						}
 					}
 				});
 			}
 		});
 		
+		//사원의 이름을 검색할 때 자동완성으로 도와준다
 	    $.widget( "custom.catcomplete", $.ui.autocomplete, {
 	        _create: function() {
 	          this._super();
@@ -88,6 +105,8 @@
 	          });
 	        }
 	      });
+		
+		//자동완성에 사용 되는 사원 정보 데이터 입력
 	    var data = [];
 	    for(var x in arr){
 	    	data.push({label : arr[x].employee_name, category : arr[x].department.department_name, no : arr[x].employee_no, position : arr[x].position});
@@ -97,28 +116,29 @@
 	        delay: 0,
 	        source: data,
 	        minLength : 2,
+	        //검색창에 값을 선택하면 테이블에 추가한다
 	        select: function( event, ui ) {
-				$('.next').html("<label><input type='hidden' name='approval_employee_no' value="+ui.item.no +">"+ui.item.category+"<br>("+ui.item.label+" "+ui.item.position+")</label>");
-				$('.next').addClass("temp");
-				$('.next').removeClass("next");
-				console.log($(this));
-				$('.temp').next().addClass("next");
-				$('.temp').removeClass("temp");
+	        	if(index>5){
+	        		alert("결재선이 꽉 찼습니다. 최대 6명");
+	        	}else{
+		        	$('.modal_name[index='+index+']').html("<label><input type='hidden' name='approval_employee_no' value="+ui.item.no +">"+ui.item.category+"<br>("+ui.item.label+" "+ui.item.position+")</label>");
+					index++;
+	        	}
 		    }
-	        /* select: function( event, ui ) {
-                alert(ui.item.no);
-                tmpObj = ui.item;
-                
-             } */
-
-	      });
+	    });
+	   
 	    
-	    $("#approvalLineSelect").on("shown.bs.modal", function() { $("#search").catcomplete("option", "appendTo", "#approvalLineSelect");
-		loadMyApprovalLine();
-	    })    
+	    $("#approvalLineSelect").on("shown.bs.modal", function() { 
+	    	$("#search").catcomplete("option", "appendTo", "#approvalLineSelect");
+			loadMyApprovalLine();
+	    })
+	    
+	    //modal의 확인 버튼 클릭 시 모달내의 테이블을  현재 페이지의 결재선에 넣어준다
+		$('#confirm').click(function(){
+			$('#approvalLine').html($('.sendTable').parent().html());
+		});
 	});
 </script>	
-
 	<div class="modal fade" id="approvalLineSelect" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -138,9 +158,6 @@
 								<div class="panel-body">
 									<select class="form-control myApprovalLine" style="width: 100%;" id="select_menuline">
 										<option selected="selected" value="default">자주 사용하는 결재선</option> 
-										<c:forEach items="${alist}" var="alist">
-											<option value="${alist.approval_path_no}">${alist.approval_path_name}</option>
-										</c:forEach>
 									</select>
 								</div>
 							</div>
@@ -173,13 +190,13 @@
 											</th>
 										</tr>
 
-										<tr>
-											<td id="approval0" class="name"></td>
-											<td id="approval1" class="name ap next"></td>
-											<td id="approval2" class="name ap"></td>
-											<td id="approval3" class="name ap"></td>
-											<td id="approval4" class="name ap"></td>
-											<td id="approval5" class="name ap"></td>
+										<tr id="sortable">
+											<td class="modal_name ui-state-disabled" index=0></td>
+											<td class="modal_name" index=1></td>
+											<td class="modal_name" index=2></td>
+											<td class="modal_name" index=3></td>
+											<td class="modal_name" index=4></td>
+											<td class="modal_name" index=5></td>
 										</tr>
 										<tr>
 											<td class="stamp"></td>
@@ -196,7 +213,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" onclick="confirm();" data-dismiss="modal" id="confirm">확인</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm">확인</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취소</button>
 				</div>
