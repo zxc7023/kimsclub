@@ -47,7 +47,7 @@ public class ApprovalController {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("flist", flist);
-		mav.setViewName("approval/writeDoc");
+		mav.setViewName("approval/writeDoc_modal");
 		
 		return mav;
 	}

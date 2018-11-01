@@ -104,16 +104,17 @@
 			    }
 
 			    $( "#search" ).catcomplete({
-			      delay: 0,
-			      source: data
-			    });
-			    
-			    $("#search").keypress(function (e) {
-			        if (e.which == 13){
-			        	$('#approval'+i).removeClass("next");
-						$('#approval'+i).html("<label name='employee_no' no='"+data[i].employee.employee_no +"'>"+data[i].employee.department.department_name+"<br>("+data[i].employee.employee_name+" "+data[i].employee.position+")</label>");
-						$('#approval'+(i+1)).addClass("next");
-			        }
+				    delay: 0,
+				    source: data,
+				    select: function( event, ui ) {
+				    	alert(ui.item.no);
+						$('.next').html("<label name='employee_no' no='"+ui.item.no +"'>"+ui.item.category+"<br>("+ui.item.label+" "+ui.item.position+")</label>");
+						$('.next').addClass("temp");
+						$('.next').removeClass("next");
+						console.log($(this));
+						$('.temp').next().addClass("next");
+						$('.temp').removeClass("temp");
+				    }
 			    });
 		});
 		 
