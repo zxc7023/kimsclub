@@ -41,13 +41,27 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping(value = "/writeDoc", method=RequestMethod.GET)
-	public ModelAndView writeDoc(){
+	public ModelAndView writeDoc(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
 		System.out.println("writeDoc() 메소드 호출");
 		List<FormVO> flist = service.getUseFormlist();
 		
+		List<ApprovalLineVO> alist = service.loadMyApprovalLine(employee_no);
+		List<EmployeeVO> elist = service.loadAllEmp();
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		
+		try {
+			json = mapper.writeValueAsString(elist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("elist", json);
+		mav.addObject("alist", alist);
 		mav.addObject("flist", flist);
-		mav.setViewName("approval/writeDoc");
+		mav.setViewName("approval/writeDoc_modal");
 		
 		return mav;
 	}
