@@ -22,5 +22,9 @@ public class ApprovalDAO {
 		// TODO Auto-generated method stub
 		return session.selectList("selectMyApprovalLine",approval_path_no);
 	}
+	
+	public void saveApproval(int[] approval_approver_no) {
+		
+	}
 
 }

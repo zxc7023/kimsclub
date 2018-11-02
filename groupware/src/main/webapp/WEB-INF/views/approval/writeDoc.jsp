@@ -25,6 +25,9 @@
 <!-- Custom Fonts -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
+<!-- jquery-ui.css -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
@@ -40,8 +43,7 @@
 <!-- ckeditor -->
 <script src="resources/ckeditor/ckeditor.js"></script>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+<!-- jquery-ui.js -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
 .odd {
@@ -50,18 +52,12 @@ background-color: #f5f5f5;
 </style>
 <script>
 $(document).ready(function() {
-var arr2 = ${elist};
-	function dayoff_creation(){
-		var doc = "";
-	}
 	$(function(){
 	    keditor = CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
 	    	height:'400px',
 	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
 	    });
-	    //keditor.element.find('p');
-	    //keditor.element.appendText('p');
 	    
 	});
 	
@@ -74,27 +70,23 @@ var arr2 = ${elist};
 			}
 		}
 	});
+	function loadForm(){
+		$.ajax({
+			method : "GET",
+			url : "/groupware/loadForm",
+			data : {
+				"form_no" : $('.selectFormNo:selected').val()
+			},
+			error : function() {
+				alert("양식 불러오기 실패");
+			},
+			success : function(data) {
+				CKEDITOR.instances.ckeditor.setData(data);
+				//keditor.element.appendText(data);
+			}
+		});
+	}
 });//ready end
-function loadForm(){
-	$.ajax({
-		method : "GET",
-		url : "/groupware/loadForm",
-		data : {
-			"form_no" : $('.selectFormNo:selected').val()
-		},
-		error : function() {
-			alert("양식 불러오기 실패");
-		},
-		success : function(data) {
-			//CKEDITOR.instances.ckeditor.setData(data);
-			keditor.element.appendText(data);
-// 			var p = CKEDITOR.dom.element( 'p' );
-// 			console.log(CKEDITOR.dom.element( 'p' ));
-// 			alert(CKEDITOR.dom);
-			//p.appendText( 'This is' );
-		}
-	});
-}
 </script>
 </head>
 <body>
@@ -137,7 +129,7 @@ function loadForm(){
 										</tr>
 										<tr>
 											<td class="odd">작성자</td>
-											<td>사원이름</td>
+											<td>${sessionScope.loginInfo.employee_name}</td>
 										</tr>
 										<tr>
 											<td class="odd">결재</td>
@@ -163,21 +155,13 @@ function loadForm(){
 																			<p class="fa fa-long-arrow-right"></p>
 																		</th>
 																	</tr>
-																	<tr>
+																	<tr id="paste">
 																		<td class="name" index=0></td>
 																		<td class="name" index=1></td>
 																		<td class="name" index=2></td>
 																		<td class="name" index=3></td>
 																		<td class="name" index=4></td>
 																		<td class="name" index=5></td>
-																	</tr>
-																	<tr>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
 																	</tr>
 																</tbody>
 															</table>

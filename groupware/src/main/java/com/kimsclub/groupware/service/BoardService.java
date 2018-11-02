@@ -22,5 +22,4 @@ public interface BoardService {
 	public void insertBoardReply(BoardReplyVO vo);
 	//게시글 댓글 목록
 	public List<BoardReplyVO> boardReplyList(BoardReplyVO vo);
-	
 }

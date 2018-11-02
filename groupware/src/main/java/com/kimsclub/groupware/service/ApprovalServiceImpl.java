@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kimsclub.groupware.dao.ApprovalDAO;
+import com.kimsclub.groupware.dao.DocumentDAO;
 import com.kimsclub.groupware.dao.EmployeeDAO;
 import com.kimsclub.groupware.dao.FormDAO;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
+import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.FormVO;
 
@@ -20,6 +22,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	ApprovalDAO adao;
 	@Autowired
 	EmployeeDAO edao;
+	@Autowired
+	DocumentDAO ddao;
 	
 	@Override
 	public List<FormVO> getUseFormlist() {
@@ -45,5 +49,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	public List<EmployeeVO> loadAllEmp() {
 		return edao.loadAllEmp();
+	}
+
+	@Override
+	public void saveDocument(DocumentVO dvo) {
+		ddao.insertDocument(dvo);
+		
 	}
 }
