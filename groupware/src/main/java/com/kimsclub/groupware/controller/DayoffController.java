@@ -84,7 +84,7 @@ public class DayoffController {
 	}
 
 	/**
-	 * 관리자 기능
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/dayoffSetting", method = RequestMethod.GET)
@@ -96,7 +96,12 @@ public class DayoffController {
 		return "dayoff/dayoff_setting";
 	}
 	
-	
+	/**
+	 * 
+	 * @param list
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/dayoffSetting", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> setDayoffSetting(@RequestBody List<DayoffCreateTermsVO> list, Model model){
@@ -124,12 +129,12 @@ public class DayoffController {
 	
 	@RequestMapping(value = "/createDayoff", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> createDayoffTotalEmployee(EmployeeVO vo) {
+	public Map<String, String> createDayoffTotalEmployee(HttpSession session) {
+		EmployeeVO vo =  (EmployeeVO) session.getAttribute("loginInfo");
 		
 		//세션정보가없어서 임시로 ajax로 보낸 데이터로 해당 관리자로 사용
 		System.out.println(vo.getEmployee_no());
-		
-		
+	
 		Map<String,String> map = new HashMap<String, String>();
 		try {			
 			service.createDayoffTotalEmployee(vo);

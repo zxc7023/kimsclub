@@ -322,9 +322,51 @@
 													<td>${sessionScope.loginInfo.employee_name}</td>
 												</tr>
 												<tr role="row">
-													<td>처리</td>
+													<td>결재선</td>
 													<td>
-														<button type="button" class="btn btn-outline btn-default" data-toggle="modal" data-target="#approvalLineSelect" id="LineSelectBtn">결재선 선택</button>
+														<div class="col-lg-10">
+															<div class="panel panel-default" id="approvalLine">
+															<table width="100%"
+																class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
+																role="grid" aria-describedby="dataTables-example_info"
+																style="width: 100%;">
+																<colgroup>
+																	<col width="15%">
+																	<col width="17%">
+																	<col width="17%">
+																	<col width="17%">
+																	<col width="17%">
+																	<col width="17%">
+																</colgroup>
+																<tbody class="t-body">
+																	<tr>
+																		<th colspan="6">결재 순서
+																			<p class="fa fa-long-arrow-right"></p>
+																		</th>
+																	</tr>
+																	<tr>
+																		<td class="name" index=0></td>
+																		<td class="name" index=1></td>
+																		<td class="name" index=2></td>
+																		<td class="name" index=3></td>
+																		<td class="name" index=4></td>
+																		<td class="name" index=5></td>
+																	</tr>
+																	<tr>
+																		<td class="stamp"></td>
+																		<td class="stamp"></td>
+																		<td class="stamp"></td>
+																		<td class="stamp"></td>
+																		<td class="stamp"></td>
+																		<td class="stamp"></td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+														</div>
+														<div class="col-lg-2"> 													
+															<button type="button" class="btn btn-outline btn-default" data-toggle="modal" data-target="#approvalLineSelect" id="LineSelectBtn">결재선 선택</button>
+														</div>
 													</td>
 												</tr>
 												<tr role="row">

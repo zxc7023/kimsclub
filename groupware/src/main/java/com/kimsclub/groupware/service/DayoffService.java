@@ -29,4 +29,11 @@ public interface DayoffService {
 	
 	public List<DayoffCreateRecodeVO> getMyCreateRecode(EmployeeVO vo);
 	
+	/**
+	 * 총 휴가일수, 사용한 휴가일수(정기
+	 * @param vo
+	 * @return
+	 */
+	DayoffCreateRecodeVO checkMyDayoffDays(EmployeeVO vo);
+	
 }

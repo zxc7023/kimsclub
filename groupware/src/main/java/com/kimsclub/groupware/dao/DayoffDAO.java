@@ -42,11 +42,21 @@ public class DayoffDAO {
 	public void insertEmpsAnnualDayoff(List<DayoffCreateRecodeVO> empList) {
 		for(DayoffCreateRecodeVO vo : empList) {
 			session.insert("dayoff.insertAnnualDayoff",vo);
+			session.update("dayoff.updateAnualMyRecode",vo);
 		}
 	}
 	
 	public List<DayoffCreateRecodeVO> selectMyDayoffRecode(EmployeeVO vo) {
 		return session.selectList("dayoff.selecMytCreateRecode",vo);
+	}
+	
+	/**
+	 * 최종으로 생성된 나의 휴가일수를 가져오기위한 메소드
+	 * @param vo emploee_no가 저장된 vo객체
+	 * @return
+	 */
+	public DayoffCreateRecodeVO selectTotalDayoffDays(EmployeeVO vo) {
+		return session.selectOne("dayoff.selectTotalDayoffDays",vo);
 	}
 	
 }

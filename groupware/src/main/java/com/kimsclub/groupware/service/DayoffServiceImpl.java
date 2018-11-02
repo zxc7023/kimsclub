@@ -55,7 +55,10 @@ public class DayoffServiceImpl implements DayoffService {
 		return dao.selectMyDayoffRecode(vo);
 	}
 	
-	
+	@Override
+	public DayoffCreateRecodeVO checkMyDayoffDays(EmployeeVO vo) {
+		return dao.selectTotalDayoffDays(vo);
+	}
 	
 	
 

@@ -39,17 +39,11 @@
 	$(document).ready(function() {
 		$("#createDayoff").click(function() {
 			if ($("#check1").prop("checked") && $("#check2").prop("checked")) {
-
-				var emp = {
-					'employee_no' : 0
-				};
-				
 				$.ajax({
 					method : "post",
 					dataType : "json",
 					contentType : 'application/json;charset=UTF-8',
 					url : "${pageContext.request.contextPath}/dayoff/createDayoff",
-					data : JSON.stringify(emp),
 					error : function() {
 						alert('전송 실패');
 					},
@@ -62,9 +56,7 @@
 							alert("생성 실패");
 						}
 					}
-				});
-				
-				
+				});	
 			} else {
 				alert("확인사항을 체크해주세요.");
 			}

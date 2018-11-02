@@ -25,21 +25,46 @@
 		(dayoff_type_code_seq.nextval,#{dayoff_name},#{dayoff_deduction},#{dayoff_activation})
 	</insert>
 
+	<!-- 나의 연차에 해당하는 휴가발생일을 가져오는 구문 -->
 	<select id="selectEmpDayoffDay" resultType="DayoffCreateRecode">
 		select employee_no,
 		dayoff_days as effect_day
 		from employee join dayoff_create_terms dct
-		on trunc(months_between(sysdate,hiredate)/12,0) = year_in_office
+		on
+		trunc(months_between(sysdate,hiredate)/12,0) = year_in_office
 	</select>
 
 	<insert id="insertAnnualDayoff" parameterType="DayoffCreateRecode">
-		insert into dayoff_create_recode values (#{employee_no},sysdate,#{effect_day},#{effect_day} + (select nvl((select effect_day from dayoff_create_recode where generation_date = (select max(generation_date) from dayoff_create_recode where employee_no = #{employee_no} and dayoff_type=2)),0) from dual),1,#{dayoff_generator})
+		<!-- insert into dayoff_create_recode values (#{employee_no},sysdate,#{effect_day},#{effect_day} 
+			+ (select nvl((select effect_day from dayoff_create_recode where generation_date 
+			= (select max(generation_date) from dayoff_create_recode where employee_no 
+			= #{employee_no} and dayoff_type=2)),0) from dual),1,#{dayoff_generator}) -->
+		insert into dayoff_create_recode values (#{employee_no}, sysdate,
+		#{effect_day},
+		#{effect_day} + (select reward_dayoff+previous_dayoff
+		from my_dayoff_recode
+		where employee_no = #{employee_no}),1, #{dayoff_generator})
 	</insert>
 	
-	<select id="selecMytCreateRecode" parameterType="Employee" resultType="DayoffCreateRecode">
+	<update id="updateAnualMyRecode" parameterType="Employee">
+		update my_dayoff_recode set annual_dayoff = #{effect_day} where employee_no = #{employee_no} 
+	</update>
+
+	<!-- 나의 휴가 생성내역을 가져오는 sql문 -->
+	<select id="selecMytCreateRecode" parameterType="Employee"
+		resultType="DayoffCreateRecode">
 		select *
 		from dayoff_create_recode
-		where employee_no = #{employee_no} and to_char(sysdate,'yyyy') = to_char(generation_date,'yyyy')
+		where employee_no =
+		#{employee_no} and to_char(sysdate,'yyyy') =
+		to_char(generation_date,'yyyy')
 		order by generation_date asc
 	</select>
+
+	<!-- 총 휴가 일수를 가져오기위한 sql문 -->
+<!-- 	<select id="selectTotalDayoffDays" parameterType="Employee">
+		select * 
+	</select>
+ -->
+
 </mapper>
