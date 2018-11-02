@@ -36,6 +36,16 @@
 				<li></li>
 			</ul>
 		</div>
+		<div>
+			<div>
+				<a href="boardList?board_type=t" >테스트</a>
+			</div>
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
 	</div> 
 </body>
 </html>
