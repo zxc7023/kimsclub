@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="approvalLine">
+
+	<resultMap id="approvalLineMap" type="approvalLine">
+		<id column="approval_path_no" property="approval_path_no"/>
+		<result column="approval_path_order" property="approval_path_order"/>
+		<association property="employee" javaType="employee">
+			<id column="approval_employee_no" property="employee_no" />
+			<result column="position" property="position" />
+			<result column="employee_name" property="employee_name"/>
+			<association property="department" javaType="department" >
+				<id column="department_no" property="department_no"/>
+				<result column="department_name" property="department_name"/>
+			</association>
+		</association>
+	</resultMap>
+	
+	<select id="selectMyApprovalLine" resultMap="approvalLineMap" parameterType="int">
+		SELECT approval_path_order, approval_employee_no, position, employee_name, department_name
+		FROM approval_path a
+		left join approval_path_detail b
+		on a.approval_path_no=b.APPROVAL_PATH_NO
+		left join employee e
+		on b.approval_employee_no=e.employee_no
+		left join department d
+		on e.department_no = d.department_no
+		WHERE a.approval_path_no = #{approval_path_no}
+	</select>
+	
+	
+	<select id="myApprovalLineList" resultType="approvalLine" parameterType="int">
+		SELECT DISTINCT approval_path.approval_path_no as approval_path_no, approval_path.approval_path_name as approval_path_name 
+		FROM approval_path, approval_path_detail 
+		WHERE approval_path.APPROVAL_PATH_NO = approval_path_detail.approval_path_no AND approval_path.employee_no = #{employee_no}
+		ORDER BY approval_path.approval_path_no
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="employee">
+
+	<resultMap id="employeeMap" type="employee">
+		<id column="employee_no" property="employee_no"/>
+		<result column="employee_name" property="employee_name"/>
+		<result column="position" property="position"/>
+		<association property="department" javaType="department">
+			<id column="department_no" property="department_no" />
+			<result column="department_name" property="department_name"/>
+		</association>
+	</resultMap>
+	
+	<select id="loadAllEmployee" resultMap="employeeMap">
+		SELECT employee_no,department_name, position, employee_name
+		from employee e
+		left join department d
+		on e.department_no = d.department_no
+	</select>
+	
+	
+	<select id="login" resultMap="employeeMap">
+		select * from employee where employee_no = #{employee_no} and password = #{password}
+	</select>
+</mapper>

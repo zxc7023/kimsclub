@@ -2,8 +2,10 @@ package com.kimsclub.groupware.service;
 
 import java.util.List;
 
+import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
+import com.kimsclub.groupware.vo.EmployeeVO;
 
 public interface DayoffService {
 	
@@ -22,4 +24,9 @@ public interface DayoffService {
 	public List<DayoffKindsVO> getDayoffKinds();
 
 	public void createDayoffkinds(DayoffKindsVO vo);
+	
+	public void createDayoffTotalEmployee(EmployeeVO vo);
+	
+	public List<DayoffCreateRecodeVO> getMyCreateRecode(EmployeeVO vo);
+	
 }

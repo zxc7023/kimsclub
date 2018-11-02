@@ -9,302 +9,151 @@
 
 <title>일정</title>
 
-  <script type="text/javascript" src="//code.jquery.com/jquery-2.2.4.js"></script>
-<!--   <link rel="stylesheet" type="text/css" href="/css/result-light.css"> -->
+    <link href='${pageContext.request.contextPath}/resources/full/css/vendor/bootstrap.min.css' rel='stylesheet' />
+    <link href='${pageContext.request.contextPath}/resources/full/css/vendor/fullcalendar.css' rel='stylesheet' />
+    <link href='${pageContext.request.contextPath}/resources/full/css/style.css' rel='stylesheet' />
+    <script src='${pageContext.request.contextPath}/resources/full/js/vendor/jquery.min.js'></script>
+    <script src='${pageContext.request.contextPath}/resources/full/js/vendor/moment.min.js'></script>
+    <script src='${pageContext.request.contextPath}/resources/full/js/vendor/bootstrap.min.js'></script>
+    
+	<script src="${pageContext.request.contextPath}/resources/js/fullcalendar.js"></script>
+	<%-- <script src='${pageContext.request.contextPath}/resources/full/js/vendor/fullcalendar.js'></script>  --%>
+	
+    <script src='${pageContext.request.contextPath}/resources/full/js/events.js'></script>
+    <script src='${pageContext.request.contextPath}/resources/full/js/calendar.js'></script>
+	<script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
 
-<link href="${pageContext.request.contextPath}/resources/css/materialFullCalendar.css" rel='stylesheet' />
-<link href="${pageContext.request.contextPath}/resources/css/fullcalendar.min.css" rel='stylesheet' />
-<link href="${pageContext.request.contextPath}/resources/css/fullcalendar.css" rel='stylesheet' />
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/css/bootstrap-datetimepicker.min.css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment-with-locales.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/fullcalendar.min.js"></script>
-<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.42/js/bootstrap-datetimepicker.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
-<script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/gcal.js'></script> 
-<script class="cssdesk" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js" type="text/javascript"></script>
+	<script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/gcal.js'></script> 
 
-
-
-
-<script>
-  $(document).ready(function() {
-    $('#calendar').fullCalendar({
-    	
-    	  customButtons: {
-    		    myCustomButton: {
-    		      text: '일정추가',
-    		      click: function() {
-
-    		    	  $('.modal').modal('show');
- 
-    		      }
-    		    }
-    		  },
-     		  eventRender: function(event, $el) {
-    		        $el.popover({
-    		          title: event.title,
-    		          content: event.content,
-    		          trigger: 'hover',
-    		          placement: 'top',
-    		          container: 'body'
-    		        });
-    		      }, 
-    		      
-      header: {
-    	  left: 'title',
-			center: 'agendaDay,agendaWeek,month',
-			right: 'prev,next today'
-      },
-      navLinks: true, // can click day/week names to navigate views
-      editable: true,
-      eventLimit: true, // allow "more" link when too many events
-     /*  weekNumbers : true, */
-      navLinks: true, // can click day/week names to navigate views
-      selectable: true,
-      selectHelper: true,
-      googleCalendarApiKey : "AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE",
-      eventSources : [
-          // 대한민국의 공휴일
-          {
-                googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com"
-              , className : "koHolidays"
-              , color : "#FFFFFF"
-              , textColor : "#FF0000"
-              
-          }],
-      events: [
-        {
-          title: 'All Day Event',
-          start: '2018-03-01'
-        },
-        {
-          title: 'Long Event',
-          start: '2018-03-07',
-          end: '2018-03-10'
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: '2018-03-09T16:00:00'
-        },
-        {
-          id: 999,
-          title: 'Repeating Event',
-          start: '2018-03-16T16:00:00'
-        },
-        {
-          title: 'Conference',
-          start: '2018-03-11',
-          end: '2018-03-13'
-        },
-        {
-          title: 'Meeting',
-          start: '2018-10-10T10:30:00',
-          end: '2018-10-10T12:30:00'
-        },
-        {
-          title: 'Lunch',
-          start: '2018-10-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          content: 'description for Click for Google',
-          start: '2018-10-12T14:30:00'
-          
-        },
-        {
-          title: 'Happy Hour',
-          start: '2018-10-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2018-10-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2018-10-13T07:00:00'
-        },
-        {
-            title: 'Birthday Party',
-            start: '2018-10-13T07:00:00',
-            content: 'description for Click for Google',
-            end: '2018-10-13T12:30:00'
-          }
-      ],
-
-      select: function(start, end) {
-          // Display the modal.
-          // You could fill in the start and end fields based on the parameters
-          $('.modal').modal('show');
-
-      },
-      eventClick: function(event, element) {
-          // Display the modal and set the values to the event values.
-          $('.modal').modal('show');
-          $('.modal').find('#title').val(event.title);
-          $('.modal').find('#content').val(event.content);
-          $('.modal').find('#starts-at').val(event.start);
-          $('.modal').find('#ends-at').val(event.end);
-
-      },
-      editable: true,
-      eventLimit: true // allow "more" link when too many events
-
-  });
-
-  // Bind the dates to datetimepicker.
-  // You should pass the options you need
-  $("#starts-at, #ends-at").datetimepicker();
-
-  // Whenever the user clicks on the "save" button om the dialog
-  $('#save-event').on('click', function() {
-      var title = $('#title').val();
-      alert(title);
-      if (title) {
-          var eventData = {
-         	  id : hello,
-              title: title,
-              content:content,
-              start: $('#starts-at').val(),
-              end: $('#ends-at').val()
-          };
-          $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-      }
-      $('#calendar').fullCalendar('unselect');
-
-      // Clear modal inputs
-      $('.modal').find('input').val('');
-
-      // hide modal
-      $('.modal').modal('hide');
-      
-    });
-  
-  /* 삭제 */
-  $('#delete-event').on('click', function() {
-	 
-  	});
-
-  });
-
-</script>
-<style>
-
- 	body {
-	    margin-bottom: 40px;
-		margin-top: 40px;
-		text-align: center;
-		font-size: 14px;
-		font-family: 'Roboto', sans-serif;
-		background:url(https://i.pinimg.com/originals/e4/28/46/e42846872bd92ee0f1ec8ecc64a18bd3.jpg);		
-		}
-		
-	#wrap {
-		width: 1100px;
-		margin: 0 auto;
-		}
-		
-	#external-events {
-		float: left;
-		width: 150px;
-		padding: 0 10px;
-		text-align: left;
-		}
-		
-	#external-events h4 {
-		font-size: 16px;
-		margin-top: 0;
-		padding-top: 1em;
-		}
-		
-	.external-event { /* try to mimick the look of a real event */
-		margin: 10px 0;
-		padding: 2px 4px;
-		background: #3366CC;
-		color: #fff;
-		font-size: .85em;
-		cursor: pointer;
-		}
-		
-	#external-events p {
-		margin: 1.5em 0;
-		font-size: 11px;
-		color: #666;
-		}
-		
-	#external-events p input {
-		margin: 0;
-		vertical-align: middle;
-		}
-
-	#calendar {
-/* 		float: right; */
-        margin: 0 auto;
-		width: 900px;
-		background-color: #FFFFFF;
-		  border-radius: 6px;
-        box-shadow: 0 1px 2px #C3C3C3;
-		-webkit-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
--moz-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
-box-shadow: 0px 0px 21px 2px rgba(0,0,0,0.18);
-		}
-
-  .fc-sun {color:#e31b23}
-.fc-sat {color:#007dc3}
-
-</style>
+	<!--  달력-->
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 </head>
+<!-- <script>
+$(function() {
+      $("#starts-at").datepicker({
+          dateFormat:'y/mm/dd', 
+          monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+          dayNamesMin:['일','월','화','수','목','금','토'],
+          changeMonth:true, // 월변경가능
+          changeYear:true,  // 년변경가능
+          showMonthAfterYear:true, // 년 뒤에 월표시
+          calendarWeeks: false,
+          todayHighlight: true,
+          autoclose: true,
+
+                              
+      });
+      $("#ends-at").datepicker({
+           dateFormat:'y/mm/dd',
+           monthNamesShort:['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+           dayNamesMin:['일','월','화','수','목','금','토'],
+           changeMonth:true, // 월변경가능
+           changeYear:true,  // 년변경가능
+           showMonthAfterYear:true, // 년 뒤에 월표시
+           calendarWeeks: false,
+           todayHighlight: true,
+           autoclose: true,
+
+                               
+       });
+     });
+</script> -->
 <body>
+ <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <p class="navbar-brand" id="todaysDate"></p>
+        </div>
+    </nav>
 
+    <div class="container-fluid row">
+        <div id='calendar1' class='calendar col-md-8'></div>
+        <div id='calendar2' class='calendar col-md-4'></div>
+    </div>
+
+    <div class="modal fade" id="newEvent" role="dialog" aria-labelledby="eventFormLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="newEvent">일정등록</h4>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="form-control-label">제목</label>
+                            <input type="text" class="form-control" id="title">
+                            <!--t수정  -->
+                            <label class="form-control-label">내용</label>
+                            <textarea rows="5" cols="30" id="content"class="form-control"></textarea>
+                            <label class="form-control-label">색상</label>                                                        
+                            <select name="color" id="color" class="form-control">
+								<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
+								<option value="#e0305a"style="background-color: #e0305a; ">빨강</option>
+								<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
+								<option value="#008bca" style="background-color: #008bca;"selected="selected">파란</option>								
+							</select> 
+							<label class="form-control-label">시작날짜</label>
+                       		<input type="text"class="form-control" id="starts-at">
+                            <label class="form-control-label">종료날짜</label> 
+                            <input type="text"class="form-control" id="ends-at">
+                            <!--수정끝  -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-success" id="submit">저장</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editEvent" role="dialog" aria-labelledby="eventFormLabel" aria-hidden="true" data-persist="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+                    <h4 class="modal-title" id="editEvent">일정 내용</h4>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="title" class="form-control-label">제목</label>
+                            <input type="text" class="form-control" id="editTitle">
+                            <!--t수정  -->
+                            <label class="form-control-label">내용</label>
+                            <textarea rows="5" cols="30" id="content2"class="form-control"></textarea>
+ 							<label class="form-control-label">색상</label>                                                        
+                            <select name="color" id="color" class="form-control">
+								<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
+								<option value="#e0305a"style="background-color: #e0305a; ">빨강</option>
+								<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
+								<option value="#008bca" style="background-color: #008bca;"selected="selected">파란</option>								
+							</select> 
+							<label class="form-control-label">시작날짜</label>
+                       		<input type="text"class="form-control" id="starts-at2">
+                            <label class="form-control-label">종료날짜</label> 
+                            <input type="text"class="form-control" id="ends-at2">
+                            <!--수정끝  -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger left" id="delete">삭제</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-success" id="update">수정</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+ 
   
-
-
-
-<div id='calendar'></div>
-
-<div class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">일정추가</h4>
-            </div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-xs-12">
-							<label class="col-xs-4" for="title">일정 제목</label> <input
-								type="text" name="title" id="title" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12">
-							<label class="col-xs-4" for="content">내용</label> <input
-								type="text" name="content" id="content" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12">
-							<label class="col-xs-4" for="starts-at">시작</label> <input
-								type="text" name="starts_at" id="starts-at" />
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-12">
-							<label class="col-xs-4" for="ends-at">종료</label> <input
-								type="text" name="ends_at" id="ends-at" />
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-default" id="delete-event">삭제</button>
-                <button type="button" class="btn btn-primary" id="save-event">저장</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+ 
 </body>
 </html>

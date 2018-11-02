@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kimsclub.groupware.service.ApprovalService;
 import com.kimsclub.groupware.service.DayoffService;
+import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
+import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Controller
 @RequestMapping(value = "/dayoff/*")
@@ -25,25 +30,61 @@ public class DayoffController {
 	
 	@Autowired
 	DayoffService service;
+	
+	@Autowired
+	ApprovalService service2;
 
+	/**
+	 *
+	 * @return 휴가신청 view
+	 */
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.GET)
-	public ModelAndView applyDayoff() {
+	public ModelAndView applyDayoff(HttpSession session) {
 		System.out.println("write_dayoff() 메소드 호출");
 		List<DayoffKindsVO> kindsList = service.getDayoffKinds();
+		List<EmployeeVO> elist = service2.loadAllEmp();
+		
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+	
+		try {
+			json = mapper.writeValueAsString(elist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		EmployeeVO vo =  (EmployeeVO) session.getAttribute("loginInfo");
+	
 		ModelAndView mov = new ModelAndView();
 		mov.setViewName("dayoff/dayoff_writeform");
+		mov.addObject("elist", json);
 		mov.addObject("dayoffKindList",kindsList);
+/*		mov.addObject("loginInfo",vo);*/
 		return mov;
 	}
 
+	
+	/**
+	 * 
+	 * @return view : 휴가현황(dayoff_status) model : 휴가생성 내역(DayoffCreateRecode) 
+	 */
 	@RequestMapping(value = "/dayoffStatus", method = RequestMethod.GET)
-	public String readDayoffStatus() {
-		System.out.println("readDayoffStatus() 메소드 호출");
-		return "dayoff/dayoff_status";
+	public ModelAndView readDayoffStatus(HttpSession session) {
+		
+		EmployeeVO vo = (EmployeeVO) session.getAttribute("loginInfo");	
+		
+		ModelAndView mov = new ModelAndView();
+		
+		List<DayoffCreateRecodeVO> createList = service.getMyCreateRecode(vo);
+		mov.addObject("createList",createList);
+		mov.setViewName("dayoff/dayoff_status");
+		
+		return mov;
 	}
 
 	/**
-	 * 인터셉터 기능을 넣어서 세션정보를 확인후 관리자인 경우에만 접근가능하도록
+	 * 관리자 기능
 	 * @return
 	 */
 	@RequestMapping(value = "/dayoffSetting", method = RequestMethod.GET)
@@ -71,4 +112,35 @@ public class DayoffController {
 		service.createDayoffkinds(vo);
 		return "redirect:/dayoff/dayoffSetting"; 
 	}
+	
+
+	
+	@RequestMapping(value = "/dayoffCreation", method = RequestMethod.GET)
+	public String dayoffCreateView(Model model){
+		List<DayoffCreateTermsVO> createTermsList = service.getDayoffCreateTerms();
+		model.addAttribute("DayoffCreateTerms",createTermsList);
+		return "dayoff/dayoff_creation"; 
+	}
+	
+	@RequestMapping(value = "/createDayoff", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> createDayoffTotalEmployee(EmployeeVO vo) {
+		
+		//세션정보가없어서 임시로 ajax로 보낸 데이터로 해당 관리자로 사용
+		System.out.println(vo.getEmployee_no());
+		
+		
+		Map<String,String> map = new HashMap<String, String>();
+		try {			
+			service.createDayoffTotalEmployee(vo);
+			map.put("result", "1");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+
+	
+	
 }

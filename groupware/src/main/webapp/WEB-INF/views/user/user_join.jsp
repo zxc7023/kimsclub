@@ -174,19 +174,49 @@ function cancle(){
 					<div class="panel-heading">회원가입</div>
 					<div class="panel-body">
 						<form class="myForm" id="userinfoForm" action="UserJoinServlet" method="post" onsubmit="return checkvalue()" name=userinfo>
-							<input type="hidden" name="num">
-							<h3 >이름:</h3><input type="text" class="myFormInput" name="name"><br>
-							<h3 style="display: inline;">아이디:</h3><div id="idResult" style="display: inline;"></div><input type="text" class="myFormInput" name="id" id ="id"><br>
-							<h3>비밀번호:</h3><input type="password" class="myFormInput" name="pw"><br>
-							<h3 style="display: inline;">비밀번호 확인:</h3><div id="pwResult" style="display: inline;"></div><input type="password" class="myFormInput" name="pwcheck" id="pwcheck"><br>
-							<h3 style="display: inline;">주소:</h3>
-							<input type="button" class="postcode" onclick="sample6_execDaumPostcode()" value="주소 찾기">
-							<input type="text" class="myFormInput" name="addr" id="addr" readonly="readonly"><br>
-							<h3>이메일:</h3><input type="text" name="email" class="myFormInput" placeholder="example@example.com"><br>
-							<h3>휴대폰번호:</h3><br><input type="text" class="myFormHpInput" name="hp1" pattern="[0-9]{2,3}" size="1" maxlength="3" oninvalid="this.setCustomValidity('010,011,012중에 입력해주세요')"><h3 id="mid">-</h3>
-							<input type="text" class="myFormHpInput" name="hp2" pattern="[0-9]{3,4}" size="1" maxlength="4" oninvalid="this.setCustomValidity('3자리및4자리숫자를 입력하세요')"><h3 id="mid">-</h3>
-							<input type="text" class="myFormHpInput" name="hp3" pattern="[0-9]{3,4}" size="1" maxlength="4" oninvalid="this.setCustomValidity('3자리및4자리숫자를 입력하세요')"><br>
-							<input type="submit" class="myFormButton" value="회원가입">
+							<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+								<colgroup>
+									<col width="150">
+									<col width="auto">
+								</colgroup>
+								<tbody>
+							
+								
+								<tr role="row">
+									<td>이름</td>
+									<td><input type="text" class="myFormInput" name="name"></td>
+								</tr>
+								<tr role="row">
+									<td>아이디</td>
+									<td><div id="idResult" style="display: inline;"></div><input type="text" class="myFormInput" name="id" id ="id"></td>
+								</tr>
+								<tr role="row">
+									<td>비밀번호</td>
+									<td><input type="password" class="myFormInput" name="pw"></td>
+								</tr>
+								<tr role="row">
+									<td>비밀번호 확인</td>
+									<td><div id="pwResult" style="display: inline;"></div><input type="password" class="myFormInput" name="pwcheck" id="pwcheck"></td>
+								</tr>
+								<tr role="row">
+									<td>주소</td>
+									<td><input type="button" class="postcode" onclick="sample6_execDaumPostcode()" value="주소 찾기"><input type="text" class="myFormInput" name="addr" id="addr" readonly="readonly"></td>
+								</tr>
+								<tr role="row">
+									<td>이메일</td>
+									<td><input type="text" name="email" class="myFormInput" placeholder="example@example.com"></td>
+								</tr>
+								<tr role="row">
+									<td>휴대폰번호</td>
+									<td>
+										<input type="text" class="myFormHpInput" name="hp1" pattern="[0-9]{2,3}" size="1" maxlength="3" oninvalid="this.setCustomValidity('010,011,012중에 입력해주세요')">-
+										<input type="text" class="myFormHpInput" name="hp2" pattern="[0-9]{3,4}" size="1" maxlength="4" oninvalid="this.setCustomValidity('3자리및4자리숫자를 입력하세요')">-
+										<input type="text" class="myFormHpInput" name="hp3" pattern="[0-9]{3,4}" size="1" maxlength="4" oninvalid="this.setCustomValidity('3자리및4자리숫자를 입력하세요')">
+										<input type="submit" class="myFormButton" value="회원가입">
+									</td>
+								</tr>
+								</tbody>
+							</table>
 						</form>
 					</div>
 				</div>

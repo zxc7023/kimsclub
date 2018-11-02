@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,33 +33,43 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
 <script src="https://fullcalendar.io/releases/fullcalendar/3.9.0/gcal.min.js"></script>
 <!-- dayoff_writeform.css -->
-<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/day_status.css"> --%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/day_status.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script type="text/javascript">
 	$(document).ready(function() {
+		$("#createDayoff").click(function() {
+			if ($("#check1").prop("checked") && $("#check2").prop("checked")) {
 
-		
-		//console.log(${requestScope.createList});
-		$("#calendar").fullCalendar({
-					header : {
-						left : 'prev,next ',
-						center : 'title',
-						right : 'today'
+				var emp = {
+					'employee_no' : 0
+				};
+				
+				$.ajax({
+					method : "post",
+					dataType : "json",
+					contentType : 'application/json;charset=UTF-8',
+					url : "${pageContext.request.contextPath}/dayoff/createDayoff",
+					data : JSON.stringify(emp),
+					error : function() {
+						alert('전송 실패');
 					},
-
-					googleCalendarApiKey : 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
-					eventSources : [
-					// 대한민국의 공휴일
-					{
-						googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com",
-						className : "koHolidays",
-						color : "#FF0000",
-						textColor : "#FFFFFF"
-					} ]
+					success : function(server_result) {
+						var server_json = server_result;
+						var result = server_json.result;
+						if (result == "1") {
+							alert("생성 성공");
+						} else {
+							alert("생성 실패");
+						}
+					}
+				});
+				
+				
+			} else {
+				alert("확인사항을 체크해주세요.");
+			}
 		});
-	})
+	});
 </script>
 <title>휴가현황</title>
 </head>
@@ -73,65 +83,60 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-sm-12">
-					<h1 class="page-header">휴가현황</h1>
+					<h1 class="page-header">휴가 생성</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="">
+					<div class="panel-body">
 						<!-- Nav tabs -->
 						<ul class="nav nav-tabs">
-							<li class="active"><a href="#tab01" data-toggle="tab">휴가 생성 내역</a></li>
-							<li><a href="#tab02" data-toggle="tab">휴가 신청 내역</a></li>
-							<li><a href="#tab03" data-toggle="tab">휴가 캘랜더 </a></li>
+							<li class="active"><a href="#tab01" data-toggle="tab">연차 휴가 생성</a></li>
+							<li><a href="#tab02" data-toggle="tab">포상 휴가 생성</a></li>
 						</ul>
 						<!-- Tab panes -->
-						<div class="tab-content ">
+						<div class="tab-content">
 							<div class="tab-pane fade in active" id="tab01">
-								<table class="table" id="myTable">
-									<caption>휴가 생성 내역</caption>
-									<colgroup>
-										<col width="20%">
-										<col width="10%">
-										<col width="10%">
-										<col width="20%">
-										<col width="50%">
-									</colgroup>
+								<ul>
+									<li>연차는 [휴가관리 - 기본 설정] 페이지에서 설정한 휴가 생성 조건에 따라 생성됩니다.</li>
+									<li>오피스 생성 후 근태/휴가를 처음 사용하거나 수동 설정이 필요한 경우, 아래 확인 사항을 확인하시고 [지금 생성] 버튼을 클릭하여 연차를 수동 생성하세요.</li>
+									<li>연차 휴가는 휴가 생성 조건에서 설정한 생성 일자에 매년 1회 자동 생성되므로, 특별한 경우를 제외하고는 수동 생성할 필요가 없습니다.</li>
+								</ul>
+								<table class="table table-bordered" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 									<thead>
-										<tr>
-											<th>생성일</th>
-											<th>발생일</th>
-											<th>최종일</th>
-											<th>내용</th>
-											<th>비고</th>
+										<tr role="row">
+											<th>연차</th>
+											<c:forEach items="${requestScope.DayoffCreateTerms}" var="list">
+												<td>${list.year_in_office}</td>
+											</c:forEach>
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="creation" items="${requestScope.createList}">
-											<tr>
-												<td><fmt:formatDate value="${creation.generation_date}" pattern="yyyy.MM.dd" /></td>
-												<td>${creation.effect_day }</td>
-												<td>${creation.real_day }</td>
-												<c:if test="${creation.dayoff_type eq 1}">
-													<td>정기 휴가</td>
-													<td>금년 발생일(${creation.effect_day}), 최종일(${creation.real_day })
-												</c:if>
-												<c:if test="${creation.dayoff_type eq 2}">
-													<td>포상 휴가</td>
-													<td>포상(${creation.effect_day}), 최종일(${creation.real_day})</td>
-												</c:if>
-												<c:if test="${creation.dayoff_type eq 3}">
-														수동 입력
-												</c:if>
-											</tr>
-										</c:forEach>
+										<tr role="row">
+											<th>휴가일</th>
+											<c:forEach items="${requestScope.DayoffCreateTerms}" var="list">
+												<td>${list.dayoff_days}</td>
+											</c:forEach>
+										</tr>
+										<tr role="row">
+											<th>확인 사항</th>
+											<td colspan="${fn:length(requestScope.DayoffCreateTerms)}">
+												<p>아래 내용을 확인 후 체크해주세요.</p>
+												<div>
+													<input type="checkbox" id="check1"> <small>위 조건으로 전 직원의 연차 휴가를 생성(재설정)합니다. 생성 조건이 회사 규정에 맞지 않으면 설정을 변경한 후 이용하세요.</small> <a href="${pageContext.request.contextPath}/dayoff/dayoffSetting">연차 휴가 설정 변경 바로가기</a>
+												</div>
+												<div>
+													<input type="checkbox" id="check2"> <small> 입사일이 입력되지 않은 사용자는 휴가가 생성되지 않습니다. 휴가 대상자를 먼저 확인하시기 바랍니다</small> <a href="#">회원관리 바로가기</a>
+												</div>
+											</td>
+										</tr>
 									</tbody>
 								</table>
+								<button class="btn btn-outline btn-default" id="createDayoff">휴가 생성</button>
 							</div>
 							<div class="tab-pane fade" id="tab02">
 								<div>
 									<table>
-										<caption>휴가 신청 내역</caption>
 										<colgroup>
 											<col width="7%">
 											<col width="12%">
@@ -163,21 +168,21 @@
 													<p>2018.01.02 ~ 2018.01.02</p>
 												</td>
 												<td>결재 완료</td>
-												<td><button>상세</button></td>
+												<td>
+													<button>상세</button>
+												</td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 							</div>
-							<div class="tab-pane fade" id="tab03">
-								<div>
-									<div id="calendar"></div>
-								</div>
-							</div>
 						</div>
+						<!-- tab_content 끝 -->
 					</div>
 				</div>
+				<!-- col-sm-12영역 끝 -->
 			</div>
+			<!-- row 끝 -->
 		</div>
 	</div>
 </body>

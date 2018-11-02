@@ -12,54 +12,51 @@
 <meta name="author" content="">
 <!-- Bootstrap Core CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
 <!-- Bootstrap Core CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
 <!-- MetisMenu CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
-
 <!-- Custom CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
-
 <!-- Custom Fonts -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <!-- DataTables CSS -->
 <!-- <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet"> -->
-
 <!-- DataTables Responsive CSS -->
 <!-- <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet"> -->
-
-
+<!-- dayoff_writeform.css -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_writeform.css">
+<!-- jquery-ui.css -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
-
 <!-- Bootstrap Core JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
-
 <!-- Metis Menu Plugin JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
-
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
-
 <!-- <!-- DataTables JavaScript -->
 <!-- <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables/js/jquery.dataTables.min.js"></script>
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.js"></script> -->
-
-<!-- dayoff_writeform.css -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_writeform.css">
-
+<!-- jquery-ui js -->
+<style>
+  .ui-autocomplete-category {
+    font-weight: bold;
+    padding: .2em .4em;
+    margin: .8em 0 .2em;
+    line-height: 1.5;
+  }
+  </style>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-/* 		$('#dataTables-example').DataTable({
-			responsive : true
-		}); */
+		
 	});
-
+	
+	
+	
 	Map = function() {
 		this.map = new Object();
 	};
@@ -122,26 +119,30 @@
 	var total_day = 0.0;
 
 	var week = new Array('일', '월', '화', '수', '목', '금', '토');
-	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12');
+	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+			'11', '12');
 
 	var today = new Date();
 	var cal_start_date = today;
 	var last_date;
 
 	function prevCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() - 15);
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth(), cal_start_date.getDate() - 15);
 		buildCalendar();
 	}
 
 	function nextCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() + 15);
+		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth(), cal_start_date.getDate() + 15);
 		buildCalendar();
 	}
 
 	function buildCalendar() {
 
 		//start_date 시작일이 포함된 달의 마지막 날을 담은 date 객체
-		last_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() + 1, 0);
+		last_date = new Date(cal_start_date.getFullYear(), cal_start_date
+				.getMonth() + 1, 0);
 
 		//캘린더 html 요소를 찾아서 변수에 저장.
 		var tbCalendar = $("#calendar");
@@ -161,7 +162,8 @@
 
 		//thead의 첫 번째 row 추가 및 변수 선언
 		thead.append(tr);
-		var row1 = tbCalendar.find("thead tr:last-child").addClass("year_month");
+		var row1 = tbCalendar.find("thead tr:last-child")
+				.addClass("year_month");
 
 		//thead의 두 번째 row 추가 및 변수 선언
 		thead.append(tr);
@@ -169,7 +171,8 @@
 
 		//thead의 세 번째 row 추가 및 변수 선언
 		thead.append(tr);
-		var row3 = tbCalendar.find("thead tr:nth-child(3)").addClass("day-name");
+		var row3 = tbCalendar.find("thead tr:nth-child(3)")
+				.addClass("day-name");
 
 		//tbody의 첫 번째 row 추가 및 변수 선언
 		tbody.append(tr);
@@ -180,12 +183,15 @@
 			row3.append(td);
 			row4.append(td);
 
-			var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() + i);
-			var cell2 = row2.find("td:last-child").text(week[cell_date.getDay()]);
+			var cell_date = new Date(cal_start_date.getFullYear(),
+					cal_start_date.getMonth(), cal_start_date.getDate() + i);
+			var cell2 = row2.find("td:last-child").text(
+					week[cell_date.getDay()]);
 			var cell3 = row3.find("td:last-child").text(cell_date.getDate());
 			var cell4 = row4.find("td:last-child");
 
-			var dayoff_date = cell_date.getFullYear() + "/" + cell_date.getMonth() + "/" + cell_date.getDate();
+			var dayoff_date = cell_date.getFullYear() + "/"
+					+ cell_date.getMonth() + "/" + cell_date.getDate();
 			cell4.attr("data-dayoff_date", dayoff_date);
 
 			if (dayMap.containsKey(dayoff_date)) {
@@ -265,12 +271,15 @@
 		//첫번째 tr에 cell 하나 추가
 		row1.append(td);
 		var cell1_1 = row1.find("td:last-child").attr("colspan", cnt);
-		cell1_1.text(cal_start_date.getFullYear() + "." + month[cal_start_date.getMonth()]);
+		cell1_1.text(cal_start_date.getFullYear() + "."
+				+ month[cal_start_date.getMonth()]);
 		if (cnt < 15) {
 			row1.append(td);
 			var cell1_2 = row1.find("td:last-child").attr("colspan", 15 - cnt);
-			cell1_2_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() + 1, 1);
-			cell1_2.text(cell1_2_date.getFullYear() + "." + month[cell1_2_date.getMonth()]);
+			cell1_2_date = new Date(cal_start_date.getFullYear(),
+					cal_start_date.getMonth() + 1, 1);
+			cell1_2.text(cell1_2_date.getFullYear() + "."
+					+ month[cell1_2_date.getMonth()]);
 		}
 
 	}
@@ -278,23 +287,18 @@
 <title>휴가 신청</title>
 </head>
 <body>
-
 	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
-
 		<!-- header,navigation div -->
 		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-
 		<!-- content div -->
 		<div id="page-wrapper">
-
 			<div class="row">
 				<div class="col-sm-12">
 					<h1 class="page-header">휴가/근태</h1>
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="panel panel-default">
@@ -303,8 +307,7 @@
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 								<div class="row">
 									<form class="col-sm-12">
-										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid"
-											aria-describedby="dataTables-example_info">
+										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<colgroup>
 												<col width="150">
 												<col width="auto">
@@ -316,12 +319,12 @@
 												</tr>
 												<tr role="row">
 													<td>작성자</td>
-													<td>사원이름</td>
+													<td>${sessionScope.loginInfo.employee_name}</td>
 												</tr>
 												<tr role="row">
 													<td>처리</td>
 													<td>
-														<button>결재선 선택</button>
+														<button type="button" class="btn btn-outline btn-default" data-toggle="modal" data-target="#approvalLineSelect" id="LineSelectBtn">결재선 선택</button>
 													</td>
 												</tr>
 												<tr role="row">
@@ -335,27 +338,22 @@
 														<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right"></button>
 														<p>
 															휴가신청 현황 : <span id="total_day">0</span>일
-														</p>
-														<script type="text/javascript">
+														</p> <script type="text/javascript">
 															buildCalendar();
 														</script>
 													</td>
 												</tr>
 												<tr role="row">
 													<td>휴가종류</td>
-													<td>
-														<select class="form-control">
+													<td><select class="form-control">
 															<c:forEach items="${requestScope.dayoffKindList}" var="kind">
 																<option>${kind.dayoff_name}</option>
 															</c:forEach>
-														</select>
-													</td>
+													</select></td>
 												</tr>
 												<tr role="row">
 													<td>사유</td>
-													<td>
-														<input class="form-control" type="text" name="reason">
-													</td>
+													<td><input class="form-control" type="text" name="reason"></td>
 												</tr>
 											</tbody>
 										</table>
@@ -367,6 +365,8 @@
 				</div>
 			</div>
 		</div>
+		<div id="test"></div>
 	</div>
+	<jsp:include page="/WEB-INF/views/approvalLineModal.jsp"></jsp:include>
 </body>
 </html>
