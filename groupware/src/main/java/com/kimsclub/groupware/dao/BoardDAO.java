@@ -60,7 +60,13 @@ public class BoardDAO {
 	
 	//게시글 댓글 등록
 	public void insertBoardReply(BoardReplyVO vo) {
-		session.insert("board.insertBoardReply", vo);
+		if(vo.getReply_group()==0) {
+			//댓글 입력시
+			session.insert("board.insertBoardReply", vo);
+		}else{
+			//입력된 댓글의 답글 입력시
+			session.insert("board.insertBoardReplyOfReply", vo);
+		}
 	}
 	
 	//게시글 댓글 목록

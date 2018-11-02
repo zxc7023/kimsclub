@@ -98,7 +98,18 @@ public class BoardController {
 	@RequestMapping(value="/ReplyWrite", method=RequestMethod.POST)
 	@ResponseBody
 	public void replyWrite(@ModelAttribute BoardReplyVO vo, HttpSession session) {
-		service.insertBoardReply(vo);
+		if(vo.getReply_group()==0) {
+			//게시글의 댓글 입력시
+			/*vo.setReply_writer_no(session);*/
+			System.out.println(vo.getReply_writer_no());
+			service.insertBoardReply(vo);
+		}else {
+			//입력된 댓글의 답글 입력시
+			System.out.println(vo.getReply_group());
+			
+			/*vo.setReply_writer_no(session);*/
+			service.insertBoardReply(vo);
+		}
 	}
 	
 	//댓글 목록

@@ -42,12 +42,8 @@
 
 <script type="text/javascript">
 	
-	//댓글 링크 클릭시 
-	function replyBtn(){
-		$(".replyForm").load();
-	}
-	
 	$(document).ready(function() {
+		
 		
 		var boardType = "${param.board_type}";
 		var boardNo = ${param.board_no};
@@ -62,13 +58,37 @@
 			location.href = "BoardDelete?board_no="+boardNo+"&board_type="+boardType;
 		});
 		
+		//댓글 링크 클릭시(동적 태그 이벤트) 
+		$(document).on("click",".replyBtn",function(){
+			if($('.replyAdd').length){
+				$("li.replyAdd").remove();	
+				$('.replyBtn').html("답글");
+				$("#reply_group").remove();
+			}else{
+				$("#reply_group").remove();
+				//댓글의 그룹번호 가져오기
+				var replyGroup = $(this).parents("li.clearfix").find(".replyGroup").val();
+				alert(replyGroup);
+				// hidden으로 replyGroup 값설정
+				var input ='<input type="hidden" id="reply_group" name="reply_group" value="'+replyGroup+'">';
+				// form 태그에 input데이터 추가
+				var replyWrite = $("#replyWrite").append(input);
+				// 
+				var replyForm = $(".replyForm").html();
+				/* $("#reply_group").val(replyGroup); */
+				/* var replyForm = $(".replyForm").html(); */
+				var textInput='<li class="left clearfix replyAdd">'+replyForm+'</li>';
+				$(this).parents("li.clearfix").after(textInput);
+				$(this).html("답글취소");
+			}
+		});
 		
 		//댓글 쓰기 버튼 클릭
-		$("#save").click(function(){
+		$(document).on("click","#save",function(){
+			
 			$.ajax({
 				type : "post",
 				url: "${pageContext.request.contextPath}/ReplyWrite",
-				/* dataType : 'text', */
 				data: $("#replyWrite").serialize(), //serialize()사용으로 form에 있는 데이터를 한번에 url파라미터 형식 테스트 문자열로 변환
 				error : function(request,status,error){
 	                alert('실패');
@@ -76,8 +96,6 @@
 	            success : function(data){
 	            	$("#replyText").val(""); 
 	            	listReply();
-	                
-
 	            }
 			});
 		});
@@ -93,6 +111,7 @@
 				error : function(request,status,error){
 			    	alert('실패');
 			    },
+			    
 				success: function(result){
 					var output="";
 					for(var i in result){
@@ -100,23 +119,23 @@
 						output += '<span class="chat-img pull-left"><img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle"></span>';
 						output += '<div class="chat-body clearfix">';
 						output += '<div class="header">';
+						output += '<input class="replyGroup" type="hidden" value="'+result[i].reply_group+'">';
 						output += '<strong class="primary-font">'+result[i].reply_writer +'</strong>';
 						output += '<small class="text-muted"> '+result[i].reply_date+'</small>';
-						output += ' <i class="glyphicon glyphicon-share-alt text-muted"></i><a href="javascript:void(0)" onclick="replyBtn();" ><small class="text-muted">답글</small></a>'
+						output += ' <i class="glyphicon glyphicon-share-alt text-muted"></i><small class="text-muted "><a class="replyBtn" href="#">답글</a></small>'
 						output += '</div>';
 						output += '<p>'+result[i].reply_contents+'</p>';
 						output += '</div>';
 						output += '</li>';
-					}
+						}
 					
 					$('#replyInsert').html(output);
 				}
-						
 			});
 		}
-		
-		
 	});
+	
+	
 	
 </script>
 
@@ -191,24 +210,29 @@
             <div class="row">
 				<div class="col-sm-12">
     	        <div class="well">
-    	        <div class="panel-body">
-                    <ul id="replyInsert" class="chat">
-                    	
-                    </ul> 
-                </div>
+	    	        <div class="panel-body">
+	                    <ul id="replyInsert" class="chat">
+	                    
+	                    
+	                    	<!-- 이 안에 댓글이 들어감 -->
+	                    	
+	                    	
+	                    </ul> 
+	                </div>
     	        
     	        	<!-- 댓글 입력 -->
     	        	<div class="replyForm">
-    	        	<form id="replyWrite"  method="post">
-	    	        	<div class="form-group input-group">
-		                        <textarea class="form-control" rows="1" id="replyText" name="reply_contents" ></textarea>
-							    <span class="input-group-btn">
-							    	<input type="hidden" id="reply_board_type" name="reply_board_type" value="${param.board_type}" >
-							    	<input type="hidden" id="board_no" name="board_no" value="${param.board_no}" >
-		                       		<button id="save" class="btn btn-primary" type="button"><i class="fa fa-comments"></i></button>
-		                        </span>
-	                    </div>
-                    </form>
+	    	        	<form id="replyWrite" method="post">
+		    	        	<div class="form-group input-group">
+			                	<textarea class="form-control" rows="1" id="replyText" name="reply_contents" ></textarea>
+								    <span class="input-group-btn">
+								    	<!-- <input type="hidden" id="reply_group" name="reply_group"> -->
+								    	<input type="hidden" id="reply_board_type" name="reply_board_type" value="${param.board_type}" >
+								    	<input type="hidden" id="board_no" name="board_no" value="${param.board_no}" >
+			                       		<button id="save" class="btn btn-primary" type="button"><i class="fa fa-comments"></i></button>
+			                        </span>
+		                    </div>
+	                    </form>
                     </div>
 	            </div>
     			</div>        
