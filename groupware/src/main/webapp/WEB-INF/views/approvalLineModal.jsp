@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%-- <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script> --%>
-
 <style>
 .ui-autocomplete-category {
   font-weight: bold;
@@ -20,10 +18,38 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
+		//결재선 위치 바꾸고 index 다시 설정해주는 부분
 	    $("#sortable").sortable({
-	        items: "td:not(.ui-state-disabled)"
+	        items: "td:not(.ui-state-disabled)",
+	        revert: "invalid",
+	        deactivate: function( event, ui ) {
+		    	for(var i = 1; i<6; i++){
+					$('.modal_name[index=0]').parent().find('td:eq('+i+')').attr("index",i);
+				}	
+		    }
 	    });
 	    $( "#sortable td" ).disableSelection();
+	    
+	    //결재선 내의 사원명을 휴지통으로 드랍하면 사라지게 하는 부분
+	    $("#droppable").droppable({
+			drop: function( event, ui ) {
+				for(var i = ui.draggable.attr("index"); i<index; i++){
+					$('.modal_name[index='+i+']').prev().html($('.modal_name[index='+i+']').html());
+				}
+				index--;
+				$('.modal_name[index='+index+']').html("");
+				sortDisabled(index);
+			}
+	    });
+	    
+	    //현재 index(결재선에 들어가있는 사람의 수) 다음 번호들 sorting 금지
+	    function sortDisabled(x){
+	    	$('.modal_name').removeClass("ui-state-disabled");
+	    	$('.modal_name[index=0]').addClass("ui-state-disabled");
+	    	for(var i = x; i<6;i++){
+	    		$('.modal_name[index='+i+']').addClass("ui-state-disabled");
+	    	}
+	    }
 	    
 		//현재 결재선이 몇번 까지 등록되어있는지 확인하는 변수
 		var index=0;
@@ -78,6 +104,7 @@
 							$('.modal_name[index='+x+']').html("<label><input type='hidden' name='approval_employee_no' value="+data[x].employee.employee_no +">"+data[x].employee.department.department_name+"<br>("+data[x].employee.employee_name+" "+data[x].employee.position+")</label>");
 							index++;
 						}
+						sortDisabled(index);
 					}
 				});
 			}
@@ -115,7 +142,7 @@
 	    $( "#search" ).catcomplete({
 	        delay: 0,
 	        source: data,
-	        minLength : 2,
+	        minLength : 1,
 	        //검색창에 값을 선택하면 테이블에 추가한다
 	        select: function( event, ui ) {
 	        	if(index>5){
@@ -123,6 +150,7 @@
 	        	}else{
 		        	$('.modal_name[index='+index+']').html("<label><input type='hidden' name='approval_employee_no' value="+ui.item.no +">"+ui.item.category+"<br>("+ui.item.label+" "+ui.item.position+")</label>");
 					index++;
+					sortDisabled(index);
 	        	}
 		    }
 	    });
@@ -135,7 +163,7 @@
 	    
 	    //modal의 확인 버튼 클릭 시 모달내의 테이블을  현재 페이지의 결재선에 넣어준다
 		$('#confirm').click(function(){
-			$('#approvalLine').html($('.sendTable').parent().html());
+			$('#approvalLine').find('#paste').html($('#sortable').html());
 		});
 	});
 </script>	
@@ -166,7 +194,7 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="panel panel-default">
-								<h5>결재 요청할 사원의 이름을 검색하세요.</h5>
+								<div class="panel-heading">결재 요청할 사원의 이름을 검색하세요.</div>
 								<input type="text" id="search" class="form-control" autofocus="autofocus" value="${fvo.form_name}" width="100%">
 							</div>
 						</div>
@@ -186,10 +214,9 @@
 									<tbody class="t-body">
 										<tr>
 											<th colspan="6">결재 순서
-												<p class="fa fa-long-arrow-right"></p>
+												<i class="fas fa-arrow-right"></i>
 											</th>
 										</tr>
-
 										<tr id="sortable">
 											<td class="modal_name ui-state-disabled" index=0></td>
 											<td class="modal_name" index=1></td>
@@ -198,14 +225,6 @@
 											<td class="modal_name" index=4></td>
 											<td class="modal_name" index=5></td>
 										</tr>
-										<tr>
-											<td class="stamp"></td>
-											<td class="stamp"></td>
-											<td class="stamp"></td>
-											<td class="stamp"></td>
-											<td class="stamp"></td>
-											<td class="stamp"></td>
-										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -213,6 +232,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
+					<i class="far fa-trash-alt fa-3x ui-sortable-handle" id="droppable" style="float: left;"></i>
 					<button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm">확인</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취소</button>

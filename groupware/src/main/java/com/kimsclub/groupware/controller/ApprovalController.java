@@ -2,6 +2,8 @@ package com.kimsclub.groupware.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kimsclub.groupware.service.ApprovalService;
+import com.kimsclub.groupware.service.DocumentService;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
+import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.FormVO;
 
@@ -81,18 +85,16 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
-	public ModelAndView approvalSaveDoc(@RequestParam(name="employee_no", defaultValue="4")int document_writer_no,
+	public String approvalSaveDoc(@RequestParam(name="employee_no", defaultValue="4")int document_writer_no,
 			@RequestParam(name="approval_employee_no")int[] approval_approver_no,
 			@RequestParam(name="form_contents")String document_contents,
-			@RequestParam(name="document_title")String document_title
-			){
-		
+			@RequestParam(name="document_title")String document_title,HttpSession session){
 		System.out.println("approvalSaveDoc() 메소드 호출");
-		System.out.println(document_writer_no+":"+document_contents+":"+document_title+":"+approval_approver_no[0]);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("approval/approvalNewDoc");
 		
-		return mav;
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		DocumentVO dvo = new DocumentVO(document_title, document_contents , evo, "임시저장");
+		service.saveDocument(dvo);
+		return "approval/approvalNewDoc";
 	}
 	
 	@RequestMapping(value = "/approvalDoc", method=RequestMethod.GET)
