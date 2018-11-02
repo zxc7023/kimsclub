@@ -32,6 +32,11 @@ public class ApprovalController {
 		return mav;
 	}
 	
+	/**
+	 * Ajax-양식내용
+	 * @return String : form_no를 통해 해당하는 양식 내용 가져오기 
+	 */
+	//produces = "application/text; charset=utf8" - 한글이 깨지기 때문에 charset=utf8로 설정
 	@RequestMapping(value = "/loadForm", method=RequestMethod.GET , produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String loadForm(@RequestParam("form_no")int form_no ){
@@ -39,31 +44,31 @@ public class ApprovalController {
 		return service.loadForm(form_no);
 	}
 	
+	/**
+	 *  결재 문서 작성
+	 * @return view : 문서 작성 페이지(writeDoc) model:  결재선에 추가할 사원정보(EmployeeVO), 활성화된 양식 정보(FormVO)
+	 */
 	@RequestMapping(value = "/writeDoc", method=RequestMethod.GET)
-	public ModelAndView writeDoc(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
+	public ModelAndView writeDoc(){
 		System.out.println("writeDoc() 메소드 호출");
 		List<FormVO> flist = service.getUseFormlist();
-		
-		List<ApprovalLineVO> alist = service.loadMyApprovalLine(employee_no);
 		List<EmployeeVO> elist = service.loadAllEmp();
 		
+		//elist를 json형식으로 전달하기위한 설정
 		ObjectMapper mapper = new ObjectMapper();
 		String json = null;
-		
 		try {
 			json = mapper.writeValueAsString(elist);
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("elist", json);
-		mav.addObject("alist", alist);
 		mav.addObject("flist", flist);
 		mav.setViewName("approval/writeDoc");
-		
 		return mav;
 	}
+	
 	
 	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.GET)
 	public ModelAndView approvalNewDoc(){
@@ -129,7 +134,7 @@ public class ApprovalController {
 	
 	@RequestMapping(value = "/myApprovalLine", method=RequestMethod.GET)
 	@ResponseBody
-	public List<ApprovalLineVO> approvalLine(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
+	public List<ApprovalLineVO> approvalLine(@RequestParam(name="employee_no")int employee_no){
 		System.out.println("myApprovalLine() 메소드 호출");
 		List<ApprovalLineVO> alist = service.loadMyApprovalLine(employee_no);
 		return alist;
