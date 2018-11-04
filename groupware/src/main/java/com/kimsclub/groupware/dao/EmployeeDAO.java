@@ -21,4 +21,9 @@ public class EmployeeDAO {
 	public EmployeeVO login(EmployeeVO vo) {
 		return session.selectOne("employee.login",vo);
 	}
+
+
+	public List<EmployeeVO> selectEmployeeList() {
+		return session.selectList("employee.selectEmployeeList");
+	}
 }

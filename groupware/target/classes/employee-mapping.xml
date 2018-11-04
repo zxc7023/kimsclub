@@ -24,4 +24,8 @@
 	<select id="login" resultMap="employeeMap">
 		select * from employee where employee_no = #{employee_no} and password = #{password}
 	</select>
+	
+	<select id="selectEmployeeList" resultMap="employeeMap">
+	
+	</select>
 </mapper>

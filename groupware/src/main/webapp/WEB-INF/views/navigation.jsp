@@ -178,6 +178,7 @@
 				</ul></li>
 				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> 인사 관리<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
+						<li><a href="${pageContext.request.contextPath}/humanResources/employee"><i class="fas fa-users-cog"></i> 사원 관리</a></li>
 						<li><a href="${pageContext.request.contextPath}/humanResources/department"><i class="fas fa-boxes"></i> 조직도</a></li>
 						<li><a href="#"><i class="fas fa-plane-departure"></i> 휴가/근태<span class="fa arrow"></span></a>
 							<ul class="nav nav-third-level collapse">
