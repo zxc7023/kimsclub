@@ -6,9 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
+import com.kimsclub.groupware.vo.DayoffMyRecodeVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Repository
@@ -55,8 +57,12 @@ public class DayoffDAO {
 	 * @param vo emploee_no가 저장된 vo객체
 	 * @return
 	 */
-	public DayoffCreateRecodeVO selectTotalDayoffDays(EmployeeVO vo) {
-		return session.selectOne("dayoff.selectTotalDayoffDays",vo);
+	public DayoffMyRecodeVO selectTotalDayoffDays(EmployeeVO vo) {
+		return session.selectOne("dayoff.selectDayoffMyRecode",vo);
+	}
+	
+	public List<DayoffApplyVO> selectDayoffApply(EmployeeVO vo){
+		return session.selectList("dayoff.selectDayoffToUse",vo);
 	}
 	
 }

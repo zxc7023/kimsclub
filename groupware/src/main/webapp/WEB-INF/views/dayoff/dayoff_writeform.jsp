@@ -315,7 +315,7 @@
 											<tbody>
 												<tr role="row">
 													<td>현황</td>
-													<td>휴가 현황을 보여줄 예정입니다.</td>
+													<td>생성 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} / 사용 : ${requestScope.useReward + requestScope.useRegular} / 잔여 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff - (requestScope.useReward + requestScope.useRegular)} </td>
 												</tr>
 												<tr role="row">
 													<td>작성자</td>

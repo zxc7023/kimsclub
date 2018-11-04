@@ -52,4 +52,8 @@ public class DocumentVO {
 		this.employee = employee;
 		this.document_state = document_state;
 	}
+	public DocumentVO() {
+		super();
+	}
+	
 }
