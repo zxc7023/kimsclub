@@ -42,21 +42,24 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.js"></script> -->
 <!-- jquery-ui js -->
 <style>
-  .ui-autocomplete-category {
-    font-weight: bold;
-    padding: .2em .4em;
-    margin: .8em 0 .2em;
-    line-height: 1.5;
-  }
-  </style>
+.ui-autocomplete-category {
+	font-weight: bold;
+	padding: .2em .4em;
+	margin: .8em 0 .2em;
+	line-height: 1.5;
+}
+</style>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		
+		$("#draft").click(function(){
+			console.log(dayMap);
+			console.log($("#approval").serialize());
+			return false;
+		});
 	});
-	
-	
-	
+
 	Map = function() {
 		this.map = new Object();
 	};
@@ -306,16 +309,16 @@
 						<div class="panel-body">
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 								<div class="row">
-									<form class="col-sm-12">
+									<form id="approval" action="dayoff_write" method="get">
 										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<colgroup>
-												<col width="150">
-												<col width="auto">
+												<col class="col-sm-1">
+												<col class="col-sm-11">
 											</colgroup>
 											<tbody>
 												<tr role="row">
 													<td>현황</td>
-													<td>생성 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} / 사용 : ${requestScope.useReward + requestScope.useRegular} / 잔여 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff - (requestScope.useReward + requestScope.useRegular)} </td>
+													<td>생성 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} / 사용 : ${requestScope.useReward + requestScope.useRegular} / 잔여 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff - (requestScope.useReward + requestScope.useRegular)}</td>
 												</tr>
 												<tr role="row">
 													<td>작성자</td>
@@ -326,45 +329,34 @@
 													<td>
 														<div class="col-lg-10">
 															<div class="panel panel-default" id="approvalLine">
-															<table width="100%"
-																class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
-																role="grid" aria-describedby="dataTables-example_info"
-																style="width: 100%;">
-																<colgroup>
-																	<col width="15%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																</colgroup>
-																<tbody class="t-body">
-																	<tr>
-																		<th colspan="6">결재 순서
-																			<p class="fa fa-long-arrow-right"></p>
-																		</th>
-																	</tr>
-																	<tr>
-																		<td class="name" index=0></td>
-																		<td class="name" index=1></td>
-																		<td class="name" index=2></td>
-																		<td class="name" index=3></td>
-																		<td class="name" index=4></td>
-																		<td class="name" index=5></td>
-																	</tr>
-																	<tr>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
-																		<td class="stamp"></td>
-																	</tr>
-																</tbody>
-															</table>
+																<table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+																	<colgroup>
+																		<col width="15%">
+																		<col width="17%">
+																		<col width="17%">
+																		<col width="17%">
+																		<col width="17%">
+																		<col width="17%">
+																	</colgroup>
+																	<tbody class="t-body">
+																		<tr>
+																			<th colspan="6">결재 순서
+																				<p class="fa fa-long-arrow-right"></p>
+																			</th>
+																		</tr>
+																		<tr id="paste">
+																			<td class="name" index=0></td>
+																			<td class="name" index=1></td>
+																			<td class="name" index=2></td>
+																			<td class="name" index=3></td>
+																			<td class="name" index=4></td>
+																			<td class="name" index=5></td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
 														</div>
-														</div>
-														<div class="col-lg-2"> 													
+														<div class="col-lg-2">
 															<button type="button" class="btn btn-outline btn-default" data-toggle="modal" data-target="#approvalLineSelect" id="LineSelectBtn">결재선 선택</button>
 														</div>
 													</td>
@@ -387,18 +379,19 @@
 												</tr>
 												<tr role="row">
 													<td>휴가종류</td>
-													<td><select class="form-control">
+													<td><select class="form-control" name="dayoff_type_code">
 															<c:forEach items="${requestScope.dayoffKindList}" var="kind">
-																<option>${kind.dayoff_name}</option>
+																<option value="${kind.dayoff_type_code}">${kind.dayoff_name}</option>
 															</c:forEach>
 													</select></td>
 												</tr>
 												<tr role="row">
 													<td>사유</td>
-													<td><input class="form-control" type="text" name="reason"></td>
+													<td><textarea name="dayoff_reason" class="col-sm-12"></textarea></td>
 												</tr>
 											</tbody>
 										</table>
+										<input type="submit" class="btn btn-outline btn-default" id="draft" value="기안하기">
 									</form>
 								</div>
 							</div>
@@ -407,7 +400,6 @@
 				</div>
 			</div>
 		</div>
-		<div id="test"></div>
 	</div>
 	<jsp:include page="/WEB-INF/views/approvalLineModal.jsp"></jsp:include>
 </body>
