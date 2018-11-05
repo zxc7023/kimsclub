@@ -2,6 +2,8 @@ package com.kimsclub.groupware.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kimsclub.groupware.service.ApprovalService;
+import com.kimsclub.groupware.service.DocumentService;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
+import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.FormVO;
 
@@ -26,13 +30,17 @@ public class ApprovalController {
 	@RequestMapping(value = "/approval", method=RequestMethod.GET)
 	public ModelAndView approval(){
 		System.out.println("approval() 메소드 호출");
-		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("approval/approval");
 		
 		return mav;
 	}
 	
+	/**
+	 * Ajax-양식내용
+	 * @return String : form_no를 통해 해당하는 양식 내용 가져오기 
+	 */
+	//produces = "application/text; charset=utf8" - 한글이 깨지기 때문에 charset=utf8로 설정
 	@RequestMapping(value = "/loadForm", method=RequestMethod.GET , produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String loadForm(@RequestParam("form_no")int form_no ){
@@ -40,31 +48,31 @@ public class ApprovalController {
 		return service.loadForm(form_no);
 	}
 	
+	/**
+	 *  결재 문서 작성
+	 * @return view : 문서 작성 페이지(writeDoc) model:  결재선에 추가할 사원정보(EmployeeVO), 활성화된 양식 정보(FormVO)
+	 */
 	@RequestMapping(value = "/writeDoc", method=RequestMethod.GET)
-	public ModelAndView writeDoc(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
+	public ModelAndView writeDoc(){
 		System.out.println("writeDoc() 메소드 호출");
 		List<FormVO> flist = service.getUseFormlist();
-		
-		List<ApprovalLineVO> alist = service.loadMyApprovalLine(employee_no);
 		List<EmployeeVO> elist = service.loadAllEmp();
 		
+		//elist를 json형식으로 전달하기위한 설정
 		ObjectMapper mapper = new ObjectMapper();
 		String json = null;
-		
 		try {
 			json = mapper.writeValueAsString(elist);
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("elist", json);
-		mav.addObject("alist", alist);
 		mav.addObject("flist", flist);
-		mav.setViewName("approval/writeDoc_modal");
-		
+		mav.setViewName("approval/writeDoc");
 		return mav;
 	}
+	
 	
 	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.GET)
 	public ModelAndView approvalNewDoc(){
@@ -75,6 +83,20 @@ public class ApprovalController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
+	public String approvalSaveDoc(@RequestParam(name="employee_no", defaultValue="4")int document_writer_no,
+			@RequestParam(name="approval_employee_no")int[] approval_approver_no,
+			@RequestParam(name="form_contents")String document_contents,
+			@RequestParam(name="document_title")String document_title,HttpSession session){
+		System.out.println("approvalSaveDoc() 메소드 호출");
+		
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		DocumentVO dvo = new DocumentVO(document_title, document_contents , evo, "임시저장");
+		service.saveDocument(dvo);
+		return "approval/approvalNewDoc";
+	}
+	
 	@RequestMapping(value = "/approvalDoc", method=RequestMethod.GET)
 	public ModelAndView approvalDoc(){
 		System.out.println("approvalDoc() 메소드 호출");
@@ -112,28 +134,12 @@ public class ApprovalController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/approvalLine", method=RequestMethod.GET)
-	public ModelAndView approvalLine(@RequestParam(name="employee_no", defaultValue="4")int employee_no){
-		System.out.println("approvalLine() 메소드 호출");
+	@RequestMapping(value = "/myApprovalLine", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ApprovalLineVO> approvalLine(@RequestParam(name="employee_no")int employee_no){
+		System.out.println("myApprovalLine() 메소드 호출");
 		List<ApprovalLineVO> alist = service.loadMyApprovalLine(employee_no);
-		List<EmployeeVO> elist = service.loadAllEmp();
-		
-		
-		
-		ObjectMapper mapper = new ObjectMapper();
-		String json = null;
-		
-		try {
-			json = mapper.writeValueAsString(elist);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("elist", json);
-		mav.addObject("alist", alist);
-		mav.setViewName("approval/approvalLine");
-		return mav;
+		return alist;
 	}
 	
 	@RequestMapping(value = "/selectMyApprovalLine",method=RequestMethod.GET)

@@ -59,19 +59,6 @@ $(document).ready(function() {
 	            height:'400px',
 	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
 	        });
-	         
-	        CKEDITOR.on('dialogDefinition', function( ev ){
-	            var dialogName = ev.data.name;
-	            var dialogDefinition = ev.data.definition;
-	          
-	            switch (dialogName) {
-	                case 'image': //Image Properties dialog
-	                    //dialogDefinition.removeContents('info');
-	                    dialogDefinition.removeContents('Link');
-	                    dialogDefinition.removeContents('advanced');
-	                    break;
-	            }
-	        });
 	    });
 });//ready end
 </script>

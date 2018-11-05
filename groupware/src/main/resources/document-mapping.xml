@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="document">
+<!-- 	<parameterMap type="document" id="documentMap">
+		<parameter property="document_no"/>
+		<parameter property="document_title"/>
+		<parameter property="document_contents"/>
+		<association property="employee" javaType="employee" >
+			<id column="employee_no" property="employee_no"/>
+		</association>
+		<parameter property="document_date"/>
+		<parameter property="document_state"/>
+	</parameterMap> -->
+	
+	
+	<insert id="insertDocument" parameterType="document">
+		INSERT INTO
+		document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
+		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state}) 
+	</insert>
+</mapper>

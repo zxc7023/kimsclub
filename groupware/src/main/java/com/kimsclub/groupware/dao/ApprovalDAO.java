@@ -15,12 +15,16 @@ public class ApprovalDAO {
 	
 	public List<ApprovalLineVO> loadMyApprovalLine(int employee_no) {
 		// TODO Auto-generated method stub
-		return session.selectList("myApprovalLineList", employee_no);
+		return session.selectList("approvalLine.myApprovalLineList", employee_no);
 	}
 
 	public List<ApprovalLineVO> selectMyApprovalLine(int approval_path_no) {
 		// TODO Auto-generated method stub
 		return session.selectList("selectMyApprovalLine",approval_path_no);
+	}
+	
+	public void saveApproval(int[] approval_approver_no) {
+		
 	}
 
 }
