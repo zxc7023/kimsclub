@@ -53,9 +53,19 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		
+		var start_date;
+		var end_date;
+		var dayoffApply;
+		
+		
 		$("#draft").click(function(){
 			console.log(dayMap);
 			console.log($("#approval").serialize());
+			var keys = dayMap.getAll();
+			for (var key in keys){
+				console.log(key);
+				console.log(dayMap.get(key));
+			}
 			return false;
 		});
 	});
@@ -268,6 +278,7 @@
 					}
 				}
 				dayVar.text(total_day);
+				dayVar.next("input[name=total_days]").val(total_day);
 			});
 		});
 
@@ -371,7 +382,7 @@
 														<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"></button>
 														<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right"></button>
 														<p>
-															휴가신청 현황 : <span id="total_day">0</span>일
+															휴가신청일수 : <span id="total_day">0</span>일<input type="hidden" name="total_days">
 														</p> <script type="text/javascript">
 															buildCalendar();
 														</script>

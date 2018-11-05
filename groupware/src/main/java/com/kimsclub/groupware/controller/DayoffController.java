@@ -42,7 +42,7 @@ public class DayoffController {
 	 * @return 휴가신청 view
 	 */
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.GET)
-	public ModelAndView applyDayoff(HttpSession session) {
+	public ModelAndView applyDayoffForm(HttpSession session) {
 		System.out.println("/dayoffWriteform + GET 요청");
 		
 		//세션값에서 가져옴.
@@ -96,7 +96,13 @@ public class DayoffController {
 		mov.addObject("dayoffKindList",kindsList);
 		return mov;
 	}
-
+	
+	
+	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.POST)
+	public String applyDayoff(HttpSession session) {
+		
+		return null;
+	}
 	
 	/**
 	 * 

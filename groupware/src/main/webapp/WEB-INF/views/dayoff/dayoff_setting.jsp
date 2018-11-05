@@ -55,7 +55,7 @@
 												dayoffCreateObj.dayoff_days = tmpArr[i + 1].value;
 												toSendArr.push(dayoffCreateObj);
 											}
-											console.log(toSendArr);
+											console.log(JSON.stringify(toSendArr));
 											$
 													.ajax({
 														method : "post",
