@@ -138,7 +138,22 @@ public class ApprovalController {
 		service.saveDocument(map);
 		return "approval/approvalNewDoc";
 	}
-
+	
+	@RequestMapping(value = "/approvalViewNewDoc", method=RequestMethod.GET)
+	public ModelAndView approvalViewNewDoc(@RequestParam(name="document_no")int document_no){
+		System.out.println("approvalViewNewDoc() 메소드 호출");
+		
+		ModelAndView mav = new ModelAndView();
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		map = service.viewNewDoc(document_no);
+		mav.addObject("alist", map.get("alist"));
+		mav.addObject("dvo", map.get("dvo"));
+		mav.setViewName("approval/approvalViewNewDoc");
+		return mav;
+	}
+	
+	
 	@RequestMapping(value = "/approvalDoc", method=RequestMethod.GET)
 	public ModelAndView approvalDoc(){
 		System.out.println("approvalDoc() 메소드 호출");

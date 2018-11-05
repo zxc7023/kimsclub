@@ -37,12 +37,6 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
-<script>
-$(document).ready(function() {
-alert($('.table').html());
-});
-</script>
-
 </head>
 <body>
 
@@ -114,7 +108,7 @@ alert($('.table').html());
 											<c:forEach items="${dlist}" var="list">
 												<tr>
 													<td><input type="checkbox" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
-													<td><a href="modifyform?form_no=${list.document_no}">${list.document_title}</a></td>
+													<td><a href="approvalViewNewDoc?document_no=${list.document_no}">${list.document_title}</a></td>
 													<td>${list.document_date}</td>
 												</tr>
 											</c:forEach>

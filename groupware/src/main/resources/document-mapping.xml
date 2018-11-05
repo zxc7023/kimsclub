@@ -35,6 +35,10 @@
 	</insert>
 	
 	
+	<select id="selectDocument" parameterType="int" resultType="document">
+	 SELECT * FROM document WHERE document_no = #{document_no}
+	</select>
+	
 	<!--  -->
 	
 			
