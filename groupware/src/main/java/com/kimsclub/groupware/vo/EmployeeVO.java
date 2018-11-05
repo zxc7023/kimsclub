@@ -67,6 +67,10 @@ public class EmployeeVO {
 	public void setDepartment(DepartmentVO department) {
 		this.department = department;
 	}
+	@Override
+	public String toString() {
+		return "EmployeeVO [employee_no=" + employee_no + ", employee_name=" + employee_name + ", password=" + password + ", hiredate=" + hiredate + ", usertype=" + usertype + ", department=" + department + ", email=" + email + ", position=" + position + ", phonenumber=" + phonenumber + "]";
+	}
 	
 	
 	

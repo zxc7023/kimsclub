@@ -24,5 +24,8 @@ public interface ApprovalService {
 	List<ApprovalLineVO> selectMyApprovalLine(int approval_path_no);
 	
 	void saveDocument(Map<String, Object> map);
+	
+	public int getDocumentNum(Map<String,Object> map);
 
+	List<DocumentVO> getDocumentList(Map<String, Object> map);
 }

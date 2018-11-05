@@ -52,6 +52,7 @@ background-color: #f5f5f5;
 </style>
 <script>
 $(document).ready(function() {
+	
 	$(function(){
 	    keditor = CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
@@ -83,6 +84,7 @@ $(document).ready(function() {
 			success : function(data) {
 				CKEDITOR.instances.ckeditor.setData(data);
 				//keditor.element.appendText(data);
+				console.log($('#ckeditor').val());
 			}
 		});
 	}
