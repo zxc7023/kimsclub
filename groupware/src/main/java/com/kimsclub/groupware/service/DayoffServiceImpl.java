@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.kimsclub.groupware.dao.DayoffDAO;
 import com.kimsclub.groupware.dao.EmployeeDAO;
+import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
+import com.kimsclub.groupware.vo.DayoffMyRecodeVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Service
@@ -55,8 +57,15 @@ public class DayoffServiceImpl implements DayoffService {
 		return dao.selectMyDayoffRecode(vo);
 	}
 	
+	@Override
+	public DayoffMyRecodeVO readMyDayoffDays(EmployeeVO vo) {
+		return dao.selectTotalDayoffDays(vo);
+	}
 	
-	
+	@Override
+	public List<DayoffApplyVO> readUseMyDayoff(EmployeeVO vo){
+		return dao.selectDayoffApply(vo);
+	}
 	
 
 

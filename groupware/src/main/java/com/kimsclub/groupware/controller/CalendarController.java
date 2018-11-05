@@ -8,15 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CalendarController {
 
 	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
-	public String form() {//테스트 버전
+	public String form() {//프로토타입 1.2 날짜미완료
 		System.out.println("Fullcalendar() 메소드 호출");
 		return "Fullcalendar/basic-views";
-	}
-
-	@RequestMapping(value = "/cal", method = RequestMethod.GET)
-	public String form1() {//토스버전
-		System.out.println("Fullcalendar() 메소드 호출");
-		return "Fullcalendar/basic";
 	}
 
 	@RequestMapping(value = "/calendar2", method = RequestMethod.GET)
@@ -24,15 +18,6 @@ public class CalendarController {
 		System.out.println("Fullcalendar() 메소드 호출");
 		return "Fullcalendar/views";
 	}
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public String form4() {
-		System.out.println("Fullcalendar() 메소드 호출");
-		return "Fullcalendar/add";
-	}
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public String form5() {
-		System.out.println("Fullcalendar() 메소드 호출");
-		return "Fullcalendar/edit";
-	}
+
 
 }

@@ -16,5 +16,7 @@
 		<typeAlias type="com.kimsclub.groupware.vo.DocumentVO" alias="document" />
 		<typeAlias type="com.kimsclub.groupware.vo.EmployeeVO" alias="employee" />
 		<typeAlias type="com.kimsclub.groupware.vo.FormVO" alias="form" />
+		<typeAlias type="com.kimsclub.groupware.vo.DayoffApplyVO" alias="DayoffApply"/>
+		<typeAlias type="com.kimsclub.groupware.vo.DayoffMyRecodeVO" alias="DayoffMyRecode"/>
 	</typeAliases>
 </configuration>

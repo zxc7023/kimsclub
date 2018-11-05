@@ -3,6 +3,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dayoff">
 
+	<resultMap id="DayoffApplyMap" type="DayoffApply">
+		<id column="dayoff_no" property="dayoff_no" />
+		<result column="total_days" property="total_days" />
+		<result column="start_date" property="start_date" />
+		<result column="end_date" property="end_date"/>
+		<association property="employee" javaType="employee" >
+			<id property="employee_no" column="employee_no" />
+		</association>
+		<association property="dayoff_kind" javaType="DayoffKinds">
+			<id property="dayoff_type_code" column="dayoff_type_code"/>
+		</association>
+		<association property="document" javaType="document">
+			<id property="document_no" column="document_no"/>
+		</association>
+	</resultMap>
+
+
 	<select id="selectCreateTerms" resultType="DayoffCreateTerms">
 		select * from
 		dayoff_create_terms
@@ -25,21 +42,55 @@
 		(dayoff_type_code_seq.nextval,#{dayoff_name},#{dayoff_deduction},#{dayoff_activation})
 	</insert>
 
+	<!-- 나의 연차에 해당하는 휴가발생일을 가져오는 구문 -->
 	<select id="selectEmpDayoffDay" resultType="DayoffCreateRecode">
 		select employee_no,
 		dayoff_days as effect_day
 		from employee join dayoff_create_terms dct
-		on trunc(months_between(sysdate,hiredate)/12,0) = year_in_office
+		on
+		trunc(months_between(sysdate,hiredate)/12,0) = year_in_office
 	</select>
 
+	<!-- 관리자가 연차발생을 눌렀을때 포상+이월값을 더해서 결과값을 넣는 sql문 -->
 	<insert id="insertAnnualDayoff" parameterType="DayoffCreateRecode">
-		insert into dayoff_create_recode values (#{employee_no},sysdate,#{effect_day},#{effect_day} + (select nvl((select effect_day from dayoff_create_recode where generation_date = (select max(generation_date) from dayoff_create_recode where employee_no = #{employee_no} and dayoff_type=2)),0) from dual),1,#{dayoff_generator})
+		insert into dayoff_create_recode values (#{employee_no}, sysdate,
+		#{effect_day},
+		#{effect_day} + (select reward_dayoff+previous_dayoff
+		from
+		dayoff_my_recode
+		where employee_no = #{employee_no}),1, #{dayoff_generator})
 	</insert>
-	
+
+	<update id="updateAnualMyRecode" parameterType="Employee">
+		update dayoff_my_recode set annual_dayoff = #{effect_day} where employee_no = #{employee_no}
+	</update>
+
+	<!-- 나의 휴가 생성내역을 가져오는 sql문 -->
 	<select id="selecMytCreateRecode" parameterType="Employee" resultType="DayoffCreateRecode">
 		select *
 		from dayoff_create_recode
-		where employee_no = #{employee_no} and to_char(sysdate,'yyyy') = to_char(generation_date,'yyyy')
+		where employee_no =
+		#{employee_no} and to_char(sysdate,'yyyy') =
+		to_char(generation_date,'yyyy')
 		order by generation_date asc
 	</select>
+
+	<!-- 휴가생성을 통해 생성된 나의 휴가(연차,포상,이월)를 가져온다. -->
+	<select id="selectDayoffMyRecode" parameterType="Employee" resultType="DayoffMyRecode">
+		select * from dayoff_my_recode
+		where employee_no = #{employee_no}
+	</select>
+
+	<!-- 현재 사용한 휴가수를 조회한다. -->
+	<select id="selectDayoffToUse" parameterType="Employee" resultMap="DayoffApplyMap">
+		select dayoff_no, total_days, da.dayoff_type_code
+		from dayoff_apply da join dayoff_kinds dk
+		on da.dayoff_type_code =
+		dk.dayoff_type_code
+		join document d
+		on da.document_no = d.document_no
+		where (dayoff_deduction = '1' or da.dayoff_type_code = 2) and d.document_state != 3 and da.employee_no = #{employee_no}
+	</select>
+
+
 </mapper>
