@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,8 +53,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public void saveDocument(DocumentVO dvo) {
-		ddao.insertDocument(dvo);
+	public void saveDocument(Map<String, Object> map) {
+		ddao.insertDocument(map);
 		
 	}
 }

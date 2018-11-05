@@ -8,7 +8,7 @@ public class DocumentVO {
 	private String document_contents;
 	private EmployeeVO employee;
 	private Date document_date;
-	private String document_state;
+	private int document_state;
 	public int getDocument_no() {
 		return document_no;
 	}
@@ -39,21 +39,22 @@ public class DocumentVO {
 	public void setDocument_date(Date document_date) {
 		this.document_date = document_date;
 	}
-	public String getDocument_state() {
+	public int getDocument_state() {
 		return document_state;
 	}
-	public void setDocument_state(String document_state) {
+	public void setDocument_state(int document_state) {
 		this.document_state = document_state;
 	}
-	public DocumentVO(String document_title, String document_contents, EmployeeVO employee, String document_state) {
+	public DocumentVO() {
+		super();
+	}
+	public DocumentVO(String document_title, String document_contents, EmployeeVO employee, int document_state) {
 		super();
 		this.document_title = document_title;
 		this.document_contents = document_contents;
 		this.employee = employee;
 		this.document_state = document_state;
 	}
-	public DocumentVO() {
-		super();
-	}
+	
 	
 }
