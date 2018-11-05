@@ -19,4 +19,12 @@
 		document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
 		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state}) 
 	</insert>
+	
+	<insert id="saveDocument" parameterType="hashmap">
+		INSERT ALL
+		INTO document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
+		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{dvo.document_title},#{dvo.document_contents}, #{dvo.employee.employee_no},sysdate,#{dvo.document_state})
+
+		SELECT * FROM DUAL
+	</insert>
 </mapper>

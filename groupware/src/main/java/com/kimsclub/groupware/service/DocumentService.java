@@ -6,5 +6,4 @@ import com.kimsclub.groupware.vo.DocumentVO;
 
 @Service
 public interface DocumentService {
-	public void saveDocument(DocumentVO dvo);
 }

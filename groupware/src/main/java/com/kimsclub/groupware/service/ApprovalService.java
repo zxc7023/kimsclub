@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,6 @@ public interface ApprovalService {
 
 	List<ApprovalLineVO> selectMyApprovalLine(int approval_path_no);
 	
-	void saveDocument(DocumentVO dvo);
+	void saveDocument(Map<String, Object> map);
 
 }
