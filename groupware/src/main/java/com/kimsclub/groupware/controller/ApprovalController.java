@@ -96,14 +96,14 @@ public class ApprovalController {
 		List<ApprovalVO> alist = new ArrayList<ApprovalVO>();
 		for(int i=0;i < approval_approver_no.length; i++) {
 			if(i!=approval_approver_no.length-1) {
-				alist.add(new ApprovalVO(i,approval_approver_no[i],1));
+				alist.add(new ApprovalVO(i,approval_approver_no[i],i+1));
 			}else if(i==approval_approver_no.length-1) {
 				alist.add(new ApprovalVO(i,approval_approver_no[i],0));
 			}
 		}
 		Map<String,Object> map = new HashMap<String, Object>();
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		DocumentVO dvo = new DocumentVO(document_title, document_contents , evo, "임시저장");
+		DocumentVO dvo = new DocumentVO(document_title, document_contents , evo, 0);
 		map.put("dvo", dvo);
 		map.put("alist", alist);
 		service.saveDocument(map);

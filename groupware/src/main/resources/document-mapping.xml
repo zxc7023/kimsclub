@@ -21,10 +21,16 @@
 	</insert>
 	
 	<insert id="saveDocument" parameterType="hashmap">
+		<selectKey resultType="int" keyProperty="ap_n" order="BEFORE">
+			SELECT nvl(max(approval_no),0)+1 FROM approval
+		</selectKey>
 		INSERT ALL
 		INTO document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
 		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{dvo.document_title},#{dvo.document_contents}, #{dvo.employee.employee_no},sysdate,#{dvo.document_state})
-
-		SELECT * FROM DUAL
+		<foreach collection="alist" item="it" index="i" open=" " close="SELECT * FROM DUAL" separator=" ">
+			INTO approval(approval_no, document_no, approval_approver_no, approval_state, approval_next_no) 
+			VALUES(#{ap_n}+#{it.approval_no}, (SELECT nvl(max(document_no),0)+1 FROM document),${it.approval_approver_no},0,<if test="it.approval_next_no!=0">#{ap_n}+#{it.approval_next_no}</if><if test="it.approval_next_no==0">#{it.approval_next_no}</if>)
+		</foreach>
+		
 	</insert>
 </mapper>
