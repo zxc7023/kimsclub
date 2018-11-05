@@ -110,17 +110,23 @@ var newEvent = function() {
 	var color = $('#color').val();
 	var start= $('#starts-at').val();
 	var end= $('#ends-at').val();
+	
+	
+	var event_no;
+	//ajax로 현재 이벤트 번호 받아오기
+	
   if (title) {
     var eventData = {
         title: title,
 		content : content,
 		color: color,
-		 start: start,
-         end: end
+		start: start,
+		end: end,
+		event_no : 1
     };
     $cal2.fullCalendar('renderEvent', eventData, true);
-
-    $('#newEvent').modal('hide');
+    $('#newEvent').modal('hide'); 
+    	alert(eventData.event_no);
     }
   else {
     alert("제목을 입력해주세요.")
@@ -157,7 +163,6 @@ var editEvent = function(calEvent) {
   $('#delete').on('click', function() {
     $('#delete').unbind();
     if (calEvent._id.includes("_fc")){
-      $cal1.fullCalendar('removeEvents', [getCal1Id(calEvent._id)]);
       $cal2.fullCalendar('removeEvents', [calEvent._id]);
     } else {
       $cal.fullCalendar('removeEvents', [calEvent._id]);
@@ -172,14 +177,9 @@ var showTodaysDate = function() {
   y = n.getFullYear();
   m = n.getMonth() + 1;
   d = n.getDate();
-  $("#todaysDate").html("Today is " + m + "/" + d + "/" + y+"   킵스클럽");
+  $("#todaysDate").html("Today is " + y + "/" + m + "/" + d+"   킵스클럽");
 };
 
-var getCal1Id = function(cal2Id) {
-  var num = cal2Id.replace('_fc', '') - 1;
-  var id = "_fc" + num;
-  return id;
-}
 
 var disableEnter = function() {
   $('body').bind("keypress", function(e) {
