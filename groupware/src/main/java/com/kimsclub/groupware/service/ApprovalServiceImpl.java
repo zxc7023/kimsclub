@@ -1,5 +1,6 @@
 package com.kimsclub.groupware.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import com.kimsclub.groupware.dao.EmployeeDAO;
 import com.kimsclub.groupware.dao.FormDAO;
 import com.kimsclub.groupware.dao.TestDAO;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
+import com.kimsclub.groupware.vo.ApprovalVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.FormVO;
@@ -69,6 +71,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public List<DocumentVO> getDocumentList(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return tdao.selectDocList(map);
+	}
+
+	@Override
+	public Map<String, Object> viewNewDoc(int document_no) {
+		List<ApprovalVO> alist = adao.selectApprovalList(document_no);
+		DocumentVO dvo = ddao.selectDocument(document_no);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("alist", alist);
+		map.put("dvo", dvo);
+		return map;
 	}
 
 }

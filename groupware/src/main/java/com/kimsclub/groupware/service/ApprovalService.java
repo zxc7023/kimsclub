@@ -28,4 +28,6 @@ public interface ApprovalService {
 	public int getDocumentNum(Map<String,Object> map);
 
 	List<DocumentVO> getDocumentList(Map<String, Object> map);
+
+	Map<String, Object> viewNewDoc(int document_no);
 }

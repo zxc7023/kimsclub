@@ -1,14 +1,27 @@
 package com.kimsclub.groupware.vo;
 
 import java.util.Date;
+import java.util.List;
 
 public class DocumentVO {
 	private int document_no;
 	private String document_title;
 	private String document_contents;
 	private EmployeeVO employee;
+	private List<ApprovalVO> approval;
 	private Date document_date;
 	private int document_state;
+	
+	
+	public List<ApprovalVO> getApproval() {
+		return approval;
+	}
+	public void setApproval(List<ApprovalVO> approval) {
+		this.approval = approval;
+	}
+	public void setEmployee(EmployeeVO employee) {
+		this.employee = employee;
+	}
 	public int getDocument_no() {
 		return document_no;
 	}

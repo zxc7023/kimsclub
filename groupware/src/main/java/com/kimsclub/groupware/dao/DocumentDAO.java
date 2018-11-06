@@ -16,4 +16,8 @@ public class DocumentDAO {
 	public void insertDocument(Map<String, Object> map) {
 		session.insert("document.saveDocument", map);
 	}
+
+	public DocumentVO selectDocument(int document_no) {
+		return session.selectOne("document.selectDocument", document_no);
+	}
 }
