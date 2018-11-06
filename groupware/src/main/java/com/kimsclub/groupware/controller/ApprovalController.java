@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ import com.kimsclub.groupware.service.ApprovalService;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
 import com.kimsclub.groupware.vo.ApprovalVO;
 import com.kimsclub.groupware.vo.BoardPageVO;
+import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.FormVO;
@@ -117,13 +119,14 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
-	public String approvalSaveDoc(@RequestParam(name="employee_no", defaultValue="4")int document_writer_no,
-			List<ApprovalVO> employee_no,
-			@RequestParam(name="form_contents")String document_contents,
-			@RequestParam(name="document_title")String document_title,HttpSession session){
+	@ResponseBody
+	public String approvalSaveDoc(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalSaveDoc() 메소드 호출");
-		
-		System.out.println(employee_no);
+		System.out.println(dvo.getDocument_title()+":"+dvo.getDocument_contents());
+		for(ApprovalVO avo: dvo.getApproval()) {
+			System.out.println(avo.getEmployee().getEmployee_no());
+		}
+		//System.out.println(employee_no);
 		/*List<ApprovalVO> alist = new ArrayList<ApprovalVO>();
 		for(int i=0;i < employee_no.length; i++) {
 			if(i!=employee_no.length-1) {
@@ -134,11 +137,12 @@ public class ApprovalController {
 		}*/
 		Map<String,Object> map = new HashMap<String, Object>();
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		DocumentVO dvo = new DocumentVO(document_title, document_contents , evo, 0);
-		map.put("dvo", dvo);
+		//DocumentVO dvo = new DocumentVO(document_title, document_contents , evo, 0);
+		//map.put("dvo", dvo);
 		//map.put("alist", alist);
-		service.saveDocument(map);
-		return "approval/approvalNewDoc";
+		//service.saveDocument(map);
+		//return "approval/approvalNewDoc";
+		return "approval/approval";
 	}
 	
 	@RequestMapping(value = "/approvalViewNewDoc", method=RequestMethod.GET)
