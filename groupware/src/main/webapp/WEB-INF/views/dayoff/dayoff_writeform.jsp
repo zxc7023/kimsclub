@@ -60,7 +60,11 @@
 		
 		$("#draft").click(function(){
 			console.log(dayMap);
-			console.log($("#approval").serialize());
+			console.log($("#approval").serializeArray());
+			
+			var tmp  = $("#approval").serializeArray();
+			console.log(tmp);
+			
 			var keys = dayMap.getAll();
 			for (var key in keys){
 				console.log(key);
