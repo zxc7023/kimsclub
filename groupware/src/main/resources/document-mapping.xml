@@ -2,16 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="document">
-<!-- 	<parameterMap type="document" id="documentMap">
-		<parameter property="document_no"/>
-		<parameter property="document_title"/>
-		<parameter property="document_contents"/>
-		<association property="employee" javaType="employee" >
-			<id column="employee_no" property="employee_no"/>
-		</association>
-		<parameter property="document_date"/>
-		<parameter property="document_state"/>
-	</parameterMap> -->
+	<resultMap id="documentMap" type="document" >
+		<id column="document_no" property="document_no"/>
+		<result column="document_title" property="document_title"/>
+		<result column="document_contents" property="document_contents"/>
+		<result column="document_date" property="document_date"/>
+		<result column="document_state" property="document_state"/>
+		<collection property="approval" javaType="java.util.ArrayList" ofType="approval">
+			<id column="approval_no" property="approval_no"/>
+			<result column="approval_date" property="approval_date"/>
+			<result column="approval_state" property="approval_state"/>
+			<association property="employee" javaType="employee">
+				<id column="employee_no" property="employee_no"/>
+				<result column="employee_name" property="employee_name"/>
+				<result column="position" property="position"/>
+				<association property="department" javaType="department">
+					<id column="department_no" property="department_no" />
+					<result column="department_name" property="department_name"/>
+				</association>
+			</association>
+		</collection>
+	</resultMap>
+	
+	<select id="selectDocument" parameterType="int" resultMap="documentMap">
+	SELECT document_title, document_contents, document_date, document_state, approval_no, approval_date,approval_state, e.employee_no,employee_name,position,department_name
+	FROM document d left join approval a on d.DOCUMENT_NO = a.document_no left join employee e on a.EMPLOYEE_NO=e.EMPLOYEE_NO left join department m on e.DEPARTMENT_NO = m.DEPARTMENT_NO WHERE d.document_no = #{value} ORDER BY approval_no
+	</select>
 	
 	
 	<insert id="insertDocument" parameterType="document">
@@ -19,4 +35,74 @@
 		document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
 		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state}) 
 	</insert>
+	
+	<insert id="saveDocument" parameterType="hashmap">
+		<selectKey resultType="int" keyProperty="ap_n" order="BEFORE">
+			SELECT nvl(max(approval_no),0)+1 FROM approval
+		</selectKey>
+		INSERT ALL
+		INTO document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
+		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{dvo.document_title},#{dvo.document_contents}, #{dvo.employee.employee_no},sysdate,#{dvo.document_state})
+		<foreach collection="alist" item="it" index="i" open=" " close="SELECT * FROM DUAL" separator=" ">
+			INTO approval(approval_no, document_no, employee_no, approval_state, approval_next_no) 
+			VALUES(#{ap_n}+#{it.approval_no}, (SELECT nvl(max(document_no),0)+1 FROM document),${it.employee.employee_no},0,<if test="it.approval_next_no!=0">#{ap_n}+#{it.approval_next_no}</if><if test="it.approval_next_no==0">#{it.approval_next_no}</if>)
+		</foreach>
+		
+	</insert>
+	
+	
+	
+	<!--  -->
+	
+			
+	<!-- 리스트 조회 -->		
+	<select id="selectList" resultType="document" parameterType="hashmap" >
+		<include refid="pagingHeader"></include>
+		select rownum 
+		<if test="selectOption != null">
+			, ${selectOption}
+		</if>
+		<if test="selectOption == null">
+		, B.*
+		</if>
+		from (${fromOption}) B
+		<where>
+			${whereOption}
+			<if test="searchOption != null">
+				<include refid="search"/>
+			</if>
+			<if test="order != null">
+				order by ${order} desc
+			</if>
+		</where>
+		<include refid="pagingFooter"></include>
+	</select>
+	
+<!-- 게시글 레코드 갯수 -->
+	<select id="countArticle" resultType="int" parameterType="hashmap">
+		select count(*) 
+		from ${fromOption}
+		<where>
+			${whereOption}
+			<if test="searchOption != null">
+				<include refid="search"/>
+			</if>
+			</where>
+	</select>	
+
+	<!-- 검색sql -->
+	<sql id="search">
+		<foreach collection="searchOption" item="searchOption" open="AND (" close=" )" separator=" OR ">${searchOption} LIKE '%'||#{keyword}||'%'</foreach>
+	</sql>
+
+	<!-- 페이징sql -->
+	<sql id="pagingHeader">
+		select * from (select rownum as rn, A.*from(
+	</sql>	
+	<sql id="pagingFooter">
+		)A
+		)where rn between #{start} and #{end}
+	</sql>
+	
+	
 </mapper>

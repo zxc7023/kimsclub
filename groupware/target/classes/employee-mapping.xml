@@ -21,8 +21,17 @@
 	</select>
 	
 	
-	<select id="login" resultMap="employeeMap">
+	<!-- <select id="login" resultMap="employeeMap">
 		select * from employee where employee_no = #{employee_no} and password = #{password}
+	</select> -->
+	
+	
+	<select id="login" resultMap="employeeMap">
+		select e.*, department_name 
+		from employee e
+		left join department d
+		on e.department_no = d.department_no
+		where employee_no = #{employee_no} and password = #{password}
 	</select>
 	
 	<select id="selectEmployeeList" resultMap="employeeMap">

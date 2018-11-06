@@ -34,10 +34,9 @@
 	    $("#droppable").droppable({
 			drop: function( event, ui ) {
 				for(var i = ui.draggable.attr("index"); i<index; i++){
-					$('.modal_name[index='+i+']').prev().html($('.modal_name[index='+i+']').html());
+					$('.modal_name[index='+i+']').html($('.modal_name[index='+(parseInt(i)+1)+']').html());
 				}
 				index--;
-				$('.modal_name[index='+index+']').html("");
 				sortDisabled(index);
 			}
 	    });
@@ -57,10 +56,8 @@
 		var arr = ${elist};
 		
 		//로그인한 사원의 번호를 세션에서 받아오기
-		var employee_no = ${sessionScope.loginInfo.employee_no};
-		
 		//모달테이블 index 0번에 자신의 아이디 입력 및 index 변수에 1 입력
-		$('.modal_name[index=0]').html("<label><input type='hidden' name='approval_employee_no' value="+arr[0].employee_no +">"+arr[0].department.department_name+"<br>("+arr[0].employee_name+" "+arr[0].position+")</label>");
+		$('.modal_name[index=0]').html("<label><input type='hidden' name='approval[][employee][employee_no]' value=${sessionScope.loginInfo.employee_no}>${sessionScope.loginInfo.department.department_name}<br>(${sessionScope.loginInfo.employee_name} ${sessionScope.loginInfo.position})</label>");
 		index=1;
 		
 		
@@ -70,7 +67,7 @@
 				method : "GET",
 				url : "/groupware/myApprovalLine",
 				data : {
-					"employee_no" : employee_no
+					"employee_no" : '${sessionScope.loginInfo.employee_no}'
 				},
 				error : function() {
 					alert("내 결재선 불러오기 실패");
@@ -91,7 +88,7 @@
 					method : "GET",
 					url : "/groupware/selectMyApprovalLine",
 					data : {
-						"approval_path_no" : $('.myApprovalLine option:selected').val()
+						"approval_path_no" : $('.myApprovalLine option:selected').val() 
 					},
 					error : function() {
 						alert("양식 불러오기 실패");
@@ -101,7 +98,7 @@
 						$('.modal_name').html("");
 						index=0;
 						for (var x in data){
-							$('.modal_name[index='+x+']').html("<label><input type='hidden' name='approval_employee_no' value="+data[x].employee.employee_no +">"+data[x].employee.department.department_name+"<br>("+data[x].employee.employee_name+" "+data[x].employee.position+")</label>");
+							$('.modal_name[index='+x+']').html("<label><input type='hidden' name='approval[][employee][employee_no]' value="+data[x].employee.employee_no +">"+data[x].employee.department.department_name+"<br>("+data[x].employee.employee_name+" "+data[x].employee.position+")</label>");
 							index++;
 						}
 						sortDisabled(index);
@@ -148,7 +145,7 @@
 	        	if(index>5){
 	        		alert("결재선이 꽉 찼습니다. 최대 6명");
 	        	}else{
-		        	$('.modal_name[index='+index+']').html("<label><input type='hidden' name='approval_employee_no' value="+ui.item.no +">"+ui.item.category+"<br>("+ui.item.label+" "+ui.item.position+")</label>");
+		        	$('.modal_name[index='+index+']').html("<label><input type='hidden' name='approval[][employee][employee_no]' value="+ui.item.no +">"+ui.item.category+"<br>("+ui.item.label+" "+ui.item.position+")</label>");
 					index++;
 					sortDisabled(index);
 	        	}

@@ -12,6 +12,30 @@ public class EmployeeVO {
 	private String email;
 	private String position;
 	private String phonenumber;
+	
+	
+	public EmployeeVO() {
+	}
+	
+	public EmployeeVO(int employee_no, String employee_name, String password, Date hiredate, String usertype, DepartmentVO department, String email, String position, String phonenumber) {
+		super();
+		this.employee_no = employee_no;
+		this.employee_name = employee_name;
+		this.password = password;
+		this.hiredate = hiredate;
+		this.usertype = usertype;
+		this.department = department;
+		this.email = email;
+		this.position = position;
+		this.phonenumber = phonenumber;
+	}
+	
+	
+	public EmployeeVO(int employee_no) {
+		super();
+		this.employee_no = employee_no;
+	}
+
 	public int getEmployee_no() {
 		return employee_no;
 	}
@@ -67,6 +91,11 @@ public class EmployeeVO {
 	public void setDepartment(DepartmentVO department) {
 		this.department = department;
 	}
+	@Override
+	public String toString() {
+		return "EmployeeVO [employee_no=" + employee_no + ", employee_name=" + employee_name + ", password=" + password + ", hiredate=" + hiredate + ", usertype=" + usertype + ", department=" + department + ", email=" + email + ", position=" + position + ", phonenumber=" + phonenumber + "]";
+	}
+
 	
 	
 	
