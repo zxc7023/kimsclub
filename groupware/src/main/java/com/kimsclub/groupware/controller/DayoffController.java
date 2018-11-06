@@ -24,6 +24,7 @@ import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
 import com.kimsclub.groupware.vo.DayoffMyRecodeVO;
+import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Controller

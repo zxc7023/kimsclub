@@ -68,6 +68,13 @@ public class DocumentVO {
 		this.employee = employee;
 		this.document_state = document_state;
 	}
+	@Override
+	public String toString() {
+		return "DocumentVO [document_no=" + document_no + ", document_title=" + document_title + ", document_contents=" + document_contents + ", employee=" + employee + ", approval=" + approval + ", document_date=" + document_date
+				+ ", document_state=" + document_state + "]";
+	}
+	
+	
 	
 	
 }
