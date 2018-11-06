@@ -64,23 +64,20 @@ $(document).ready(function() {
 	});
 
 	$("form#writeDocForm").submit(function(){
-		alert("submit 실행");
 		$('#ckeditor').html(CKEDITOR.instances.ckeditor.getData());
 		var tmpArr = $("form#writeDocForm").serializeObject();
-		console.log(tmpArr);
-		alert(JSON.stringify(tmpArr));
 		$.ajax({
 			method : "post",
 			url : "/groupware/approvalNewDoc",
 			contentType: "application/json;charset=UTF-8",
 			dataType : "json",
 			data : JSON.stringify(tmpArr),
-			error : function() {
+			error : function(error) {
 				alert("양식 불러오기 실패");
 			},
 			success : function(data) {
-				CKEDITOR.instances.ckeditor.setData(data);
-				//keditor.element.appendText(data);
+				alert(data);
+				window.location.href = "/"+data;
 			}
 		});
 	});

@@ -74,13 +74,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public Map<String, Object> viewNewDoc(int document_no) {
-		List<ApprovalVO> alist = adao.selectApprovalList(document_no);
-		DocumentVO dvo = ddao.selectDocument(document_no);
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("alist", alist);
-		map.put("dvo", dvo);
-		return map;
+	public DocumentVO viewNewDoc(int document_no) {
+		DocumentVO dlist = ddao.selectDocument(document_no);
+		return dlist;
 	}
 
 }

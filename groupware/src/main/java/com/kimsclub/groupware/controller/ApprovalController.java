@@ -22,7 +22,6 @@ import com.kimsclub.groupware.service.ApprovalService;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
 import com.kimsclub.groupware.vo.ApprovalVO;
 import com.kimsclub.groupware.vo.BoardPageVO;
-import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.FormVO;
@@ -104,57 +103,52 @@ public class ApprovalController {
 		//map을 통해 해당하는 리스트 불러오기
 		List<DocumentVO> dlist = service.getDocumentList(map);
 		
-		for(DocumentVO dvo:dlist) {
-			System.out.println(dvo.getDocument_title());
-		}
-		
 		ModelAndView mav = new ModelAndView();
-
 		mav.addObject("dlist",dlist);
 		mav.setViewName("approval/approvalNewDoc");
-		
-		
 		
 		return mav;
 	}
 	
 	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
-	@ResponseBody
+	@ResponseBody	
 	public String approvalSaveDoc(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalSaveDoc() 메소드 호출");
-		System.out.println(dvo.getDocument_title()+":"+dvo.getDocument_contents());
-		for(ApprovalVO avo: dvo.getApproval()) {
-			System.out.println(avo.getEmployee().getEmployee_no());
-		}
-		//System.out.println(employee_no);
-		/*List<ApprovalVO> alist = new ArrayList<ApprovalVO>();
-		for(int i=0;i < employee_no.length; i++) {
-			if(i!=employee_no.length-1) {
-				alist.add(new ApprovalVO(i,employee_no[i],i+1));
-			}else if(i==employee_no.length-1) {
-				alist.add(new ApprovalVO(i,employee_no[i],0));
+		List<ApprovalVO> alist = new ArrayList<ApprovalVO>();
+		for(int i=0;i < dvo.getApproval().size(); i++) {
+			if(i!=dvo.getApproval().size()-1) {
+				alist.add(new ApprovalVO(i,dvo.getApproval().get(i).getEmployee(),i+1));
+			}else if(i==dvo.getApproval().size()-1) {
+				alist.add(new ApprovalVO(i,dvo.getApproval().get(i).getEmployee(),0));
 			}
-		}*/
+		}
 		Map<String,Object> map = new HashMap<String, Object>();
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		//DocumentVO dvo = new DocumentVO(document_title, document_contents , evo, 0);
-		//map.put("dvo", dvo);
-		//map.put("alist", alist);
+		DocumentVO _dvo = new DocumentVO(dvo.getDocument_title(), dvo.getDocument_contents() , evo, 0);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		try {
+			json = mapper.writeValueAsString("approval/approvalNewDoc");
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		map.put("dvo", _dvo);
+		map.put("alist", alist);
 		//service.saveDocument(map);
-		//return "approval/approvalNewDoc";
-		return "approval/approval";
+		System.out.println(json);
+		return json;
 	}
+	
 	
 	@RequestMapping(value = "/approvalViewNewDoc", method=RequestMethod.GET)
 	public ModelAndView approvalViewNewDoc(@RequestParam(name="document_no")int document_no){
 		System.out.println("approvalViewNewDoc() 메소드 호출");
 		
 		ModelAndView mav = new ModelAndView();
-		Map<String,Object> map = new HashMap<String,Object>();
 		
-		map = service.viewNewDoc(document_no);
-		mav.addObject("alist", map.get("alist"));
-		mav.addObject("dvo", map.get("dvo"));
+		DocumentVO dvo = service.viewNewDoc(document_no);
+		mav.addObject("dvo", dvo);
 		mav.setViewName("approval/approvalViewNewDoc");
 		return mav;
 	}
