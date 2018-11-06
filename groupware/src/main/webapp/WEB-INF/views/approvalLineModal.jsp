@@ -88,7 +88,7 @@
 					method : "GET",
 					url : "/groupware/selectMyApprovalLine",
 					data : {
-						"approval_path_no" : $('.myApprovalLine option:selected').val()
+						"approval_path_no" : $('.myApprovalLine option:selected').val() 
 					},
 					error : function() {
 						alert("양식 불러오기 실패");
