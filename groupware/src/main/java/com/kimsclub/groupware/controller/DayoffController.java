@@ -99,8 +99,8 @@ public class DayoffController {
 	
 	
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.POST)
-	public String applyDayoff(HttpSession session) {
-		
+	public String applyDayoff(HttpSession session, @RequestBody DayoffApplyVO vo) {
+		System.out.println(vo);
 		return null;
 	}
 	

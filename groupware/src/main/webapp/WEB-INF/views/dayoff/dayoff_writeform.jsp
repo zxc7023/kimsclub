@@ -59,17 +59,42 @@
 		
 		
 		$("#draft").click(function(){
-			console.log(dayMap);
-			console.log($("#approval").serializeArray());
 			
-			var tmp  = $("#approval").serializeArray();
-			console.log(tmp);
+			var sendObj = {};
+			sendObj.employee = [];
+		
+			var serialArr = $("#approval").serializeObject();
 			
-			var keys = dayMap.getAll();
+	
+			console.log(JSON.stringify(toArr));
+			/* 
+			$.ajax({
+				method : "post",
+				dataType : "json",
+				contentType : 'application/json;charset=UTF-8',
+				url : "${pageContext.request.contextPath}/dayoff/dayoffWriteform",
+				data : JSON.stringify(toArr),
+				error : function() {
+					alert('전송 실패');
+				},
+				success : function(
+						server_result) {
+					var server_json = server_result;
+					var result = server_json.result;
+					if (result == "1") {
+						alert("수정 성공");
+					} else {
+						alert("수정 실패");
+					}
+				}
+			});
+			 */
+			
+/* 			var keys = dayMap.getAll();
 			for (var key in keys){
 				console.log(key);
 				console.log(dayMap.get(key));
-			}
+			} */
 			return false;
 		});
 	});

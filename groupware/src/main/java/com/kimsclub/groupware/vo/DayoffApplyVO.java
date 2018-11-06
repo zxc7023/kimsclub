@@ -96,10 +96,11 @@ public class DayoffApplyVO {
 
 	@Override
 	public String toString() {
-		return "DayoffApplyVO [dayoff_no=" + dayoff_no + ", total_days=" + total_days + ", start_date=" + start_date
-				+ ", end_date=" + end_date + ", employee=" + employee + ", dayoff_kind=" + dayoff_kind
-				+ ", dayoff_apply_detail=" + dayoff_apply_detail + ", document=" + document + "]";
+		return "DayoffApplyVO [dayoff_no=" + dayoff_no + ", total_days=" + total_days + ", start_date=" + start_date + ", end_date=" + end_date + ", employee=" + employee + ", dayoff_kind=" + dayoff_kind + ", dayoff_apply_detail="
+				+ dayoff_apply_detail + ", document=" + document + "]";
 	}
+
+	
 
 	
 
