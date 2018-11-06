@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kimsclub.groupware.service.DepartmentService;
+import com.kimsclub.groupware.service.EmployeeService;
 import com.kimsclub.groupware.vo.DepartmentVO;
 
 @Controller
@@ -23,12 +24,15 @@ public class HumanResourcesController {
 	
 	
 	@Autowired
-	DepartmentService service;
+	DepartmentService department_service;
+	
+	@Autowired
+	EmployeeService employee_service;
 	
 	@RequestMapping(value = "/department", method=RequestMethod.GET)
 	public ModelAndView department_list(){
 		System.out.println("department_list 메소드 호출");
-		List<DepartmentVO> list = service.getDepartmentList();
+		List<DepartmentVO> list = department_service.getDepartmentList();
 		ObjectMapper mapper = new ObjectMapper();
 		String json = null;
 		
@@ -50,14 +54,14 @@ public class HumanResourcesController {
 	@ResponseBody
 	public Map<String, Integer> getDepartmentSeq(){
 		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("department_no", service.getDepartmentSeq());
+		map.put("department_no", department_service.getDepartmentSeq());
 		return map;
 	}
 	
 	@RequestMapping(value="/addDepartment", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> addDepartment(@RequestBody DepartmentVO vo){
-		service.addDepartment(vo);
+		department_service.addDepartment(vo);
 		Map<String,String> map = new HashMap<String, String>();
 		map.put("result", "1");
 		return map;
@@ -67,7 +71,7 @@ public class HumanResourcesController {
 	@ResponseBody
 	public Map<String, String> modifyDepartmentName(@RequestBody DepartmentVO vo){
 		System.out.println(vo);
-		service.modifyDepartmentName(vo);
+		department_service.modifyDepartmentName(vo);
 		Map<String,String> map = new HashMap<String, String>();
 		map.put("result", "1");
 		return map;
@@ -76,10 +80,20 @@ public class HumanResourcesController {
 	@ResponseBody
 	public Map<String, String> removeDepartments(@RequestBody DepartmentVO vo){
 		System.out.println("삭제메소드:" + vo);
-		service.removeDepartment(vo);
+		department_service.removeDepartment(vo);
 		Map<String,String> map = new HashMap<String, String>();
 		map.put("result", "1");
 		return map;
+	}
+	
+	/**
+	 * 사용자 관리를 눌렀을때 해당하는 url에 매핑되는 메소드
+	 * @return
+	 */
+	@RequestMapping(value="/employeeMangae", method=RequestMethod.GET)
+	public ModelAndView getEmployee() {
+		
+		return null;
 	}
 	
 	

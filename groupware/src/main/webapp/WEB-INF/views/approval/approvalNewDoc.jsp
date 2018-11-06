@@ -37,7 +37,6 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
-
 </head>
 <body>
 
@@ -49,7 +48,7 @@
 		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
 
 		<!-- content div -->
-		<div id="page-wrapper"  >
+		<div id="page-wrapper">
 
 			<div class="row">
 				<div class="col-lg-12">
@@ -66,13 +65,81 @@
 								<button onclick="location='writeDoc'" class="btn btn-info">새 문서 작성</button>
 							</div>
 							<div class="panel-body">
-								
+								<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+									<div class="row">
+										<div class="col-sm-5">
+											<div class="dataTables_length" id="dataTables-example_length">
+												<label>Show <select name="page_scale" class="form-control input-sm pg-scale">
+														<option value="10" <c:if test="${page.page_scale==10}">selected="selected"</c:if>>10</option>
+														<option value="25" <c:if test="${page.page_scale==25}">selected="selected"</c:if>>25</option>
+														<option value="50" <c:if test="${page.page_scale==50}">selected="selected"</c:if>>50</option>
+														<option value="100" <c:if test="${page.page_scale==100}">selected="selected"</c:if>>100</option>
+												</select> entries
+												</label>
+											</div>
+										</div>
+										<form action="form">
+											<input type="hidden" name="page_scale" value="${page.page_scale}">
+											<div class="col-sm-3">
+												<label><input type="checkbox" name="searchOption" value="form_name" checked="checked" multiple="multiple">이름 </label> <label><input type="checkbox" name="searchOption" value="form_desc" multiple="multiple">설명 </label> <label><input type="checkbox" name="searchOption" value="form_contents" multiple="multiple">내용</label>
+											</div>
+											<div class="col-sm-4">
+												<div id="dataTables-example_filter" class="dataTables_filter">
+													<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword">
+													</label>
+													<button class="btn btn-primary btn-sm">
+														<i class="fa fa-search"></i>
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+									<table class="table table-bordered" id="dataTable">
+										<thead>
+											<tr role="row">
+												<th><p>
+														<input type="checkbox" name="check-all" class="check-all">번호
+													</p></th>
+												<th>제목</th>
+												<th>기안일</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach items="${dlist}" var="list">
+												<tr>
+													<td><input type="checkbox" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
+													<td><a href="approvalViewNewDoc?document_no=${list.document_no}">${list.document_title}</a></td>
+													<td>${list.document_date}</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">Showing ${page.pageBegin} to ${page.pageEnd} of ${page.count} entries</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+												<ul class="pagination">
+													<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
+															<a href="form?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
+														</c:if></li>
+													<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
+														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="form?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
+													</c:forEach>
+													<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
+															<a href="form?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
+														</c:if></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </body>

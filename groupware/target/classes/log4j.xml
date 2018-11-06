@@ -12,7 +12,9 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.kimsclub.groupware">
-		<level value="info" />
+	<!-- <level value="info" /> -->
+	<!-- 쿼리문 출력 -->
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

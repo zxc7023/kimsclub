@@ -55,7 +55,7 @@
 												dayoffCreateObj.dayoff_days = tmpArr[i + 1].value;
 												toSendArr.push(dayoffCreateObj);
 											}
-											console.log(toSendArr);
+											console.log(JSON.stringify(toSendArr));
 											$
 													.ajax({
 														method : "post",
@@ -151,10 +151,10 @@
 								<form>
 									<table class="table table-bordered table-hover" id="dayoff_kinds_table">
 										<colgroup>
-											<col width="10%">
-											<col width="20%">
-											<col width="30%">
-											<col width="30%">
+											<col class="col-sm-1">
+											<col class="col-sm-1">
+											<col class="col-sm-5">
+											<col class="col-sm-5">
 										</colgroup>
 										<thead>
 											<tr>
