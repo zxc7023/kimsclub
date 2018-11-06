@@ -118,23 +118,25 @@ public class ApprovalController {
 	
 	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
 	public String approvalSaveDoc(@RequestParam(name="employee_no", defaultValue="4")int document_writer_no,
-			@RequestParam(name="approval_employee_no")int[] approval_approver_no,
+			List<ApprovalVO> employee_no,
 			@RequestParam(name="form_contents")String document_contents,
 			@RequestParam(name="document_title")String document_title,HttpSession session){
 		System.out.println("approvalSaveDoc() 메소드 호출");
-		List<ApprovalVO> alist = new ArrayList<ApprovalVO>();
-		for(int i=0;i < approval_approver_no.length; i++) {
-			if(i!=approval_approver_no.length-1) {
-				alist.add(new ApprovalVO(i,approval_approver_no[i],i+1));
-			}else if(i==approval_approver_no.length-1) {
-				alist.add(new ApprovalVO(i,approval_approver_no[i],0));
+		
+		System.out.println(employee_no);
+		/*List<ApprovalVO> alist = new ArrayList<ApprovalVO>();
+		for(int i=0;i < employee_no.length; i++) {
+			if(i!=employee_no.length-1) {
+				alist.add(new ApprovalVO(i,employee_no[i],i+1));
+			}else if(i==employee_no.length-1) {
+				alist.add(new ApprovalVO(i,employee_no[i],0));
 			}
-		}
+		}*/
 		Map<String,Object> map = new HashMap<String, Object>();
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
 		DocumentVO dvo = new DocumentVO(document_title, document_contents , evo, 0);
 		map.put("dvo", dvo);
-		map.put("alist", alist);
+		//map.put("alist", alist);
 		service.saveDocument(map);
 		return "approval/approvalNewDoc";
 	}

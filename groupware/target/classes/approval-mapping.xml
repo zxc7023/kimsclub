@@ -5,7 +5,7 @@
 	<select id="selectApprovalList" parameterType="int" resultType="approval">
 		SELECT approval_no, approval_approver_no, approval_date,approval_state,approval_next_no 
 		FROM approval 
-		WHERE document_no = ${document_no}
+		WHERE document_no = #{value}
 		ORDER BY approval_no
 	</select>
 </mapper>
