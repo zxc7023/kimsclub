@@ -8,27 +8,32 @@
 		<result column="document_contents" property="document_contents"/>
 		<result column="document_date" property="document_date"/>
 		<result column="document_state" property="document_state"/>
-		<collection property="approval" javaType="java.util.ArrayList" ofType="approval">
-			<id column="approval_no" property="approval_no"/>
-			<result column="approval_date" property="approval_date"/>
-			<result column="approval_state" property="approval_state"/>
-			<association property="employee" javaType="employee">
-				<id column="employee_no" property="employee_no"/>
-				<result column="employee_name" property="employee_name"/>
-				<result column="position" property="position"/>
-				<association property="department" javaType="department">
-					<id column="department_no" property="department_no" />
-					<result column="department_name" property="department_name"/>
-				</association>
+		<collection column="approval" property="approval" javaType="java.util.ArrayList" ofType="approval" select="selectApproval"/>
+	</resultMap>
+	<resultMap type="approval" id="approval">
+		<id column="approval_no" property="approval_no"/>
+		<result column="approval_date" property="approval_date"/>
+		<result column="approval_state" property="approval_state"/>
+		<association property="employee" javaType="employee">
+			<id column="employee_no" property="employee_no"/>
+			<result column="employee_name" property="employee_name"/>
+			<result column="position" property="position"/>
+			<association property="department" javaType="department">
+				<id column="department_no" property="department_no" />
+				<result column="department_name" property="department_name"/>
 			</association>
-		</collection>
+		</association>
 	</resultMap>
 	
 	<select id="selectDocument" parameterType="int" resultMap="documentMap">
-	SELECT document_title, document_contents, document_date, document_state, approval_no, approval_date,approval_state, e.employee_no,employee_name,position,department_name
-	FROM document d left join approval a on d.DOCUMENT_NO = a.document_no left join employee e on a.EMPLOYEE_NO=e.EMPLOYEE_NO left join department m on e.DEPARTMENT_NO = m.DEPARTMENT_NO WHERE d.document_no = #{value} ORDER BY approval_no
+		SELECT document_title, document_contents, document_date, document_state
+		FROM document d WHERE d.document_no = #{value}
 	</select>
 	
+	<select id="selectApproval" parameterType="int">
+		SELECT approval_no, approval_date,approval_state, e.employee_no,employee_name,position,department_name
+		FROM approval a left join employee e on a.EMPLOYEE_NO=e.EMPLOYEE_NO left join department m on e.DEPARTMENT_NO = m.DEPARTMENT_NO WHERE a.document_no = #{value} ORDER BY approval_no
+	</select>
 	
 	<insert id="insertDocument" parameterType="document">
 		INSERT INTO
