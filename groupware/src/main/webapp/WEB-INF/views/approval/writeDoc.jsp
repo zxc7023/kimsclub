@@ -45,6 +45,9 @@
 
 <!-- jquery-ui.js -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<!-- jquery-serializeObject.js  -->
+<script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <style>
 .odd {
 background-color: #f5f5f5;
@@ -52,15 +55,38 @@ background-color: #f5f5f5;
 </style>
 <script>
 $(document).ready(function() {
-	
 	$(function(){
-	    keditor = CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
+	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
 	    	height:'400px',
 	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
 	    });
-	    
 	});
+
+	$("form#writeDocForm").submit(function(){
+		alert("submit 실행");
+		$('#ckeditor').html(CKEDITOR.instances.ckeditor.getData());
+		var tmpArr = $("form#writeDocForm").serializeObject();
+		console.log(tmpArr);
+		alert(JSON.stringify(tmpArr));
+		$.ajax({
+			method : "post",
+			url : "/groupware/approvalNewDoc",
+			contentType: "application/json;charset=UTF-8",
+			dataType : "json",
+			data : JSON.stringify(tmpArr),
+			error : function() {
+				alert("양식 불러오기 실패");
+			},
+			success : function(data) {
+				CKEDITOR.instances.ckeditor.setData(data);
+				//keditor.element.appendText(data);
+			}
+		});
+	});
+	
+	
+	
 	
 	$('.selectForm').change(function() {
 		if($(this).val()!='default'){
@@ -71,24 +97,24 @@ $(document).ready(function() {
 			}
 		}
 	});
-	function loadForm(){
-		$.ajax({
-			method : "GET",
-			url : "/groupware/loadForm",
-			data : {
-				"form_no" : $('.selectFormNo:selected').val()
-			},
-			error : function() {
-				alert("양식 불러오기 실패");
-			},
-			success : function(data) {
-				CKEDITOR.instances.ckeditor.setData(data);
-				//keditor.element.appendText(data);
-				console.log($('#ckeditor').val());
-			}
-		});
-	}
+	
 });//ready end
+function loadForm(){
+	$.ajax({
+		method : "GET",
+		url : "/groupware/loadForm",
+		data : {
+			"form_no" : $('.selectFormNo:selected').val()
+		},
+		error : function() {
+			alert("양식 불러오기 실패");
+		},
+		success : function(data) {
+			CKEDITOR.instances.ckeditor.setData(data);
+			//keditor.element.appendText(data);
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -104,11 +130,10 @@ $(document).ready(function() {
 				<div class="panel panel-default">
 					<div class="panel-heading">문서 작성</div>
 					<div class="panel-body">
-						<form class="col-sm-12" action="/groupware/approvalNewDoc"
-							method="post">
+						<form class="col-sm-12" action="/groupware/approvalNewDoc" id="writeDocForm" method="post">
 							<div class="panel-heading">
 								<button onclick="location='approvalDoc'" class="btn btn-info">기안하기</button>
-								<button type="submit" class="btn btn-info">임시저장</button>
+								<input type="submit" class="btn btn-info" value="임시저장">
 							</div>
 							<div class="panel-body">
 								<table
@@ -190,7 +215,7 @@ $(document).ready(function() {
 										<tr>
 											<td colspan="2">
 												<div class="col-lg-12">
-													<textarea name="form_contents" id="ckeditor" class="form"></textarea>
+													<textarea name="document_contents" id="ckeditor" class="form"></textarea>
 												</div>
 											</td>
 										</tr>
