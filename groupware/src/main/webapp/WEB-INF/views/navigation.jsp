@@ -171,6 +171,7 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav in" id="side-menu">
+				<li><a href="${pageContext.request.contextPath}/calendar"><i class="far fa-calendar"></i> 일정 관리</a>
 				<li><a><i class="fa fa-table fa-fw"></i> 게시판<span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
 						<li><a href="${pageContext.request.contextPath}/boardList?board_type=c">커뮤니티</a></li>
