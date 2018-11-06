@@ -179,8 +179,8 @@
 					</ul> <!-- /.nav-second-level --></li>
 				<li><a><i class="fa fa-table fa-fw"></i> 게시판<span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-						<li><a href="${pageContext.request.contextPath}/boardList?board_type=c">커뮤니티</a></li>
-						<li><a href="${pageContext.request.contextPath}/boardList?board_type=n">공지사항</a></li>
+						<li><a href="${pageContext.request.contextPath}/boardList?board_type=c"><i class="fa fa-list-alt"></i> 커뮤니티</a></li>
+						<li><a href="${pageContext.request.contextPath}/boardList?board_type=n"><i class="fa fa-tag"></i> 공지사항</a></li>
 					</ul></li>
 				<li><a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a></li>
 				<li><a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>

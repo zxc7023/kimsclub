@@ -22,4 +22,10 @@ public interface BoardService {
 	public void insertBoardReply(BoardReplyVO vo);
 	//게시글 댓글 목록
 	public List<BoardReplyVO> boardReplyList(BoardReplyVO vo);
+	//게시글 댓글 order 조회
+	public int selectReplyOrder(BoardReplyVO vo);
+	//게시글 댓글 조회수 
+	public int selectReplyCount(BoardReplyVO vo);
+	//게시글 댓글 삭제
+	public void deleteReply(BoardReplyVO vo);
 }
