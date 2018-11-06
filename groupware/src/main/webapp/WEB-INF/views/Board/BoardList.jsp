@@ -43,7 +43,7 @@
 <script type="text/javascript">
 	//검색 버튼 클릭시
 	$(document).ready(function() {
-		//boardType값 저장
+	//boardType값 저장
 		var boardType = '${map.board_type}';
 		
 	//검색 버튼 클릭시
@@ -161,7 +161,14 @@
 				                                <c:forEach var="list" items="${map.list}" >
 					                                <tr class="odd gradeA">
 					                                    <td>${list.board_no}</td>
-					                                    <td><a class="text-muted" href="detail?board_type=${map.board_type}&board_no=${list.board_no}">${list.board_title}</a></td>
+					                                    <td><a class="text-muted" href="detail?board_type=${map.board_type}&board_no=${list.board_no}&searchOption=${map.searchOption}&keyword=${map.keyword}&curPage=${map.boardPager.curPage}">${list.board_title}
+					                                    		<c:if test="${list.reply_count>0}">
+					                                    			<span style="color: orange;">
+					                                    				[${list.reply_count}]
+					                                    			</span>
+					                                    		</c:if>	
+					                                    	</a>
+					                                    </td>
 					                                    <td>${list.board_writer}</td>
 					                                    <td class="center">${list.board_date}</td>
 					                                    <td class="center">${list.board_viewcount}</td>
@@ -211,11 +218,8 @@
 				                            </ul>
 			                            </div>
 	                           		</div>
-	                           		
 	                            </div>
-                            		    
                             </div>
-                            
                             
                             <div class="well">
                                 <h4>DataTables Usage Information</h4>
@@ -223,11 +227,8 @@
                                 <a class="btn btn-default btn-lg btn-block" target="_blank" href="https://datatables.net/">View DataTables Documentation</a>
                             </div>
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
 	</div>
 </div>

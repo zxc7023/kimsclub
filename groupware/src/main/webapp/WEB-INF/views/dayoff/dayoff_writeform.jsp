@@ -50,6 +50,7 @@
 }
 </style>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		
@@ -59,13 +60,61 @@
 		
 		
 		$("#draft").click(function(){
-			console.log(dayMap);
-			console.log($("#approval").serialize());
-			var keys = dayMap.getAll();
-			for (var key in keys){
+
+			var dayoffApply = $("#approval").serializeObject();
+			dayoffApply.dayoff_apply_detail = [];
+  			var keys = dayMap.keys();
+  			
+  			var tmpMap = dayMap.getAll();
+  			for(var key in tmpMap){
+  				var detailObj = {};
+				detailObj.dayoff_day = new Date(key);
+				var value = dayMap.get(key);
 				console.log(key);
-				console.log(dayMap.get(key));
-			}
+				console.log(value);
+				if(value == "choose_day"){
+					detailObj.days = 1;
+					detailObj.onorhalf = 1;
+				}else if(value =="choose_day_am"){
+					detailObj.days = 0.5;
+					detailObj.onorhalf = 2;
+				}else{
+					detailObj.days = 0.5;
+					detailObj.onorhalf = 3;
+				}
+				dayoffApply.dayoff_apply_detail.push(detailObj);
+  
+  			}
+  			
+			var approval = {};
+			approval.approval = dayoffApply.approval;
+			dayoffApply.document = approval;
+			delete dayoffApply.approval;
+			console.log(JSON.stringify(dayoffApply)); 
+			
+		 	
+	 		$.ajax({
+				method : "post",
+				dataType : "json",
+				contentType : 'application/json;charset=UTF-8',
+				url : "${pageContext.request.contextPath}/dayoff/dayoffWriteform",
+				data : JSON.stringify(dayoffApply),
+				error : function() {
+					alert('전송 실패');
+				},
+				success : function(
+						server_result) {
+					var server_json = server_result;
+					var result = server_json.result;
+					if (result == "1") {
+						alert("수정 성공");
+					} else {
+						alert("수정 실패");
+					}
+				}
+			});  
+		
+		
 			return false;
 		});
 	});

@@ -24,6 +24,7 @@ import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
 import com.kimsclub.groupware.vo.DayoffMyRecodeVO;
+import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Controller
@@ -99,8 +100,8 @@ public class DayoffController {
 	
 	
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.POST)
-	public String applyDayoff(HttpSession session) {
-		
+	public String applyDayoff(HttpSession session, @RequestBody DayoffApplyVO vo) {
+		System.out.println(vo);
 		return null;
 	}
 	

@@ -12,7 +12,7 @@ public class BoardReplyVO {
 	private String reply_contents; //댓글 내용
 	private String reply_date; //댓글 작성일자
 	private String reply_board_type; //게시판 댓글 타입(커뮤니티:c,공지사항:n)
-	
+	private int reply_count; //댓글 조회수
 	
 	public int getBoard_no() {
 		return board_no;
@@ -74,7 +74,12 @@ public class BoardReplyVO {
 	public void setReply_board_type(String reply_board_type) {
 		this.reply_board_type = reply_board_type;
 	}
-	
+	public int getReply_count() {
+		return reply_count;
+	}
+	public void setReply_count(int reply_count) {
+		this.reply_count = reply_count;
+	}
 	
 	
 }

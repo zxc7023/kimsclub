@@ -62,5 +62,24 @@ public class BoardServiceImpl implements BoardService {
 		return dao.boardReplyList(vo);
 	}
 	
+	//게시글 댓글 order 조회
+	@Override
+	public int selectReplyOrder(BoardReplyVO vo) {
+		return dao.selectReplyOrder(vo);
+	}
+	
+	//게시글 댓글 수 
+	@Override
+	public int selectReplyCount(BoardReplyVO vo) {
+		return dao.selectReplyCount(vo);
+	}
+	
+	//게시글 댓글 삭제
+	@Override
+	public void deleteReply(BoardReplyVO vo) {
+		dao.deleteReply(vo);
+	}
+	
+	
 	
 }
