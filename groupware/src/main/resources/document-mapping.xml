@@ -8,7 +8,7 @@
 		<result column="document_contents" property="document_contents"/>
 		<result column="document_date" property="document_date"/>
 		<result column="document_state" property="document_state"/>
-		<collection property="approvals" ofType="approval" javaType="java.util.ArrayList" select="selectApproval" column="document_no"/>
+		<collection property="approval" ofType="approval" javaType="java.util.ArrayList" select="selectApproval" column="document_no"/>
 	</resultMap>
 	<resultMap type="approval" id="approvalMap">
 		<id column="approval_no" property="approval_no"/>

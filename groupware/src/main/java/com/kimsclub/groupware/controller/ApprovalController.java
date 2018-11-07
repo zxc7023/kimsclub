@@ -115,11 +115,11 @@ public class ApprovalController {
 	public String approvalSaveDoc(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalSaveDoc() 메소드 호출");
 		List<ApprovalVO> alist = new ArrayList<ApprovalVO>();
-		for(int i=0;i < dvo.getApprovals().size(); i++) {
-			if(i!=dvo.getApprovals().size()-1) {
-				alist.add(new ApprovalVO(i,dvo.getApprovals().get(i).getEmployee(),i+1));
-			}else if(i==dvo.getApprovals().size()-1) {
-				alist.add(new ApprovalVO(i,dvo.getApprovals().get(i).getEmployee(),0));
+		for(int i=0;i < dvo.getApproval().size(); i++) {
+			if(i!=dvo.getApproval().size()-1) {
+				alist.add(new ApprovalVO(i,dvo.getApproval().get(i).getEmployee(),i+1));
+			}else if(i==dvo.getApproval().size()-1) {
+				alist.add(new ApprovalVO(i,dvo.getApproval().get(i).getEmployee(),0));
 			}
 		}
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -151,8 +151,8 @@ public class ApprovalController {
 		
 		mav.addObject("dvo", dvo);
 		System.out.println("값 출력:");
-		System.out.println(dvo.getApprovals());
-		for(ApprovalVO avo: dvo.getApprovals()) {
+		System.out.println(dvo.getApproval());
+		for(ApprovalVO avo: dvo.getApproval()) {
 			System.out.println(avo);
 		}
 		mav.setViewName("approval/approvalViewNewDoc");
