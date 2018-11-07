@@ -8,31 +8,36 @@
 		<result column="document_contents" property="document_contents"/>
 		<result column="document_date" property="document_date"/>
 		<result column="document_state" property="document_state"/>
-		<collection column="approval" property="approval" javaType="java.util.ArrayList" ofType="approval" select="selectApproval"/>
+		<collection property="approvals" ofType="approval" javaType="java.util.ArrayList" select="selectApproval" column="document_no"/>
 	</resultMap>
-	<resultMap type="approval" id="approval">
+	<resultMap type="approval" id="approvalMap">
 		<id column="approval_no" property="approval_no"/>
 		<result column="approval_date" property="approval_date"/>
 		<result column="approval_state" property="approval_state"/>
 		<association property="employee" javaType="employee">
-			<id column="employee_no" property="employee_no"/>
+			<id column="e.employee_no" property="employee_no"/>
 			<result column="employee_name" property="employee_name"/>
 			<result column="position" property="position"/>
 			<association property="department" javaType="department">
-				<id column="department_no" property="department_no" />
+				<id column="department_no" property="department_no"></id>
 				<result column="department_name" property="department_name"/>
 			</association>
-		</association>
+		</association> 
 	</resultMap>
-	
 	<select id="selectDocument" parameterType="int" resultMap="documentMap">
-		SELECT document_title, document_contents, document_date, document_state
-		FROM document d WHERE d.document_no = #{value}
+		SELECT document_no, document_title, document_contents, document_date, document_state
+		FROM document WHERE document_no = #{document_no}
 	</select>
 	
-	<select id="selectApproval" parameterType="int">
-		SELECT approval_no, approval_date,approval_state, e.employee_no,employee_name,position,department_name
-		FROM approval a left join employee e on a.EMPLOYEE_NO=e.EMPLOYEE_NO left join department m on e.DEPARTMENT_NO = m.DEPARTMENT_NO WHERE a.document_no = #{value} ORDER BY approval_no
+	
+	<select id="selectApproval" parameterType="int" resultMap="approvalMap">
+		SELECT approval_no, approval_date,approval_state, e.employee_no,employee_name,position, department_name
+		FROM approval a 
+		join employee e 
+		on a.EMPLOYEE_NO=e.EMPLOYEE_NO 
+		join department m 
+		on e.DEPARTMENT_NO = m.DEPARTMENT_NO
+		WHERE a.document_no = #{document_no} ORDER BY approval_no
 	</select>
 	
 	<insert id="insertDocument" parameterType="document">
@@ -54,11 +59,7 @@
 		</foreach>
 		
 	</insert>
-	
-	
-	
-	<!--  -->
-	
+
 			
 	<!-- 리스트 조회 -->		
 	<select id="selectList" resultType="document" parameterType="hashmap" >
