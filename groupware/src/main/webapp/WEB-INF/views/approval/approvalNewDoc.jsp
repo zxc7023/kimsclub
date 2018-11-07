@@ -107,7 +107,7 @@
 										<tbody>
 											<c:forEach items="${dlist}" var="list">
 												<tr>
-													<td><input type="checkbox" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
+													<td><input type="checkbox" name="check" class="check" value="${list.document_no}"> ${list.rownum}</td>
 													<td><a href="approvalViewNewDoc?document_no=${list.document_no}">${list.document_title}</a></td>
 													<td>${list.document_date}</td>
 												</tr>
