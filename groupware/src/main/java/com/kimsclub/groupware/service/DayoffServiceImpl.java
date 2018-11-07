@@ -77,10 +77,11 @@ public class DayoffServiceImpl implements DayoffService {
 	@Override
 	/*@Transactional()*/
 	public void applyDayoff(DayoffApplyVO vo) {
-		dao.insertDocument(vo);
+		dao.applyDayoff(vo);
+	/*	dao.insertDocument(vo);
 		dao.insertApproval(vo.getDocument().getApproval());
 		dao.insertDayoffApply();
-		dao.insertApplyDetail();
+		dao.insertApplyDetail();*/
 	}
 
 	

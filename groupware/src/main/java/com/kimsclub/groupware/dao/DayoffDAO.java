@@ -3,6 +3,7 @@ package com.kimsclub.groupware.dao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -68,7 +69,7 @@ public class DayoffDAO {
 		return session.selectList("dayoff.selectDayoffToUse",vo);
 	}
 
-	public void insertDocument(DayoffApplyVO vo) {
+/*	public void insertDocument(DayoffApplyVO vo) {
 		session.insert("dayoff.insertDocument",vo);
 	}
 	
@@ -82,6 +83,12 @@ public class DayoffDAO {
 
 	public void insertApplyDetail() {
 
+	}*/
+
+	public void applyDayoff(DayoffApplyVO vo) {
+		session.insert("dayoff.insertApply",vo);
+/*		session.insert("dayoff.insertDocument",vo);
+		session.insert("dayoff.insertApproval",vo.getDocument().getApproval());*/
 	}
 
 	
