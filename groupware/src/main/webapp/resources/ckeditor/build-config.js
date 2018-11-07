@@ -13,10 +13,10 @@
  * (1) http://ckeditor.com/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) http://ckeditor.com/builder/c3fc0dcaa9c80d707aab3e60fdcddbfb
+ * (2) http://ckeditor.com/builder/66db7317ced9a69152e30f2b06aef4d8
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) http://ckeditor.com/builder/download/c3fc0dcaa9c80d707aab3e60fdcddbfb
+ * (3) http://ckeditor.com/builder/download/66db7317ced9a69152e30f2b06aef4d8
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -25,7 +25,7 @@
  */
 
 var CKBUILDER_CONFIG = {
-	skin: 'moono-lisa',
+	skin: 'moono',
 	preset: 'full',
 	ignore: [
 		'.DS_Store',
@@ -53,10 +53,17 @@ var CKBUILDER_CONFIG = {
 	],
 	plugins : {
 		'a11yhelp' : 1,
-		'about' : 1,
+		'backgrounds' : 1,
 		'basicstyles' : 1,
+		'bgimage' : 1,
 		'bidi' : 1,
 		'blockquote' : 1,
+		'bootstrapTable' : 1,
+		'bt_table' : 1,
+		'btbutton' : 1,
+		'btgrid' : 1,
+		'btquicktable' : 1,
+		'ckeditortablecellsselection' : 1,
 		'clipboard' : 1,
 		'colorbutton' : 1,
 		'colordialog' : 1,
@@ -75,9 +82,12 @@ var CKBUILDER_CONFIG = {
 		'format' : 1,
 		'forms' : 1,
 		'horizontalrule' : 1,
+		'html5validation' : 1,
+		'htmlbuttons' : 1,
 		'htmlwriter' : 1,
 		'iframe' : 1,
 		'image' : 1,
+		'imageuploader' : 1,
 		'indentblock' : 1,
 		'indentlist' : 1,
 		'justify' : 1,
@@ -89,6 +99,8 @@ var CKBUILDER_CONFIG = {
 		'maximize' : 1,
 		'newpage' : 1,
 		'pagebreak' : 1,
+		'pasteFromGoogleDoc' : 1,
+		'pastefromexcel' : 1,
 		'pastefromword' : 1,
 		'pastetext' : 1,
 		'preview' : 1,
@@ -96,18 +108,23 @@ var CKBUILDER_CONFIG = {
 		'removeformat' : 1,
 		'resize' : 1,
 		'save' : 1,
+		'save-to-pdf' : 1,
 		'scayt' : 1,
 		'selectall' : 1,
 		'showblocks' : 1,
 		'showborders' : 1,
+		'simage' : 1,
 		'smiley' : 1,
 		'sourcearea' : 1,
 		'specialchar' : 1,
 		'stylescombo' : 1,
 		'tab' : 1,
 		'table' : 1,
+		'tableresize' : 1,
+		'tableresizerowandcolumn' : 1,
 		'tableselection' : 1,
 		'tabletools' : 1,
+		'tabletoolstoolbar' : 1,
 		'templates' : 1,
 		'toolbar' : 1,
 		'undo' : 1,
@@ -117,6 +134,6 @@ var CKBUILDER_CONFIG = {
 	},
 	languages : {
 		'en' : 1,
-		'ko' : 1,
+		'ko' : 1
 	}
 };
