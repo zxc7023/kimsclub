@@ -7,11 +7,9 @@ public class DayoffKindsVO {
 	String dayoff_activation;
 
 	public DayoffKindsVO() {
-		super();
 	}
 
 	public DayoffKindsVO(int dayoff_type_code, String dayoff_name, String dayoff_deduction, String dayoff_activation) {
-		super();
 		this.dayoff_type_code = dayoff_type_code;
 		this.dayoff_name = dayoff_name;
 		this.dayoff_deduction = dayoff_deduction;

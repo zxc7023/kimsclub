@@ -6,11 +6,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kimsclub.groupware.vo.ApprovalVO;
 import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
 import com.kimsclub.groupware.vo.DayoffMyRecodeVO;
+import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Repository
@@ -18,6 +20,7 @@ public class DayoffDAO {
 	
 	@Autowired
 	SqlSession session;
+	
 	
 	public List<DayoffCreateTermsVO> getDayoffCreateTerms(){
 		return session.selectList("dayoff.selectCreateTerms");
@@ -64,5 +67,22 @@ public class DayoffDAO {
 	public List<DayoffApplyVO> selectDayoffApply(EmployeeVO vo){
 		return session.selectList("dayoff.selectDayoffToUse",vo);
 	}
+
+	public void insertDocument(DayoffApplyVO vo) {
+		session.insert("dayoff.insertDocument",vo);
+	}
+	
+	public void insertApproval(List<ApprovalVO> approval) {
+		session.insert("dayoff.insertApproval",approval);
+	}
+
+	public void insertDayoffApply() {
+		
+	}
+
+	public void insertApplyDetail() {
+
+	}
+
 	
 }

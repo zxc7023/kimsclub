@@ -53,34 +53,77 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		
 		var start_date;
 		var end_date;
 		var dayoffApply;
 		
-		
+		function loadForm(){
+			   $.ajax({
+			      method : "GET",
+			      async :false,
+			      url : "/groupware/loadForm",
+			      data : {
+			         "form_no" : 103
+			      },
+			      error : function() {
+			         alert("양식 불러오기 실패");
+			      },
+			      success : function(data) {
+			         $("#document_contents").append(data);
+			      }
+			   });
+		}
+	
+	
 		$("#draft").click(function(){
+			
+			//검증하는 부분 필요!!
+			/* 	var dayoff_type_code = $("select[name=dayoff_type_code]").val();
+	 		<c:forEach items="${requestScope.dayoffKindList}" var="kind">
+				if(${kind.dayoff_type_code} == dayoff_type_code){
+					if(${kind.dayoff_deduction} == 1){
+						if(${requestScope.myDayoff.annual_dayoff}>)
+					}
+				} 
+			</c:forEach>  */
 
+			
+			loadForm();
+			
 			var dayoffApply = $("#approval").serializeObject();
 			dayoffApply.dayoff_apply_detail = [];
-  			var keys = dayMap.keys();
   			
+			var keys = dayMap.keys();
+			if(keys.length == 0){
+				alert("날짜를 선택해주세요");
+				return false;
+			}else if(keys.length == 1){
+				dayoffApply.start_date = new Date(keys[0]);
+				dayoffApply.end_date = new Date(keys[0]);
+			}else if(keys.length > 1){
+				dayoffApply.start_date = new Date(keys[0]);
+				dayoffApply.end_date = new Date(keys[keys.length-1]);
+			}
+			
+			var dayoff_kind = {};
+			dayoff_kind.dayoff_type_code = parseInt(dayoffApply.dayoff_type_code);
+  			
+			dayoffApply.dayoff_kind = dayoff_kind;
   			var tmpMap = dayMap.getAll();
   			for(var key in tmpMap){
   				var detailObj = {};
 				detailObj.dayoff_day = new Date(key);
 				var value = dayMap.get(key);
-				console.log(key);
-				console.log(value);
+
 				if(value == "choose_day"){
 					detailObj.days = 1;
-					detailObj.onorhalf = 1;
+					detailObj.oneorhalf = 1;
 				}else if(value =="choose_day_am"){
 					detailObj.days = 0.5;
-					detailObj.onorhalf = 2;
+					detailObj.oneorhalf = 2;
 				}else{
 					detailObj.days = 0.5;
-					detailObj.onorhalf = 3;
+					detailObj.oneorhalf = 3;
 				}
 				dayoffApply.dayoff_apply_detail.push(detailObj);
   
@@ -91,6 +134,7 @@
 			dayoffApply.document = approval;
 			delete dayoffApply.approval;
 			console.log(JSON.stringify(dayoffApply)); 
+			
 			
 		 	
 	 		$.ajax({
@@ -311,7 +355,7 @@
 					//total_day = total_day + 1.0;
 					dayMap.put($(this).data("dayoff_date"), "choose_day");
 				}
-				var dayVar = $("#total_day");
+				var dayVar = $("#total_day_span");
 
 				total_day = 0;
 				var keys = dayMap.getAll();
@@ -431,7 +475,7 @@
 														<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"></button>
 														<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right"></button>
 														<p>
-															휴가신청일수 : <span id="total_day">0</span>일<input type="hidden" name="total_days">
+															휴가신청일수 : <span id="total_day_span">0</span>일<input type="hidden" name="total_days">
 														</p> <script type="text/javascript">
 															buildCalendar();
 														</script>
@@ -462,5 +506,7 @@
 		</div>
 	</div>
 	<jsp:include page="/WEB-INF/views/approvalLineModal.jsp"></jsp:include>
+	<textarea name="document_contents" id="document_contents" style="display: none;">
+	</textarea>
 </body>
 </html>

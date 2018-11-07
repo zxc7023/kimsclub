@@ -5,20 +5,20 @@ import java.util.List;
 
 public class DayoffApplyVO {
 	int dayoff_no;
-	int total_days;
+	double total_days;
 	Date start_date;
 	Date end_date;
 	EmployeeVO employee;
 	DayoffKindsVO dayoff_kind;
 	List<DayoffApplyDetailVO> dayoff_apply_detail;
 	DocumentVO document;
+	String dayoff_reason;
 
 	public DayoffApplyVO() {
 		super();
 	}
 
-	public DayoffApplyVO(int dayoff_no, int total_days, Date start_date, Date end_date, EmployeeVO employee,
-			DayoffKindsVO dayoff_kind, List<DayoffApplyDetailVO> dayoff_apply_detail, DocumentVO document) {
+	public DayoffApplyVO(int dayoff_no, double total_days, Date start_date, Date end_date, EmployeeVO employee, DayoffKindsVO dayoff_kind, List<DayoffApplyDetailVO> dayoff_apply_detail, DocumentVO document, String dayoff_reason) {
 		super();
 		this.dayoff_no = dayoff_no;
 		this.total_days = total_days;
@@ -28,6 +28,7 @@ public class DayoffApplyVO {
 		this.dayoff_kind = dayoff_kind;
 		this.dayoff_apply_detail = dayoff_apply_detail;
 		this.document = document;
+		this.dayoff_reason = dayoff_reason;
 	}
 
 	public int getDayoff_no() {
@@ -38,11 +39,11 @@ public class DayoffApplyVO {
 		this.dayoff_no = dayoff_no;
 	}
 
-	public int getTotal_days() {
+	public double getTotal_days() {
 		return total_days;
 	}
 
-	public void setTotal_days(int total_days) {
+	public void setTotal_days(double total_days) {
 		this.total_days = total_days;
 	}
 
@@ -94,14 +95,20 @@ public class DayoffApplyVO {
 		this.document = document;
 	}
 
+	public String getDayoff_reason() {
+		return dayoff_reason;
+	}
+
+	public void setDayoff_reason(String dayoff_reason) {
+		this.dayoff_reason = dayoff_reason;
+	}
+
 	@Override
 	public String toString() {
 		return "DayoffApplyVO [dayoff_no=" + dayoff_no + ", total_days=" + total_days + ", start_date=" + start_date + ", end_date=" + end_date + ", employee=" + employee + ", dayoff_kind=" + dayoff_kind + ", dayoff_apply_detail="
-				+ dayoff_apply_detail + ", document=" + document + "]";
+				+ dayoff_apply_detail + ", document=" + document + ", dayoff_reason=" + dayoff_reason + "]";
 	}
-
 	
-
 	
 
 	
