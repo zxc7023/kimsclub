@@ -91,6 +91,45 @@
 		on da.document_no = d.document_no
 		where (dayoff_deduction = '1' or da.dayoff_type_code = 2) and d.document_state != 3 and da.employee_no = #{employee_no}
 	</select>
+	
+<!-- 	<insert id="insertDocument" parameterType="DayoffApply">
+		insert into document values (document_seq.nextval,'휴가신청',(select form_contents from form where form_no = 103),#{employee.employee_no},sysdate,0)
+	</insert>
+	
+	<insert id="insertApproval" parameterType="java.util.List" >
+		<foreach collection="list" item="item"  open="insert all " separator=" " close="select * from dual" index="index">
+			<choose>
+				<when test="index+1 == list.size">
+					into approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) values (approval_no_seq.nextval,document_seq.currval,#{item.employee.employee_no},'',0,0)
+				</when>
+				<otherwise>
+					into approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) values (approval_no_seq.nextval,document_seq.currval,#{item.employee.employee_no},'',0,approval_no_seq.currval+1)
+				</otherwise>
+			</choose>
+
+        </foreach>
+
+	</insert> -->
+	
+	<insert id="insertApply" parameterType="DayoffApply">
+		<selectKey keyProperty="line_info_no" resultType="int" order="BEFORE">
+			select NVL(max(info_no),0)
+			from order_info
+		</selectKey>
+	
+		insert all 
+		into document values (document_seq.nextval,'휴가신청',(select form_contents from form where form_no = 103),#{employee.employee_no},sysdate,0)
+		<foreach collection="document.approval" item="item"  open=" " separator=" " close="select * from dual" index="index">
+			<choose>
+				<when test="index+1 == document.approval.size">
+					into approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) values (approval_no_seq.nextval,document_seq.currval,#{item.employee.employee_no},'',0,0)
+				</when>
+				<otherwise>
+					into approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) values (approval_no_seq.nextval,document_seq.currval,#{item.employee.employee_no},'',0,approval_no_seq.currval+1)
+				</otherwise>
+			</choose>
+        </foreach>
+	</insert>
 
 
 </mapper>

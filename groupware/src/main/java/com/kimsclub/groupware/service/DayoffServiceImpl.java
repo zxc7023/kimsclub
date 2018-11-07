@@ -1,11 +1,14 @@
 package com.kimsclub.groupware.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kimsclub.groupware.dao.DayoffDAO;
+import com.kimsclub.groupware.dao.DocumentDAO;
 import com.kimsclub.groupware.dao.EmployeeDAO;
 import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
@@ -19,7 +22,11 @@ public class DayoffServiceImpl implements DayoffService {
 
 	@Autowired
 	DayoffDAO dao;
-	EmployeeDAO empDao;
+	
+
+	@Autowired 
+	DocumentDAO dDao;
+	
 
 	@Override
 	public List<DayoffCreateTermsVO> getDayoffCreateTerms() {
@@ -66,6 +73,17 @@ public class DayoffServiceImpl implements DayoffService {
 	public List<DayoffApplyVO> readUseMyDayoff(EmployeeVO vo){
 		return dao.selectDayoffApply(vo);
 	}
+
+	@Override
+	/*@Transactional()*/
+	public void applyDayoff(DayoffApplyVO vo) {
+		dao.applyDayoff(vo);
+	/*	dao.insertDocument(vo);
+		dao.insertApproval(vo.getDocument().getApproval());
+		dao.insertDayoffApply();
+		dao.insertApplyDetail();*/
+	}
+
 	
 
 

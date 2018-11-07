@@ -57,8 +57,10 @@ public class DayoffController {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String json = null;
+		
 		try {
 			json = mapper.writeValueAsString(elist);
+
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,6 +104,12 @@ public class DayoffController {
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.POST)
 	public String applyDayoff(HttpSession session, @RequestBody DayoffApplyVO vo) {
 		System.out.println(vo);
+		
+		EmployeeVO empVo = (EmployeeVO)session.getAttribute("loginInfo");
+		vo.setEmployee(empVo);
+		service.applyDayoff(vo);
+		
+
 		return null;
 	}
 	
