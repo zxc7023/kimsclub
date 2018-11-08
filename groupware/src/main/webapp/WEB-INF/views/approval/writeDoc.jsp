@@ -55,32 +55,46 @@ background-color: #f5f5f5;
 </style>
 <script>
 $(document).ready(function() {
+	var type;
 	$(function(){
 	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
 	    	height:'400px',
-	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
+	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp',
+	    	extraPlugins : 'uploadimage'
 	    });
 	});
 
-	$("form#writeDocForm").submit(function(){
+	$("#save_btn").click(function(){
+		$("#submit").attr("value",0);
+		submitBtn();
+	});
+	
+	$("#app_btn").click(function(){
+		$("#type").attr("value",1);
+		submitBtn();
+	});
+	
+	function submitBtn(){
 		$('#ckeditor').html(CKEDITOR.instances.ckeditor.getData());
 		var tmpArr = $("form#writeDocForm").serializeObject();
+
 		$.ajax({
 			method : "post",
 			url : "/groupware/approvalNewDoc",
 			contentType: "application/json;charset=UTF-8",
 			dataType : "json",
-			data : JSON.stringify(tmpArr),
+			data :  JSON.stringify(tmpArr),
 			error : function(error) {
 				alert("양식 불러오기 실패");
 			},
 			success : function(data) {
-				alert(data);
-				window.location.href = "/"+data;
+				
+				window.location.href = data;
 			}
 		});
-	});
+		return false;
+	}
 	
 	
 	
@@ -129,8 +143,9 @@ function loadForm(){
 					<div class="panel-body">
 						<form class="col-sm-12" action="/groupware/approvalNewDoc" id="writeDocForm" method="post">
 							<div class="panel-heading">
-								<button onclick="location='approvalDoc'" class="btn btn-info">기안하기</button>
-								<input type="submit" class="btn btn-info" value="임시저장">
+								<input type="hidden" name="document_state" id="type" value="">
+								<input type="button" class="btn btn-info" id="app_btn" value="기안하기">
+								<input type="button" class="btn btn-info" id="save_btn" value="임시저장">
 							</div>
 							<div class="panel-body">
 								<table

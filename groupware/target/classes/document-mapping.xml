@@ -8,53 +8,64 @@
 		<result column="document_contents" property="document_contents"/>
 		<result column="document_date" property="document_date"/>
 		<result column="document_state" property="document_state"/>
-		<collection property="approval" javaType="java.util.ArrayList" ofType="approval">
-			<id column="approval_no" property="approval_no"/>
-			<result column="approval_date" property="approval_date"/>
-			<result column="approval_state" property="approval_state"/>
-			<association property="employee" javaType="employee">
-				<id column="employee_no" property="employee_no"/>
-				<result column="employee_name" property="employee_name"/>
-				<result column="position" property="position"/>
-				<association property="department" javaType="department">
-					<id column="department_no" property="department_no" />
-					<result column="department_name" property="department_name"/>
-				</association>
-			</association>
-		</collection>
+		<collection property="approval" ofType="approval" javaType="java.util.ArrayList" select="selectApproval" column="document_no"/>
 	</resultMap>
-	
+	<resultMap type="approval" id="approvalMap">
+		<id column="approval_no" property="approval_no"/>
+		<result column="approval_date" property="approval_date"/>
+		<result column="approval_state" property="approval_state"/>
+		<association property="employee" javaType="employee">
+			<id column="e.employee_no" property="employee_no"/>
+			<result column="employee_name" property="employee_name"/>
+			<result column="position" property="position"/>
+			<association property="department" javaType="department">
+				<id column="department_no" property="department_no"></id>
+				<result column="department_name" property="department_name"/>
+			</association>
+		</association> 
+	</resultMap>
 	<select id="selectDocument" parameterType="int" resultMap="documentMap">
-	SELECT document_title, document_contents, document_date, document_state, approval_no, approval_date,approval_state, e.employee_no,employee_name,position,department_name
-	FROM document d left join approval a on d.DOCUMENT_NO = a.document_no left join employee e on a.EMPLOYEE_NO=e.EMPLOYEE_NO left join department m on e.DEPARTMENT_NO = m.DEPARTMENT_NO WHERE d.document_no = #{value} ORDER BY approval_no
+		SELECT document_no, document_title, document_contents, document_date, document_state
+		FROM document WHERE document_no = #{document_no}
 	</select>
 	
 	
-	<insert id="insertDocument" parameterType="document">
+	<select id="selectApproval" parameterType="int" resultMap="approvalMap">
+		SELECT approval_no, approval_date,approval_state, e.employee_no,employee_name,position, department_name
+		FROM approval a 
+		join employee e 
+		on a.EMPLOYEE_NO=e.EMPLOYEE_NO 
+		join department m 
+		on e.DEPARTMENT_NO = m.DEPARTMENT_NO
+		WHERE a.document_no = #{document_no} ORDER BY approval_no
+	</select>
+	
+<!-- 	<insert id="insertDocument" parameterType="document">
 		INSERT INTO
 		document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
 		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state}) 
+	</insert> -->
+	
+	<insert id="insertDocument" parameterType="document">
+		insert into document values (document_seq.nextval,#{document_title},#{document_contents},#{employee.employee_no},sysdate,#{document_state})
 	</insert>
 	
-	<insert id="saveDocument" parameterType="hashmap">
-		<selectKey resultType="int" keyProperty="ap_n" order="BEFORE">
-			SELECT nvl(max(approval_no),0)+1 FROM approval
-		</selectKey>
+	<!-- <insert id="saveDocument" parameterType="document">
 		INSERT ALL
 		INTO document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
-		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{dvo.document_title},#{dvo.document_contents}, #{dvo.employee.employee_no},sysdate,#{dvo.document_state})
-		<foreach collection="alist" item="it" index="i" open=" " close="SELECT * FROM DUAL" separator=" ">
-			INTO approval(approval_no, document_no, employee_no, approval_state, approval_next_no) 
-			VALUES(#{ap_n}+#{it.approval_no}, (SELECT nvl(max(document_no),0)+1 FROM document),${it.employee.employee_no},0,<if test="it.approval_next_no!=0">#{ap_n}+#{it.approval_next_no}</if><if test="it.approval_next_no==0">#{it.approval_next_no}</if>)
-		</foreach>
-		
-	</insert>
-	
-	
-	
-	<!--  -->
-	
-			
+		VALUES(document_seq.nextval,#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state})
+		<foreach collection="approval" item="item"  open=" " separator=" " close="SELECT * FROM dual" index="index">
+			<choose>
+				<when test="index+1 == approval.size">
+					INTO approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) VALUES ((SELECT nvl(max(approval_no),0)+${index}+1 FROM approval),document_seq.currval,#{item.employee.employee_no},'',0,0)
+				</when>
+				<otherwise>
+					INTO approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) VALUES ((SELECT nvl(max(approval_no),0)+${index}+1 FROM approval),document_seq.currval,#{item.employee.employee_no},'',0,(SELECT nvl(max(approval_no),0)+${index}+2 FROM approval))
+				</otherwise>
+			</choose>
+        </foreach>
+	</insert> -->
+
 	<!-- 리스트 조회 -->		
 	<select id="selectList" resultType="document" parameterType="hashmap" >
 		<include refid="pagingHeader"></include>

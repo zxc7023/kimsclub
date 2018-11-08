@@ -60,5 +60,10 @@ public class ApprovalVO {
 	public void setEmployee(EmployeeVO employee) {
 		this.employee = employee;
 	}
+	@Override
+	public String toString() {
+		return "ApprovalVO [approval_no=" + approval_no + ", document=" + document + ", employee=" + employee + ", approval_date=" + approval_date + ", approval_state=" + approval_state + ", approval_next_no=" + approval_next_no + "]";
+	}
+	
 	
 }

@@ -36,7 +36,12 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+<style type="text/css">
 
+#sign td{
+height: 80px;
+}
+</style>
 
 </head>
 <body>
@@ -65,7 +70,7 @@
 							method="post">
 							<div class="panel-heading">
 								<button onclick="location='approvalDoc'" class="btn btn-info">기안하기</button>
-								<button type="submit" class="btn btn-info">임시저장</button>
+								<button type="button" onclick="location.href='approvalDocModify?document_no=${dvo.document_no}'" class="btn btn-info">수정하기</button>
 							</div>
 							<div class="panel-body">
 								<table
@@ -79,13 +84,13 @@
 									<tbody>
 										<tr>
 											<td class="odd">작성자</td>
-											<td>${sessionScope.loginInfo.employee_name}</td>
+											<td>${dvo.approval[0].employee.employee_name}</td>
 										</tr>
 										<tr>
 											<td class="odd">결재</td>
 											<td>
 												<div role="row">
-													<div class="col-lg-10">
+													<div class="col-lg-12">
 														<div class="panel panel-default" id="approvalLine">
 															<table width="100%"
 																class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
@@ -106,21 +111,23 @@
 																		</th>
 																	</tr>
 																	<tr id="paste">
-																		<td class="name" index=0></td>
-																		<td class="name" index=1></td>
-																		<td class="name" index=2></td>
-																		<td class="name" index=3></td>
-																		<td class="name" index=4></td>
-																		<td class="name" index=5></td>
+																	<c:forEach begin="0" end="5" varStatus="i">
+																		<td class="name" index="${i.index}" style="text-align: center;">${dvo.approval[i.index].employee.department.department_name}<br>
+																			${dvo.approval[i.index].employee.employee_name} ${dvo.approval[i.index].employee.position}
+																		</td>
+																	</c:forEach>
+																	</tr>			
+																	<tr id="sign">
+																		<td class="sign" index=0></td>
+																		<td class="sign" index=1></td>
+																		<td class="sign" index=2></td>
+																		<td class="sign" index=3></td>
+																		<td class="sign" index=4></td>
+																		<td class="sign" index=5></td>
 																	</tr>
 																</tbody>
 															</table>
 														</div>
-													</div>
-													<div class="col-lg-2">
-														<button class="btn-ApprovalLine" type="button"
-															data-toggle="modal" data-target="#approvalLineSelect">결재선
-															선택</button>
 													</div>
 												</div>
 											</td>
@@ -128,9 +135,7 @@
 										<tr>
 											<td class="odd">문서 제목<br>
 											</td>
-											<td><input type="text" name="document_title"
-												class="form-control" required="required"
-												autofocus="autofocus"></td>
+											<td>${dvo.document_title}</td>
 										</tr>
 										<tr>
 											<td colspan="2" class="odd">문서 내용</td>
@@ -138,7 +143,7 @@
 										<tr>
 											<td colspan="2">
 												<div class="col-lg-12">
-													<textarea name="form_contents" id="ckeditor" class="form"></textarea>
+													${dvo.document_contents}
 												</div>
 											</td>
 										</tr>

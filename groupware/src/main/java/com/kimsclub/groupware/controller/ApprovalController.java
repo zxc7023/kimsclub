@@ -111,33 +111,12 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
-	@ResponseBody	
 	public String approvalSaveDoc(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalSaveDoc() 메소드 호출");
-		List<ApprovalVO> alist = new ArrayList<ApprovalVO>();
-		for(int i=0;i < dvo.getApproval().size(); i++) {
-			if(i!=dvo.getApproval().size()-1) {
-				alist.add(new ApprovalVO(i,dvo.getApproval().get(i).getEmployee(),i+1));
-			}else if(i==dvo.getApproval().size()-1) {
-				alist.add(new ApprovalVO(i,dvo.getApproval().get(i).getEmployee(),0));
-			}
-		}
-		Map<String,Object> map = new HashMap<String, Object>();
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		DocumentVO _dvo = new DocumentVO(dvo.getDocument_title(), dvo.getDocument_contents() , evo, 0);
+		dvo.setEmployee(dvo.getApproval().get(0).getEmployee());
+		service.saveDocument(dvo);
 		
-		ObjectMapper mapper = new ObjectMapper();
-		String json = null;
-		try {
-			json = mapper.writeValueAsString("approval/approvalNewDoc");
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		map.put("dvo", _dvo);
-		map.put("alist", alist);
-		//service.saveDocument(map);
-		System.out.println(json);
-		return json;
+		return "approval/approvalNewDoc";
 	}
 	
 	
@@ -148,7 +127,13 @@ public class ApprovalController {
 		ModelAndView mav = new ModelAndView();
 		
 		DocumentVO dvo = service.viewNewDoc(document_no);
+		
 		mav.addObject("dvo", dvo);
+		System.out.println("값 출력:");
+		System.out.println(dvo.getApproval());
+		for(ApprovalVO avo: dvo.getApproval()) {
+			System.out.println(avo);
+		}
 		mav.setViewName("approval/approvalViewNewDoc");
 		return mav;
 	}
