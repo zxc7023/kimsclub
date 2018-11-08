@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kimsclub.groupware.dao.DayoffDAO;
@@ -75,13 +76,8 @@ public class DayoffServiceImpl implements DayoffService {
 	}
 
 	@Override
-	/*@Transactional()*/
 	public void applyDayoff(DayoffApplyVO vo) {
 		dao.applyDayoff(vo);
-	/*	dao.insertDocument(vo);
-		dao.insertApproval(vo.getDocument().getApproval());
-		dao.insertDayoffApply();
-		dao.insertApplyDetail();*/
 	}
 
 	

@@ -103,10 +103,10 @@ public class DayoffController {
 	
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.POST)
 	public String applyDayoff(HttpSession session, @RequestBody DayoffApplyVO vo) {
-		System.out.println(vo);
 		
 		EmployeeVO empVo = (EmployeeVO)session.getAttribute("loginInfo");
-		vo.setEmployee(empVo);
+		vo.getDocument().setEmployee(empVo);
+		System.out.println(vo);
 		service.applyDayoff(vo);
 		
 

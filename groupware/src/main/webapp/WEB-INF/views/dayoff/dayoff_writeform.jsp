@@ -426,7 +426,7 @@
 												</tr>
 												<tr role="row">
 													<td>작성자</td>
-													<td>${sessionScope.loginInfo.employee_name}</td>
+													<td><input type="hidden" name="employee[employee_no]" value="${sessionScope.loginInfo.employee_no}"> ${sessionScope.loginInfo.employee_name}</td>
 												</tr>
 												<tr role="row">
 													<td>결재선</td>
