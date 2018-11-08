@@ -52,6 +52,13 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <script type="text/javascript">
+function dateToFormat(date){
+    function pad(num) {
+        num = num + '';
+        return num.length < 2 ? '0' + num : num;
+    }
+    return date.getFullYear() + '/' + pad(date.getMonth()+1) + '/' + pad(date.getDate());
+}
 	$(document).ready(function() {
 		var keys;
 		
@@ -73,38 +80,41 @@
 			return true;
 		}
 		function isDuplicated(){
-			keys = dayMap.keys();
+			var r = true;
+			
  			$.ajax({
 				method : "post",
 				dataType : "json",
+				async : false,
 				contentType : 'application/json;charset=UTF-8',
 				url : "${pageContext.request.contextPath}/dayoff/checkWhatDate",
 				data : JSON.stringify(keys),
 				error : function() {
-					alert('전송 실패');
+					alert('휴가중복 검사 오류');
 				},
-				success : function(
-						server_result) {
+				success : function(server_result) {
 					var server_json = server_result;
 					var result = server_json.result;
-					if (result == "1") {
-						alert("수정 성공");
-					} else {
-						alert("수정 실패");
+					if (result == 0) {
+						alert("선택한 날짜에 이미 사용한 휴가가 있습니다.");
+						r = false;
 					}
 				}
-			});   
+			});
+ 			return r;
 		}
 		
 		
 		$("#draft").click(function(){
 			
-			isDuplicated();
-	/* 		if(!isVaild()){
+	 		if(!isVaild()){
 				return false;
-			} */
+			}
+	  		if(!isDuplicated()){
+	 			return false;	
+	 		}
 			
-		/* 	var dayoffApply = $("#approval").serializeObject();
+		 	var dayoffApply = $("#approval").serializeObject();
 			dayoffApply.dayoff_apply_detail = [];
   			
 			
@@ -155,7 +165,7 @@
 				url : "${pageContext.request.contextPath}/dayoff/dayoffWriteform",
 				data : JSON.stringify(dayoffApply),
 				error : function() {
-					alert('전송 실패');
+					alert('휴가 전송 실패');
 				},
 				success : function(
 						server_result) {
@@ -169,7 +179,7 @@
 				}
 			});  
 		
-	 */
+	 
 			
 			return false;
 		});
@@ -308,8 +318,9 @@
 			var cell3 = row3.find("td:last-child").text(cell_date.getDate());
 			var cell4 = row4.find("td:last-child");
 
-			var dayoff_date = cell_date.getFullYear() + "/"
-					+ cell_date.getMonth() + "/" + cell_date.getDate();
+			/* var dayoff_date = cell_date.getFullYear() + "/"
+					+ (cell_date.getMonth()+1) + "/" + cell_date.getDate(); */
+			var dayoff_date = dateToFormat(cell_date);
 			cell4.attr("data-dayoff_date", dayoff_date);
 
 			if (dayMap.containsKey(dayoff_date)) {
