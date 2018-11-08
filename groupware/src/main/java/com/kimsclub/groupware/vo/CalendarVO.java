@@ -1,7 +1,7 @@
 package com.kimsclub.groupware.vo;
 
 public class CalendarVO {
-	int event_no; //이벤트 번호
+	int id; //이벤트 번호
 	String title; //이벤트 제목
 	String content; //이벤트 내용
 	String color; //이벤트 컬러
@@ -10,20 +10,20 @@ public class CalendarVO {
 	public CalendarVO() {
 		super();
 	}
-	public CalendarVO(int event_no, String title, String content, String color, String start, String end) {
+	public CalendarVO(int id, String title, String content, String color, String start, String end) {
 		super();
-		this.event_no = event_no;
+		this.id = id;
 		this.title = title;
 		this.content = content;
 		this.color = color;
 		this.start = start;
 		this.end = end;
 	}
-	public int getEvent_no() {
-		return event_no;
+	public int getid() {
+		return id;
 	}
-	public void setEvent_no(int event_no) {
-		this.event_no = event_no;
+	public void setid(int id) {
+		this.id = id;
 	}
 	public String getTitle() {
 		return title;
@@ -57,7 +57,7 @@ public class CalendarVO {
 	}
 	@Override
 	public String toString() {
-		return "CalendarVO [event_no=" + event_no + ", title=" + title + ", content=" + content + ", color=" + color
+		return "CalendarVO [id=" + id + ", title=" + title + ", content=" + content + ", color=" + color
 				+ ", start=" + start + ", end=" + end + "]";
 	}
 

@@ -25,6 +25,11 @@ public class CalendarDAO {
 	public int selectCalSeq() {
 		return session.selectOne("calendar.selectCalendarSequence");
 	}
+
+
+	public List<CalendarVO> selectEvents() {
+		return session.selectList("calendar.selectEvents");
+	}
 	
 
 

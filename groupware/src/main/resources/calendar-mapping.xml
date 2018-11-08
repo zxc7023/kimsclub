@@ -2,18 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="calendar">
-		
-<!-- 이벤트 등록 -->
-	<insert id="addCalendar" parameterType="calendar" >
-<!-- 		<selectKey resultType="int" keyProperty="board_no" order="BEFORE">
-			select nvl(max(board_no),0)+1 from board where board_type=#{board_type}
-		</selectKey> -->
+
+	<!-- 이벤트 등록 -->
+	<resultMap type="calendar" id="calendarmap">
+		<id property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="color" column="color" />
+		<result property="start" column="event_start" />
+		<result property="end" column="end" />
+	</resultMap>
+
+
+	<insert id="addCalendar" parameterType="calendar">
 		insert into
-		SCHEDULE(event_no, event_title, event_content, event_color, event_start, event_end) 
-		values (#{event_no},#{event_title},#{event_content},#{event_color},#{event_start},#{event_end})
+		calendar (id, title, content, color, event_start, end)
+		values (#{id},#{title},#{content},#{color},#{start},#{end})
 	</insert>
 
 	<select id="selectCalendarSequence" resultType="int">
-		select calendar_seq.nextval from dual
+		select
+		calendar_seq.nextval from dual
 	</select>
+	
+	<select id="selectEvents" resultMap="calendarmap">
+		select * from calendar
+	</select> 
+
+
 </mapper>

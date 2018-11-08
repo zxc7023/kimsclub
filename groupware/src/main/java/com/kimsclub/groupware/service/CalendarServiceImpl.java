@@ -1,5 +1,8 @@
 package com.kimsclub.groupware.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,11 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public int selectSeq() {
 		return dao.selectCalSeq();
+	}
+
+	@Override
+	public List<CalendarVO> selectEvents() {
+		return dao.selectEvents();
 	}
 	
 	

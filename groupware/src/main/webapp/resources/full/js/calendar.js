@@ -13,7 +13,7 @@ var initializeCalendar = function() {
   $('.calendar').fullCalendar({
       editable: true,
       eventLimit: true, 
-      events: events(), //이벤트 생성
+      events: events, //이벤트 생성
       timeFormat: 'HH:mm',
       googleCalendarApiKey : "AIzaSyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
       eventSources : [
@@ -77,10 +77,10 @@ var initializeLeftCalendar = function() {
           cal2GoTo(date);
 
       },
-      eventClick: function(calEvent) {
+     /* eventClick: function(calEvent) {
           cal2GoTo(calEvent.start);
           cal2GoTo(calEvent.end);
-      },
+      },*/
       height: screen.height - 730,
   });
 }
@@ -92,8 +92,22 @@ var cal2GoTo = function(date) {
 
 
 var loadEvents = function() {
-  $.getScript("/resources/full/js/events.js", function(){
-  });
+/*  $.getScript("/resources/full/js/events.js", function(){
+  });*/
+  
+  $.ajax({
+		method : "get",
+		contentType : 'application/json;charset=UTF-8',
+		url : "/groupware/selectEvent",
+		async:false,
+		error : function() {
+			alert('캘린더조회실패');
+		},
+		success : function(data){
+			events = data;
+		}	
+	});
+  
 }
 
 
@@ -110,23 +124,23 @@ var newEvent = function() {
 	var content = $('#content').val();
 	var color = $('#color').val();
 	var start= $('#starts_at').val();
-	var end= $('#ends_at').val();
-		
+	var end= $('#ends_at').val();		
 	var event_no;
 	
-	
-	$.ajax({
+		$.ajax({ /*이벤트아이디 받기*/
     	method : "get",
 		url : "/groupware/selectCalSeq",
+		async:false,
 		error : function() {
 			alert('전송 실패');
 		},
 		success : function(data){
-			alert(data.event_no);
-			alert("전송 성공");
+			event_no = data.event_no;
+			/*alert(data.event_no);*/
+			alert("시퀀스번호 받기 성공");
 		}	
-    });
-				
+    });	
+		   
   if (title) {
     var eventData = {
         title: title,
@@ -134,24 +148,25 @@ var newEvent = function() {
 		color: color,
 		start: start,
 		end: end,
-		event_no : 1
-    };
-  
-    /*$.ajax({
-    	method : "post",
-    	data : JSON.stringify(eventData),
-    	dataType : "json",
-		contentType : 'application/json;charset=UTF-8',
-		url : "/groupware/addCalendar",
-		error : function() {
-			alert('전송 실패');
-		},
-		success : function(){
-			alert("전송 성공");
-		}	
-    });*/
+		id: event_no
+
+    };    
+    /*$cal2.fullCalendar('renderEvent', eventData, true);*/
     
-    $cal2.fullCalendar('renderEvent', eventData, true);
+    $.ajax({
+	method : "post",
+	data : JSON.stringify(eventData),
+	dataType : "json",
+	contentType : 'application/json;charset=UTF-8',
+	url : "/groupware/addCalendar",
+	error : function() {
+		alert('전송 실패:데이터 저장');
+	},
+	success : function(data){
+		alert(data.result);
+		$cal2.fullCalendar('renderEvent', eventData, true);
+	}	
+});
     $('#newEvent').modal('hide'); 
     }
   else {
@@ -163,8 +178,9 @@ var newEvent = function() {
 var editEvent = function(calEvent) {
   $('input#editTitle').val(calEvent.title);
   $('#content2').val(calEvent.content);
-  $('#starts_at2').val(calEvent.start);
-  $('#ends_at2').val(calEvent.end);
+  $('#starts_at2').val(moment(calEvent.start).format('YYYY/MM/DD HH:mm '));
+  $('#ends_at2').val(moment(calEvent.end).format('YYYY/MM/DD HH:mm '));
+  
   $('#editEvent').modal('show');
   $('#update').unbind();
   $('#update').on('click', function() {
@@ -173,6 +189,7 @@ var editEvent = function(calEvent) {
     var color = $('#color2').val();
     var start = $('#starts_at2').val();
     var end = $('#ends_at2').val();
+    var event_no
     $('#editEvent').modal('hide');
     var eventData;
     if (title) {
