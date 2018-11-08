@@ -33,8 +33,11 @@
 	href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.css" />
+
+<!-- 미니달력 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources\minicalendar\pignose.calendar.min.css" />
+<script src="${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.js"></script>
 <!--  -->
 <!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
 <meta charset="utf-8">
@@ -104,9 +107,8 @@
 			<div class="container-fluid row">
 				<div id='calendar1'
 					class='calendar col-md-2 -ms-overflow-style: none;'>
-					<label class="form-control-label">공유 캘린더</label> <input
-						type="button" value="만들기" style="position: absolute; right: 0;" />
-
+					<label class="form-control-label">공유 캘린더</label>
+					 <input type="button" value="만들기" style="position: absolute; right: 0;" />
 				</div>
 				<div id='calendar2' class='calendar col-md-10'></div>
 			</div>
@@ -220,7 +222,6 @@
 		</div>
 
 	</div>
-
 
 </body>
 </html>
