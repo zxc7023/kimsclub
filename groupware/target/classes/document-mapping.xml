@@ -24,7 +24,7 @@
 		</collection>
 	</resultMap>
 	
-	<select id="selectDocument" parameterType="int" resultMap="documentMap">
+	<select id="selectDocument" parameterType="string" resultMap="documentMap">
 	SELECT document_title, document_contents, document_date, document_state, approval_no, approval_date,approval_state, e.employee_no,employee_name,position,department_name
 	FROM document d left join approval a on d.DOCUMENT_NO = a.document_no left join employee e on a.EMPLOYEE_NO=e.EMPLOYEE_NO left join department m on e.DEPARTMENT_NO = m.DEPARTMENT_NO WHERE d.document_no = #{value} ORDER BY approval_no
 	</select>

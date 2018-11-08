@@ -203,7 +203,6 @@
 			<script>
 				/*jslint browser:true*/
 				/*global jQuery, document*/
-
 				jQuery(document)
 						.ready(
 								function() {
@@ -222,7 +221,6 @@
 
 	</div>
 
-</body>
 
 </body>
 </html>
