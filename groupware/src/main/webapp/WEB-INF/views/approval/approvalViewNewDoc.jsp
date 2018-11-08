@@ -70,7 +70,7 @@ height: 80px;
 							method="post">
 							<div class="panel-heading">
 								<button onclick="location='approvalDoc'" class="btn btn-info">기안하기</button>
-								<button type="submit" class="btn btn-info">수정하기</button>
+								<button type="button" onclick="location.href='approvalDocModify?document_no=${dvo.document_no}'" class="btn btn-info">수정하기</button>
 							</div>
 							<div class="panel-body">
 								<table
