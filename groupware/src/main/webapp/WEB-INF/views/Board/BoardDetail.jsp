@@ -59,8 +59,25 @@
 			location.href = "boardList?board_type="+boardType+"&searchOption="+searchOption+"&keyword="+keyword+"&curPage="+curPage;
 		});
 		
-		//게시글 삭제 버튼 클릭
+		
+		//게시글 수정 버튼 클릭
+		$("#boardUpdateBtn").click(function(){
+			$.ajax({
+				type : "get",
+				url: "${pageContext.request.contextPath}/BoardUpdate",
+				data: {"board_no" : boardNo,
+						"board_type" : boardType},
+				error : function(request,status,error){
+	            },
+	            success : function(data){
+					alert("왜요");
+	            }
+			});
+		});
+				
+		//게시글 삭제 버튼, 댓글 삭제 버튼 클릭
 		$("#deleteBtn").click(function(){
+			//댓글 삭제 버튼 클릭시
 			if(replyDelBtn=="reply"){
 				/* location.href = "ReplyDelete?board_no="+boardNo+"&reply_board_type="+boardType+"&reply_no="+reply_no; */
 				$.ajax({
@@ -75,67 +92,17 @@
 		            	replyCnt();
 		            }
 				});
-				
 				replyDelBtn = "board";
+			//게시글 삭제 버튼 클릭시
 			}else{
 				location.href = "BoardDelete?board_no="+boardNo+"&board_type="+boardType;
 			}
 		});
 		
-		//게시글 댓글 삭제 버튼
-		$(document).on("click",".replyDelBtn", function(){
-			replyDelBtn=$(".replyDelBtn").val();
-			reply_no = $(this).parents("li.clearfix").find(".replyNo").val();
-		});
-		
-		//댓글 링크 클릭시(동적 태그 이벤트) 
-		$(document).on("click",".replyBtn",function(){
-			if($('.replyAdd').length){
-				$("li.replyAdd").remove();	
-				$('.replyBtn').html("답글");
-				$(".replyHidden").remove();
-			}else{
-				$(".replyHidden").remove();
-				//댓글의 그룹번호 가져오기
-				var replyGroup = $(this).parents("li.clearfix").find(".replyGroup").val();
-				var replyOrder = $(this).parents("li.clearfix").find(".replyOrder").val();
-				var replyDepth = $(this).parents("li.clearfix").find(".replyDepth").val();
-				var replyNo = $(this).parents("li.clearfix").find(".replyNo").val();
-				// hidden으로 replyGroup 값설정
-				var input = '<input type="hidden" class="replyHidden" id="reply_group" name="reply_group" value="'+replyGroup+'">';
-				input += '<input type="hidden" class="replyHidden" id="reply_order" name="reply_order" value="'+replyOrder+'">';
-				input += '<input type="hidden" class="replyHidden" id="reply_depth" name="reply_depth" value="'+replyDepth+'">';
-				input += '<input type="hidden" class="replyHidden" id="reply_no" name="reply_no" value="'+replyNo+'">';
-				// form 태그에 input데이터 추가
-				var replyWrite = $("#replyWrite").append(input);
-				//
-				var replyForm = $(".replyForm").html();
-				var textInput='<li class="left clearfix replyAdd">'+replyForm+'</li>';
-				$(this).parents("li.clearfix").after(textInput);
-				$(this).html("답글취소");
-			}
-		});
-		
-		//댓글 쓰기 버튼 클릭시 ajax
-		$(document).on("click","#save",function(){
-			$.ajax({
-				type : "post",
-				url: "${pageContext.request.contextPath}/ReplyWrite",
-				data: $("#replyWrite").serialize(), //serialize()사용으로 form에 있는 데이터를 한번에 url파라미터 형식 테스트 문자열로 변환
-				error : function(request,status,error){
-	                alert('실패');
-	            },
-	            success : function(data){
-	            	$("#replyText").val(""); 
-	            	listReply();
-	            	replyCnt();
-	            }
-			});
-			$(".replyHidden").remove();
-		});
 		
 		listReply();
 		replyCnt();
+		
 		//댓글 목록 ajax
 		function listReply(){
 			$.ajax({
@@ -164,7 +131,7 @@
 						output += '<small class="text-muted"> '+result[i].reply_date+'</small>';
 						output += ' <i class="glyphicon glyphicon-share-alt text-muted"></i><small class="text-muted "><a class="replyBtn" href="#">답글</a></small>'
 						if(result[i].reply_writer_no == ${sessionScope.loginInfo.employee_no}){
-						output += '<small class="pull-right text-muted"><button type="button" class="btn btn-outline btn-success">R</button><button type="button" value="reply" class="replyDelBtn btn btn-outline btn-danger" data-toggle="modal" data-target="#myModal">D</button></small>';
+						output += '<small class="pull-right text-muted"><button type="button" class="replyrevBtn btn btn-outline btn-success">R</button><button type="button" value="reply" class="replyDelBtn btn btn-outline btn-danger" data-toggle="modal" data-target="#myModal">D</button></small>';
 						}
 						output += '</div>';
 						output += '<p>'+result[i].reply_contents+'</p>';
@@ -176,6 +143,129 @@
 			});
 		}
 		
+		//댓글 삭제 버튼
+		$(document).on("click",".replyDelBtn", function(){
+			//댓글 list중 삭제하기 위한 댓글의 버튼을 구분하기 위한 값 가져오기
+			replyDelBtn=$(".replyDelBtn").val();
+			//해당 댓글의 댓글번호를 가져와서 reply_no 전역 변수에 저장
+			reply_no = $(this).parents("li.clearfix").find(".replyNo").val();
+		});
+		
+		//댓글 수정 버튼
+		$(document).on("click",".replyrevBtn", function(){
+			if($('.replyAdd').length){
+				$("li.replyAdd").remove();
+				$(".replyHidden").remove();
+			}else{
+				//해당 댓글 번호 가져오기
+				reply_no = $(this).parents("li.clearfix").find(".replyNo").val();
+				//해당 댓글의 내용 가져오기
+				var replyContent = $(this).parents("li.clearfix").find("p").text();
+				//hidden 댓글 번호 추가
+				var inputReplyRev ='<input type="hidden" class="replyHidden" id="reply_no" name="reply_no" value="'+reply_no+'">';
+				//replyWrite form 안에 댓글번호 hidden 적용
+				var replyRevise =$("#replyWrite").append(inputReplyRev);
+				//댓글 입력 form 전체 가져오기
+				var replyRevForm = $(".replyForm").html();
+				//댓글 list에 댓글 수정 입력 form 적용
+				var replyTextInput = '<li class="left clearfix replyAdd">'+replyRevForm+'</li>';
+				//버튼클릭시 p태그(댓글내용) 아래 댓글 수정 입력form 나타내기 
+				$(this).parents("li.clearfix").find("p").append(replyTextInput);
+				//댓글 내용을 댓글입력폼 textarea안에 적용하여 나타내기
+				$(this).parents("li.clearfix").find("#replyText").text(replyContent);
+				//해당 댓글 입력 버큰 id값 변경
+				$(this).parents("li.clearfix").find("#save").attr("id","replyRevise");
+				$(this).parents("li.clearfix").find("#replyWrite").attr("id","replyUpdate");
+			}
+		});
+		
+		//댓글 수정 ajax
+		$(document).on("click","#replyRevise",function(){
+			$.ajax({
+				type : "get",
+				url: "${pageContext.request.contextPath}/ReplyUpdate",
+				data: $("#replyUpdate").serialize(), //serialize()사용으로 form에 있는 데이터를 한번에 url파라미터 형식 테스트 문자열로 변환
+				error : function(request,status,error){
+	                alert('실패');
+	            },
+	            success : function(data){
+	            	$("#replyText").val(""); 
+	            	listReply();
+	            	replyCnt();
+	            }
+			});
+			$(".replyHidden").remove();
+		});
+		
+		//댓글 링크 클릭시(동적 태그 이벤트) 
+		$(document).on("click",".replyBtn",function(){
+			if($('.replyAdd').length){
+				$("li.replyAdd").remove();	
+				$('.replyBtn').html("답글");
+				$(".replyHidden").remove();
+			}else{
+				$(".replyHidden").remove();
+				//댓글의 그룹번호 가져오기
+				var replyGroup = $(this).parents("li.clearfix").find(".replyGroup").val();
+				var replyOrder = $(this).parents("li.clearfix").find(".replyOrder").val();
+				var replyDepth = $(this).parents("li.clearfix").find(".replyDepth").val();
+				var replyNo = $(this).parents("li.clearfix").find(".replyNo").val();
+				// hidden으로 replyGroup 값설정
+				var input = '<input type="hidden" class="replyHidden" id="reply_group" name="reply_group" value="'+replyGroup+'">';
+				input += '<input type="hidden" class="replyHidden" id="reply_order" name="reply_order" value="'+replyOrder+'">';
+				input += '<input type="hidden" class="replyHidden" id="reply_depth" name="reply_depth" value="'+replyDepth+'">';
+				input += '<input type="hidden" class="replyHidden" id="reply_no" name="reply_no" value="'+replyNo+'">';
+				// form 태그에 input데이터 추가
+				var replyWrite = $("#replyWrite").append(input);
+				var replyForm = $(".replyForm").html();
+				var textInput='<li class="left clearfix replyAdd">'+replyForm+'</li>';
+				$(this).parents("li.clearfix").after(textInput);
+				$("li.replyAdd").find("#save").attr("id","replyOfreply");
+				$("li.replyAdd").find("#replyWrite").attr("id","replyOfreplyWrite");
+				$(this).html("답글취소");
+			}
+		});
+		
+		//댓글 쓰기 버튼 클릭시 ajax
+		$(document).on("click","#save",function(){
+			
+			$.ajax({
+				type : "post",
+				url: "${pageContext.request.contextPath}/ReplyWrite",
+				data: $("#replyWrite").serialize(), //serialize()사용으로 form에 있는 데이터를 한번에 url파라미터 형식 테스트 문자열로 변환
+				error : function(request,status,error){
+	                alert('실패');
+	            },
+	            success : function(data){
+	            	$("#replyText").val("");
+	            	listReply();
+	            	replyCnt();
+	            }
+			});
+			
+			$(".replyHidden").remove();
+		});	
+		
+		//댓글의 답글 버튼 클릭시 ajax
+		$(document).on("click","#replyOfreply",function(){
+			
+			$.ajax({
+				type : "post",
+				url: "${pageContext.request.contextPath}/ReplyWrite",
+				data: $("#replyOfreplyWrite").serialize(), //serialize()사용으로 form에 있는 데이터를 한번에 url파라미터 형식 테스트 문자열로 변환
+				error : function(request,status,error){
+	                alert('실패');
+	            },
+	            success : function(data){
+	            	$("#replyText").val("");
+	            	listReply();
+	            	replyCnt();
+	            }
+			});
+			
+			$(".replyHidden").remove();
+		});	
+		
 		//댓글 조회수 ajax
 		function replyCnt(){
 			$.ajax({
@@ -184,7 +274,7 @@
 				data : {"board_no" : $("#board_no").val(), 
 						"reply_board_type" : $("#reply_board_type").val() },
 				error : function(request,status,error){
-			    	alert('왜요');
+			    	alert('실패');
 			    },
 				success: function(result){
 					$(".replyCount").text("댓글"+"["+result+"]");
@@ -218,7 +308,7 @@
                 	<label id="dataTables-example_filter" >
 	                	<button id="listBtn" type="button" class="btn btn-outline btn-primary"><i class="fa fa-list"></i></button>
 	                	<c:if test="${sessionScope.loginInfo.employee_no == detailVO.board_writer_no}">
-		            	<button type="button" class="btn btn-success">수정</button>
+		            	<button type="button" id="boardUpdateBtn" class="btn btn-success">수정</button>
 		            	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">삭제</button>
 		            	</c:if>
 	            	</label>
@@ -285,7 +375,6 @@
 		    	        	<div class="form-group input-group">
 			                	<textarea class="form-control" rows="1" id="replyText" name="reply_contents" ></textarea>
 								    <span class="input-group-btn">
-								    	<!-- <input type="hidden" id="reply_group" name="reply_group"> -->
 								    	<input type="hidden" id="reply_board_type" name="reply_board_type" value="${param.board_type}" >
 								    	<input type="hidden" id="board_no" name="board_no" value="${param.board_no}" >
 			                       		<button id="save" class="btn btn-primary" type="button"><i class="fa fa-comments"></i></button>

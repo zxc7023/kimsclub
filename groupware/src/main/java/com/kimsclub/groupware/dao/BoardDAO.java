@@ -53,6 +53,11 @@ public class BoardDAO {
 		return session.selectOne("board.countArticle",map);
 	}
 	
+	//게시판 게시글 수정
+	public void updateBoard(BoardVO vo) {
+		session.update("board.updateBoard",vo);
+	}
+	
 	//게시판 게시글 삭제
 	public void deleteBoard(BoardVO vo) {
 		session.delete("board.deleteBoard",vo);
@@ -66,13 +71,8 @@ public class BoardDAO {
 		}else{
 			if(vo.getReply_order()==0) {
 				//입력된 댓글의 답글 입력시
-				System.out.println(vo.getReply_no());
 				session.insert("board.insertBoardReplyOfReply", vo);	
 			}else {
-				System.out.println("reply_no: "+vo.getReply_no());
-				System.out.println("reply_group: "+vo.getReply_group());
-				System.out.println("reply_order: "+vo.getReply_order());
-				System.out.println("reply_depth: "+vo.getReply_depth());
 				session.update("board.updateBoardReplyOfReply", vo);
 				session.insert("board.insertBoardReplyOfReplyOfReply",vo);
 			}
@@ -86,6 +86,9 @@ public class BoardDAO {
 	
 	//게시글 댓글 order 조회
 	public int selectReplyOrder(BoardReplyVO vo) {
+		System.out.println("-----------------------");
+		System.out.println("order"+vo.getReply_order());
+		System.out.println("depth"+vo.getReply_depth());
 		return session.selectOne("board.selectReplyOrder", vo);
 	}
 	
@@ -97,5 +100,10 @@ public class BoardDAO {
 	//게시글 댓글 삭제 
 	public void deleteReply(BoardReplyVO vo) {
 		session.delete("board.deleteReply", vo);
+	}
+	
+	//게시글 댓글 수정
+	public void updateReply(BoardReplyVO vo) {
+		session.update("board.updateReply", vo);
 	}
 }
