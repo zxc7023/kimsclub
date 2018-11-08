@@ -46,21 +46,22 @@
 		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state}) 
 	</insert>
 	
-	<insert id="saveDocument" parameterType="hashmap">
-		<selectKey resultType="int" keyProperty="ap_n" order="BEFORE">
-			SELECT nvl(max(approval_no),0)+1 FROM approval
-		</selectKey>
+	<insert id="saveDocument" parameterType="document">
 		INSERT ALL
 		INTO document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
-		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{dvo.document_title},#{dvo.document_contents}, #{dvo.employee.employee_no},sysdate,#{dvo.document_state})
-		<foreach collection="alist" item="it" index="i" open=" " close="SELECT * FROM DUAL" separator=" ">
-			INTO approval(approval_no, document_no, employee_no, approval_state, approval_next_no) 
-			VALUES(#{ap_n}+#{it.approval_no}, (SELECT nvl(max(document_no),0)+1 FROM document),${it.employee.employee_no},0,<if test="it.approval_next_no!=0">#{ap_n}+#{it.approval_next_no}</if><if test="it.approval_next_no==0">#{it.approval_next_no}</if>)
-		</foreach>
-		
+		VALUES(document_seq.nextval,#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state})
+		<foreach collection="approval" item="item"  open=" " separator=" " close="SELECT * FROM dual" index="index">
+			<choose>
+				<when test="index+1 == approval.size">
+					INTO approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) VALUES ((SELECT nvl(max(approval_no),0)+${index}+1 FROM approval),document_seq.currval,#{item.employee.employee_no},'',0,0)
+				</when>
+				<otherwise>
+					INTO approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) VALUES ((SELECT nvl(max(approval_no),0)+${index}+1 FROM approval),document_seq.currval,#{item.employee.employee_no},'',0,(SELECT nvl(max(approval_no),0)+${index}+2 FROM approval))
+				</otherwise>
+			</choose>
+        </foreach>
 	</insert>
 
-			
 	<!-- 리스트 조회 -->		
 	<select id="selectList" resultType="document" parameterType="hashmap" >
 		<include refid="pagingHeader"></include>

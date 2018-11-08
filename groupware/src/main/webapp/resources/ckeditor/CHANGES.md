@@ -1,15 +1,7 @@
-﻿CKEditor 4 Changelog
+CKEditor 4 Changelog
 ====================
 
 ## CKEditor 4.11
-
-**Security Updates:**
-
-* Fixed XSS vulnerability in the HTML parser reported by [maxarr](https://hackerone.com/maxarr).
-
-	Issue summary: It was possible to execute XSS inside CKEditor after persuading the victim to: (i) switch CKEditor to source mode, then (ii) paste a specially crafted HTML code, prepared by the attacker, into the opened CKEditor source area, and (iii) switch back to WYSIWYG mode.
-
-**An upgrade is highly recommended!**
 
 New Features:
 

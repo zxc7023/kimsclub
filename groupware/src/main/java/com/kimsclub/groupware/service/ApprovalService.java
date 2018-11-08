@@ -23,7 +23,7 @@ public interface ApprovalService {
 
 	List<ApprovalLineVO> selectMyApprovalLine(int approval_path_no);
 	
-	void saveDocument(Map<String, Object> map);
+	void saveDocument(DocumentVO dvo);
 	
 	public int getDocumentNum(Map<String,Object> map);
 
