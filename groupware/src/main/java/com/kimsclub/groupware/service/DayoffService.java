@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
@@ -48,4 +49,10 @@ public interface DayoffService {
 	
 	
 	public void applyDayoff(DayoffApplyVO vo);
+
+	/**
+	 * 해당사용자의 
+	 * @param map 
+	 */
+	public void selectUseDate(Map<String, Object> map);
 }

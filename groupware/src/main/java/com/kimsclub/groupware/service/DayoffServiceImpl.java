@@ -2,6 +2,7 @@ package com.kimsclub.groupware.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,8 +78,19 @@ public class DayoffServiceImpl implements DayoffService {
 
 	@Override
 	public void applyDayoff(DayoffApplyVO vo) {
-		dao.applyDayoff(vo);
+		try {
+			dao.applyDayoff(vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+
+	@Override
+	public void selectUseDate(Map<String, Object> map) {
+		dao.selectUseDate(map);
+		
+	}
+
 
 	
 

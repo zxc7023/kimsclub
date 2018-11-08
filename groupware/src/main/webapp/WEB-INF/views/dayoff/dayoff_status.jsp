@@ -127,7 +127,7 @@
 										</c:forEach>
 									</tbody>
 								</table>
-								<h4>올해 사용 현황 : <small> 총 휴가 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} / 사용 : ${requestScope.useReward + requestScope.useRegular} / 잔여 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff - (requestScope.useReward + requestScope.useRegular)} </small></h4>
+								<h4>올해 사용 현황 : <small> 생성 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} 일 / 사용 : ${requestScope.useReward + requestScope.useRegular} 일 / 잔여 : ${(requestScope.myDayoff.annual_dayoff - requestScope.useRegular) + (requestScope.myDayoff.reward_dayoff - requestScope.useReward)} 일 ( 정기 : ${requestScope.myDayoff.annual_dayoff - requestScope.useRegular} , 포상 : ${requestScope.myDayoff.reward_dayoff - requestScope.useReward} ) </small></h4>
 							</div>
 							<div class="tab-pane fade" id="tab02">
 								<div>

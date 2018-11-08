@@ -1,6 +1,8 @@
 package com.kimsclub.groupware.dao;
 
+import java.sql.BatchUpdateException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -8,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.kimsclub.groupware.vo.ApprovalVO;
+import com.kimsclub.groupware.vo.DayoffApplyDetailVO;
 import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
@@ -74,8 +78,10 @@ public class DayoffDAO {
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void applyDayoff(DayoffApplyVO vo) {
-		insertDocument(vo);
-		insertApproval(vo.getDocument().getApproval());
+			insertDocument(vo);
+			insertApproval(vo.getDocument().getApproval());
+			insertDayoffApply(vo);
+			insertDayoffApplyDetail(vo.getDayoff_apply_detail());	
 	}
 
 	public void insertDocument(DayoffApplyVO vo) {
@@ -93,6 +99,19 @@ public class DayoffDAO {
 			}
 
 		}
+	}
+	
+	public void insertDayoffApply(DayoffApplyVO vo) {
+		session.insert("dayoff.insertDayoffApply",vo);
+	}
+	public void insertDayoffApplyDetail(List<DayoffApplyDetailVO> list) {
+		for(int i=0; i < list.size() ; i++) {
+			session.insert("dayoff.insertDayoffApplyDetail",list.get(i));			
+		}
+	}
+
+	public void selectUseDate(Map<String, Object> map) {
+	/*	return session.selectOne("dayoff.selectUseDate",map);*/
 	}
 
 }

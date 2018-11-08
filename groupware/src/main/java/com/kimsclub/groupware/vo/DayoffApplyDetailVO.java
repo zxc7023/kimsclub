@@ -5,12 +5,12 @@ import java.util.Date;
 public class DayoffApplyDetailVO {
 	int dayoff_no;
 	Date dayoff_day;
-	int days;
+	double days;
 	String oneorhalf;
 	public DayoffApplyDetailVO() {
 		super();
 	}
-	public DayoffApplyDetailVO(int dayoff_no, Date dayoff_day, int days, String oneorhalf) {
+	public DayoffApplyDetailVO(int dayoff_no, Date dayoff_day, double days, String oneorhalf) {
 		super();
 		this.dayoff_no = dayoff_no;
 		this.dayoff_day = dayoff_day;
@@ -29,10 +29,10 @@ public class DayoffApplyDetailVO {
 	public void setDayoff_day(Date dayoff_day) {
 		this.dayoff_day = dayoff_day;
 	}
-	public int getDays() {
+	public double getDays() {
 		return days;
 	}
-	public void setDays(int days) {
+	public void setDays(double days) {
 		this.days = days;
 	}
 	public String getOneorhalf() {

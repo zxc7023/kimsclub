@@ -92,12 +92,12 @@
 		where (dayoff_deduction = '1' or da.dayoff_type_code = 2) and d.document_state != 3 and da.employee_no = #{employee_no}
 	</select>
 	
-	<insert id="insertApprovalFirst" parameterType="approval" >
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
-	</insert>
-	
   	<insert id="insertDocument" parameterType="DayoffApply">
 		insert into document values (document_seq.nextval,'휴가신청',(select form_contents from form where form_no = 103),#{employee.employee_no},sysdate,1)
+	</insert>
+	
+	<insert id="insertApprovalFirst" parameterType="approval" >
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
 	</insert>
 	
 	<insert id="insertApproval" parameterType="approval" >
@@ -107,6 +107,17 @@
 	<insert id="insertApprovalLast" parameterType="approval">
 		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'','0',0)
 	</insert>
+	
+	
+	<insert id="insertDayoffApply" parameterType="DayoffApply">
+		insert into dayoff_apply values (dayoff_apply_seq.nextval, #{total_days}, #{start_date}, #{end_date}, #{employee.employee_no}, #{dayoff_kind.dayoff_type_code},(select nvl(max(document_no),1) from document),#{dayoff_reason} )
+	</insert>
+	
+	<insert id="insertDayoffApplyDetail" parameterType="DayoffApplyDetail">
+		insert into dayoff_apply_detail values ((select nvl(max(dayoff_no),1) from dayoff_apply),#{dayoff_day},#{days},#{oneorhalf} )
+	</insert>
+	
+	
 	
 
 </mapper>
