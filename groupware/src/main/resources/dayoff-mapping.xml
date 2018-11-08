@@ -91,6 +91,22 @@
 		on da.document_no = d.document_no
 		where (dayoff_deduction = '1' or da.dayoff_type_code = 2) and d.document_state != 3 and da.employee_no = #{employee_no}
 	</select>
-
+	
+	<insert id="insertApprovalFirst" parameterType="approval" >
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
+	</insert>
+	
+  	<insert id="insertDocument" parameterType="DayoffApply">
+		insert into document values (document_seq.nextval,'휴가신청',(select form_contents from form where form_no = 103),#{employee.employee_no},sysdate,1)
+	</insert>
+	
+	<insert id="insertApproval" parameterType="approval" >
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'','0',approval_seq.currval+1)
+	</insert>
+	
+	<insert id="insertApprovalLast" parameterType="approval">
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'','0',0)
+	</insert>
+	
 
 </mapper>

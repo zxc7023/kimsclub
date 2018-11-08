@@ -174,9 +174,11 @@
 				<li><a href="${pageContext.request.contextPath}/calendar"><i class="far fa-calendar"></i> 일정 관리</a>
 				<li><a><i class="fa fa-table fa-fw"></i> 게시판<span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-						<li><a href="${pageContext.request.contextPath}/boardList?board_type=c">커뮤니티</a></li>
-						<li><a href="${pageContext.request.contextPath}/boardList?board_type=n">공지사항</a></li>
-				</ul></li>
+
+						<li><a href="${pageContext.request.contextPath}/boardList?board_type=c"><i class="fa fa-list-alt"></i> 커뮤니티</a></li>
+						<li><a href="${pageContext.request.contextPath}/boardList?board_type=n"><i class="fa fa-tag"></i> 공지사항</a></li>
+					</ul></li>
+
 				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> 인사 관리<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
 						<li><a href="${pageContext.request.contextPath}/humanResources/employee"><i class="fas fa-users-cog"></i> 사원 관리</a></li>

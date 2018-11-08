@@ -11,8 +11,15 @@ public class DocumentVO {
 	private List<ApprovalVO> approval;
 	private Date document_date;
 	private int document_state;
+	private int rownum;
 	
 	
+	public int getRownum() {
+		return rownum;
+	}
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}
 	public List<ApprovalVO> getApproval() {
 		return approval;
 	}
@@ -68,6 +75,13 @@ public class DocumentVO {
 		this.employee = employee;
 		this.document_state = document_state;
 	}
+	@Override
+	public String toString() {
+		return "DocumentVO [document_no=" + document_no + ", document_title=" + document_title + ", document_contents=" + document_contents + ", employee=" + employee + ", approval=" + approval + ", document_date=" + document_date
+				+ ", document_state=" + document_state + "]";
+	}
+	
+	
 	
 	
 }

@@ -10,15 +10,15 @@
 		</selectKey>
 		insert into
 		board(board_no, board_writer_no, board_title, board_contents, board_date, board_viewcount, board_type) 
-		values (#{board_no},2,#{board_title},#{board_contents},sysdate,0,#{board_type})
+		values (#{board_no},#{board_writer_no},#{board_title},#{board_contents},sysdate,0,#{board_type})
 	</insert>
 	
-<!-- 게시판 조회 -->	
+<!-- 게시글 조회 -->	
 	<select id="selectBoard" resultType="board" parameterType="map" >
 		<include refid="pagingHeader"></include>
-		select rownum,board_no, employee_name as board_writer, board_title, board_date, board_viewcount 
-		from board, employee 
-		where BOARD.BOARD_WRITER_NO=EMPLOYEE.EMPLOYEE_NO and board_type= #{board_type} and
+		select rownum,board_no, employee_name as board_writer, board_title, board_date, board_viewcount,(select count(*) from reply where reply_board_type=#{board_type} and board_no=B.board_no) AS reply_count
+		from board B, employee E
+		where B.board_writer_no=E.employee_no and board_type= #{board_type} and
 		<include refid="search"></include>
 		order by board_no desc, board_date desc
 		<include refid="pagingFooter"></include>
@@ -26,7 +26,7 @@
 	
 <!-- 게시글 레코드 갯수 -->
 	<select id="countArticle" resultType="int">
-		select count(*) 
+		select count(*)
 		from board, employee 
 		where BOARD.BOARD_WRITER_NO=EMPLOYEE.EMPLOYEE_NO and board_type= #{board_type} and
 		<include refid="search"></include>
@@ -61,6 +61,7 @@
 		from board, employee
 		where board.board_writer_no=EMPLOYEE.EMPLOYEE_NO and board_type=#{board_type} and board_no=#{board_no}
 	</select>
+	
 <!-- 게시글 조회수 증가 -->	
 	<update id="updateViewcnt" parameterType="board" >
 		update board set board_viewcount=board_viewcount+1 where board_type=#{board_type} and board_no=#{board_no}
@@ -78,23 +79,55 @@
 			select (select nvl(max(reply_no),0)+1 from reply where reply_board_type=#{reply_board_type})as reply_no , (select nvl(max(reply_group),0)+1 from reply where reply_board_type=#{reply_board_type} and board_no=#{board_no} )as reply_group from dual
 		</selectKey>
 		insert into reply(reply_no, board_no, reply_group, reply_order, reply_depth, reply_writer_no, reply_contents, reply_date, reply_board_type) 
-		values(#{reply_no},#{board_no},#{reply_group},0,0,2,#{reply_contents},sysdate,#{reply_board_type})
-	</insert>
+		values(#{reply_no},#{board_no},#{reply_group},0,0,#{reply_writer_no},#{reply_contents},sysdate,#{reply_board_type})
+	</insert>	
 	
 <!-- 게시글 댓글의 답글 등록 -->
 	<insert id="insertBoardReplyOfReply" parameterType="boardReply">
-		<selectKey resultType="int" keyProperty="reply_no" order="BEFORE">
-			select nvl(max(reply_no),0)+1 from reply where reply_board_type=#{reply_board_type}
+		<selectKey resultType="boardReply" keyProperty="reply_no,reply_order,reply_depth" order="BEFORE">
+			select (select nvl(max(reply_no),0)+1 from reply where reply_board_type=#{reply_board_type})as reply_no,(select nvl(max(reply_order),0)+1 from reply where reply_group=#{reply_group} and board_no=#{board_no} and reply_board_type=#{reply_board_type})as reply_order, ((select reply_depth from reply where reply_group=#{reply_group} and board_no=#{board_no} and reply_board_type=#{reply_board_type} and reply_no=#{reply_no})+1) as reply_depth from dual
 		</selectKey>
 		insert into reply(reply_no, board_no, reply_group, reply_order, reply_depth, reply_writer_no, reply_contents, reply_date, reply_board_type)
-		values(#{reply_no},#{board_no},#{reply_group},0,0,2,#{reply_contents},sysdate,#{reply_board_type})
+		values(#{reply_no},#{board_no},#{reply_group},#{reply_order},#{reply_depth},#{reply_writer_no},#{reply_contents},sysdate,#{reply_board_type})
 		</insert>
 		
+<!-- 게시글 댓글의 답글의 순서 업데이트 -->		
+	<update id="updateBoardReplyOfReply" parameterType="boardReply">
+		<![CDATA[ update reply set reply_order = reply_order+1 where reply_group=#{reply_group} and reply_board_type=#{reply_board_type} and board_no=#{board_no} and reply_order>=#{reply_order} ]]>
+	</update>	
+				
+<!-- 게시글 댓글의 답글의 답글-->
+	<insert id="insertBoardReplyOfReplyOfReply" parameterType="boardReply">
+		<selectKey resultType="boardReply" keyProperty="reply_no,reply_depth" order="BEFORE">
+			select (select nvl(max(reply_no),0)+1 from reply where reply_board_type=#{reply_board_type}) as reply_no,
+		  		   <!-- ((select reply_order from reply where board_no=#{board_no} and reply_board_type=#{reply_board_type} and reply_group=#{reply_group} and reply_no=#{reply_no})+1)as reply_order, -->
+		  		   ((select reply_depth from reply where reply_group=#{reply_group} and board_no=#{board_no} and reply_board_type=#{reply_board_type} and reply_no=#{reply_no})+1)as reply_depth
+		  		   from dual
+		</selectKey>
+		insert into reply(reply_no, board_no, reply_group, reply_order, reply_depth, reply_writer_no, reply_contents, reply_date, reply_board_type)
+		values(#{reply_no},#{board_no},#{reply_group},#{reply_order},#{reply_depth},#{reply_writer_no},#{reply_contents},sysdate,#{reply_board_type})
+	</insert>			
+	
 <!-- 게시글 댓글 목록 조회 -->
 	<select id="selectBoardReply" parameterType="boardReply" resultType="boardReply" >
-		select reply_no, board_no, reply_group, reply_order, reply_depth, reply_writer_no, employee_name as reply_writer, reply_contents, reply_date, reply_board_type
+		select reply_no, board_no, reply_group, reply_order, reply_depth, reply_writer_no, employee_name as reply_writer, reply_contents, reply_date, reply_board_type 
 		from reply, employee
 		where REPLY.REPLY_WRITER_NO = EMPLOYEE.EMPLOYEE_NO and reply_board_type=#{reply_board_type} and board_no=#{board_no}
-		order by reply_date asc
+		order by reply_group asc, reply_order asc
 	</select>
+
+<!-- 게시글 댓글 order 조회 -->
+	<select id="selectReplyOrder" parameterType="boardReply" resultType="int" >
+		<![CDATA[select nvl(min(reply_order),0) from reply where reply_group=#{reply_group} and reply_order>#{reply_order} and reply_depth<=#{reply_depth} and reply_board_type=#{reply_board_type}]]>
+	</select>
+	
+<!-- 게시글 댓글 조회수 조회 -->
+	<select id="selectReplyCount" parameterType="boardReply" resultType="int" >
+		select count(*) from reply where board_no=#{board_no} and reply_board_type=#{reply_board_type}
+	</select> 
+	
+<!-- 게시글 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="boardReply">
+		delete from reply where reply_no=#{reply_no} and reply_board_type=#{reply_board_type}
+	</delete>
 </mapper>

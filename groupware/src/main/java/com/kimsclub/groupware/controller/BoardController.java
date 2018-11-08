@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.kimsclub.groupware.service.BoardService;
 import com.kimsclub.groupware.vo.BoardPageVO;
 import com.kimsclub.groupware.vo.BoardReplyVO;
 import com.kimsclub.groupware.vo.BoardVO;
+import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Controller
 public class BoardController {
@@ -82,7 +84,10 @@ public class BoardController {
 	
 	//게시글(커뮤니티,공지사항)작성 처리 
 	@RequestMapping(value="/BoardWrite", method=RequestMethod.POST)
-	public String boardList(BoardVO vo) {
+	public String boardList(BoardVO vo, HttpSession session) {
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		int board_writer_no = evo.getEmployee_no();
+		vo.setBoard_writer_no(board_writer_no);  
 	 	service.insertBoard(vo);
 	 	return "redirect:/boardList?board_type="+vo.getBoard_type();
 	}
@@ -95,18 +100,23 @@ public class BoardController {
 	}
 	
 	//댓글 입력
-	@RequestMapping(value="/ReplyWrite", method=RequestMethod.POST)
+	@RequestMapping(value="/ReplyWrite", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public void replyWrite(@ModelAttribute BoardReplyVO vo, HttpSession session) {
+		//댓글 작성자 번호 get session
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		int reply_writer_no = evo.getEmployee_no();
+		//BoardReplyVO에 set reply_writer_no
+		vo.setReply_writer_no(reply_writer_no);
+
+		//게시글의 댓글 입력시
 		if(vo.getReply_group()==0) {
-			//게시글의 댓글 입력시
-			/*vo.setReply_writer_no(session);*/
-			System.out.println(vo.getReply_writer_no());
 			service.insertBoardReply(vo);
-		}else {
-			//입력된 댓글의 답글 입력시
-			System.out.println(vo.getReply_group());
-			
+		//입력된 댓글의 답글 입력시
+		}else{
+			//댓글의 답글 order 조회
+			int replyOrder =  service.selectReplyOrder(vo);
+			vo.setReply_order(replyOrder);
 			/*vo.setReply_writer_no(session);*/
 			service.insertBoardReply(vo);
 		}
@@ -118,6 +128,22 @@ public class BoardController {
 	public List<BoardReplyVO> replyList(@ModelAttribute BoardReplyVO vo) {
 		List<BoardReplyVO> replyList = service.boardReplyList(vo);
 		return replyList;
-		
+	}
+	
+	//댓글 삭제
+	@RequestMapping(value="/ReplyDelete",method=RequestMethod.GET)
+	@ResponseBody
+	public void replyDelete(@ModelAttribute BoardReplyVO vo) {
+		System.out.println(vo.getReply_no());
+		System.out.println(vo.getReply_board_type());
+		service.deleteReply(vo);
+	}
+	
+	//댓글 갯수
+	@RequestMapping(value="/ReplyCnt",method=RequestMethod.POST)
+	@ResponseBody
+	public int replyCnt(@ModelAttribute BoardReplyVO vo) {
+		int replycnt = service.selectReplyCount(vo);
+		return replycnt;
 	}
 }

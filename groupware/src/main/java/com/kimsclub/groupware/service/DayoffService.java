@@ -45,4 +45,7 @@ public interface DayoffService {
 	 * @return
 	 */
 	List<DayoffApplyVO> readUseMyDayoff(EmployeeVO vo);
+	
+	
+	public void applyDayoff(DayoffApplyVO vo);
 }

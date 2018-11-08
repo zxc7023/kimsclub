@@ -32,7 +32,7 @@ public class BoardDAO {
 		session.insert("board.insertBoard", vo);
 	}
 	
-	//작성된 게시글 내용 조회
+	//작성된 게시글 상세 내용 조회
 	public BoardVO detail(BoardVO vo){
 		BoardVO detailVO = session.selectOne("board.selectDetail", vo);
 		return detailVO;
@@ -64,13 +64,38 @@ public class BoardDAO {
 			//댓글 입력시
 			session.insert("board.insertBoardReply", vo);
 		}else{
-			//입력된 댓글의 답글 입력시
-			session.insert("board.insertBoardReplyOfReply", vo);
+			if(vo.getReply_order()==0) {
+				//입력된 댓글의 답글 입력시
+				System.out.println(vo.getReply_no());
+				session.insert("board.insertBoardReplyOfReply", vo);	
+			}else {
+				System.out.println("reply_no: "+vo.getReply_no());
+				System.out.println("reply_group: "+vo.getReply_group());
+				System.out.println("reply_order: "+vo.getReply_order());
+				System.out.println("reply_depth: "+vo.getReply_depth());
+				session.update("board.updateBoardReplyOfReply", vo);
+				session.insert("board.insertBoardReplyOfReplyOfReply",vo);
+			}
 		}
 	}
 	
-	//게시글 댓글 목록
+	//게시글 댓글 목록 조회
 	public List<BoardReplyVO> boardReplyList(BoardReplyVO vo) {
 		return	session.selectList("board.selectBoardReply", vo);
+	}
+	
+	//게시글 댓글 order 조회
+	public int selectReplyOrder(BoardReplyVO vo) {
+		return session.selectOne("board.selectReplyOrder", vo);
+	}
+	
+	//게시글 댓글 조회수 조회
+	public int selectReplyCount(BoardReplyVO vo) {
+		return session.selectOne("board.selectReplyCount",vo);
+	}
+	
+	//게시글 댓글 삭제 
+	public void deleteReply(BoardReplyVO vo) {
+		session.delete("board.deleteReply", vo);
 	}
 }

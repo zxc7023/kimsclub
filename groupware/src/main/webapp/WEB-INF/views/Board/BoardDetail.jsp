@@ -4,6 +4,8 @@
 <!DOCTYPE html >
 <html>
 <head>
+
+
 <!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,21 +43,49 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <script type="text/javascript">
-	
+
 	$(document).ready(function() {
-		
 		
 		var boardType = "${param.board_type}";
 		var boardNo = ${param.board_no};
+		var searchOption = "${param.searchOption}";
+		var keyword = "${param.keyword}"; 
+		var curPage = ${param.curPage};
+		var replyDelBtn = "board";
+		var reply_no;
 		
 		//게시글 목록 버튼 클릭
 		$("#listBtn").click(function(){
-			location.href = "boardList?board_type="+boardType;
+			location.href = "boardList?board_type="+boardType+"&searchOption="+searchOption+"&keyword="+keyword+"&curPage="+curPage;
 		});
 		
 		//게시글 삭제 버튼 클릭
 		$("#deleteBtn").click(function(){
-			location.href = "BoardDelete?board_no="+boardNo+"&board_type="+boardType;
+			if(replyDelBtn=="reply"){
+				/* location.href = "ReplyDelete?board_no="+boardNo+"&reply_board_type="+boardType+"&reply_no="+reply_no; */
+				$.ajax({
+					type : "get",
+					url: "${pageContext.request.contextPath}/ReplyDelete",
+					data: {"reply_no" : reply_no,
+							"reply_board_type" : boardType},
+					error : function(request,status,error){
+		            },
+		            success : function(data){
+		            	listReply();
+		            	replyCnt();
+		            }
+				});
+				
+				replyDelBtn = "board";
+			}else{
+				location.href = "BoardDelete?board_no="+boardNo+"&board_type="+boardType;
+			}
+		});
+		
+		//게시글 댓글 삭제 버튼
+		$(document).on("click",".replyDelBtn", function(){
+			replyDelBtn=$(".replyDelBtn").val();
+			reply_no = $(this).parents("li.clearfix").find(".replyNo").val();
 		});
 		
 		//댓글 링크 클릭시(동적 태그 이벤트) 
@@ -63,29 +93,31 @@
 			if($('.replyAdd').length){
 				$("li.replyAdd").remove();	
 				$('.replyBtn').html("답글");
-				$("#reply_group").remove();
+				$(".replyHidden").remove();
 			}else{
-				$("#reply_group").remove();
+				$(".replyHidden").remove();
 				//댓글의 그룹번호 가져오기
 				var replyGroup = $(this).parents("li.clearfix").find(".replyGroup").val();
-				alert(replyGroup);
+				var replyOrder = $(this).parents("li.clearfix").find(".replyOrder").val();
+				var replyDepth = $(this).parents("li.clearfix").find(".replyDepth").val();
+				var replyNo = $(this).parents("li.clearfix").find(".replyNo").val();
 				// hidden으로 replyGroup 값설정
-				var input ='<input type="hidden" id="reply_group" name="reply_group" value="'+replyGroup+'">';
+				var input = '<input type="hidden" class="replyHidden" id="reply_group" name="reply_group" value="'+replyGroup+'">';
+				input += '<input type="hidden" class="replyHidden" id="reply_order" name="reply_order" value="'+replyOrder+'">';
+				input += '<input type="hidden" class="replyHidden" id="reply_depth" name="reply_depth" value="'+replyDepth+'">';
+				input += '<input type="hidden" class="replyHidden" id="reply_no" name="reply_no" value="'+replyNo+'">';
 				// form 태그에 input데이터 추가
 				var replyWrite = $("#replyWrite").append(input);
-				// 
+				//
 				var replyForm = $(".replyForm").html();
-				/* $("#reply_group").val(replyGroup); */
-				/* var replyForm = $(".replyForm").html(); */
 				var textInput='<li class="left clearfix replyAdd">'+replyForm+'</li>';
 				$(this).parents("li.clearfix").after(textInput);
 				$(this).html("답글취소");
 			}
 		});
 		
-		//댓글 쓰기 버튼 클릭
+		//댓글 쓰기 버튼 클릭시 ajax
 		$(document).on("click","#save",function(){
-			
 			$.ajax({
 				type : "post",
 				url: "${pageContext.request.contextPath}/ReplyWrite",
@@ -96,40 +128,66 @@
 	            success : function(data){
 	            	$("#replyText").val(""); 
 	            	listReply();
+	            	replyCnt();
 	            }
 			});
+			$(".replyHidden").remove();
 		});
 		
 		listReply();
-		//댓글 목록
+		replyCnt();
+		//댓글 목록 ajax
 		function listReply(){
 			$.ajax({
 				type :"post",
 				url : "${pageContext.request.contextPath}/ReplyList",
-				data : {"board_no" : $("#board_no").val(), 
+				data : {"board_no" : $("#board_no").val(),
 						"reply_board_type" : $("#reply_board_type").val() },
 				error : function(request,status,error){
 			    	alert('실패');
 			    },
-			    
 				success: function(result){
 					var output="";
 					for(var i in result){
 						output += '<li class="left clearfix">';
-						output += '<span class="chat-img pull-left"><img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle"></span>';
+						for(var j=0;j < result[i].reply_depth ; j++ ){
+							output += '<span class="chat-img pull-left" style="padding-left:1%">&nbsp;</span>';
+						}
+						output += '<span class="chat-img pull-left"><div style="background-color: #fff; line-height: 50px; font-size: 1.4em; text-align: center; border-radius: 50% 50% 50% 50%; width: 50px; height: 50px; color: #999999;" class="timeline-badge"><i class="glyphicon glyphicon-user  "></i></div></span>';
 						output += '<div class="chat-body clearfix">';
 						output += '<div class="header">';
+						output += '<input class="replyNo" type="hidden" value="'+result[i].reply_no+'">';
+						output += '<input class="replyDepth" type="hidden" value="'+result[i].reply_depth+'">';
+						output += '<input class="replyOrder" type="hidden" value="'+result[i].reply_order+'">';
 						output += '<input class="replyGroup" type="hidden" value="'+result[i].reply_group+'">';
 						output += '<strong class="primary-font">'+result[i].reply_writer +'</strong>';
 						output += '<small class="text-muted"> '+result[i].reply_date+'</small>';
 						output += ' <i class="glyphicon glyphicon-share-alt text-muted"></i><small class="text-muted "><a class="replyBtn" href="#">답글</a></small>'
+						if(result[i].reply_writer_no == ${sessionScope.loginInfo.employee_no}){
+						output += '<small class="pull-right text-muted"><button type="button" class="btn btn-outline btn-success">R</button><button type="button" value="reply" class="replyDelBtn btn btn-outline btn-danger" data-toggle="modal" data-target="#myModal">D</button></small>';
+						}
 						output += '</div>';
 						output += '<p>'+result[i].reply_contents+'</p>';
 						output += '</div>';
 						output += '</li>';
 						}
-					
 					$('#replyInsert').html(output);
+				}
+			});
+		}
+		
+		//댓글 조회수 ajax
+		function replyCnt(){
+			$.ajax({
+				type :"post",
+				url : "${pageContext.request.contextPath}/ReplyCnt",
+				data : {"board_no" : $("#board_no").val(), 
+						"reply_board_type" : $("#reply_board_type").val() },
+				error : function(request,status,error){
+			    	alert('왜요');
+			    },
+				success: function(result){
+					$(".replyCount").text("댓글"+"["+result+"]");
 				}
 			});
 		}
@@ -159,20 +217,21 @@
                 	<!-- <div id="dataTables-example_filter" class="form-group input-group dataTables_filter"> -->
                 	<label id="dataTables-example_filter" >
 	                	<button id="listBtn" type="button" class="btn btn-outline btn-primary"><i class="fa fa-list"></i></button>
+	                	<c:if test="${sessionScope.loginInfo.employee_no == detailVO.board_writer_no}">
 		            	<button type="button" class="btn btn-success">수정</button>
 		            	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">삭제</button>
+		            	</c:if>
 	            	</label>
             		<!-- </div> -->
                 </div>
             </div>
-
+			
 			<div class="row">
             	<div class="col-lg-12">
                 	<div class="panel panel-default">
-                    
                     	<!-- 작성자, 작성일, 조회수 -->
                         <div class="panel-heading">
-	                        ${detailVO.board_writer}
+	                    	<i class="glyphicon glyphicon-user"></i> ${detailVO.board_writer} | ${detailVO.board_date}
                         </div>
                         
                         <!-- 게시글 내용 -->
@@ -195,8 +254,8 @@
             
             <div class="row">
             	<div class="col-sm-6">
-            		<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
-            			댓글
+            		<div class="dataTables_info replyCount" id="dataTables-example_info" role="status" aria-live="polite">
+            			댓글	
             		</div>
             	</div>
             	<div class="col-sm-6">
@@ -252,7 +311,7 @@
             </div>
             <div class="modal-footer">
             	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            	<button id="deleteBtn" type="button" class="btn btn-primary">Delete</button>
+            	<button id="deleteBtn" type="button" class="btn btn-primary" data-dismiss="modal">Delete</button>
        		</div>
      	</div>
 	</div>

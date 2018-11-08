@@ -24,6 +24,7 @@ import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
 import com.kimsclub.groupware.vo.DayoffMyRecodeVO;
+import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Controller
@@ -56,8 +57,10 @@ public class DayoffController {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String json = null;
+		
 		try {
 			json = mapper.writeValueAsString(elist);
+
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,8 +102,14 @@ public class DayoffController {
 	
 	
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.POST)
-	public String applyDayoff(HttpSession session) {
+	public String applyDayoff(HttpSession session, @RequestBody DayoffApplyVO vo) {
 		
+		EmployeeVO empVo = (EmployeeVO)session.getAttribute("loginInfo");
+		vo.getDocument().setEmployee(empVo);
+		System.out.println(vo);
+		service.applyDayoff(vo);
+		
+
 		return null;
 	}
 	

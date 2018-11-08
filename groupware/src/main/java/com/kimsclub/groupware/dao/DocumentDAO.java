@@ -1,5 +1,6 @@
 package com.kimsclub.groupware.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -13,8 +14,8 @@ public class DocumentDAO {
 	@Autowired
 	SqlSession session;
 	
-	public void insertDocument(Map<String, Object> map) {
-		session.insert("document.saveDocument", map);
+	public void insertDocument(DocumentVO dvo) {
+		session.insert("document.saveDocument", dvo);
 	}
 
 	public DocumentVO selectDocument(int document_no) {
