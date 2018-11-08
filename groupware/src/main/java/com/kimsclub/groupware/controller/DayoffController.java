@@ -87,12 +87,11 @@ public class DayoffController {
 			}
 		}
 		
-		
 	
 		
 		ModelAndView mov = new ModelAndView();
 		mov.setViewName("dayoff/dayoff_writeform");
-		mov.addObject("userReward",useReward);
+		mov.addObject("useReward",useReward);
 		mov.addObject("useRegular",useRegular);
 		mov.addObject("elist", json);
 		mov.addObject("myDayoff",myDayoff);
@@ -112,6 +111,21 @@ public class DayoffController {
 
 		return null;
 	}
+	
+	
+	@RequestMapping(value = "/checkWhatDate" ,method= RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> compareSelectDayToUseDate(@RequestBody List<String> selectDateList,HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		EmployeeVO empVo = (EmployeeVO)session.getAttribute("loginInfo");
+		
+		map.put("employee", empVo);
+		map.put("dateList", selectDateList);
+		service.selectUseDate(map);
+		
+		return null;
+	}
+	
 	
 	/**
 	 * 
@@ -143,7 +157,7 @@ public class DayoffController {
 			}
 		}
 		mov.addObject("myDayoff",myDayoff);
-		mov.addObject("userReward",useReward);
+		mov.addObject("useReward",useReward);
 		mov.addObject("useRegular",useRegular);
 		
 		

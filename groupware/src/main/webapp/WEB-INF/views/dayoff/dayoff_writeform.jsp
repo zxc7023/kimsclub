@@ -53,51 +53,62 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var start_date;
-		var end_date;
-		var dayoffApply;
+		var keys;
 		
-		function loadForm(){
-			   $.ajax({
-			      method : "GET",
-			      async :false,
-			      url : "/groupware/loadForm",
-			      data : {
-			         "form_no" : 103
-			      },
-			      error : function() {
-			         alert("양식 불러오기 실패");
-			      },
-			      success : function(data) {
-			         $("#document_contents").append(data);
-			      }
-			   });
+		function isVaild(){
+			
+			if($("div#approvalLine input[name='approval[][employee][employee_no]']").length < 2){
+				alert("결재선을 2명이상 입력해주세요.");
+				return false;
+			}
+			keys = dayMap.keys();
+			if(keys.length == 0){
+				alert("날짜를 선택해주세요.");
+				return false;
+			}
+			if($("textarea[name='dayoff_reason']").val()==''){
+				alert("사유를 작성해주세요");
+				return false;
+			}
+			return true;
 		}
-	
-	
+		function isDuplicated(){
+			keys = dayMap.keys();
+ 			$.ajax({
+				method : "post",
+				dataType : "json",
+				contentType : 'application/json;charset=UTF-8',
+				url : "${pageContext.request.contextPath}/dayoff/checkWhatDate",
+				data : JSON.stringify(keys),
+				error : function() {
+					alert('전송 실패');
+				},
+				success : function(
+						server_result) {
+					var server_json = server_result;
+					var result = server_json.result;
+					if (result == "1") {
+						alert("수정 성공");
+					} else {
+						alert("수정 실패");
+					}
+				}
+			});   
+		}
+		
+		
 		$("#draft").click(function(){
 			
-			//검증하는 부분 필요!!
-			/* 	var dayoff_type_code = $("select[name=dayoff_type_code]").val();
-	 		<c:forEach items="${requestScope.dayoffKindList}" var="kind">
-				if(${kind.dayoff_type_code} == dayoff_type_code){
-					if(${kind.dayoff_deduction} == 1){
-						if(${requestScope.myDayoff.annual_dayoff}>)
-					}
-				} 
-			</c:forEach>  */
-
+			isDuplicated();
+	/* 		if(!isVaild()){
+				return false;
+			} */
 			
-			loadForm();
-			
-			var dayoffApply = $("#approval").serializeObject();
+		/* 	var dayoffApply = $("#approval").serializeObject();
 			dayoffApply.dayoff_apply_detail = [];
   			
-			var keys = dayMap.keys();
-			if(keys.length == 0){
-				alert("날짜를 선택해주세요");
-				return false;
-			}else if(keys.length == 1){
+			
+			if(keys.length == 1){
 				dayoffApply.start_date = new Date(keys[0]);
 				dayoffApply.end_date = new Date(keys[0]);
 			}else if(keys.length > 1){
@@ -117,13 +128,13 @@
 
 				if(value == "choose_day"){
 					detailObj.days = 1;
-					detailObj.oneorhalf = 1;
+					detailObj.oneorhalf = "0";
 				}else if(value =="choose_day_am"){
 					detailObj.days = 0.5;
-					detailObj.oneorhalf = 2;
+					detailObj.oneorhalf = "1";
 				}else{
 					detailObj.days = 0.5;
-					detailObj.oneorhalf = 3;
+					detailObj.oneorhalf = "2";
 				}
 				dayoffApply.dayoff_apply_detail.push(detailObj);
   
@@ -158,7 +169,8 @@
 				}
 			});  
 		
-		
+	 */
+			
 			return false;
 		});
 	});
@@ -422,7 +434,7 @@
 											<tbody>
 												<tr role="row">
 													<td>현황</td>
-													<td>생성 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} / 사용 : ${requestScope.useReward + requestScope.useRegular} / 잔여 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff - (requestScope.useReward + requestScope.useRegular)}</td>
+													<td>생성 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} 일 / 사용 : ${requestScope.useReward + requestScope.useRegular} 일 / 잔여 : ${(requestScope.myDayoff.annual_dayoff - requestScope.useRegular) + (requestScope.myDayoff.reward_dayoff - requestScope.useReward)} 일 ( 정기 : ${requestScope.myDayoff.annual_dayoff - requestScope.useRegular} , 포상 : ${requestScope.myDayoff.reward_dayoff - requestScope.useReward} ) </td>
 												</tr>
 												<tr role="row">
 													<td>작성자</td>
