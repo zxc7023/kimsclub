@@ -110,16 +110,24 @@ public class ApprovalController {
 		return mav;
 	}
 	
+	/**
+	 *  새 문서 작성 dvo.document_state에 따라 임시저장 문서인지 바로 기안하는 문서인지 구분
+	 * @return view : 새 문서함(approvalNewDoc)
+	 */	
 	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
+	@ResponseBody
 	public String approvalSaveDoc(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalSaveDoc() 메소드 호출");
 		dvo.setEmployee(dvo.getApproval().get(0).getEmployee());
 		service.saveDocument(dvo);
-		
-		return "approval/approvalNewDoc";
+		String result = "approval/approvalNewDoc";
+		return result;
 	}
 	
-	
+	/**
+	 *  임시저장된 문서 선택해서 보기
+	 * @return view : 임시저장된 문서(approvalViewNewDoc.jsp)
+	 */	
 	@RequestMapping(value = "/approvalViewNewDoc", method=RequestMethod.GET)
 	public ModelAndView approvalViewNewDoc(@RequestParam(name="document_no")int document_no){
 		System.out.println("approvalViewNewDoc() 메소드 호출");

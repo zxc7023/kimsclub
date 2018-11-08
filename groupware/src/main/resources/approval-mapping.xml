@@ -8,17 +8,34 @@
 		WHERE document_no = #{value}
 		ORDER BY approval_no
 	</select>
-	
-<!-- 	<insert id="insertApprovalFirst" parameterType="approval" >
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
-	</insert> -->
-	
+
+	<!-- 결재 입력 -->	
 	<insert id="insertApproval" parameterType="approval" >
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},#{approval_date},#{approval_state},approval_seq.currval+1)
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},approval_seq.currval+1)
 	</insert>
-	
+
+	<!-- 결재라인 중 마지막 결재자 입력 -->	
 	<insert id="insertApprovalLast" parameterType="approval">
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},#{approval_date},#{approval_state},0)
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},0)
 	</insert>
 	
+	<!-- 문서를 임시저장이 아닌 바로 기안하기 하였을 때 기안자(본인) 결재상태로 입력 -->	
+	<insert id="insertApprovalFirst" parameterType="approval">
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
+	</insert>
+	
+	<!-- 결재 입력 -->	
+	<insert id="updateApproval" parameterType="approval" >
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},approval_seq.currval+1)
+	</insert>
+
+	<!-- 결재라인 중 마지막 결재자 입력 -->	
+	<insert id="updateApprovalLast" parameterType="approval">
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},0)
+	</insert>
+	
+	<!-- 문서를 임시저장이 아닌 바로 기안하기 하였을 때 기안자(본인) 결재상태로 입력 -->	
+	<insert id="updateApprovalFirst" parameterType="approval">
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
+	</insert>
 </mapper>

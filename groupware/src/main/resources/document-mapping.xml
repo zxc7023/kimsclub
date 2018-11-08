@@ -8,6 +8,11 @@
 		<result column="document_contents" property="document_contents"/>
 		<result column="document_date" property="document_date"/>
 		<result column="document_state" property="document_state"/>
+		<association property="employee" javaType="employee">
+			<id column="document_writer_no" property="employee_no"/>
+			<result column="employee_name" property="employee_name"/>
+			<result column="position" property="position"/>
+		</association>		
 		<collection property="approval" ofType="approval" javaType="java.util.ArrayList" select="selectApproval" column="document_no"/>
 	</resultMap>
 	<resultMap type="approval" id="approvalMap">
@@ -25,8 +30,8 @@
 		</association> 
 	</resultMap>
 	<select id="selectDocument" parameterType="int" resultMap="documentMap">
-		SELECT document_no, document_title, document_contents, document_date, document_state
-		FROM document WHERE document_no = #{document_no}
+		SELECT document_no, document_title, document_contents, document_date, document_state, document_writer_no, employee_name, position
+		FROM document d left join employee e on d.document_writer_no = e.employee_no WHERE document_no = #{document_no}
 	</select>
 	
 	
@@ -40,31 +45,22 @@
 		WHERE a.document_no = #{document_no} ORDER BY approval_no
 	</select>
 	
-<!-- 	<insert id="insertDocument" parameterType="document">
-		INSERT INTO
-		document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
-		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state}) 
-	</insert> -->
+
 	
 	<insert id="insertDocument" parameterType="document">
 		insert into document values (document_seq.nextval,#{document_title},#{document_contents},#{employee.employee_no},sysdate,#{document_state})
 	</insert>
 	
-	<!-- <insert id="saveDocument" parameterType="document">
-		INSERT ALL
-		INTO document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
-		VALUES(document_seq.nextval,#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state})
-		<foreach collection="approval" item="item"  open=" " separator=" " close="SELECT * FROM dual" index="index">
-			<choose>
-				<when test="index+1 == approval.size">
-					INTO approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) VALUES ((SELECT nvl(max(approval_no),0)+${index}+1 FROM approval),document_seq.currval,#{item.employee.employee_no},'',0,0)
-				</when>
-				<otherwise>
-					INTO approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) VALUES ((SELECT nvl(max(approval_no),0)+${index}+1 FROM approval),document_seq.currval,#{item.employee.employee_no},'',0,(SELECT nvl(max(approval_no),0)+${index}+2 FROM approval))
-				</otherwise>
-			</choose>
-        </foreach>
-	</insert> -->
+	<update id="updateDocument" parameterType="document">
+		UPDATE document 
+		SET document_title = #{document_title},
+		document_contents = #{document_contents},
+		document_writer_no = #{employee.employee_no}
+		document_date = sysdate,
+		document_state = #{document_state}		
+		WHERE document_no = #{document_no}
+	</update>
+
 
 	<!-- 리스트 조회 -->		
 	<select id="selectList" resultType="document" parameterType="hashmap" >
