@@ -110,8 +110,8 @@ public class DayoffDAO {
 		}
 	}
 
-	public void selectUseDate(Map<String, Object> map) {
-	/*	return session.selectOne("dayoff.selectUseDate",map);*/
+	public int selectUseDate(Map<String, Object> map) {
+		return session.selectOne("dayoff.selectUseDate",map);
 	}
 
 }
