@@ -93,22 +93,4 @@ public class CalendarController {
 	 * @param vo
 	 * @return
 	 */
-	@RequestMapping(value = "/editCalendar", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Integer> editcalendar(@RequestBody CalendarVO vo){
-		System.out.println("addcalendar() 메소드 호출");
-		System.out.println(vo);
-		
-		Map<String, Integer> resultMap = new HashMap<String, Integer>();
-		resultMap.put("result", 1);
-		
-		try {
-			service.addCalendar(vo);
-		}catch (Exception e) {
-			resultMap.put("result", 0);
-		}
-
-		return resultMap;
-	}
-
 }
