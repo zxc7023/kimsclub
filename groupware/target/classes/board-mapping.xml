@@ -67,6 +67,11 @@
 		update board set board_viewcount=board_viewcount+1 where board_type=#{board_type} and board_no=#{board_no}
 	</update>
 
+<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="board">
+		update board set board_contents=#{board_contents} where board_no=#{board_no} and board_type=#{board_type}
+	</update>
+
 <!-- 게시글 삭제 -->
 	<delete id="deleteBoard" parameterType="board" >
 		delete from board where board_no=#{board_no} and board_type=#{board_type}
@@ -118,7 +123,7 @@
 
 <!-- 게시글 댓글 order 조회 -->
 	<select id="selectReplyOrder" parameterType="boardReply" resultType="int" >
-		<![CDATA[select nvl(min(reply_order),0) from reply where reply_group=#{reply_group} and reply_order>#{reply_order} and reply_depth<=#{reply_depth} and reply_board_type=#{reply_board_type}]]>
+		<![CDATA[select nvl(min(reply_order),0) from reply where reply_group=#{reply_group} and reply_order > #{reply_order} and reply_depth <= #{reply_depth} and board_no=#{board_no} and reply_board_type=#{reply_board_type}]]>
 	</select>
 	
 <!-- 게시글 댓글 조회수 조회 -->
@@ -130,4 +135,10 @@
 	<delete id="deleteReply" parameterType="boardReply">
 		delete from reply where reply_no=#{reply_no} and reply_board_type=#{reply_board_type}
 	</delete>
+	
+<!-- 게시글 댓글 수정 -->
+	<delete id="updateReply" parameterType="boardReply">
+		update reply set reply_contents=#{reply_contents} where reply_no=#{reply_no} and reply_board_type=#{reply_board_type}
+	</delete>
+		
 </mapper>

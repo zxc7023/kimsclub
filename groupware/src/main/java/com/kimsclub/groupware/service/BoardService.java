@@ -16,6 +16,8 @@ public interface BoardService {
 	public BoardVO viewcnt(BoardVO vo);
 	//게시판 게시글  수
 	public int countArticle(String board_type, String searchOption, String keyword);
+	//게시판 게시글 수정
+	public void updateBoard(BoardVO vo);
 	//게시판 게시글 삭제
 	public void deleteBoard(BoardVO vo);
 	//게시글 댓글 입력
@@ -28,4 +30,6 @@ public interface BoardService {
 	public int selectReplyCount(BoardReplyVO vo);
 	//게시글 댓글 삭제
 	public void deleteReply(BoardReplyVO vo);
+	//게시글 댓글 수정
+	public void updateReply(BoardReplyVO vo);
 }

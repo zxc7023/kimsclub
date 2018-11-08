@@ -8,4 +8,17 @@
 		WHERE document_no = #{value}
 		ORDER BY approval_no
 	</select>
+	
+<!-- 	<insert id="insertApprovalFirst" parameterType="approval" >
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
+	</insert> -->
+	
+	<insert id="insertApproval" parameterType="approval" >
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},#{approval_date},#{approval_state},approval_seq.currval+1)
+	</insert>
+	
+	<insert id="insertApprovalLast" parameterType="approval">
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},#{approval_date},#{approval_state},0)
+	</insert>
+	
 </mapper>

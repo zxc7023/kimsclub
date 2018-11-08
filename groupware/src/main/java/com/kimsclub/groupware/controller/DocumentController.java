@@ -2,11 +2,15 @@ package com.kimsclub.groupware.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,4 +54,23 @@ public class DocumentController {
 		mav.setViewName("approval/approvalDocModify");
 		return mav;
 	}
+	
+	@RequestMapping(value = "/approvalDocModify", method=RequestMethod.POST)
+	@ResponseBody
+	public String approvalDocModifyResult(HttpSession session,@RequestBody DocumentVO dvo){
+		System.out.println("approvalDocModify() 메소드 호출");
+		dvo.setEmployee(dvo.getApproval().get(0).getEmployee());
+		service.saveDocument(dvo);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		try {
+			json = mapper.writeValueAsString("approval/approvalNewDoc");
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		return json;
+	}
+	
 }

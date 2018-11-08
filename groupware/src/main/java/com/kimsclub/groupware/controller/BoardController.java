@@ -69,7 +69,6 @@ public class BoardController {
 		service.viewcnt(vo);
 		//해당게시글 세부사항 가져오기
 		BoardVO detailVO = service.detail(vo);
-		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("detailVO", detailVO);		
 		mav.setViewName("/Board/BoardDetail");
@@ -92,6 +91,14 @@ public class BoardController {
 	 	return "redirect:/boardList?board_type="+vo.getBoard_type();
 	}
 	
+	//게시글 수정
+	@RequestMapping(value="/BoardUpdate", method=RequestMethod.GET)
+	@ResponseBody
+	public void boardUpdate(@ModelAttribute BoardVO vo) {
+		service.updateBoard(vo);
+	}
+	
+	
 	//게시글 삭제
 	@RequestMapping(value="/BoardDelete", method=RequestMethod.GET)
 	public String boardDelete(@ModelAttribute BoardVO vo) {
@@ -111,13 +118,19 @@ public class BoardController {
 
 		//게시글의 댓글 입력시
 		if(vo.getReply_group()==0) {
+			System.out.println("확인");
 			service.insertBoardReply(vo);
 		//입력된 댓글의 답글 입력시
 		}else{
 			//댓글의 답글 order 조회
+			System.out.println(vo.getBoard_no());
+			System.out.println("getReply_group"+vo.getReply_group());
+			System.out.println("getReply_order"+vo.getReply_order());
+			System.out.println("getReply_depth"+vo.getReply_depth());
 			int replyOrder =  service.selectReplyOrder(vo);
+			System.out.println("전달받은order : "+replyOrder);
 			vo.setReply_order(replyOrder);
-			/*vo.setReply_writer_no(session);*/
+			
 			service.insertBoardReply(vo);
 		}
 	}
@@ -134,9 +147,15 @@ public class BoardController {
 	@RequestMapping(value="/ReplyDelete",method=RequestMethod.GET)
 	@ResponseBody
 	public void replyDelete(@ModelAttribute BoardReplyVO vo) {
-		System.out.println(vo.getReply_no());
-		System.out.println(vo.getReply_board_type());
 		service.deleteReply(vo);
+	}
+	
+	//댓글 수정
+	@RequestMapping(value="/ReplyUpdate",method=RequestMethod.GET)
+	@ResponseBody
+	public void replyUpdate(@ModelAttribute BoardReplyVO vo) {
+		System.out.println(vo.getReply_no());
+		service.updateReply(vo);
 	}
 	
 	//댓글 갯수

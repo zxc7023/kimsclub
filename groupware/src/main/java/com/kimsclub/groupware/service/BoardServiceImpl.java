@@ -43,7 +43,13 @@ public class BoardServiceImpl implements BoardService {
 	public int countArticle(String board_type, String searchOption, String keyword) {
 		return dao.countArticle(board_type, searchOption, keyword);
 	}
-	
+
+	//게시판 게시글 수정
+	@Override
+	public void updateBoard(BoardVO vo) {
+		dao.updateBoard(vo);
+	}
+
 	//게시판 게시글 삭제
 	@Override
 	public void deleteBoard(BoardVO vo) {
@@ -78,6 +84,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void deleteReply(BoardReplyVO vo) {
 		dao.deleteReply(vo);
+	}
+
+	//게시글 댓글 수정
+	@Override
+	public void updateReply(BoardReplyVO vo) {
+		dao.updateReply(vo);
 	}
 	
 	
