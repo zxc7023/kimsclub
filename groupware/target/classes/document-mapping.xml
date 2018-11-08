@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="document">
-	<resultMap id="documentMap" type="document" >
+<mapper namespace="Document">
+	<resultMap id="documentMap" type="Document" >
 		<id column="document_no" property="document_no"/>
 		<result column="document_title" property="document_title"/>
 		<result column="document_contents" property="document_contents"/>
@@ -47,11 +47,11 @@
 	
 
 	
-	<insert id="insertDocument" parameterType="document">
+	<insert id="insertDocument" parameterType="Document">
 		insert into document values (document_seq.nextval,#{document_title},#{document_contents},#{employee.employee_no},sysdate,#{document_state})
 	</insert>
 	
-	<update id="updateDocument" parameterType="document">
+	<update id="updateDocument" parameterType="Document">
 		UPDATE document 
 		SET document_title = #{document_title},
 		document_contents = #{document_contents},
@@ -63,14 +63,14 @@
 
 
 	<!-- 리스트 조회 -->		
-	<select id="selectList" resultType="document" parameterType="hashmap" >
+	<select id="selectList" resultType="Document" parameterType="hashmap" >
 		<include refid="pagingHeader"></include>
-		select rownum 
+		select
 		<if test="selectOption != null">
-			, ${selectOption}
+			 ${selectOption}
 		</if>
 		<if test="selectOption == null">
-		, B.*
+		 B.*
 		</if>
 		from (${fromOption}) B
 		<where>
@@ -104,7 +104,7 @@
 
 	<!-- 페이징sql -->
 	<sql id="pagingHeader">
-		select * from (select rownum as rn, A.*from(
+		select * from (select rownum as rn, A.* from(
 	</sql>	
 	<sql id="pagingFooter">
 		)A

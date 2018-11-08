@@ -18,25 +18,33 @@ public class DocumentDAO {
 	@Autowired
 	SqlSession session;
 	
-/*	public void insertDocument(DocumentVO dvo) {
-		session.insert("document.saveDocument", dvo);
-	}*/
-
-	public DocumentVO selectDocument(int document_no) {
-		return session.selectOne("document.selectDocument", document_no);
+	//조건에 맞는 문서의 개수
+	public int selectDocumentCnt(Map<String, Object> map) {
+		return session.selectOne("Document.countArticle",map);
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	//조건에 맞는 문서 목록 가져오기
+	public List<DocumentVO> selectDocList(Map<String,Object> map){
+		return session.selectList("Document.selectList",map);
+	}
+	
+	//문서 임시 저장
+	public void insertDocument(DocumentVO vo) {
+		session.insert("Document.insertDocument", vo);
+	}
+	
+	public DocumentVO selectDocument(int document_no) {
+		return session.selectOne("Document.selectDocument", document_no);
+	}
+	
+	/*@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void applyApprovalDoc(DocumentVO vo) {
 		insertDocument(vo);
 		insertApproval(vo);
-	}
+	}*/
 
-	public void insertDocument(DocumentVO vo) {
-		session.insert("document.insertDocument", vo);
-	}
 	public void updateDocument(DocumentVO vo) {
-		session.update("document.updateDocument", vo);
+		session.update("Document.updateDocument", vo);
 	}
 
 	public void insertApproval(DocumentVO vo) {
@@ -67,6 +75,6 @@ public class DocumentDAO {
 	}
 	public void modifyApprovalDoc(DocumentVO dvo) {
 		// TODO Auto-generated method stub
-		
 	}
+	
 }

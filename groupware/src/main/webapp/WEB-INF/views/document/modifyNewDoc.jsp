@@ -55,7 +55,6 @@ background-color: #f5f5f5;
 </style>
 <script>
 $(document).ready(function() {
-	var type;
 	$(function(){
 	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
@@ -65,7 +64,7 @@ $(document).ready(function() {
 	    });
 	});
 
-	$("#save_btn").click(function(){
+	$("#modify_btn").click(function(){
 		$("#submit").attr("value",0);
 		submitBtn();
 	});
@@ -74,7 +73,7 @@ $(document).ready(function() {
 		$("#type").attr("value",1);
 		submitBtn();
 	});
-	
+
 	function submitBtn(){
 		$('#ckeditor').html(CKEDITOR.instances.ckeditor.getData());
 		var tmpArr = $("form#writeDocForm").serializeObject();
@@ -94,9 +93,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
-	
-	
+		
 	
 	$('.selectForm').change(function() {
 		if($(this).val()!='default'){
@@ -144,7 +141,7 @@ function loadForm(){
 							<div class="panel-heading">
 								<input type="hidden" name="document_state" id="type" value="">
 								<input type="button" class="btn btn-info" id="app_btn" value="기안하기">
-								<input type="button" class="btn btn-info" id="save_btn" value="임시저장">
+								<input type="button" class="btn btn-info" id="modify_btn" value="저장하기">
 							</div>
 							<div class="panel-body">
 								<table
@@ -167,58 +164,14 @@ function loadForm(){
 										</tr>
 										<tr>
 											<td class="odd">작성자</td>
-											<td>${sessionScope.loginInfo.employee_name}</td>
-										</tr>
-										<tr>
-											<td class="odd">결재</td>
-											<td>
-												<div role="row">
-													<div class="col-lg-10">
-														<div class="panel panel-default" id="approvalLine">
-															<table width="100%"
-																class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
-																role="grid" aria-describedby="dataTables-example_info"
-																style="width: 100%;">
-																<colgroup>
-																	<col width="15%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																</colgroup>
-																<tbody class="t-body">
-																	<tr>
-																		<th colspan="6">결재 순서
-																			<p class="fa fa-long-arrow-right"></p>
-																		</th>
-																	</tr>
-																	<tr id="paste">
-																		<td class="name" index=0></td>
-																		<td class="name" index=1></td>
-																		<td class="name" index=2></td>
-																		<td class="name" index=3></td>
-																		<td class="name" index=4></td>
-																		<td class="name" index=5></td>
-																	</tr>
-																</tbody>
-															</table>
-														</div>
-													</div>
-													<div class="col-lg-2">
-														<button class="btn-ApprovalLine" type="button"
-															data-toggle="modal" data-target="#approvalLineSelect">결재선
-															선택</button>
-													</div>
-												</div>
-											</td>
+											<td>${dvo.employee.employee_name}</td>
 										</tr>
 										<tr>
 											<td class="odd">문서 제목<br>
 											</td>
 											<td><input type="text" name="document_title"
 												class="form-control" required="required"
-												autofocus="autofocus"></td>
+												autofocus="autofocus" value="${dvo.document_title}"></td>
 										</tr>
 										<tr>
 											<td colspan="2" class="odd">문서 내용</td>
@@ -226,7 +179,7 @@ function loadForm(){
 										<tr>
 											<td colspan="2">
 												<div class="col-lg-12">
-													<textarea name="document_contents" id="ckeditor" class="form"></textarea>
+													<textarea name="document_contents" id="ckeditor" class="form">${dvo.document_contents}</textarea>
 												</div>
 											</td>
 										</tr>

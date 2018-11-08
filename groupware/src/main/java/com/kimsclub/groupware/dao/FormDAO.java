@@ -16,36 +16,39 @@ public class FormDAO {
 	@Autowired
 	SqlSession session;
 	
-	public List<FormVO> selectAllForm(){
-		return session.selectList("form.selectAllForm");
+	public List<FormVO> selectObjectList(Map<String,Object> map){
+		return session.selectList("Form.selectList",map);
+	}
+	
+	public int countAticle(Map<String,Object> map) {
+		return session.selectOne("Form.countArticle", map);
 	}
 	
 	public void activationForm(Map<String,Object> map){
-		session.update("form.updateFormActivation",map);
+		session.update("Form.updateFormActivation",map);
 	}
 	
 	public void deleteForm(Map<String,Object> map){
-		session.delete("form.deleteForm", map);
+		session.delete("Form.deleteForm", map);
 	}
 
 	public void insertForm(FormVO vo) {
-		session.insert("form.insertForm", vo);		
+		session.insert("Form.insertForm", vo);		
 	}
 
 	public List<FormVO> selectUsedForm() {
-		return session.selectList("form.selectUsedForm");
+		return session.selectList("Form.selectUsedForm");
 	}
 
 	public FormVO selectForm(int form_no) {
-		return session.selectOne("form.selectForm", form_no);
+		return session.selectOne("Form.selectForm", form_no);
 	}
 	
 	public void modifyForm(FormVO vo) {
-		session.update("form.modifyForm", vo);
+		session.update("Form.modifyForm", vo);
 	}
 
 	public String loadForm(int form_no) {
-		// TODO Auto-generated method stub
-		return session.selectOne("form.loadForm",form_no);
+		return session.selectOne("Form.loadForm",form_no);
 	}
 }

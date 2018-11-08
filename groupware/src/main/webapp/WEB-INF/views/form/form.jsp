@@ -31,8 +31,6 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/resources/js/dataTables.responsive.js"></script>
-
 <!-- Metis Menu Plugin JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
 
@@ -43,63 +41,75 @@
 	$(document).ready(function() {
 		//양식 활성화,비활성화 버튼 클릭 시 form_activation 수정
 		$('.btn-form').click(function() {
+			var check=0;
+			checkSelect();
 			var checkArr = [];
 			var checkNum = 0;
-
-			//체크된 번호들 배열에 입력 및 개수 구하기
-			$('.check:checked').each(function() {
-				$(this).parent().next().addClass('use');
-				checkArr.push($(this).val());
-				checkNum++;
-			});
-			//ajax내 배열 사용하기위한 설정
-			jQuery.ajaxSettings.traditional = true;
-
-			//삭제 버튼 클릭
-			if ($(this).val() == '삭제') {
-				var result = confirm('정말로 삭제하시겠습니까?');
-				if (result) {
+			
+			if(check==0){
+				//체크된 번호들 배열에 입력 및 개수 구하기
+				$('.check:checked').each(function() {
+					$(this).parent().next().addClass('use');
+					checkArr.push($(this).val());
+					checkNum++;
+				});
+				//ajax내 배열 사용하기위한 설정
+				jQuery.ajaxSettings.traditional = true;
+	
+				//삭제 버튼 클릭
+				if ($(this).val() == '삭제') {
+					var result = confirm('정말로 삭제하시겠습니까?');
+					if (result) {
+						$.ajax({
+							method : "GET",
+							url : "/groupware/removeForm",
+							data : {
+								"form_no" : checkArr
+							},
+							error : function() {
+								alert('삭제 실패!!');
+								$('.use').removeClass('use');
+							},
+							success : function(data) {
+								$('.use').parent().remove();
+								alert("총" + checkNum + "개의 양식이 삭제되었습니다.");
+								$('.use').removeClass('use');
+							}
+						});
+					} else {
+						$('.use').removeClass('use');
+					}
+				}
+	
+				//활성화 비활성화 버튼 클릭시
+				else {
 					$.ajax({
 						method : "GET",
-						url : "/groupware/removeForm",
+						url : "/groupware/useForm",
 						data : {
+							"use" : $(this).val(),
 							"form_no" : checkArr
 						},
 						error : function() {
-							alert('삭제 실패!!');
-							$('.use').removeClass('use');
+							alert(data + '변경실패!!');
+							//$('.use').removeClass('use');
 						},
 						success : function(data) {
-							$('.use').parent().remove();
-							alert("총" + checkNum + "개의 양식이 삭제되었습니다.");
-							$('.use').removeClass('use');
+							$('.use').html(data);
+							alert("총" + checkNum + "개의 양식이 " + data + " 되었습니다.");
+							//$('.use').removeClass('use');
 						}
 					});
-				} else {
-					$('.use').removeClass('use');
+				}
+			}
+			//아무 양식도 선택 안했을 시 alert 알림
+			 function checkSelect(){
+				if($('.check:checked').val()==null){
+					check=1;
+					alert("선택된 양식이 없습니다.");
 				}
 			}
 
-			//활성화 비활성화 버튼 클릭시
-			else {
-				$.ajax({
-					method : "GET",
-					url : "/groupware/useForm",
-					data : {
-						"use" : $(this).val(),
-						"form_no" : checkArr
-					},
-					error : function() {
-						alert(data + '변경실패!!');
-						//$('.use').removeClass('use');
-					},
-					success : function(data) {
-						$('.use').html(data);
-						alert("총" + checkNum + "개의 양식이 " + data + " 되었습니다.");
-						//$('.use').removeClass('use');
-					}
-				});
-			}
 		});
 
 		//모든 체크박스 선택 함수
@@ -111,6 +121,7 @@
 		$('.pg-scale').change(function() {
 			location.href = 'form?page_scale=' + $(this).val();
 		});
+		
 
 	});//ready end
 </script>

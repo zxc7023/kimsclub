@@ -202,7 +202,7 @@
 						
 				<li><a href="${pageContext.request.contextPath}/approval"><i class="fas fa-file-signature"></i> 결재<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
-						<li><a href="${pageContext.request.contextPath}/approvalNewDoc">새문서함</a></li>
+						<li><a href="${pageContext.request.contextPath}/newDocList">새문서함</a></li>
 						<li><a href="${pageContext.request.contextPath}/approvalDoc">결재문서함</a></li>
 						<li><a href="${pageContext.request.contextPath}/approvalProceedDoc">진행문서함</a></li>
 						<li><a href="${pageContext.request.contextPath}/approvalReturnDoc">반려문서함</a></li>
