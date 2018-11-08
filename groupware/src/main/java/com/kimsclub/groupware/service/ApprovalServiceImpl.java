@@ -57,7 +57,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	public void saveDocument(DocumentVO dvo) {
-		ddao.insertDocument(dvo);
+		ddao.applyApprovalDoc(dvo);
 	}
 	
 	@Override

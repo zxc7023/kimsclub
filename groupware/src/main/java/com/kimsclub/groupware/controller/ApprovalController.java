@@ -111,21 +111,12 @@ public class ApprovalController {
 	}
 	
 	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
-	@ResponseBody
 	public String approvalSaveDoc(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalSaveDoc() 메소드 호출");
 		dvo.setEmployee(dvo.getApproval().get(0).getEmployee());
 		service.saveDocument(dvo);
 		
-		ObjectMapper mapper = new ObjectMapper();
-		String json = null;
-		try {
-			json = mapper.writeValueAsString("approval/approvalNewDoc");
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
-		return json;
+		return "approval/approvalNewDoc";
 	}
 	
 	
