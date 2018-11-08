@@ -84,7 +84,7 @@ height: 80px;
 									<tbody>
 										<tr>
 											<td class="odd">작성자</td>
-											<td>${dvo.approvals[0].employee.employee_name}</td>
+											<td>${dvo.approval[0].employee.employee_name}</td>
 										</tr>
 										<tr>
 											<td class="odd">결재</td>
@@ -112,8 +112,8 @@ height: 80px;
 																	</tr>
 																	<tr id="paste">
 																	<c:forEach begin="0" end="5" varStatus="i">
-																		<td class="name" index="${i.index}" style="text-align: center;">${dvo.approvals[i.index].employee.department.department_name}<br>
-																			${dvo.approvals[i.index].employee.employee_name} ${dvo.approvals[i.index].employee.position}
+																		<td class="name" index="${i.index}" style="text-align: center;">${dvo.approval[i.index].employee.department.department_name}<br>
+																			${dvo.approval[i.index].employee.employee_name} ${dvo.approval[i.index].employee.position}
 																		</td>
 																	</c:forEach>
 																	</tr>			
