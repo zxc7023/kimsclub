@@ -10,7 +10,7 @@ $(function() {
 
 /* --------------------------공통적인 캘린더-------------------------- */
 var initializeCalendar = function() {
-  $('.calendar').fullCalendar({
+  $('#calendar2').fullCalendar({
       editable: true,
       eventLimit: true, 
       events: events, //이벤트 생성
@@ -29,6 +29,7 @@ var initializeCalendar = function() {
       eventBackgroundColor: '#337ab7',
       editable: false,
     });
+  $('#calendar1').fullCalendar({  });
 }
 
 /*--------------------------calendar 이름--------------------------*/

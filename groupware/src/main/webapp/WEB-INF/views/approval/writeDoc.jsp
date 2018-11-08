@@ -93,7 +93,6 @@ $(document).ready(function() {
 				window.location.href = data;
 			}
 		});
-		return false;
 	}
 	
 	

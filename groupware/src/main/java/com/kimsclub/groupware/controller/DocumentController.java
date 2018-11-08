@@ -60,17 +60,10 @@ public class DocumentController {
 	public String approvalDocModifyResult(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalDocModify() 메소드 호출");
 		dvo.setEmployee(dvo.getApproval().get(0).getEmployee());
-		service.saveDocument(dvo);
+		service.modifyDocument(dvo);
 		
-		ObjectMapper mapper = new ObjectMapper();
-		String json = null;
-		try {
-			json = mapper.writeValueAsString("approval/approvalNewDoc");
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
-		return json;
+		String result = "approval/approvalNewDoc";
+		return result;
 	}
 	
 }

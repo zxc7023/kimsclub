@@ -84,7 +84,7 @@ height: 80px;
 									<tbody>
 										<tr>
 											<td class="odd">작성자</td>
-											<td>${dvo.approval[0].employee.employee_name}</td>
+											<td>${dvo.employee.employee_name}</td>
 										</tr>
 										<tr>
 											<td class="odd">결재</td>

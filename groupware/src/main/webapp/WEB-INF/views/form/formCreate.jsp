@@ -64,63 +64,63 @@ $(document).ready(function() {
 </script>
 <style type="text/css">
 .form-label-group {
-	position: relative;
-	margin: 4px 0px 4px;
+  position: relative;
+  margin: 4px 0px 4px;
+  
 }
 
-.form-label-group>input {
-	padding: var(- -input-padding-y) var(- -input-padding-x);
-	height: 44px;
+.form-label-group > input{
+  padding: var(--input-padding-y) var(--input-padding-x);
+  height: 44px;
+}
+.form-label-group > label {
+  padding: var(--input-padding-y) var(--input-padding-x);
+  height: auto;
 }
 
-.form-label-group>label {
-	padding: var(- -input-padding-y) var(- -input-padding-x);
-	height: auto;
-}
-
-.form-label-group>label {
-	padding-top: 10px;
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: block;
-	width: 100%;
-	margin-bottom: 0;
-	/* Override default `<label>` margin */
-	line-height: 1.5;
-	color: #495057;
-	border: 1px solid transparent;
-	border-radius: 0.25rem;
-	-webkit-transition: all 0.1s ease-in-out;
-	transition: all 0.1s ease-in-out;
+.form-label-group > label {
+	padding-top:10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  /* Override default `<label>` margin */
+  line-height: 1.5;
+  color: #495057;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  -webkit-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .form-label-group input::-webkit-input-placeholder {
-	color: transparent;
+  color: transparent;
 }
 
 .form-label-group input:-ms-input-placeholder {
-	color: transparent;
+  color: transparent;
 }
 
 .form-label-group input::-ms-input-placeholder {
-	color: transparent;
+  color: transparent;
 }
 
 .form-label-group input::placeholder {
-	color: transparent;
+  color: transparent;
 }
 
-.form-label-group input:not (:placeholder-shown ) {
-	padding-top: calc(var(- -input-padding-y)+ var(- -input-padding-y)* (2/3));
-	padding-bottom: calc(var(- -input-padding-y)/3);
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+  padding-bottom: calc(var(--input-padding-y) / 3);
 }
 
-.form-label-group input:not (:placeholder-shown ) ~ label {
-	padding-top: calc(var(- -input-padding-y)/3);
-	padding-bottom: calc(var(- -input-padding-y)/3);
-	font-size: 12px;
-	color: #777;
+.form-label-group input:not(:placeholder-shown) ~ label {
+  padding-top: calc(var(--input-padding-y) / 3);
+  padding-bottom: calc(var(--input-padding-y) / 3);
+  font-size: 12px;
+  color: #777;
 }
 </style>
 </head>

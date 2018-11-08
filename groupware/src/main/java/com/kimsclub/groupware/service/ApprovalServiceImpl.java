@@ -76,4 +76,10 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return ddao.selectDocument(document_no);
 	}
 
+	@Override
+	public void modifyDocument(DocumentVO dvo) {
+		ddao.modifyApprovalDoc(dvo);
+		
+	}
+
 }

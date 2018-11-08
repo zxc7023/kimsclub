@@ -30,4 +30,6 @@ public interface ApprovalService {
 	List<DocumentVO> getDocumentList(Map<String, Object> map);
 
 	DocumentVO viewNewDoc(int document_no);
+
+	void modifyDocument(DocumentVO dvo);
 }
