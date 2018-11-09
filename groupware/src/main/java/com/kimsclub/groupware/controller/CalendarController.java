@@ -16,22 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kimsclub.groupware.service.CalendarService;
 import com.kimsclub.groupware.vo.CalendarVO;
 
-/**
- * @author DANAWACOMPUTER
- *
- */
-/**
- * @author DANAWACOMPUTER
- *
- */
-/**
- * @author DANAWACOMPUTER
- *
- */
-/**
- * @author DANAWACOMPUTER
- *
- */
 @Controller
 public class CalendarController {
 
@@ -88,9 +72,24 @@ public class CalendarController {
 		return resultMap;
 	}
 
-	/**
-	 * event 편집
-	 * @param vo
-	 * @return
-	 */
+	@RequestMapping(value = "/selectEvent", method = RequestMethod.GET)
+	@ResponseBody
+	public List<CalendarVO> selectEvent() {
+
+		List<CalendarVO> clist = null;
+		clist = service.selectEvents();
+		System.out.println(clist.size());
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		try {
+			json = mapper.writeValueAsString(clist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(json);
+		return clist;
+
+	}
+
 }

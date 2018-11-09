@@ -35,9 +35,6 @@
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.css" />
 
-<!-- 미니달력 -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources\minicalendar\pignose.calendar.min.css" />
-<script src="${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.js"></script>
 <!--  -->
 <!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
 <meta charset="utf-8">
