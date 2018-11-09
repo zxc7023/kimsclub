@@ -37,4 +37,16 @@ public class DocumentServiceImpl implements DocumentService {
 	public DocumentVO viewNewDoc(int document_no) {
 		return ddao.selectDocument(document_no);
 	}
+	
+	//선택한 문서 수정하기
+	@Override
+	public void modifyDocument(DocumentVO dvo) {
+		ddao.modifyDoc(dvo);
+	}
+	
+	//선택한 문서 삭제하기
+	@Override
+	public void deleteNewDoc(int document_no) {
+		ddao.deleteDoc(document_no);
+	}
 }

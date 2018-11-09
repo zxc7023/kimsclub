@@ -68,11 +68,6 @@ $(document).ready(function() {
 		$("#submit").attr("value",0);
 		submitBtn();
 	});
-	
-	$("#app_btn").click(function(){
-		$("#type").attr("value",1);
-		submitBtn();
-	});
 
 	function submitBtn(){
 		$('#ckeditor').html(CKEDITOR.instances.ckeditor.getData());
@@ -80,9 +75,8 @@ $(document).ready(function() {
 
 		$.ajax({
 			method : "post",
-			url : "/groupware/approvalNewDoc",
+			url : "/groupware/modifyNewDoc",
 			contentType: "application/json;charset=UTF-8",
-			dataType : "json",
 			data :  JSON.stringify(tmpArr),
 			error : function(error) {
 				alert("양식 불러오기 실패");
@@ -118,7 +112,6 @@ function loadForm(){
 		},
 		success : function(data) {
 			CKEDITOR.instances.ckeditor.setData(data);
-			//keditor.element.appendText(data);
 		}
 	});
 }
@@ -137,11 +130,12 @@ function loadForm(){
 				<div class="panel panel-default">
 					<div class="panel-heading">문서 작성</div>
 					<div class="panel-body">
-						<form class="col-sm-12" action="/groupware/approvalNewDoc" id="writeDocForm" method="post">
+						<form class="col-sm-12" id="writeDocForm" method="post">
 							<div class="panel-heading">
+								<input type="hidden" name="document_no" value="${dvo.document_no}">
 								<input type="hidden" name="document_state" id="type" value="">
-								<input type="button" class="btn btn-info" id="app_btn" value="기안하기">
 								<input type="button" class="btn btn-info" id="modify_btn" value="저장하기">
+								<input type="button" class="btn btn-info" onclick="location.href='/groupware/newDocList'" value="돌아가기">
 							</div>
 							<div class="panel-body">
 								<table
@@ -171,7 +165,7 @@ function loadForm(){
 											</td>
 											<td><input type="text" name="document_title"
 												class="form-control" required="required"
-												autofocus="autofocus" value="${dvo.document_title}"></td>
+												autofocus="autofocus" maxlength="40" value="${dvo.document_title}"></td>
 										</tr>
 										<tr>
 											<td colspan="2" class="odd">문서 내용</td>
@@ -221,7 +215,5 @@ function loadForm(){
 		</div>
 	</div>
 
-	<!-- 결재선 불러오기 modal -->
-	<jsp:include page="/WEB-INF/views/approvalLineModal.jsp"></jsp:include>
 </body>
 </html>

@@ -15,4 +15,8 @@ public interface DocumentService {
 	public void saveDocument(DocumentVO dvo);
 	
 	DocumentVO viewNewDoc(int document_no);
+	
+	void modifyDocument(DocumentVO dvo);
+
+	public void deleteNewDoc(int document_no);
 }

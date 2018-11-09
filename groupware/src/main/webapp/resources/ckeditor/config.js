@@ -4,6 +4,12 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
+	CKEDITOR.dtd.$removeEmpty['i'] = false;
+	config.enterMode = CKEDITOR.ENTER_BR;
+	config.fillEmptyBlocks = false;
+
+
+
 	config.toolbarGroups = [
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },

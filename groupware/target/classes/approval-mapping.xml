@@ -1,41 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="approval">
-	<select id="selectApprovalList" parameterType="int" resultType="approval">
-		SELECT approval_no, approval_approver_no, approval_date,approval_state,approval_next_no 
-		FROM approval 
-		WHERE document_no = #{value}
-		ORDER BY approval_no
-	</select>
-
+<mapper namespace="Approval">
 	<!-- 결재 입력 -->	
-	<insert id="insertApproval" parameterType="approval" >
+	<insert id="insertApproval" parameterType="Approval" >
+		insert into approval values (approval_seq.nextval,#{document.document_no},#{employee.employee_no},'',0,approval_seq.currval+1)
+	</insert>
+
+	<!-- 결재라인 중 마지막 결재자 입력 -->	
+	<insert id="insertApprovalLast" parameterType="Approval">
+		insert into approval values (approval_seq.nextval,#{document.document_no},#{employee.employee_no},'',0,0)
+	</insert>
+	
+	<!-- 문서를 기안하기 하였을 때 기안자(본인) 결재상태로 입력 -->	
+	<insert id="insertApprovalFirst" parameterType="Approval">
+		insert into approval values (approval_seq.nextval,#{document.document_no},#{employee.employee_no},sysdate,1,approval_seq.currval+1)
+	</insert>
+	
+	<!-- 결재 입력 -->	
+	<insert id="updateApproval" parameterType="Approval" >
 		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},approval_seq.currval+1)
 	</insert>
 
 	<!-- 결재라인 중 마지막 결재자 입력 -->	
-	<insert id="insertApprovalLast" parameterType="approval">
+	<insert id="updateApprovalLast" parameterType="Approval">
 		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},0)
 	</insert>
 	
 	<!-- 문서를 임시저장이 아닌 바로 기안하기 하였을 때 기안자(본인) 결재상태로 입력 -->	
-	<insert id="insertApprovalFirst" parameterType="approval">
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
-	</insert>
-	
-	<!-- 결재 입력 -->	
-	<insert id="updateApproval" parameterType="approval" >
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},approval_seq.currval+1)
-	</insert>
-
-	<!-- 결재라인 중 마지막 결재자 입력 -->	
-	<insert id="updateApprovalLast" parameterType="approval">
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},0)
-	</insert>
-	
-	<!-- 문서를 임시저장이 아닌 바로 기안하기 하였을 때 기안자(본인) 결재상태로 입력 -->	
-	<insert id="updateApprovalFirst" parameterType="approval">
+	<insert id="updateApprovalFirst" parameterType="Approval">
 		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
 	</insert>
 </mapper>

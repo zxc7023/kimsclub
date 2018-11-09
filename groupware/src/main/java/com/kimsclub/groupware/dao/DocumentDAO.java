@@ -37,29 +37,6 @@ public class DocumentDAO {
 		return session.selectOne("Document.selectDocument", document_no);
 	}
 	
-	/*@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public void applyApprovalDoc(DocumentVO vo) {
-		insertDocument(vo);
-		insertApproval(vo);
-	}*/
-
-	public void updateDocument(DocumentVO vo) {
-		session.update("Document.updateDocument", vo);
-	}
-
-	public void insertApproval(DocumentVO vo) {
-		for (int i = 0; i < vo.getApproval().size(); i++) {
-			//문서를 바로 기안하기 하였을 때 첫번째 결재자 결재상태로 입력
-			System.out.println(vo.getApproval().get(i).getApproval_state());
-			if(i==0&& vo.getDocument_state()==1) {
-				session.insert("approval.insertApprovalFirst", vo.getApproval().get(i));
-			} else if (i == vo.getApproval().size() - 1) {
-				session.insert("approval.insertApprovalLast", vo.getApproval().get(i));
-			} else {
-				session.insert("approval.insertApproval", vo.getApproval().get(i));
-			}
-		}
-	}
 	public void updateApproval(DocumentVO vo) {
 		for (int i = 0; i < vo.getApproval().size(); i++) {
 			//문서를 바로 기안하기 하였을 때 첫번째 결재자 결재상태로 입력
@@ -73,8 +50,18 @@ public class DocumentDAO {
 			}
 		}
 	}
-	public void modifyApprovalDoc(DocumentVO dvo) {
-		// TODO Auto-generated method stub
+	
+	public void modifyDoc(DocumentVO dvo) {
+		session.update("Document.updateDocument", dvo);
 	}
+	
+	public void deleteDoc(int document_no) {
+		session.delete("Document.deleteDocument", document_no);
+	}
+
+	public void changeDocState(DocumentVO dvo) {
+		session.update("Document.updateDocState", dvo);
+	}
+	
 	
 }

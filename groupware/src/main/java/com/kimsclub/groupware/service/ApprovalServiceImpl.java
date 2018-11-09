@@ -1,19 +1,18 @@
 package com.kimsclub.groupware.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kimsclub.groupware.dao.ApprovalDAO;
 import com.kimsclub.groupware.dao.DocumentDAO;
 import com.kimsclub.groupware.dao.EmployeeDAO;
-import com.kimsclub.groupware.dao.FormDAO;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
-import com.kimsclub.groupware.vo.FormVO;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
@@ -23,7 +22,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 	EmployeeDAO edao;
 	@Autowired
 	DocumentDAO ddao;
-
 
 	@Override
 	public List<ApprovalLineVO> loadMyApprovalLine(int employee_no) {
@@ -41,15 +39,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public List<DocumentVO> getDocumentList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return ddao.selectDocList(map);
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void approvalNewDoc(DocumentVO dvo) {
+		ddao.changeDocState(dvo);
+		adao.insertApproval(dvo.getApproval());
 	}
-
-	@Override
-	public void modifyDocument(DocumentVO dvo) {
-		ddao.modifyApprovalDoc(dvo);
-		
-	}
-
 }

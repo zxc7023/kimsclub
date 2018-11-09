@@ -140,11 +140,10 @@ function loadForm(){
 				<div class="panel panel-default">
 					<div class="panel-heading">문서 작성</div>
 					<div class="panel-body">
-						<form class="col-sm-12" action="/groupware/approvalNewDoc" id="writeDocForm" method="post">
+						<form class="col-sm-12" id="writeDocForm" method="post">
 							<div class="panel-heading">
 								<input type="hidden" name="document_state" id="type" value="">
-								<input type="button" class="btn btn-info" id="app_btn" value="기안하기">
-								<input type="button" class="btn btn-info" id="save_btn" value="임시저장">
+								<input type="button" class="btn btn-info" id="save_btn" value="저장하기">
 							</div>
 							<div class="panel-body">
 								<table
@@ -174,7 +173,7 @@ function loadForm(){
 											</td>
 											<td><input type="text" name="document_title"
 												class="form-control" required="required"
-												autofocus="autofocus"></td>
+												autofocus="autofocus" maxlength="40"></td>
 										</tr>
 										<tr>
 											<td colspan="2" class="odd">문서 내용</td>

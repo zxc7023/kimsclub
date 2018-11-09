@@ -20,7 +20,5 @@ public interface ApprovalService {
 
 	List<ApprovalLineVO> selectMyApprovalLine(int approval_path_no);
 
-	List<DocumentVO> getDocumentList(Map<String, Object> map);
-
-	void modifyDocument(DocumentVO dvo);
+	void approvalNewDoc(DocumentVO dvo);
 }

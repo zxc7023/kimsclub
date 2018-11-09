@@ -13,9 +13,9 @@
 			<result column="employee_name" property="employee_name"/>
 			<result column="position" property="position"/>
 		</association>		
-		<collection property="approval" ofType="approval" javaType="java.util.ArrayList" select="selectApproval" column="document_no"/>
+		<collection property="approval" ofType="Approval" javaType="java.util.ArrayList" select="selectApproval" column="document_no"/>
 	</resultMap>
-	<resultMap type="approval" id="approvalMap">
+	<resultMap type="Approval" id="approvalMap">
 		<id column="approval_no" property="approval_no"/>
 		<result column="approval_date" property="approval_date"/>
 		<result column="approval_state" property="approval_state"/>
@@ -55,13 +55,22 @@
 		UPDATE document 
 		SET document_title = #{document_title},
 		document_contents = #{document_contents},
-		document_writer_no = #{employee.employee_no}
+		document_writer_no = #{employee.employee_no},
 		document_date = sysdate,
 		document_state = #{document_state}		
 		WHERE document_no = #{document_no}
 	</update>
-
-
+	
+	<delete id="deleteDocument" parameterType="int">
+		DELETE FROM document WHERE document_no = #{value}
+	</delete>
+	
+	<update id="updateDocState" parameterType="Document">
+		UPDATE document 
+		SET document_date = sysdate,
+		document_state = #{document_state}		
+		WHERE document_no = #{document_no}
+	</update>
 	<!-- 리스트 조회 -->		
 	<select id="selectList" resultType="Document" parameterType="hashmap" >
 		<include refid="pagingHeader"></include>

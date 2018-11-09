@@ -41,7 +41,7 @@ public class DocumentController {
 	 *  view : 문서 수정 페이지(modifyNewDoc) model : flist-활성화된 양식 목록 양식 불러올 때 사용 dvo-수정 할 문서의 정보
 	 */
 	@RequestMapping(value = "/modifyNewDoc", method=RequestMethod.GET)
-	public ModelAndView approvalDocModify(@RequestParam(name="document_no",defaultValue="1") int document_no){
+	public ModelAndView approvalDocModify(@RequestParam(name="document_no",defaultValue="0") int document_no){
 		ModelAndView mav = new ModelAndView();
 		
 		List<FormVO> flist = service3.getUsedFormList();
@@ -54,15 +54,18 @@ public class DocumentController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/approvalDocModify", method=RequestMethod.POST)
+	/**
+	 *  선택한 문서의 제목, 내용의 수정 처리
+	 *  view : 해당 번호의 문서 정보(viewNewDoc)
+	 */
+	@RequestMapping(value = "/modifyNewDoc", method=RequestMethod.POST)
 	@ResponseBody
 	public String approvalDocModifyResult(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalDocModify() 메소드 호출");
-		dvo.setEmployee(dvo.getApproval().get(0).getEmployee());
-		service.modifyDocument(dvo);
-		
-		String result = "approval/approvalNewDoc";
-		return result;
+		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
+		dvo.setEmployee(evo);
+		service2.modifyDocument(dvo);
+		return "/groupware/viewNewDoc?document_no="+dvo.getDocument_no();
 	}
 	
 	/**
@@ -157,12 +160,20 @@ public class DocumentController {
 		DocumentVO dvo = service2.viewNewDoc(document_no);
 		
 		mav.addObject("dvo", dvo);
-		System.out.println("값 출력:");
-		System.out.println(dvo.getApproval());
-		for(ApprovalVO avo: dvo.getApproval()) {
-			System.out.println(avo);
-		}
+	
 		mav.setViewName("document/viewNewDoc");
 		return mav;
+	}
+	
+	/**
+	 *  선택한 문서 삭제하기
+	 * @return view : 새문서함목록(newDocList.jsp)
+	 */	
+	@RequestMapping(value = "/deleteNewDoc", method=RequestMethod.GET)
+	public String deleteNewDoc(@RequestParam(name="document_no")int document_no){
+		System.out.println("deleteNewDoc() 메소드 호출");
+		
+		service2.deleteNewDoc(document_no);
+		return "document/newDocList";
 	}
 }
