@@ -49,8 +49,10 @@
 $(document).ready(function() {
 	
 	$(function(){
+		
      	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
-	            width:'100%',
+     	   		enterMode : CKEDITOR.ENTER_BR,
+     	   		width:'100%',
 	            height:'400px',
 	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
 	        });
@@ -76,10 +78,9 @@ $(document).ready(function() {
 	if("${update}"=="update"){
 		
 		$("#title").val("${boardUpdateVO.board_title}");
-		/* $("#ckeditor").html(${boardUpdateVO.board_contents}); */
 		$("#boardNo").attr("name","board_no");
 		$("#boardNo").val(${boardUpdateVO.board_no});
- 		CKEDITOR.instances.ckeditor.setData(${boardUpdateVO.board_contents});
+		$("#writeSave").attr("action","BoardUpdateSave");
 	}
 });
 
@@ -122,7 +123,7 @@ $(document).ready(function() {
                           		 <!-- 내용 입력 -->
                         		 <div class="row">
                           		 	 <div class="col-sm-12">
-                          				  <textarea rows="50" id="ckeditor" cols="90" name="board_contents"></textarea>
+                          				  <textarea rows="50" id="ckeditor" cols="90" name="board_contents">${boardUpdateVO.board_contents}</textarea>
                            			 </div>
                            		 </div>
                            		 <input type="hidden" id="boardNo">

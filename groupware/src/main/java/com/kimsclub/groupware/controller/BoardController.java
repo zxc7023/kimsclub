@@ -93,13 +93,26 @@ public class BoardController {
 	
 	//게시글 수정 화면
 	@RequestMapping(value="/BoardUpdate", method=RequestMethod.POST)
-	@ResponseBody
 	public ModelAndView boardUpdate(@ModelAttribute BoardVO vo) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("boardUpdateVO",vo);
 		mav.addObject("update","update");
 		mav.setViewName("/Board/BoardWrite");
 		return mav;
+	}
+	
+	//게시글 수정 처리
+	@RequestMapping(value="/BoardUpdateSave", method=RequestMethod.POST)
+	public ModelAndView boardUpdateSave(@ModelAttribute BoardVO vo) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(vo.getBoard_type());
+		System.out.println(vo.getBoard_contents());
+		System.out.println(vo.getBoard_title());
+		System.out.println(vo.getBoard_no());
+/*		mav.addObject("boardUpdateVO",vo);
+		mav.addObject("update","update");
+		mav.setViewName("/Board/BoardWrite");*/
+		return null;
 	}
 	
 	

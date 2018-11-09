@@ -302,9 +302,9 @@
 	                	<button id="listBtn" type="button" class="btn btn-outline btn-primary"><i class="fa fa-list"></i></button>
 	                	<c:if test="${sessionScope.loginInfo.employee_no == detailVO.board_writer_no}">
 	                	<input type="hidden" name="board_no" value="${param.board_no}">
-	                	<input type="hidden" name="board_type" value="'${param.board_type}'">
-	                	<input type="hidden" name="board_title" value="'${detailVO.board_title}'">
-	                	<input type="hidden" name="board_contents" value="'${detailVO.board_contents}'">
+	                	<input type="hidden" name="board_type" value="${param.board_type}">
+	                	<input type="hidden" name="board_title" value="${detailVO.board_title}">
+	                	<input type="hidden" name="board_contents" value="${detailVO.board_contents}">
 		            	<button type="button" id="boardUpdateBtn" class="btn btn-success">수정</button>
 		            	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">삭제</button>
 		            	</c:if>
@@ -388,7 +388,7 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header ">
+			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					<h4 class="modal-title" id="myModalLabel">알림</h4>
             </div>
