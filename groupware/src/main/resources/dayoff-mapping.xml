@@ -7,15 +7,15 @@
 		<id column="dayoff_no" property="dayoff_no" />
 		<result column="total_days" property="total_days" />
 		<result column="start_date" property="start_date" />
-		<result column="end_date" property="end_date"/>
-		<association property="employee" javaType="employee" >
+		<result column="end_date" property="end_date" />
+		<association property="employee" javaType="employee">
 			<id property="employee_no" column="employee_no" />
 		</association>
 		<association property="dayoff_kind" javaType="DayoffKinds">
-			<id property="dayoff_type_code" column="dayoff_type_code"/>
+			<id property="dayoff_type_code" column="dayoff_type_code" />
 		</association>
 		<association property="document" javaType="document">
-			<id property="document_no" column="document_no"/>
+			<id property="document_no" column="document_no" />
 		</association>
 	</resultMap>
 
@@ -91,22 +91,48 @@
 		on da.document_no = d.document_no
 		where (dayoff_deduction = '1' or da.dayoff_type_code = 2) and d.document_state != 3 and da.employee_no = #{employee_no}
 	</select>
-	
-	<insert id="insertApprovalFirst" parameterType="approval" >
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
-	</insert>
-	
-  	<insert id="insertDocument" parameterType="DayoffApply">
+
+	<insert id="insertDocument" parameterType="DayoffApply">
 		insert into document values (document_seq.nextval,'휴가신청',(select form_contents from form where form_no = 103),#{employee.employee_no},sysdate,1)
 	</insert>
-	
-	<insert id="insertApproval" parameterType="approval" >
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'','0',approval_seq.currval+1)
+
+	<insert id="insertApprovalFirst" parameterType="approval">
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from
+		document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
 	</insert>
-	
+
+	<insert id="insertApproval" parameterType="approval">
+		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from
+		document),#{employee.employee_no},'','0',approval_seq.currval+1)
+	</insert>
+
 	<insert id="insertApprovalLast" parameterType="approval">
 		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'','0',0)
 	</insert>
-	
+
+
+	<insert id="insertDayoffApply" parameterType="DayoffApply">
+		insert into dayoff_apply values (dayoff_apply_seq.nextval, #{total_days}, #{start_date}, #{end_date}, #{employee.employee_no},
+		#{dayoff_kind.dayoff_type_code},(select nvl(max(document_no),1) from document),#{dayoff_reason} )
+	</insert>
+
+	<insert id="insertDayoffApplyDetail" parameterType="DayoffApplyDetail">
+		insert into dayoff_apply_detail values ((select nvl(max(dayoff_no),1) from dayoff_apply),#{dayoff_day},#{days},#{oneorhalf} )
+	</insert>
+
+	<select id="selectUseDate" resultType="int" parameterType="map">
+		select count(*)
+		from dayoff_apply_detail dad
+		join dayoff_apply da
+		on dad.dayoff_no = da.dayoff_no
+		join document d
+		on da.document_no = d.document_no
+		where employee_no = #{employee.employee_no} and to_char(dayoff_day,'yyyy/mm/dd') in
+		<foreach collection="dateList" open="(" close=")" separator="," item="item">
+			#{item}
+		</foreach>
+		and document_state != 3
+	</select>
+
 
 </mapper>

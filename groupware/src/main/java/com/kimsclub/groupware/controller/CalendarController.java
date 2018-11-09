@@ -18,61 +18,68 @@ import com.kimsclub.groupware.vo.CalendarVO;
 
 @Controller
 public class CalendarController {
-	
+
 	@Autowired
 	CalendarService service;
 
 	/**
 	 * 캘린더뷰를 반환
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/calendar", method = RequestMethod.GET)		
+	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
 	public String calendarList() {
 		System.out.println("Fullcalendar() 메소드 호출");
 		return "Fullcalendar/basic-views";
 	}
-	
+
 	/**
 	 * 시퀀스 이벤트번호를 json 형식으로 반환
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/selectCalSeq", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> nocalendar(){
+	public Map<String, Object> nocalendar() {
 		int seq = service.selectSeq();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("event_no", seq);
 		System.out.println(seq);
 		return map;
 	}
-	
+
 	/**
 	 * event 등록
+	 * 
 	 * @param vo 이벤트객체
 	 * @return
 	 */
 	@RequestMapping(value = "/addCalendar", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Integer> addcalendar(@RequestBody CalendarVO vo){
+	public Map<String, Integer> addcalendar(@RequestBody CalendarVO vo) {
 		System.out.println("addcalendar() 메소드 호출");
 		System.out.println(vo);
-		
+
 		Map<String, Integer> resultMap = new HashMap<String, Integer>();
 		resultMap.put("result", 1);
-		
+
 		try {
 			service.addCalendar(vo);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			resultMap.put("result", 0);
 		}
 
 		return resultMap;
 	}
-	
+
+	/**
+	 * 이벤트 조회
+	 * @return
+	 */
 	@RequestMapping(value = "/selectEvent", method = RequestMethod.GET)
 	@ResponseBody
-	public List<CalendarVO> selectEvent(){
-		
+	public List<CalendarVO> selectEvent() {
+
 		List<CalendarVO> clist = null;
 		clist = service.selectEvents();
 		System.out.println(clist.size());
@@ -89,6 +96,49 @@ public class CalendarController {
 
 	}
 	
+	/**
+	 * 이벤트 편집
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/editCalendar", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Integer> editcalendar(@RequestBody CalendarVO vo) {
+		System.out.println("editcalendar() 메소드 호출");
+		System.out.println(vo);
 
-	
+		Map<String, Integer> resultMap = new HashMap<String, Integer>();
+		resultMap.put("result", 1);
+
+		try {
+			service.editCalendar(vo);
+		} catch (Exception e) {
+			resultMap.put("result", 0);
+		}
+
+		return resultMap;
+	}
+	/**
+	 * 이벤트 삭제
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteCalendar", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Integer> deletecalendar(@RequestBody CalendarVO vo) {
+		System.out.println("deletecalendar() 메소드 호출");
+		System.out.println(vo);
+
+		Map<String, Integer> resultMap = new HashMap<String, Integer>();
+		resultMap.put("result", 1);
+
+		try {
+			service.deleteCalendar(vo);
+		} catch (Exception e) {
+			resultMap.put("result", 0);
+		}
+
+		return resultMap;
+	}
+
 }

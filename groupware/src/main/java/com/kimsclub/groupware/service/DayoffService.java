@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
@@ -48,4 +49,11 @@ public interface DayoffService {
 	
 	
 	public void applyDayoff(DayoffApplyVO vo);
+
+	/**
+	 * 해당사용자의 휴가 사용 내역을 가져온다
+	 * 반려가된 휴가는 제외한다.
+	 * @param map 
+	 */
+	public int selectUseDate(Map<String, Object> map);
 }

@@ -1,28 +1,35 @@
 package com.kimsclub.groupware.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.kimsclub.groupware.vo.ApprovalVO;
+import com.kimsclub.groupware.vo.DayoffApplyDetailVO;
 import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DayoffCreateRecodeVO;
 import com.kimsclub.groupware.vo.DayoffCreateTermsVO;
 import com.kimsclub.groupware.vo.DayoffKindsVO;
 import com.kimsclub.groupware.vo.DayoffMyRecodeVO;
-import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 
 @Repository
 public class DayoffDAO {
 
-	@Autowired
+	@Autowired()
 	SqlSession session;
+	
+	@Autowired
+	DataSourceTransactionManager transactionManager;
 
 	public List<DayoffCreateTermsVO> getDayoffCreateTerms() {
 		return session.selectList("dayoff.selectCreateTerms");
@@ -72,17 +79,30 @@ public class DayoffDAO {
 		return session.selectList("dayoff.selectDayoffToUse", vo);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public void applyDayoff(DayoffApplyVO vo) {
-		insertDocument(vo);
-		insertApproval(vo.getDocument().getApproval());
+	public void applyDayoff(DayoffApplyVO vo) throws Exception {
+		DefaultTransactionDefinition def= new DefaultTransactionDefinition();
+		def.setName("applyDayoffTransaction");
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus  status = transactionManager.getTransaction(def);
+		
+		try {
+			insertDocument(vo);
+			insertApproval(vo.getDocument().getApproval());
+			insertDayoffApply(vo);
+			insertDayoffApplyDetail(vo.getDayoff_apply_detail());	
+			insertDayoffApplyDetail(vo.getDayoff_apply_detail());
+		}catch (Exception e) {
+			transactionManager.rollback(status);
+			throw e;
+		}
+		transactionManager.commit(status);
 	}
 
-	public void insertDocument(DayoffApplyVO vo) {
+	public void insertDocument(DayoffApplyVO vo) throws Exception {
 		session.insert("dayoff.insertDocument", vo);
 	}
 
-	public void insertApproval(List<ApprovalVO> approval) {
+	public void insertApproval(List<ApprovalVO> approval) throws Exception  {
 		for (int i = 0; i < approval.size(); i++) {
 			if (i == 0) {
 				session.insert("dayoff.insertApprovalFirst", approval.get(i));
@@ -93,6 +113,19 @@ public class DayoffDAO {
 			}
 
 		}
+	}
+	
+	public void insertDayoffApply(DayoffApplyVO vo) throws Exception  {
+		session.insert("dayoff.insertDayoffApply",vo);
+	}
+	public void insertDayoffApplyDetail(List<DayoffApplyDetailVO> list) throws Exception  {
+		for(int i=0; i < list.size() ; i++) {
+			session.insert("dayoff.insertDayoffApplyDetail",list.get(i));			
+		}
+	}
+
+	public int selectUseDate(Map<String, Object> map) {
+		return session.selectOne("dayoff.selectUseDate",map);
 	}
 
 }

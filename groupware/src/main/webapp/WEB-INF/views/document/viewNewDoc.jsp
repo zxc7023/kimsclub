@@ -66,11 +66,10 @@ height: 80px;
 				<div class="panel panel-default">
 					<div class="panel-heading">문서 작성</div>
 					<div class="panel-body">
-						<form class="col-sm-12" action="/groupware/approvalNewDoc"
-							method="post">
+						<form class="col-sm-12" method="post">
 							<div class="panel-heading">
-								<button onclick="location='approvalDoc'" class="btn btn-info">기안하기</button>
-								<button type="button" onclick="location.href='approvalDocModify?document_no=${dvo.document_no}'" class="btn btn-info">수정하기</button>
+								<button type="button" onclick="location.href='modifyNewDoc?document_no=${dvo.document_no}'" class="btn btn-info">수정하기</button>
+								<input type="button" class="btn btn-info" onclick="location.href='/groupware/newDocList'" value="돌아가기">
 							</div>
 							<div class="panel-body">
 								<table
@@ -84,53 +83,7 @@ height: 80px;
 									<tbody>
 										<tr>
 											<td class="odd">작성자</td>
-											<td>${dvo.approval[0].employee.employee_name}</td>
-										</tr>
-										<tr>
-											<td class="odd">결재</td>
-											<td>
-												<div role="row">
-													<div class="col-lg-12">
-														<div class="panel panel-default" id="approvalLine">
-															<table width="100%"
-																class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
-																role="grid" aria-describedby="dataTables-example_info"
-																style="width: 100%;">
-																<colgroup>
-																	<col width="15%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																</colgroup>
-																<tbody class="t-body">
-																	<tr>
-																		<th colspan="6">결재 순서
-																			<p class="fa fa-long-arrow-right"></p>
-																		</th>
-																	</tr>
-																	<tr id="paste">
-																	<c:forEach begin="0" end="5" varStatus="i">
-																		<td class="name" index="${i.index}" style="text-align: center;">${dvo.approval[i.index].employee.department.department_name}<br>
-																			${dvo.approval[i.index].employee.employee_name} ${dvo.approval[i.index].employee.position}
-																		</td>
-																	</c:forEach>
-																	</tr>			
-																	<tr id="sign">
-																		<td class="sign" index=0></td>
-																		<td class="sign" index=1></td>
-																		<td class="sign" index=2></td>
-																		<td class="sign" index=3></td>
-																		<td class="sign" index=4></td>
-																		<td class="sign" index=5></td>
-																	</tr>
-																</tbody>
-															</table>
-														</div>
-													</div>
-												</div>
-											</td>
+											<td>${dvo.employee.employee_name}</td>
 										</tr>
 										<tr>
 											<td class="odd">문서 제목<br>

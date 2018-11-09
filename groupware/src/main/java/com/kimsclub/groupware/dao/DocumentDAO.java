@@ -18,31 +18,50 @@ public class DocumentDAO {
 	@Autowired
 	SqlSession session;
 	
-/*	public void insertDocument(DocumentVO dvo) {
-		session.insert("document.saveDocument", dvo);
-	}*/
-
-	public DocumentVO selectDocument(int document_no) {
-		return session.selectOne("document.selectDocument", document_no);
+	//조건에 맞는 문서의 개수
+	public int selectDocumentCnt(Map<String, Object> map) {
+		return session.selectOne("Document.countArticle",map);
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public void applyApprovalDoc(DocumentVO vo) {
-		insertDocument(vo);
-		insertApproval(vo.getApproval());
+	//조건에 맞는 문서 목록 가져오기
+	public List<DocumentVO> selectDocList(Map<String,Object> map){
+		return session.selectList("Document.selectList",map);
 	}
-
+	
+	//문서 임시 저장
 	public void insertDocument(DocumentVO vo) {
-		session.insert("document.insertDocument", vo);
+		session.insert("Document.insertDocument", vo);
 	}
-
-	public void insertApproval(List<ApprovalVO> approval) {
-		for (int i = 0; i < approval.size(); i++) {
-			if (i == approval.size() - 1) {
-				session.insert("approval.insertApprovalLast", approval.get(i));
+	
+	public DocumentVO selectDocument(int document_no) {
+		return session.selectOne("Document.selectDocument", document_no);
+	}
+	
+	public void updateApproval(DocumentVO vo) {
+		for (int i = 0; i < vo.getApproval().size(); i++) {
+			//문서를 바로 기안하기 하였을 때 첫번째 결재자 결재상태로 입력
+			System.out.println(vo.getApproval().get(i).getApproval_state());
+			if(i==0&& vo.getDocument_state()==1) {
+				session.insert("approval.updateApprovalFirst", vo.getApproval().get(i));
+			} else if (i == vo.getApproval().size() - 1) {
+				session.insert("approval.updateApprovalLast", vo.getApproval().get(i));
 			} else {
-				session.insert("approval.insertApproval", approval.get(i));
+				session.insert("approval.updateApproval", vo.getApproval().get(i));
 			}
 		}
 	}
+	
+	public void modifyDoc(DocumentVO dvo) {
+		session.update("Document.updateDocument", dvo);
+	}
+	
+	public void deleteDoc(int document_no) {
+		session.delete("Document.deleteDocument", document_no);
+	}
+
+	public void changeDocState(DocumentVO dvo) {
+		session.update("Document.updateDocState", dvo);
+	}
+	
+	
 }

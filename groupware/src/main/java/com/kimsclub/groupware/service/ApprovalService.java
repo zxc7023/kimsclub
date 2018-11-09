@@ -10,24 +10,15 @@ import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.FormVO;
 
-@Service
+
 public interface ApprovalService {
 
-	List<FormVO> getUseFormlist();
 	
 	List<EmployeeVO> loadAllEmp();
-
-	String loadForm(int form_no);
 
 	List<ApprovalLineVO> loadMyApprovalLine(int employee_no);
 
 	List<ApprovalLineVO> selectMyApprovalLine(int approval_path_no);
-	
-	void saveDocument(DocumentVO dvo);
-	
-	public int getDocumentNum(Map<String,Object> map);
 
-	List<DocumentVO> getDocumentList(Map<String, Object> map);
-
-	DocumentVO viewNewDoc(int document_no);
+	void approvalNewDoc(DocumentVO dvo);
 }

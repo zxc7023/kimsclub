@@ -6,18 +6,19 @@
 <!-- mybatis db연결정보 세팅 파일 -->
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.kimsclub.groupware.vo.ApprovalVO" alias="approval" />
-		<typeAlias type="com.kimsclub.groupware.vo.ApprovalLineVO" alias="approvalLine" />
+		<typeAlias type="com.kimsclub.groupware.vo.ApprovalVO" alias="Approval" />
+		<typeAlias type="com.kimsclub.groupware.vo.ApprovalLineVO" alias="ApprovalLine" />
 		<typeAlias type="com.kimsclub.groupware.vo.BoardVO" alias="board" />
 		<typeAlias type="com.kimsclub.groupware.vo.BoardReplyVO" alias="boardReply" />
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffCreateTermsVO" alias="DayoffCreateTerms"/>
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffKindsVO" alias="DayoffKinds"/>
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffCreateRecodeVO" alias="DayoffCreateRecode"/>
 		<typeAlias type="com.kimsclub.groupware.vo.DepartmentVO" alias="department" />
-		<typeAlias type="com.kimsclub.groupware.vo.DocumentVO" alias="document" />
+		<typeAlias type="com.kimsclub.groupware.vo.DocumentVO" alias="Document" />
 		<typeAlias type="com.kimsclub.groupware.vo.EmployeeVO" alias="employee" />
-		<typeAlias type="com.kimsclub.groupware.vo.FormVO" alias="form" />
+		<typeAlias type="com.kimsclub.groupware.vo.FormVO" alias="Form" />
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffApplyVO" alias="DayoffApply"/>
+		<typeAlias type="com.kimsclub.groupware.vo.DayoffApplyDetailVO" alias="DayoffApplyDetail"/>
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffMyRecodeVO" alias="DayoffMyRecode"/>
 		<typeAlias type="com.kimsclub.groupware.vo.CalendarVO" alias="calendar"/>
 	</typeAliases>

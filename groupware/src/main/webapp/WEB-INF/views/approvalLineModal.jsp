@@ -15,6 +15,7 @@
 .stamp{
  height: 84px;
 }
+#droppable { width: 60px; height: 60px; float: left; }
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -41,7 +42,7 @@
 			}
 	    });
 	    
-	    //현재 index(결재선에 들어가있는 사람의 수) 다음 번호들 sorting 금지
+	    //현재 index(결재선에 들어가있는 사람의 수) 다음 번호들(빈칸) sorting 금지
 	    function sortDisabled(x){
 	    	$('.modal_name').removeClass("ui-state-disabled");
 	    	$('.modal_name[index=0]').addClass("ui-state-disabled");
@@ -139,7 +140,6 @@
 	    $( "#search" ).catcomplete({
 	        delay: 0,
 	        source: data,
-	        minLength : 1,
 	        //검색창에 값을 선택하면 테이블에 추가한다
 	        select: function( event, ui ) {
 	        	if(index>5){

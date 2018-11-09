@@ -81,9 +81,9 @@ $(document).ready(function() {
 
 		$.ajax({
 			method : "post",
-			url : "/groupware/approvalNewDoc",
+			url : "/groupware/newDocList",
 			contentType: "application/json;charset=UTF-8",
-			dataType : "json",
+			//dataType : "json",
 			data :  JSON.stringify(tmpArr),
 			error : function(error) {
 				alert("양식 불러오기 실패");
@@ -93,7 +93,6 @@ $(document).ready(function() {
 				window.location.href = data;
 			}
 		});
-		return false;
 	}
 	
 	
@@ -141,11 +140,10 @@ function loadForm(){
 				<div class="panel panel-default">
 					<div class="panel-heading">문서 작성</div>
 					<div class="panel-body">
-						<form class="col-sm-12" action="/groupware/approvalNewDoc" id="writeDocForm" method="post">
+						<form class="col-sm-12" id="writeDocForm" method="post">
 							<div class="panel-heading">
 								<input type="hidden" name="document_state" id="type" value="">
-								<input type="button" class="btn btn-info" id="app_btn" value="기안하기">
-								<input type="button" class="btn btn-info" id="save_btn" value="임시저장">
+								<input type="button" class="btn btn-info" id="save_btn" value="저장하기">
 							</div>
 							<div class="panel-body">
 								<table
@@ -171,55 +169,11 @@ function loadForm(){
 											<td>${sessionScope.loginInfo.employee_name}</td>
 										</tr>
 										<tr>
-											<td class="odd">결재</td>
-											<td>
-												<div role="row">
-													<div class="col-lg-10">
-														<div class="panel panel-default" id="approvalLine">
-															<table width="100%"
-																class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
-																role="grid" aria-describedby="dataTables-example_info"
-																style="width: 100%;">
-																<colgroup>
-																	<col width="15%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																</colgroup>
-																<tbody class="t-body">
-																	<tr>
-																		<th colspan="6">결재 순서
-																			<p class="fa fa-long-arrow-right"></p>
-																		</th>
-																	</tr>
-																	<tr id="paste">
-																		<td class="name" index=0></td>
-																		<td class="name" index=1></td>
-																		<td class="name" index=2></td>
-																		<td class="name" index=3></td>
-																		<td class="name" index=4></td>
-																		<td class="name" index=5></td>
-																	</tr>
-																</tbody>
-															</table>
-														</div>
-													</div>
-													<div class="col-lg-2">
-														<button class="btn-ApprovalLine" type="button"
-															data-toggle="modal" data-target="#approvalLineSelect">결재선
-															선택</button>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
 											<td class="odd">문서 제목<br>
 											</td>
 											<td><input type="text" name="document_title"
 												class="form-control" required="required"
-												autofocus="autofocus"></td>
+												autofocus="autofocus" maxlength="40"></td>
 										</tr>
 										<tr>
 											<td colspan="2" class="odd">문서 내용</td>
@@ -268,8 +222,5 @@ function loadForm(){
 			</div>
 		</div>
 	</div>
-
-	<!-- 결재선 불러오기 modal -->
-	<jsp:include page="/WEB-INF/views/approvalLineModal.jsp"></jsp:include>
 </body>
 </html>

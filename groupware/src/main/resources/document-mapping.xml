@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="document">
-	<resultMap id="documentMap" type="document" >
+<mapper namespace="Document">
+	<resultMap id="documentMap" type="Document" >
 		<id column="document_no" property="document_no"/>
 		<result column="document_title" property="document_title"/>
 		<result column="document_contents" property="document_contents"/>
 		<result column="document_date" property="document_date"/>
 		<result column="document_state" property="document_state"/>
-		<collection property="approval" ofType="approval" javaType="java.util.ArrayList" select="selectApproval" column="document_no"/>
+		<association property="employee" javaType="employee">
+			<id column="document_writer_no" property="employee_no"/>
+			<result column="employee_name" property="employee_name"/>
+			<result column="position" property="position"/>
+		</association>		
+		<collection property="approval" ofType="Approval" javaType="java.util.ArrayList" select="selectApproval" column="document_no"/>
 	</resultMap>
-	<resultMap type="approval" id="approvalMap">
+	<resultMap type="Approval" id="approvalMap">
 		<id column="approval_no" property="approval_no"/>
 		<result column="approval_date" property="approval_date"/>
 		<result column="approval_state" property="approval_state"/>
@@ -25,8 +30,8 @@
 		</association> 
 	</resultMap>
 	<select id="selectDocument" parameterType="int" resultMap="documentMap">
-		SELECT document_no, document_title, document_contents, document_date, document_state
-		FROM document WHERE document_no = #{document_no}
+		SELECT document_no, document_title, document_contents, document_date, document_state, document_writer_no, employee_name, position
+		FROM document d left join employee e on d.document_writer_no = e.employee_no WHERE document_no = #{document_no}
 	</select>
 	
 	
@@ -40,41 +45,41 @@
 		WHERE a.document_no = #{document_no} ORDER BY approval_no
 	</select>
 	
-<!-- 	<insert id="insertDocument" parameterType="document">
-		INSERT INTO
-		document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
-		VALUES((SELECT nvl(max(document_no),0)+1 FROM document),#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state}) 
-	</insert> -->
+
 	
-	<insert id="insertDocument" parameterType="document">
+	<insert id="insertDocument" parameterType="Document">
 		insert into document values (document_seq.nextval,#{document_title},#{document_contents},#{employee.employee_no},sysdate,#{document_state})
 	</insert>
 	
-	<!-- <insert id="saveDocument" parameterType="document">
-		INSERT ALL
-		INTO document(document_no, document_title, document_contents, document_writer_no, document_date, document_state) 
-		VALUES(document_seq.nextval,#{document_title},#{document_contents}, #{employee.employee_no},sysdate,#{document_state})
-		<foreach collection="approval" item="item"  open=" " separator=" " close="SELECT * FROM dual" index="index">
-			<choose>
-				<when test="index+1 == approval.size">
-					INTO approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) VALUES ((SELECT nvl(max(approval_no),0)+${index}+1 FROM approval),document_seq.currval,#{item.employee.employee_no},'',0,0)
-				</when>
-				<otherwise>
-					INTO approval (approval_no,document_no,employee_no,approval_date,approval_state,approval_next_no) VALUES ((SELECT nvl(max(approval_no),0)+${index}+1 FROM approval),document_seq.currval,#{item.employee.employee_no},'',0,(SELECT nvl(max(approval_no),0)+${index}+2 FROM approval))
-				</otherwise>
-			</choose>
-        </foreach>
-	</insert> -->
-
+	<update id="updateDocument" parameterType="Document">
+		UPDATE document 
+		SET document_title = #{document_title},
+		document_contents = #{document_contents},
+		document_writer_no = #{employee.employee_no},
+		document_date = sysdate,
+		document_state = #{document_state}		
+		WHERE document_no = #{document_no}
+	</update>
+	
+	<delete id="deleteDocument" parameterType="int">
+		DELETE FROM document WHERE document_no = #{value}
+	</delete>
+	
+	<update id="updateDocState" parameterType="Document">
+		UPDATE document 
+		SET document_date = sysdate,
+		document_state = #{document_state}		
+		WHERE document_no = #{document_no}
+	</update>
 	<!-- 리스트 조회 -->		
-	<select id="selectList" resultType="document" parameterType="hashmap" >
+	<select id="selectList" resultType="Document" parameterType="hashmap" >
 		<include refid="pagingHeader"></include>
-		select rownum 
+		select
 		<if test="selectOption != null">
-			, ${selectOption}
+			 ${selectOption}
 		</if>
 		<if test="selectOption == null">
-		, B.*
+		 B.*
 		</if>
 		from (${fromOption}) B
 		<where>
@@ -108,7 +113,7 @@
 
 	<!-- 페이징sql -->
 	<sql id="pagingHeader">
-		select * from (select rownum as rn, A.*from(
+		select * from (select rownum as rn, A.* from(
 	</sql>	
 	<sql id="pagingFooter">
 		)A

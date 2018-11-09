@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="form">
+<mapper namespace="Form">
 
-	<select id="selectAllForm" resultType="form">
-		SELECT * FROM form ORDER BY form_no desc
-	</select>
-	
-	<select id="selectUsedForm" resultType="form">
+	<select id="selectUsedForm" resultType="Form">
 		SELECT form_no,form_name,form_desc, form_activation
 		FROM form
 		WHERE form_activation='활성화' 
 		ORDER BY form_no desc
 	</select>
 
-	<select id="selectForm" resultType="form" parameterType="int">
+	<select id="selectForm" resultType="Form" parameterType="int">
 		SELECT * 
 		FROM form
 		WHERE form_no = #{form_no}
@@ -26,13 +22,13 @@
 		WHERE form_no = #{form_no}
 	</select>
 	
-	<insert id="insertForm" parameterType="board">
+	<insert id="insertForm" parameterType="Form">
 	 	INSERT INTO
 		form(form_no, form_name, form_desc, form_contents, form_activation) 
 		VALUES((SELECT nvl(max(form_no),0)+1 FROM form),#{form_name},#{form_desc}, #{form_contents}, #{form_activation})
 	</insert>
 	
-	<update id="modifyForm" parameterType="form">
+	<update id="modifyForm" parameterType="Form">
 		UPDATE form 
 		SET form_activation = #{form_activation}, form_name = #{form_name}, form_desc = #{form_desc}, form_contents = #{form_contents} 
 		WHERE form_no = #{form_no}
@@ -49,4 +45,56 @@
 		FROM form 
 		WHERE form_no IN<foreach collection="form_no" item="form_no" open="(" close=")" separator=",">#{form_no}</foreach>
 	</delete>
+	
+	<!-- 리스트 조회 -->		
+	<select id="selectList" resultType="form" parameterType="hashmap" >
+		<include refid="pagingHeader"></include>
+		select rownum 
+		<if test="selectOption != null">
+			, ${selectOption}
+		</if>
+		<if test="selectOption == null">
+		, B.*
+		</if>
+		from (${fromOption}) B
+		<where>
+			${whereOption}
+			<if test="searchOption != null">
+				<include refid="search"/>
+			</if>
+			<if test="order != null">
+				order by ${order} desc
+			</if>
+		</where>
+		<include refid="pagingFooter"></include>
+	</select>
+	
+<!-- 게시글 레코드 갯수 -->
+	<select id="countArticle" resultType="int" parameterType="hashmap">
+		select count(*) 
+		from ${fromOption}
+		<where>
+			${whereOption}
+			<if test="searchOption != null">
+				<include refid="search"/>
+			</if>
+			</where>
+	</select>	
+
+<!-- 검색sql -->
+	<sql id="search">
+		<foreach collection="searchOption" item="searchOption" open="AND (" close=" )" separator=" OR ">${searchOption} LIKE '%'||#{keyword}||'%'</foreach>
+	</sql>
+
+<!-- 페이징sql -->
+	<sql id="pagingHeader">
+		select * from (select rownum as rn, A.*from(
+	</sql>	
+	<sql id="pagingFooter">
+		)A
+		)where rn between #{start} and #{end}
+	</sql>
+	
+	
+	
 </mapper>
