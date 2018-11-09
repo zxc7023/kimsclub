@@ -55,6 +55,7 @@ background-color: #f5f5f5;
 </style>
 <script>
 $(document).ready(function() {
+	var type;
 	$(function(){
 	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
@@ -64,7 +65,7 @@ $(document).ready(function() {
 	    });
 	});
 
-	$("#modify_btn").click(function(){
+	$("#save_btn").click(function(){
 		$("#submit").attr("value",0);
 		submitBtn();
 	});
@@ -73,16 +74,16 @@ $(document).ready(function() {
 		$("#type").attr("value",1);
 		submitBtn();
 	});
-
+	
 	function submitBtn(){
 		$('#ckeditor').html(CKEDITOR.instances.ckeditor.getData());
 		var tmpArr = $("form#writeDocForm").serializeObject();
 
 		$.ajax({
 			method : "post",
-			url : "/groupware/approvalNewDoc",
+			url : "/groupware/newDocList",
 			contentType: "application/json;charset=UTF-8",
-			dataType : "json",
+			//dataType : "json",
 			data :  JSON.stringify(tmpArr),
 			error : function(error) {
 				alert("양식 불러오기 실패");
@@ -93,7 +94,9 @@ $(document).ready(function() {
 			}
 		});
 	}
-		
+	
+	
+	
 	
 	$('.selectForm').change(function() {
 		if($(this).val()!='default'){
@@ -137,11 +140,10 @@ function loadForm(){
 				<div class="panel panel-default">
 					<div class="panel-heading">문서 작성</div>
 					<div class="panel-body">
-						<form class="col-sm-12" action="/groupware/approvalNewDoc" id="writeDocForm" method="post">
+						<form class="col-sm-12" id="writeDocForm" method="post">
 							<div class="panel-heading">
 								<input type="hidden" name="document_state" id="type" value="">
-								<input type="button" class="btn btn-info" id="app_btn" value="기안하기">
-								<input type="button" class="btn btn-info" id="modify_btn" value="저장하기">
+								<input type="button" class="btn btn-info" id="save_btn" value="저장하기">
 							</div>
 							<div class="panel-body">
 								<table
@@ -164,57 +166,14 @@ function loadForm(){
 										</tr>
 										<tr>
 											<td class="odd">작성자</td>
-											<td>${dvo.approval[0].employee.employee_name}</td>
-										</tr>
-										<tr>
-											<td class="odd">결재</td>
-											<td>
-												<div role="row">
-													<div class="col-lg-10">
-														<div class="panel panel-default" id="approvalLine">
-															<table width="100%"
-																class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
-																role="grid" aria-describedby="dataTables-example_info"
-																style="width: 100%;">
-																<colgroup>
-																	<col width="15%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																	<col width="17%">
-																</colgroup>
-																<tbody class="t-body">
-																	<tr>
-																		<th colspan="6">결재 순서
-																			<p class="fa fa-long-arrow-right"></p>
-																		</th>
-																	</tr>
-																	<tr id="paste">
-																	<c:forEach begin="0" end="5" varStatus="i">
-																		<td class="name" index="${i.index}" style="text-align: center;">${dvo.approval[i.index].employee.department.department_name}<br>
-																			${dvo.approval[i.index].employee.employee_name} ${dvo.approval[i.index].employee.position}
-																		</td>
-																	</c:forEach>
-																	</tr>
-																</tbody>
-															</table>
-														</div>
-													</div>
-													<div class="col-lg-2">
-														<button class="btn-ApprovalLine" type="button"
-															data-toggle="modal" data-target="#approvalLineSelect">결재선
-															선택</button>
-													</div>
-												</div>
-											</td>
+											<td>${sessionScope.loginInfo.employee_name}</td>
 										</tr>
 										<tr>
 											<td class="odd">문서 제목<br>
 											</td>
 											<td><input type="text" name="document_title"
 												class="form-control" required="required"
-												autofocus="autofocus" value="${dvo.document_title}"></td>
+												autofocus="autofocus" maxlength="40"></td>
 										</tr>
 										<tr>
 											<td colspan="2" class="odd">문서 내용</td>
@@ -222,7 +181,7 @@ function loadForm(){
 										<tr>
 											<td colspan="2">
 												<div class="col-lg-12">
-													<textarea name="document_contents" id="ckeditor" class="form">${dvo.document_contents}</textarea>
+													<textarea name="document_contents" id="ckeditor" class="form"></textarea>
 												</div>
 											</td>
 										</tr>
@@ -263,8 +222,5 @@ function loadForm(){
 			</div>
 		</div>
 	</div>
-
-	<!-- 결재선 불러오기 modal -->
-	<jsp:include page="/WEB-INF/views/approvalLineModal.jsp"></jsp:include>
 </body>
 </html>

@@ -1,9 +1,6 @@
 package com.kimsclub.groupware.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,18 +16,21 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kimsclub.groupware.service.ApprovalService;
+import com.kimsclub.groupware.service.DocumentService;
+import com.kimsclub.groupware.service.FormService;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
 import com.kimsclub.groupware.vo.ApprovalVO;
-import com.kimsclub.groupware.vo.BoardPageVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
-import com.kimsclub.groupware.vo.FormVO;
 
 @Controller
 public class ApprovalController {
 	@Autowired
 	ApprovalService service;
-
+	@Autowired
+	FormService service2;
+	@Autowired
+	DocumentService service3;	
 		
 	@RequestMapping(value = "/approval", method=RequestMethod.GET)
 	public ModelAndView approval(){
@@ -42,25 +42,14 @@ public class ApprovalController {
 	}
 	
 	/**
-	 * Ajax-양식내용
-	 * @return String : form_no를 통해 해당하는 양식 내용 가져오기 
+	 *  선택한 문서를 기안하기 위한 페이지 결재선을 선택 후 기안한다
+	 *  view : 결재선 선택 페이지(approvalDoc) model : elist-결재선을 선택할 때 사용 dvo-수정 할 문서의 정보
 	 */
-	//produces = "application/text; charset=utf8" - 한글이 깨지기 때문에 charset=utf8로 설정
-	@RequestMapping(value = "/loadForm", method=RequestMethod.GET , produces = "application/text; charset=utf8")
-	@ResponseBody
-	public String loadForm(@RequestParam("form_no")int form_no ){
-		System.out.println("loadForm() 메소드 호출");
-		return service.loadForm(form_no);
-	}
-	
-	/**
-	 *  결재 문서 작성
-	 * @return view : 문서 작성 페이지(writeDoc) model:  결재선에 추가할 사원정보(EmployeeVO), 활성화된 양식 정보(FormVO)
-	 */
-	@RequestMapping(value = "/writeDoc", method=RequestMethod.GET)
-	public ModelAndView writeDoc(){
-		System.out.println("writeDoc() 메소드 호출");
-		List<FormVO> flist = service.getUseFormlist();
+	@RequestMapping(value = "/approvalDoc", method=RequestMethod.GET)
+	public ModelAndView approvalDoc(@RequestParam(name="document_no",defaultValue="0") int document_no){
+		System.out.println("approvalDoc() 메소드 호출");
+		DocumentVO dvo = service3.viewNewDoc(document_no);
+		ModelAndView mav = new ModelAndView();
 		List<EmployeeVO> elist = service.loadAllEmp();
 		
 		//elist를 json형식으로 전달하기위한 설정
@@ -71,91 +60,32 @@ public class ApprovalController {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		ModelAndView mav = new ModelAndView();
 		mav.addObject("elist", json);
-		mav.addObject("flist", flist);
-		mav.setViewName("approval/writeDoc");
-		return mav;
-	}
-	
-	
-	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.GET)
-	public ModelAndView approvalNewDoc(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
-			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
-			@RequestParam(name="keyword", defaultValue="") String keyword,
-			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
-		System.out.println("approvalnewDoc() 메소드 호출");
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		
-		//map에 페이지에 필요한 리스트를 불러오기 위한 파라미터들 입력
-		Map<String, Object> map = new HashMap<String,Object>();
-		map.put("fromOption", "document");
-		map.put("searchOption", search_option);
-		map.put("keyword", keyword);
-		map.put("order", "document_no");
-		map.put("whereOption", "DOCUMENT_WRITER_NO = "+evo.getEmployee_no()+"and document_state=0");
-		//내용 제외
-		map.put("selectOption", "B.document_no, B.document_title, B.document_date");
-		BoardPageVO bpvo = new BoardPageVO(service.getDocumentNum(map), cur_page, page_scale); 
-		map.put("start", bpvo.getPageBegin());
-		map.put("end", bpvo.getPageEnd());
-		
-		//map을 통해 해당하는 리스트 불러오기
-		List<DocumentVO> dlist = service.getDocumentList(map);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("dlist",dlist);
-		mav.setViewName("approval/approvalNewDoc");
-		
-		return mav;
-	}
-	
-	/**
-	 *  새 문서 작성 dvo.document_state에 따라 임시저장 문서인지 바로 기안하는 문서인지 구분
-	 * @return view : 새 문서함(approvalNewDoc)
-	 */	
-	@RequestMapping(value = "/approvalNewDoc", method=RequestMethod.POST)
-	@ResponseBody
-	public String approvalSaveDoc(HttpSession session,@RequestBody DocumentVO dvo){
-		System.out.println("approvalSaveDoc() 메소드 호출");
-		dvo.setEmployee(dvo.getApproval().get(0).getEmployee());
-		service.saveDocument(dvo);
-		String result = "approval/approvalNewDoc";
-		return result;
-	}
-	
-	/**
-	 *  임시저장된 문서 선택해서 보기
-	 * @return view : 임시저장된 문서(approvalViewNewDoc.jsp)
-	 */	
-	@RequestMapping(value = "/approvalViewNewDoc", method=RequestMethod.GET)
-	public ModelAndView approvalViewNewDoc(@RequestParam(name="document_no")int document_no){
-		System.out.println("approvalViewNewDoc() 메소드 호출");
-		
-		ModelAndView mav = new ModelAndView();
-		
-		DocumentVO dvo = service.viewNewDoc(document_no);
-		
-		mav.addObject("dvo", dvo);
-		System.out.println("값 출력:");
-		System.out.println(dvo.getApproval());
-		for(ApprovalVO avo: dvo.getApproval()) {
-			System.out.println(avo);
-		}
-		mav.setViewName("approval/approvalViewNewDoc");
-		return mav;
-	}
-	
-	
-	@RequestMapping(value = "/approvalDoc", method=RequestMethod.GET)
-	public ModelAndView approvalDoc(){
-		System.out.println("approvalDoc() 메소드 호출");
-		
-		ModelAndView mav = new ModelAndView();
+		mav.addObject("dvo",dvo);
 		mav.setViewName("approval/approvalDoc");
-		
+
 		return mav;
 	}
+	
+	/**
+	 *  선택한 문서를 기안하기 위한 페이지 결재선을 선택 후 기안한다
+	 *  view : 결재선 선택 페이지(approvalDoc) model : elist-결재선을 선택할 때 사용 dvo-수정 할 문서의 정보
+	 */
+	@RequestMapping(value = "/approvalDoc", method=RequestMethod.POST)
+	@ResponseBody
+	public String approvalDocResult(@RequestBody DocumentVO dvo){
+		System.out.println("approvalDocResult() 메소드 호출");
+		for(ApprovalVO avo : dvo.getApproval()) {
+			System.out.println(avo);
+			System.out.println(dvo.getDocument_no());
+			System.out.println(dvo.getDocument_state());
+			avo.setDocument(dvo);
+		}
+		service.approvalNewDoc(dvo);
+		return "/groupware/proceedDoc";
+	}
+	
+	
 	@RequestMapping(value = "/approvalCompleteDoc", method=RequestMethod.GET)
 	public ModelAndView approvalCompleteDoc(){
 		System.out.println("approvalCompleteDoc() 메소드 호출");
@@ -165,12 +95,12 @@ public class ApprovalController {
 		
 		return mav;
 	}
-	@RequestMapping(value = "/approvalProceedDoc", method=RequestMethod.GET)
-	public ModelAndView approvalProceedDoc(){
-		System.out.println("approvalProceedDoc() 메소드 호출");
+	@RequestMapping(value = "/proceedDoc", method=RequestMethod.GET)
+	public ModelAndView proceedDoc(){
+		System.out.println("proceedDoc() 메소드 호출");
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("approval/approvalProceedDoc");
+		mav.setViewName("document/proceedDoc");
 		
 		return mav;
 	}
