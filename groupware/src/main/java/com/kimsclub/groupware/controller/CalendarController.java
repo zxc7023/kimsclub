@@ -29,6 +29,7 @@ public class CalendarController {
 	 */
 	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
 	public String calendarList() {
+		System.out.println("================================================================================================================");
 		System.out.println("Fullcalendar() 메소드 호출");
 		return "Fullcalendar/basic-views";
 	}
@@ -101,17 +102,18 @@ public class CalendarController {
 	 * @param vo
 	 * @return
 	 */
-	@RequestMapping(value = "/editCalendar", method = RequestMethod.POST)
+	@RequestMapping(value = "/editEvent", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Integer> editcalendar(@RequestBody CalendarVO vo) {
-		System.out.println("editcalendar() 메소드 호출");
+		System.out.println("editEvent() 메소드 호출");
 		System.out.println(vo);
+		System.out.println("================================================================================================================");
 
 		Map<String, Integer> resultMap = new HashMap<String, Integer>();
 		resultMap.put("result", 1);
 
 		try {
-			service.editCalendar(vo);
+			service.editEvent(vo);
 		} catch (Exception e) {
 			resultMap.put("result", 0);
 		}
@@ -123,22 +125,23 @@ public class CalendarController {
 	 * @param vo
 	 * @return
 	 */
-	@RequestMapping(value = "/deleteCalendar", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Integer> deletecalendar(@RequestBody CalendarVO vo) {
-		System.out.println("deletecalendar() 메소드 호출");
+	public int deletecalendar(@RequestBody CalendarVO vo) {
+		System.out.println("deleteEvent() 메소드 호출");
 		System.out.println(vo);
-
-		Map<String, Integer> resultMap = new HashMap<String, Integer>();
-		resultMap.put("result", 1);
-
+		
+		int result = 0;
+		
 		try {
-			service.deleteCalendar(vo);
+			service.deleteEvent(vo);
+			result = 1;
+			System.out.println(result);
 		} catch (Exception e) {
-			resultMap.put("result", 0);
+			e.printStackTrace();
 		}
 
-		return resultMap;
+		return result;
 	}
 
 }

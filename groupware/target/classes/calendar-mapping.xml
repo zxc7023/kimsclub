@@ -28,6 +28,20 @@
 	<select id="selectEvents" resultMap="calendarmap">
 		select * from calendar
 	</select> 
+	
+	<update id="editEvent" parameterType="calendar">
+		update calendar 
+		SET title = #{title},
+		content = #{content},
+		color = #{color},
+		event_start = #{start},
+		end = #{end}		
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteEvent" parameterType="calendar">
+	delete from calendar where id = #{id}
+	</delete>
 
 
 </mapper>
