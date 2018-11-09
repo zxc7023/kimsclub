@@ -13,7 +13,6 @@ public interface CalendarService {
 	public int selectSeq();
 	//이벤트 조회
 	public List<CalendarVO> selectEvents();
-	//이벤트 편집
 
 	
 }
