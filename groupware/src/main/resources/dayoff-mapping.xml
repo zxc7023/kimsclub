@@ -18,6 +18,38 @@
 			<id property="document_no" column="document_no" />
 		</association>
 	</resultMap>
+	
+	<resultMap id="userDayoffList" type="DayoffApply">
+		<id column="dayoff_no" property="dayoff_no" />
+		<result column="total_days" property="total_days" />
+		<result column="start_date" property="start_date" />
+		<result column="end_date" property="end_date" />
+		<result property="dayoff_reason" column="dayoff_reason"/>
+		<association property="employee" javaType="employee">
+			<id property="employee_no" column="employee_no" />
+			<result property="employee_name" column="employee_name"/>
+			<association property="department" javaType="department">
+				<id property="department_no" column="department_no"/>
+				<result property="department_name" column="department_name"/>
+			</association>
+		</association>
+		<association property="dayoff_kind" javaType="DayoffKinds">
+			<id property="dayoff_type_code" column="dayoff_type_code" />
+			<result property="dayoff_name" column="dayoff_name"/>
+		</association>
+		<association property="document" javaType="document">
+			<id property="document_no" column="document_no" />
+			<result property="document_date" column="document_date"/>
+			<result property="document_state" column="document_state"/>
+		</association>
+		<collection property="dayoff_apply_detail" ofType="DayoffApplyDetail">
+			<id property="dayoff_no" column="dayoff_no" />
+			<id property="dayoff_day" column="dayoff_day"/>
+			<result property="days" column="days"/>
+			<result property="oneorhalf" column="oneorhalf"/>	
+		</collection>
+	</resultMap>
+
 
 
 	<select id="selectCreateTerms" resultType="DayoffCreateTerms">
@@ -134,5 +166,19 @@
 		and document_state != 3
 	</select>
 
+	<select id="selectApplyList"  resultMap="userDayoffList">
+		select da.dayoff_no, d.document_writer_no,
+		dayoff_name, da.total_days, start_date, end_date, document_state
+		from dayoff_apply da join document d
+		on da.document_no = d.document_no
+		join employee e
+		on d.document_writer_no = e.employee_no
+		join dayoff_kinds dk
+		on da.dayoff_type_code = dk.dayoff_type_code
+		where da.employee_no =1;
+	</select>
+
+
+	
 
 </mapper>

@@ -38,28 +38,58 @@
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script type="text/javascript">
-	$(document).ready(function() {
 
-		
-		//console.log(${requestScope.createList});
-		$("#calendar").fullCalendar({
-					header : {
-						left : 'prev,next ',
-						center : 'title',
-						right : 'today'
-					},
+	function getTab01(){
+		$.ajax({
+			method : "get",
+			contentType : 'application/json;charset=UTF-8',
+			url : "${pageContext.request.contextPath}/dayoff/dayoff_status_tap01",
+			error : function() {
+				alert("tap1 데이터 받아오기 실패");
+			},
+			success : function(server_result) {
+				/* console.log(server_result); */
+				var obj = JSON.parse(server_result);
+				console.log(obj.createList);
+				var list = obj.createList;
+				console.log(list);
+				for(var i=0;i <list.size;i++){
+					console.log(list.get(i));
+				}
+			}
 
-					googleCalendarApiKey : 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
-					eventSources : [
-					// 대한민국의 공휴일
-					{
-						googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com",
-						className : "koHolidays",
-						color : "#FF0000",
-						textColor : "#FFFFFF"
-					} ]
 		});
-	})
+	}
+	$(document).ready(function(){
+		
+		getTab01();
+		
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			 console.log(e.target); // newly activated tab
+			 console.log(e.relatedTarget); // previous active tab
+		});
+		
+		
+		$("#calendar")
+				.fullCalendar(
+						{
+							header : {
+								left : 'prev,next ',
+								center : 'title',
+								right : 'today'
+							},
+
+							googleCalendarApiKey : 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
+							eventSources : [
+							// 대한민국의 공휴일
+							{
+								googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com",
+								className : "koHolidays",
+								color : "#FF0000",
+								textColor : "#FFFFFF"
+							} ]
+						});
+	});
 </script>
 <title>휴가현황</title>
 </head>
@@ -78,18 +108,18 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="">
-						<!-- Nav tabs -->
-						<ul class="nav nav-tabs">
-							<li class="active"><a href="#tab01" data-toggle="tab">휴가 생성 내역</a></li>
-							<li><a href="#tab02" data-toggle="tab">휴가 신청 내역</a></li>
-							<li><a href="#tab03" data-toggle="tab">휴가 캘랜더 </a></li>
-						</ul>
-						<!-- Tab panes -->
-						<div class="tab-content ">
-							<div class="tab-pane fade in active" id="tab01">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" id="myTab">
+						<li class="active"><a href="#tab01" data-toggle="tab">내 휴가</a></li>
+						<li><a href="#tab02" data-toggle="tab">휴가 캘랜더 </a></li>
+						<li><a href="#tab03" data-toggle="tab">휴가 신청 관리</a></li>
+					</ul>
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane fade in active" id="tab01">
+							<div class="dayoff-create-recode">
+								<h3>휴가 생성 내역</h3>
 								<table class="table" id="myTable">
-									
 									<colgroup>
 										<col width="20%">
 										<col width="10%">
@@ -107,7 +137,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="creation" items="${requestScope.createList}">
+									<%-- 	<c:forEach var="creation" items="${requestScope.createList}">
 											<tr>
 												<td><fmt:formatDate value="${creation.generation_date}" pattern="yyyy.MM.dd" /></td>
 												<td>${creation.effect_day }</td>
@@ -121,15 +151,24 @@
 													<td>포상(${creation.effect_day}), 최종일(${creation.real_day})</td>
 												</c:if>
 												<c:if test="${creation.dayoff_type eq 3}">
-														수동 입력
+												수동 입력
 												</c:if>
+												
 											</tr>
-										</c:forEach>
+										</c:forEach> --%>
 									</tbody>
 								</table>
-								<h4>올해 사용 현황 : <small> 생성 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} 일 / 사용 : ${requestScope.useReward + requestScope.useRegular} 일 / 잔여 : ${(requestScope.myDayoff.annual_dayoff - requestScope.useRegular) + (requestScope.myDayoff.reward_dayoff - requestScope.useReward)} 일 ( 정기 : ${requestScope.myDayoff.annual_dayoff - requestScope.useRegular} , 포상 : ${requestScope.myDayoff.reward_dayoff - requestScope.useReward} ) </small></h4>
+							<%-- 	<h4>
+									올해 사용 현황 : <small> 생성 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} 일 / 사용 : ${requestScope.useReward + requestScope.useRegular} 일 / 잔여 : ${(requestScope.myDayoff.annual_dayoff - requestScope.useRegular) + (requestScope.myDayoff.reward_dayoff - requestScope.useReward)} 일 ( 정기 : ${requestScope.myDayoff.annual_dayoff - requestScope.useRegular} , 포상 : ${requestScope.myDayoff.reward_dayoff - requestScope.useReward} ) </small>
+								</h4> --%>
 							</div>
+						</div>
 							<div class="tab-pane fade" id="tab02">
+								<div>
+									<div id="calendar"></div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="tab03">
 								<div>
 									<table>
 										<caption>휴가 신청 내역</caption>
@@ -170,16 +209,10 @@
 									</table>
 								</div>
 							</div>
-							<div class="tab-pane fade" id="tab03">
-								<div>
-									<div id="calendar"></div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 </body>
 </html>

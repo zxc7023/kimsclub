@@ -89,7 +89,6 @@ public class DayoffDAO {
 			insertDocument(vo);
 			insertApproval(vo.getDocument().getApproval());
 			insertDayoffApply(vo);
-			insertDayoffApplyDetail(vo.getDayoff_apply_detail());	
 			insertDayoffApplyDetail(vo.getDayoff_apply_detail());
 		}catch (Exception e) {
 			transactionManager.rollback(status);
