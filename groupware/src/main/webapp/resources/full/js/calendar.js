@@ -66,7 +66,7 @@ var initializeRightCalendar = function()  {
 
 /* -------------------manage cal1 (left pane)------------------- */
 var initializeLeftCalendar = function() {
-
+ $cal1.fullCalendar('changeView', 'agendaDay');
   $cal1.fullCalendar('option', {
       header: {
           left: '',
@@ -74,6 +74,7 @@ var initializeLeftCalendar = function() {
           right: ''
       },
       navLinks: false,
+      
       dayClick: function(date) {
           cal2GoTo(date);
 
@@ -82,7 +83,7 @@ var initializeLeftCalendar = function() {
           cal2GoTo(calEvent.start);
           cal2GoTo(calEvent.end);
       },*/
-      height: screen.height - 730,
+      height: screen.height - 500, //730
   });
 }
 
@@ -190,27 +191,74 @@ var editEvent = function(calEvent) {
     var color = $('#color2').val();
     var start = $('#starts_at2').val();
     var end = $('#ends_at2').val();
-    var event_no
     $('#editEvent').modal('hide');
     var eventData;
+    var event_no=calEvent.id ;
+    alert(event_no);
     if (title) {
       calEvent.title = title,
       calEvent.color = color,
       calEvent.content = content,
       calEvent.start = start,
-      calEvent.end = end
+      calEvent.end = end,
+      calEvent.id = event_no
+      var editEventData = {};
+      editEventData.id = calEvent.id;
+      editEventData.title = calEvent.title;
+      editEventData.color = calEvent.color;
+      editEventData.content = calEvent.content;
+      editEventData.start = calEvent.start;
+      editEventData.end = calEvent.end;
       $cal.fullCalendar('updateEvent', calEvent);
+      $.ajax({
+    		method : "post",
+    		data : JSON.stringify(editEventData),
+    		dataType : "json",
+    		contentType : 'application/json;charset=UTF-8',
+    		url : "/groupware/editEvent",
+    		error : function() {
+    			alert('전송 실패:데이터 수정');
+    		},
+    		success : function(data){
+    			alert('전송 성공:데이터 수정');
+    			alert(data.result);
+    		}	
+    	});
+      
     } else {
     alert("제목을 입력해주세요.")
     }
   });
   $('#delete').on('click', function() {
     $('#delete').unbind();
-    if (calEvent._id.includes("_fc")){
-      $cal2.fullCalendar('removeEvents', [calEvent._id]);
+    alert(calEvent.id);
+/*    if (calEvent.id){calEvent._id.includes("_fc")
+      $cal2.fullCalendar('removeEvents', [calEvent.id]);
     } else {
-      $cal.fullCalendar('removeEvents', [calEvent._id]);
-    }
+      $cal.fullCalendar('removeEvents', [calEvent.id]);
+    }*/
+    var delEventData = {};
+    delEventData.id = calEvent.id;
+    $.ajax({
+		method : "post",
+		data : JSON.stringify(delEventData),
+		dataType : "json",
+		contentType : 'application/json;charset=UTF-8',
+		url : "/groupware/deleteEvent",
+		error : function() {
+			alert('전송 실패:이벤트 삭제');
+		},
+		success : function(data){
+			if(data>0){
+				alert('삭제성공');
+				$cal2.fullCalendar('removeEvents', [calEvent.id]);
+			}else{
+				alert('실패');
+			}
+						
+		}	
+	});
+    
     $('#editEvent').modal('hide');
   });
 }

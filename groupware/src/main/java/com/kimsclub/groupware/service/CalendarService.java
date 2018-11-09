@@ -13,6 +13,10 @@ public interface CalendarService {
 	public int selectSeq();
 	//이벤트 조회
 	public List<CalendarVO> selectEvents();
+	//이벤트 편집
+	public void editEvent(CalendarVO vo);
+	//이벤트 삭제
+	public int deleteEvent(CalendarVO vo);
 
 	
 }

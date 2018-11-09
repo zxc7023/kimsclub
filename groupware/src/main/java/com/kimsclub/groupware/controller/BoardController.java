@@ -62,7 +62,7 @@ public class BoardController {
 		return mav;
 	}
 
-	//게시글(커뮤니티,공지사항)세부 화면
+	//게시글 세부 화면
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
 	public ModelAndView boardDetail(BoardVO vo) {
 		//해당 게시글 조회수 증가
@@ -75,13 +75,13 @@ public class BoardController {
 		return mav;
 	}
 	
-	//게시글(커뮤니티,공지사항)작성 화면
+	//게시글 작성 화면
 	@RequestMapping(value="/BoardWrite", method=RequestMethod.GET)
 	public String boardWrite(){
 		return "/Board/BoardWrite";
 	}
 	
-	//게시글(커뮤니티,공지사항)작성 처리 
+	//게시글 작성 처리 
 	@RequestMapping(value="/BoardWrite", method=RequestMethod.POST)
 	public String boardList(BoardVO vo, HttpSession session) {
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
@@ -91,11 +91,28 @@ public class BoardController {
 	 	return "redirect:/boardList?board_type="+vo.getBoard_type();
 	}
 	
-	//게시글 수정
-	@RequestMapping(value="/BoardUpdate", method=RequestMethod.GET)
-	@ResponseBody
-	public void boardUpdate(@ModelAttribute BoardVO vo) {
-		service.updateBoard(vo);
+	//게시글 수정 화면
+	@RequestMapping(value="/BoardUpdate", method=RequestMethod.POST)
+	public ModelAndView boardUpdate(@ModelAttribute BoardVO vo) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("boardUpdateVO",vo);
+		mav.addObject("update","update");
+		mav.setViewName("/Board/BoardWrite");
+		return mav;
+	}
+	
+	//게시글 수정 처리
+	@RequestMapping(value="/BoardUpdateSave", method=RequestMethod.POST)
+	public ModelAndView boardUpdateSave(@ModelAttribute BoardVO vo) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(vo.getBoard_type());
+		System.out.println(vo.getBoard_contents());
+		System.out.println(vo.getBoard_title());
+		System.out.println(vo.getBoard_no());
+/*		mav.addObject("boardUpdateVO",vo);
+		mav.addObject("update","update");
+		mav.setViewName("/Board/BoardWrite");*/
+		return null;
 	}
 	
 	

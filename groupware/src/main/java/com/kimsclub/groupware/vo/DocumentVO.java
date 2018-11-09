@@ -11,14 +11,14 @@ public class DocumentVO {
 	private List<ApprovalVO> approval;
 	private Date document_date;
 	private int document_state;
-	private int rownum;
+	private int rn;
 	
 	
-	public int getRownum() {
-		return rownum;
+	public int getRn() {
+		return rn;
 	}
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
+	public void setRn(int rn) {
+		this.rn = rn;
 	}
 	public List<ApprovalVO> getApproval() {
 		return approval;

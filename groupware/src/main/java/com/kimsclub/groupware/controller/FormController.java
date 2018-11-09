@@ -36,9 +36,10 @@ public class FormController {
 		map.put("searchOption", search_option);
 		map.put("keyword", keyword);
 		map.put("order", "form_no");
+		map.put("whereOption", "form_activation != '히든'");
 		//내용 제외
 		map.put("selectOption", "B.form_no, B.form_name, B.form_activation, B.form_desc");
-		BoardPageVO bpvo = new BoardPageVO(service.getFormNum(map), cur_page, page_scale); 
+		BoardPageVO bpvo = new BoardPageVO(service.getFormCnt(map), cur_page, page_scale); 
 		map.put("start", bpvo.getPageBegin());
 		map.put("end", bpvo.getPageEnd());
 		
@@ -89,6 +90,18 @@ public class FormController {
 		System.out.println("remove_form() 메소드 호출");
 		service.deleteForm(form_no);
 		return "redirect:/form";
+	}
+	
+	/**
+	 * Ajax-양식내용
+	 * @return String : form_no를 통해 해당하는 양식 내용 가져오기 
+	 */
+	//produces = "application/text; charset=utf8" - 한글이 깨지기 때문에 charset=utf8로 설정
+	@RequestMapping(value = "/loadForm", method=RequestMethod.GET , produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String loadForm(@RequestParam("form_no")int form_no ){
+		System.out.println("loadForm() 메소드 호출");
+		return service.loadForm(form_no);
 	}
 	
 	//양식 사용여부 변경

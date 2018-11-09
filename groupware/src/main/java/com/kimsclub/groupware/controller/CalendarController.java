@@ -29,6 +29,7 @@ public class CalendarController {
 	 */
 	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
 	public String calendarList() {
+		System.out.println("================================================================================================================");
 		System.out.println("Fullcalendar() 메소드 호출");
 		return "Fullcalendar/basic-views";
 	}
@@ -72,6 +73,10 @@ public class CalendarController {
 		return resultMap;
 	}
 
+	/**
+	 * 이벤트 조회
+	 * @return
+	 */
 	@RequestMapping(value = "/selectEvent", method = RequestMethod.GET)
 	@ResponseBody
 	public List<CalendarVO> selectEvent() {
@@ -90,6 +95,53 @@ public class CalendarController {
 		System.out.println(json);
 		return clist;
 
+	}
+	
+	/**
+	 * 이벤트 편집
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/editEvent", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Integer> editcalendar(@RequestBody CalendarVO vo) {
+		System.out.println("editEvent() 메소드 호출");
+		System.out.println(vo);
+		System.out.println("================================================================================================================");
+
+		Map<String, Integer> resultMap = new HashMap<String, Integer>();
+		resultMap.put("result", 1);
+
+		try {
+			service.editEvent(vo);
+		} catch (Exception e) {
+			resultMap.put("result", 0);
+		}
+
+		return resultMap;
+	}
+	/**
+	 * 이벤트 삭제
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteEvent", method = RequestMethod.POST)
+	@ResponseBody
+	public int deletecalendar(@RequestBody CalendarVO vo) {
+		System.out.println("deleteEvent() 메소드 호출");
+		System.out.println(vo);
+		
+		int result = 0;
+		
+		try {
+			service.deleteEvent(vo);
+			result = 1;
+			System.out.println(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 
 }

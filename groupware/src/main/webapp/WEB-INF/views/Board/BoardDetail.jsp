@@ -54,6 +54,7 @@
 		var replyDelBtn = "board";
 		var reply_no;
 		
+		
 		//게시글 목록 버튼 클릭
 		$("#listBtn").click(function(){
 			location.href = "boardList?board_type="+boardType+"&searchOption="+searchOption+"&keyword="+keyword+"&curPage="+curPage;
@@ -62,17 +63,7 @@
 		
 		//게시글 수정 버튼 클릭
 		$("#boardUpdateBtn").click(function(){
-			$.ajax({
-				type : "get",
-				url: "${pageContext.request.contextPath}/BoardUpdate",
-				data: {"board_no" : boardNo,
-						"board_type" : boardType},
-				error : function(request,status,error){
-	            },
-	            success : function(data){
-					alert("왜요");
-	            }
-			});
+			$("#boardUpdateForm").submit();
 		});
 				
 		//게시글 삭제 버튼, 댓글 삭제 버튼 클릭
@@ -280,7 +271,7 @@
 					$(".replyCount").text("댓글"+"["+result+"]");
 				}
 			});
-		}
+		}		
 	});
 	
 	
@@ -304,15 +295,21 @@
                 
                 <!-- 목록,수정,삭제 버튼 -->
                 <div class="col-lg-12">
+                <form action="BoardUpdate" id="boardUpdateForm" method="post" >
                 	<!-- <div id="dataTables-example_filter" class="form-group input-group dataTables_filter"> -->
                 	<label id="dataTables-example_filter" >
+                	
 	                	<button id="listBtn" type="button" class="btn btn-outline btn-primary"><i class="fa fa-list"></i></button>
 	                	<c:if test="${sessionScope.loginInfo.employee_no == detailVO.board_writer_no}">
+	                	<input type="hidden" name="board_no" value="${param.board_no}">
+	                	<input type="hidden" name="board_type" value="${param.board_type}">
+	                	<input type="hidden" name="board_title" value="${detailVO.board_title}">
+	                	<input type="hidden" name="board_contents" value="${detailVO.board_contents}">
 		            	<button type="button" id="boardUpdateBtn" class="btn btn-success">수정</button>
 		            	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">삭제</button>
 		            	</c:if>
 	            	</label>
-            		<!-- </div> -->
+				</form>
                 </div>
             </div>
 			
@@ -391,7 +388,7 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header ">
+			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					<h4 class="modal-title" id="myModalLabel">알림</h4>
             </div>
