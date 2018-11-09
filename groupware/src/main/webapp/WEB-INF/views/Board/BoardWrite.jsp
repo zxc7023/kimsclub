@@ -5,6 +5,7 @@
 <!DOCTYPE html >
 <html>
 <head>
+<!-- 에디터 경로 -->
 <script src="resources/ckeditor/ckeditor.js"></script>
 
 <!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
@@ -48,12 +49,14 @@
 $(document).ready(function() {
 	
 	$(function(){
+		
      	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
-	            width:'100%',
+     	   		enterMode : CKEDITOR.ENTER_BR,
+     	   		width:'100%',
 	            height:'400px',
 	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
 	        });
-	         
+     	    
 	        CKEDITOR.on('dialogDefinition', function( ev ){
 	            var dialogName = ev.data.name;
 	            var dialogDefinition = ev.data.definition;
@@ -66,38 +69,25 @@ $(document).ready(function() {
 	                    break;
 	            }
 	        });
-	         
 	    });
 	
 	$("#save").click(function(){
 		$("#writeSave").submit();
 	});
-	
-});//ready end
+
+	if("${update}"=="update"){
+		
+		$("#title").val("${boardUpdateVO.board_title}");
+		$("#boardNo").attr("name","board_no");
+		$("#boardNo").val(${boardUpdateVO.board_no});
+		$("#writeSave").attr("action","BoardUpdateSave");
+	}
+});
 
 </script>
 <title>Insert title here</title>
 </head>
 <body>
-	<%-- <form id="frm" action="BoardWrite" method="post">
-		<table width="100%">
-			<tr>
-			<td>제목</td>
-			<td><input type="text" name="board_title"></td>
-			</tr>
-			
-			<!-- <tr>
-			<td>파일첨부</td><td><input type="file"> </td>
-			</tr> -->
-			
-			<tr>
-			<td>내용</td>
-			<td><textarea rows="35" id="ckeditor" cols="90" name="board_contents"></textarea></td>
-			</tr>
-		</table>
-		<input type="hidden" id="boardType" name="board_type" value="${param.boardType}" >
-		<input type="submit" id="save" value="저장">
-	</form> --%>
 <div id="wrapper">
 	<!-- header,navigation div -->
 	<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
@@ -122,30 +112,28 @@ $(document).ready(function() {
                             
                             	<!-- 제목 입력 -->
                             	<div class="row">
-		                            <div class="col-lg-12">
-		                          		   <div class="form-group">
-	                                            <label>제목</label>
-	                                            <input class="form-control" type="text" name="board_title">
-                                      	  </div>
+		                        	<div class="col-lg-12">
+                                    	<div class="form-group input-group">
+                                        	<span class="input-group-addon">제목</span>
+                                        	<input id="title" type="text" class="form-control" name="board_title">
+                                    	</div>
 	                          		 </div>
                           		 </div>
                           		 
                           		 <!-- 내용 입력 -->
                         		 <div class="row">
                           		 	 <div class="col-sm-12">
-                          				  <textarea rows="35" id="ckeditor" cols="90" name="board_contents"></textarea>
+                          				  <textarea rows="50" id="ckeditor" cols="90" name="board_contents">${boardUpdateVO.board_contents}</textarea>
                            			 </div>
                            		 </div>
+                           		 <input type="hidden" id="boardNo">
                            		 <input type="hidden" id="boardType" name="board_type" value="${param.board_type}" >
-                           		 <button id="save" type="button" class="btn btn-outline btn-primary">저장</button>                           		 
+                           		 <button id="save" type="button" class="btn btn-outline btn-primary">저장</button>                        		 
                            	</form>
                             </div>
                         </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
 	    </div>
    </div>

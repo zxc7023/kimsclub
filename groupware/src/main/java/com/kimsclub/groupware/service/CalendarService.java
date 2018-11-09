@@ -14,9 +14,9 @@ public interface CalendarService {
 	//이벤트 조회
 	public List<CalendarVO> selectEvents();
 	//이벤트 편집
-	public void editCalendar(CalendarVO vo);
+	public void editEvent(CalendarVO vo);
 	//이벤트 삭제
-	public void deleteCalendar(CalendarVO vo);
+	public int deleteEvent(CalendarVO vo);
 
 	
 }
