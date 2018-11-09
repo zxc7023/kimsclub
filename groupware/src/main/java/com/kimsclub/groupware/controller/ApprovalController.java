@@ -95,13 +95,13 @@ public class ApprovalController {
 		
 		return mav;
 	}
+	
 	@RequestMapping(value = "/proceedDoc", method=RequestMethod.GET)
 	public ModelAndView proceedDoc(){
 		System.out.println("proceedDoc() 메소드 호출");
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("document/proceedDoc");
-		
 		return mav;
 	}
 	@RequestMapping(value = "/approvalReturnDoc", method=RequestMethod.GET)

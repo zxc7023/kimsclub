@@ -64,6 +64,7 @@ $(document).ready(function() {
 	function submitBtn(){
 		var tmpArr = $("form#writeDocForm").serializeObject();
 		console.log(tmpArr);
+		alert(tmpArr);
 		$.ajax({
 			method : "post",
 			url : "/groupware/approvalDoc",
