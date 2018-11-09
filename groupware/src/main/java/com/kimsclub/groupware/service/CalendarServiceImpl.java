@@ -29,6 +29,18 @@ public class CalendarServiceImpl implements CalendarService {
 	public List<CalendarVO> selectEvents() {
 		return dao.selectEvents();
 	}
+
+	@Override
+	public void editCalendar(CalendarVO vo) {
+		dao.editCalendar(vo);
+		
+	}
+
+	@Override
+	public void deleteCalendar(CalendarVO vo) {
+		dao.deleteCalendar(vo);
+		
+	}
 	
 	
 }

@@ -10,7 +10,7 @@ $(function() {
 
 /* --------------------------공통적인 캘린더-------------------------- */
 var initializeCalendar = function() {
-  $('.calendar').fullCalendar({
+  $('#calendar2').fullCalendar({
       editable: true,
       eventLimit: true, 
       events: events, //이벤트 생성
@@ -29,6 +29,7 @@ var initializeCalendar = function() {
       eventBackgroundColor: '#337ab7',
       editable: false,
     });
+  $('#calendar1').fullCalendar({  });
 }
 
 /*--------------------------calendar 이름--------------------------*/
@@ -65,7 +66,7 @@ var initializeRightCalendar = function()  {
 
 /* -------------------manage cal1 (left pane)------------------- */
 var initializeLeftCalendar = function() {
-
+ $cal1.fullCalendar('changeView', 'agendaDay');
   $cal1.fullCalendar('option', {
       header: {
           left: '',
@@ -73,6 +74,7 @@ var initializeLeftCalendar = function() {
           right: ''
       },
       navLinks: false,
+      
       dayClick: function(date) {
           cal2GoTo(date);
 
@@ -81,7 +83,7 @@ var initializeLeftCalendar = function() {
           cal2GoTo(calEvent.start);
           cal2GoTo(calEvent.end);
       },*/
-      height: screen.height - 730,
+      height: screen.height - 500, //730
   });
 }
 

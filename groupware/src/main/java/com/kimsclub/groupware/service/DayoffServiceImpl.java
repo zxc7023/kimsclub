@@ -86,8 +86,8 @@ public class DayoffServiceImpl implements DayoffService {
 	}
 
 	@Override
-	public void selectUseDate(Map<String, Object> map) {
-		dao.selectUseDate(map);
+	public int selectUseDate(Map<String, Object> map) {
+		return dao.selectUseDate(map);
 		
 	}
 
