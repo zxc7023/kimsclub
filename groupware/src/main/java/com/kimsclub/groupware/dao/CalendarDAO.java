@@ -31,6 +31,13 @@ public class CalendarDAO {
 		return session.selectList("calendar.selectEvents");
 	}
 	
+	public void editCalendar(CalendarVO vo) {
+		session.insert("calendar.editCalendar", vo);
+	}
+	public void deleteCalendar(CalendarVO vo) {
+		session.insert("calendar.deleteCalendar", vo);
+	}
+	
 
 
 }

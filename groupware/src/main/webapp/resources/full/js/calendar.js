@@ -66,7 +66,7 @@ var initializeRightCalendar = function()  {
 
 /* -------------------manage cal1 (left pane)------------------- */
 var initializeLeftCalendar = function() {
-
+ $cal1.fullCalendar('changeView', 'agendaDay');
   $cal1.fullCalendar('option', {
       header: {
           left: '',
@@ -74,6 +74,7 @@ var initializeLeftCalendar = function() {
           right: ''
       },
       navLinks: false,
+      
       dayClick: function(date) {
           cal2GoTo(date);
 
@@ -82,7 +83,7 @@ var initializeLeftCalendar = function() {
           cal2GoTo(calEvent.start);
           cal2GoTo(calEvent.end);
       },*/
-      height: screen.height - 730,
+      height: screen.height - 500, //730
   });
 }
 

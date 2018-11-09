@@ -72,6 +72,10 @@ public class CalendarController {
 		return resultMap;
 	}
 
+	/**
+	 * 이벤트 조회
+	 * @return
+	 */
 	@RequestMapping(value = "/selectEvent", method = RequestMethod.GET)
 	@ResponseBody
 	public List<CalendarVO> selectEvent() {
@@ -90,6 +94,51 @@ public class CalendarController {
 		System.out.println(json);
 		return clist;
 
+	}
+	
+	/**
+	 * 이벤트 편집
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/editCalendar", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Integer> editcalendar(@RequestBody CalendarVO vo) {
+		System.out.println("editcalendar() 메소드 호출");
+		System.out.println(vo);
+
+		Map<String, Integer> resultMap = new HashMap<String, Integer>();
+		resultMap.put("result", 1);
+
+		try {
+			service.editCalendar(vo);
+		} catch (Exception e) {
+			resultMap.put("result", 0);
+		}
+
+		return resultMap;
+	}
+	/**
+	 * 이벤트 삭제
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteCalendar", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Integer> deletecalendar(@RequestBody CalendarVO vo) {
+		System.out.println("deletecalendar() 메소드 호출");
+		System.out.println(vo);
+
+		Map<String, Integer> resultMap = new HashMap<String, Integer>();
+		resultMap.put("result", 1);
+
+		try {
+			service.deleteCalendar(vo);
+		} catch (Exception e) {
+			resultMap.put("result", 0);
+		}
+
+		return resultMap;
 	}
 
 }
