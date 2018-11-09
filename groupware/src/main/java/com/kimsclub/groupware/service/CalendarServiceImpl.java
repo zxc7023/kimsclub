@@ -31,14 +31,14 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public void editCalendar(CalendarVO vo) {
-		dao.editCalendar(vo);
+	public void editEvent(CalendarVO vo) {
+		 dao.editEvent(vo);
 		
 	}
 
 	@Override
-	public void deleteCalendar(CalendarVO vo) {
-		dao.deleteCalendar(vo);
+	public int deleteEvent(CalendarVO vo) {
+		return dao.deleteEvent(vo);
 		
 	}
 	
