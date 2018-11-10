@@ -10,8 +10,9 @@ public class DocumentVO {
 	private EmployeeVO employee;
 	private List<ApprovalVO> approval;
 	private Date document_date;
-	private int document_state;
+	private String document_state;
 	private int rn;
+	
 	
 	
 	public int getRn() {
@@ -59,16 +60,17 @@ public class DocumentVO {
 	public void setDocument_date(Date document_date) {
 		this.document_date = document_date;
 	}
-	public int getDocument_state() {
+	public String getDocument_state() {
 		return document_state;
 	}
-	public void setDocument_state(int document_state) {
+	public void setDocument_state(String document_state) {
 		this.document_state = document_state;
 	}
 	public DocumentVO() {
 		super();
 	}
-	public DocumentVO(String document_title, String document_contents, EmployeeVO employee, int document_state) {
+	
+	public DocumentVO(String document_title, String document_contents, EmployeeVO employee, String document_state) {
 		super();
 		this.document_title = document_title;
 		this.document_contents = document_contents;

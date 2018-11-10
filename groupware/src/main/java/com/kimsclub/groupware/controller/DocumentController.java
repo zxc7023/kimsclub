@@ -69,6 +69,43 @@ public class DocumentController {
 	}
 	
 	/**
+	 *  해당하는 조건의 문서의 목록을 가져오기 위한 세팅
+	 *  doc_type = 0 새 문서함(자신이 작성한 문서중 아직 기안하지 않은 문서의 목록)  - document_writer_no = 자신의 번호 AND document_state = 0 
+	 */
+	public ModelAndView docSetting(int employee_no,int page_scale, String[] searchOption, String keyword,int cur_page,int doc_type) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		ModelAndView mav = new ModelAndView();
+		map.put("fromOption", "document");
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		map.put("order", "document_no");
+		if(doc_type==0) {
+			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '임시저장'");
+		}else if (doc_type==1) {
+			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '진행'");
+		}else if (doc_type==2) {
+			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '반려'");
+		}
+		else if (doc_type==2) {
+			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '완료'");
+		}
+		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음
+		map.put("selectOption", "B.document_no, B.document_title, B.document_date");
+		//페이징
+		BoardPageVO bpvo = new BoardPageVO(service2.getDocumentCnt(map), cur_page, page_scale); 
+		map.put("start", bpvo.getPageBegin());
+		map.put("end", bpvo.getPageEnd());
+				
+		//map을 통해 해당하는 리스트 불러오기
+		List<DocumentVO> dlist = service2.getDocumentList(map);
+		mav.addObject("map",map);
+		mav.addObject("dlist",dlist);
+		mav.addObject("page",bpvo);
+		
+		return mav;
+	}
+	
+	/**
 	 *  새 문서함 기안 전 작성한 문서 목록 문서를 선택해 기안, 삭제, 수정 할 수 있다.
 	 *  view : 새문서함(newDocList) 
 	 */
@@ -79,30 +116,63 @@ public class DocumentController {
 			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
 		System.out.println("newDocList() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		
-		//map에 페이지에 필요한 리스트를 불러오기 위한 파라미터들 입력
-		Map<String, Object> map = new HashMap<String,Object>();
-		map.put("fromOption", "document");
-		map.put("searchOption", search_option);
-		map.put("keyword", keyword);
-		map.put("order", "document_no");
-		//기안자가 자신이고 임시저장상태인 문서들의 목록
-		map.put("whereOption", "document_writer_no = "+evo.getEmployee_no()+"and document_state = 0");
-		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음
-		map.put("selectOption", "B.document_no, B.document_title, B.document_date");
-		//페이징
-		BoardPageVO bpvo = new BoardPageVO(service2.getDocumentCnt(map), cur_page, page_scale); 
-		map.put("start", bpvo.getPageBegin());
-		map.put("end", bpvo.getPageEnd());
-		
-		//map을 통해 해당하는 리스트 불러오기
-		List<DocumentVO> dlist = service2.getDocumentList(map);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("map",map);
-		mav.addObject("dlist",dlist);
-		mav.addObject("page",bpvo);
+		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,0);
+	
 		mav.setViewName("document/newDocList");
+		
+		return mav;
+	}
+	
+	/**
+	 *  새 문서함 기안 전 작성한 문서 목록 문서를 선택해 기안, 삭제, 수정 할 수 있다.
+	 *  view : 반려문서함(returnDocList) 
+	 */
+	@RequestMapping(value = "/returnDocList", method=RequestMethod.GET)
+	public ModelAndView returnDocList(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
+			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
+			@RequestParam(name="keyword", defaultValue="") String keyword,
+			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
+		System.out.println("returnDocList() 메소드 호출");
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,2);
+	
+		mav.setViewName("document/retrunDocList");
+		
+		return mav;
+	}
+	
+	/**
+	 *  새 문서함 기안 전 작성한 문서 목록 문서를 선택해 기안, 삭제, 수정 할 수 있다.
+	 *  view : 완료문서함(proceedDocList) 
+	 */
+	@RequestMapping(value = "/completeDocList", method=RequestMethod.GET)
+	public ModelAndView completeDocList(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
+			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
+			@RequestParam(name="keyword", defaultValue="") String keyword,
+			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
+		System.out.println("completeDocList() 메소드 호출");
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,3);
+	
+		mav.setViewName("document/completeDocList");
+		
+		return mav;
+	}
+	
+	/**
+	 *  새 문서함 기안 전 작성한 문서 목록 문서를 선택해 기안, 삭제, 수정 할 수 있다.
+	 *  view : 진행문서함(proceedDocList) 
+	 */
+	@RequestMapping(value = "/proceedDocList", method=RequestMethod.GET)
+	public ModelAndView proceedDocList(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
+			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
+			@RequestParam(name="keyword", defaultValue="") String keyword,
+			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
+		System.out.println("proceedDocList() 메소드 호출");
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,1);
+	
+		mav.setViewName("document/proceedDocList");
 		
 		return mav;
 	}
