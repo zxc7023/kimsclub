@@ -57,7 +57,7 @@ height: 80px;
 <script>
 $(document).ready(function() {
 	$("#app_btn").click(function(){
-		$("#type").attr("value",1);
+		$("#type").attr("value","진행");
 		submitBtn();
 	});
 	

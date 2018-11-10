@@ -65,7 +65,7 @@ $(document).ready(function() {
 	});
 
 	$("#modify_btn").click(function(){
-		$("#submit").attr("value",0);
+		$("#submit").attr("value","임시저장");
 		submitBtn();
 	});
 
