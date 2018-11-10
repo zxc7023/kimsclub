@@ -37,20 +37,6 @@ public class DocumentDAO {
 		return session.selectOne("Document.selectDocument", document_no);
 	}
 	
-	public void updateApproval(DocumentVO vo) {
-		for (int i = 0; i < vo.getApproval().size(); i++) {
-			//문서를 바로 기안하기 하였을 때 첫번째 결재자 결재상태로 입력
-			System.out.println(vo.getApproval().get(i).getApproval_state());
-			if(i==0&& vo.getDocument_state()==1) {
-				session.insert("approval.updateApprovalFirst", vo.getApproval().get(i));
-			} else if (i == vo.getApproval().size() - 1) {
-				session.insert("approval.updateApprovalLast", vo.getApproval().get(i));
-			} else {
-				session.insert("approval.updateApproval", vo.getApproval().get(i));
-			}
-		}
-	}
-	
 	public void modifyDoc(DocumentVO dvo) {
 		session.update("Document.updateDocument", dvo);
 	}
