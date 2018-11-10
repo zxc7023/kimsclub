@@ -41,6 +41,10 @@
 			<id property="document_no" column="document_no" />
 			<result property="document_date" column="document_date"/>
 			<result property="document_state" column="document_state"/>
+			<association property="employee" javaType="employee">
+				<id property="employee_no" column="employee_no"/>
+				<result property="employee_name" column="employee_name"/>
+			</association>
 		</association>
 		<collection property="dayoff_apply_detail" ofType="DayoffApplyDetail">
 			<id property="dayoff_no" column="dayoff_no" />
@@ -90,7 +94,8 @@
 		#{effect_day} + (select reward_dayoff+previous_dayoff
 		from
 		dayoff_my_recode
-		where employee_no = #{employee_no}),1, #{dayoff_generator})
+		where employee_no = #{employee_no}),1, #{dayoff_generator},
+		'금년발생일(${effect_day})')
 	</insert>
 
 	<update id="updateAnualMyRecode" parameterType="Employee">
@@ -125,7 +130,7 @@
 	</select>
 
 	<insert id="insertDocument" parameterType="DayoffApply">
-		insert into document values (document_seq.nextval,'휴가신청',(select form_contents from form where form_no = 103),#{employee.employee_no},sysdate,1)
+		insert into document values (document_seq.nextval,'휴가신청',(select form_contents from form where form_no = 103),#{employee.employee_no},sysdate,'진행')
 	</insert>
 
 	<insert id="insertApprovalFirst" parameterType="approval">
@@ -167,7 +172,7 @@
 	</select>
 
 	<select id="selectApplyList"  resultMap="userDayoffList">
-		select da.dayoff_no, d.document_writer_no,
+		select da.dayoff_no, e.employee_name,
 		dayoff_name, da.total_days, start_date, end_date, document_state
 		from dayoff_apply da join document d
 		on da.document_no = d.document_no
@@ -175,7 +180,8 @@
 		on d.document_writer_no = e.employee_no
 		join dayoff_kinds dk
 		on da.dayoff_type_code = dk.dayoff_type_code
-		where da.employee_no =1;
+		where da.employee_no =#{employee_no}
+		order by document_date desc
 	</select>
 
 

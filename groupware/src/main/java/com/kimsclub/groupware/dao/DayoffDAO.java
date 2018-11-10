@@ -126,5 +126,9 @@ public class DayoffDAO {
 	public int selectUseDate(Map<String, Object> map) {
 		return session.selectOne("dayoff.selectUseDate",map);
 	}
+	
+	public List<DayoffApplyVO> selectApplyList(EmployeeVO vo) {
+		return session.selectList("dayoff.selectApplyList",vo);
+	}
 
 }

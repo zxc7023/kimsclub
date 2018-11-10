@@ -20,7 +20,8 @@
 <!-- Custom CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 <!-- Custom Fonts -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
@@ -39,7 +40,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <script type="text/javascript">
 
-	function getTab01(){
+/* 	function getTab01(){
 		$.ajax({
 			method : "get",
 			contentType : 'application/json;charset=UTF-8',
@@ -48,21 +49,34 @@
 				alert("tap1 데이터 받아오기 실패");
 			},
 			success : function(server_result) {
-				/* console.log(server_result); */
 				var obj = JSON.parse(server_result);
-				console.log(obj.createList);
 				var list = obj.createList;
+				var $table = $("#dayoff_create_recode_tb");
+				$table.find("tbody").empty();
 				console.log(list);
-				for(var i=0;i <list.size;i++){
-					console.log(list.get(i));
+				for(var i=0;i <list.length;i++){
+					var createVO = list[i];
+					var row = "<tr>";
+					row += "<td>" + createVO.generation_date +"</td>";
+					row += "<td>" + createVO.effect_day +"</td>";
+					row += "<td>" + createVO.real_day +"</td>";
+					if(createVO.dayoff_type == 1){
+						row += "<td>정기휴가</td>";
+					}else if(createVO.dayoff_type == 2){
+						row += "<td>포상휴가</td>";
+					}else{
+						row +="<td>수동입력</td>";
+					}  
+					row += "<td>" + createVO.dayoff_generator +"</td>";
+					row += "</tr>";
+					$table.find("tbody").append(row);
 				}
 			}
 
 		});
-	}
+	} */
 	$(document).ready(function(){
 		
-		getTab01();
 		
 		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 			 console.log(e.target); // newly activated tab
@@ -117,9 +131,9 @@
 					<!-- Tab panes -->
 					<div class="tab-content">
 						<div class="tab-pane fade in active" id="tab01">
-							<div class="dayoff-create-recode">
+							<div class="dayoff-create-recode_div">
 								<h3>휴가 생성 내역</h3>
-								<table class="table" id="myTable">
+								<table class="table" id="dayoff_create_recode_tb">
 									<colgroup>
 										<col width="20%">
 										<col width="10%">
@@ -137,14 +151,14 @@
 										</tr>
 									</thead>
 									<tbody>
-									<%-- 	<c:forEach var="creation" items="${requestScope.createList}">
+										 	<c:forEach var="creation" items="${requestScope.createList}">
 											<tr>
 												<td><fmt:formatDate value="${creation.generation_date}" pattern="yyyy.MM.dd" /></td>
 												<td>${creation.effect_day }</td>
 												<td>${creation.real_day }</td>
 												<c:if test="${creation.dayoff_type eq 1}">
 													<td>정기 휴가</td>
-													<td>금년 발생일(${creation.effect_day}), 최종일(${creation.real_day })
+													<td>${creation.create_reason}, 최종일(${creation.real_day })
 												</c:if>
 												<c:if test="${creation.dayoff_type eq 2}">
 													<td>포상 휴가</td>
@@ -155,64 +169,96 @@
 												</c:if>
 												
 											</tr>
-										</c:forEach> --%>
+										</c:forEach>
 									</tbody>
 								</table>
-							<%-- 	<h4>
+								 <h4>
 									올해 사용 현황 : <small> 생성 : ${requestScope.myDayoff.annual_dayoff + requestScope.myDayoff.reward_dayoff + requestScope.myDayoff.previous_dayoff} 일 / 사용 : ${requestScope.useReward + requestScope.useRegular} 일 / 잔여 : ${(requestScope.myDayoff.annual_dayoff - requestScope.useRegular) + (requestScope.myDayoff.reward_dayoff - requestScope.useReward)} 일 ( 정기 : ${requestScope.myDayoff.annual_dayoff - requestScope.useRegular} , 포상 : ${requestScope.myDayoff.reward_dayoff - requestScope.useReward} ) </small>
-								</h4> --%>
+								</h4> 
+							</div>
+							<div class="dayoff-use-recode-div">
+								<h3>휴가 신청 내역</h3>
+								<table class="table" id="dayoff_use_recode_tb">
+									<thead>
+										<tr>
+											<th>번호</th>
+											<th>신청자</th>
+											<th>휴가 종류</th>
+											<th>일수</th>
+											<th>기간</th>
+											<th>상태</th>
+											<th>상세보기</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${requestScope.applyList}" var="dayoffApply" varStatus="st">
+											<tr>
+												<td>${st.index}</td>
+												<td>${dayoffApply.document.employee.employee_name}</td>
+												<td>${dayoffApply.dayoff_kind.dayoff_name}</td>
+												<td>${dayoffApply.total_days }</td>
+												<td><fmt:formatDate value="${dayoffApply.start_date}" pattern="yyyy.MM.dd" /> ~ <fmt:formatDate value="${dayoffApply.end_date}" pattern="yyyy.MM.dd" /></td>
+												<td>${dayoffApply.document.document_state }</td>
+												<td><a href="">상세</a></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
+							
+						</div>
+						<div class="tab-pane fade" id="tab02">
+							<div>
+								<div id="calendar"></div>
 							</div>
 						</div>
-							<div class="tab-pane fade" id="tab02">
-								<div>
-									<div id="calendar"></div>
-								</div>
-							</div>
-							<div class="tab-pane fade" id="tab03">
-								<div>
-									<table>
-										<caption>휴가 신청 내역</caption>
-										<colgroup>
-											<col width="7%">
-											<col width="12%">
-											<col width="12%">
-											<col width="10%">
-											<col width="12%">
-											<col width="12%">
-											<col width="12%">
-											<col width="12%">
-										</colgroup>
-										<thead>
-											<tr>
-												<th scope="row">번호</th>
-												<th scope="row">신청자</th>
-												<th scope="row">휴가 종류</th>
-												<th scope="row">일수</th>
-												<th scope="row">기간</th>
-												<th scope="row">상태</th>
-												<th scope="row">상세</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>김준기</td>
-												<td>연차</td>
-												<td>1</td>
-												<td>
-													<p>2018.01.02 ~ 2018.01.02</p>
-												</td>
-												<td>결재 완료</td>
-												<td><button>상세</button></td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+						<div class="tab-pane fade" id="tab03">
+							<div>
+								<table>
+									<caption>휴가 신청 내역</caption>
+									<colgroup>
+										<col width="7%">
+										<col width="12%">
+										<col width="12%">
+										<col width="10%">
+										<col width="12%">
+										<col width="12%">
+										<col width="12%">
+										<col width="12%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="row">번호</th>
+											<th scope="row">신청자</th>
+											<th scope="row">휴가 종류</th>
+											<th scope="row">일수</th>
+											<th scope="row">기간</th>
+											<th scope="row">상태</th>
+											<th scope="row">상세</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>1</td>
+											<td>김준기</td>
+											<td>연차</td>
+											<td>1</td>
+											<td>
+												<p>2018.01.02 ~ 2018.01.02</p>
+											</td>
+											<td>결재 완료</td>
+											<td>
+												<button>상세</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 </body>
 </html>
