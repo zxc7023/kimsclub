@@ -78,6 +78,61 @@
 	} */
 	$(document).ready(function(){
 		
+		$("#dayoff_use_recode_tb").on("click","a",function(){
+			var dayoffApply = {};
+			dayoffApply.dayoff_no = $(this).attr("href"); 
+			$.ajax({
+				method : "post",
+				dataType : "json",
+				contentType : 'application/json;charset=UTF-8',
+				url : "${pageContext.request.contextPath}/dayoff/dayoffApplyDetailList",
+				data : JSON.stringify(dayoffApply),
+				error : function() {
+					alert("전송 실패");
+				},
+				success : function(server_result) {
+					console.log(server_result);
+					
+					var applyVO = server_result;
+					var documentVO = applyVO.document;
+					var applyDetailList = applyVO.dayoff_apply_detail;
+					var approvalList = documentVO.approval;
+					
+					for(var i=0; i <approvalList.length; i++){
+						$("#approvalLineTb tbody tr:eq(0) td").eq(i).text(approvalList[i].employee.employee_name);
+						var stateTxt;
+						if(approvalList[i].approval_state == 0){
+							stateTxt= "진행중";
+						}else if(approvalList[i].approval_state == 1){
+							stateTxt= "완료";
+						}else if(approvalList[i].approval_state == 2){
+							stateTxt= "반려";
+						}
+						$("#approvalLineTb tbody tr:eq(1) td").eq(i).text(stateTxt);
+					}
+					$("#document_date").text(documentVO.document_date);
+					$("#document_state").text(documentVO.document_state);
+					$("#user_name").text(applyVO.employee.employee_name);
+					$("#applicant_name").text(documentVO.employee.employee_name);
+					$("#department_name").text(applyVO.employee.department.department_name);
+					$("#dayoff_name").text(applyVO.dayoff_kind.dayoff_name);
+					$("#total_days").text(applyVO.total_days);
+					var dateText ='';
+					for(var i=0 ; i <applyDetailList.length; i++){
+						dateText += applyDetailList[i].dayoff_day + "<br>";
+					}
+					$("#dayoff_day").html(dateText);
+					$("#dayoff_reason").text(applyVO.dayoff_reason);
+					$("#applyDetailModal").modal('show');	
+				}
+			});
+			return false;
+		});
+				
+			
+
+		
+		
 		$("select").change(function(){
 			var selectArr = $("select option:selected");
 			
@@ -110,7 +165,7 @@
 						row += "<td>" + dayoffApply.total_days + "</td>"
 						row += "<td>" + dayoffApply.start_date + "~" + dayoffApply.end_date + "</td>";
 						row += "<td>" + dayoffApply.document.document_state  + "</td>";
-						row += "<td> <a href=''>상세</a></td>";
+						row += "<td> <a href='"+dayoffApply.dayoff_no+"'>상세</a></td>";
 						row += "</tr>";
 						$table.find("tbody").append(row);
 					}
@@ -254,7 +309,8 @@
 												<td>${dayoffApply.total_days }</td>
 												<td><fmt:formatDate value="${dayoffApply.start_date}" pattern="yyyy.MM.dd" /> ~ <fmt:formatDate value="${dayoffApply.end_date}" pattern="yyyy.MM.dd" /></td>
 												<td>${dayoffApply.document.document_state }</td>
-												<td><a href="">상세</a></td>
+												<td><a href="${dayoffApply.dayoff_no }">상세</a></td>
+												
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -315,5 +371,100 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="applyDetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">휴가신청 상세</h4>
+				</div>
+				<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-lg-12">
+									<table class="table table-bordered no-footer" id="approvalLineTb">
+										<thead>
+											<tr>
+												<th colspan="6">결재 진행도</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<table class="table table-bordered no-footer">
+										<colgroup>
+											<col width="20%">
+											<col width="30%">
+											<col width="20%">
+											<col width="30%">
+										</colgroup>
+										<tbody>
+											<tr>
+												<th>신청일시</th>
+												<td id="document_date"></td>
+												<th>상태</th>
+												<td id="document_state"></td>
+											</tr>
+											<tr>
+												<th>사용자</th>
+												<td id="user_name"></td>
+												<th>신청자</th>
+												<td id="applicant_name"></td>
+											</tr>
+											<tr>
+												<th>소속</th>
+												<td colspan="3" id="department_name"></td>
+											</tr>
+											<tr>
+												<th>종류</th>
+												<td id="dayoff_name"></td>
+												<th>일수</th>
+												<td id="total_days"></td>
+											</tr>
+											<tr>
+												<th>기간</th>
+												<td colspan="3" id="dayoff_day"></td>
+											</tr>
+											<tr>
+												<th>사유</th>
+												<td colspan="3" id="dayoff_reason"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="finish">완료</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </body>
 </html>

@@ -135,4 +135,8 @@ public class DayoffDAO {
 		return session.selectList("dayoff.selectApplyListWithCriteria",vo);
 	}
 
+	public DayoffApplyVO dayoffApplyDetailList(DayoffApplyVO vo) {
+		return session.selectOne("dayoff.dayoffApplyDetailList",vo);
+	}
+
 }

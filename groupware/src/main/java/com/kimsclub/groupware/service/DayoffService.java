@@ -69,4 +69,6 @@ public interface DayoffService {
 	 public List<DayoffApplyVO> selectApplyList(EmployeeVO vo);
 
 	public List<DayoffApplyVO> selectApplyListWithCriteria(DayoffApplyVO vo);
+
+	public DayoffApplyVO dayoffApplyDetailList(DayoffApplyVO vo);
 }

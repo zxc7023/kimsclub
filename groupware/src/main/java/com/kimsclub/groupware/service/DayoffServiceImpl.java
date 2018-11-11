@@ -102,6 +102,11 @@ public class DayoffServiceImpl implements DayoffService {
 		
 	}
 
+	@Override
+	public DayoffApplyVO dayoffApplyDetailList(DayoffApplyVO vo) {
+		return dao.dayoffApplyDetailList(vo);
+	}
+
 
 	
 

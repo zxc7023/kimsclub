@@ -19,7 +19,43 @@
 		</association>
 	</resultMap>
 	
-	<resultMap id="userDayoffList" type="DayoffApply">
+	   <resultMap id="userDayoffList" type="DayoffApply">
+      <id column="dayoff_no" property="dayoff_no" />
+      <result column="total_days" property="total_days" />
+      <result column="start_date" property="start_date" />
+      <result column="end_date" property="end_date" />
+      <result property="dayoff_reason" column="dayoff_reason"/>
+      <association property="employee" javaType="employee">
+         <id property="employee_no" column="employee_no" />
+         <result property="employee_name" column="employee_name"/>
+         <association property="department" javaType="department">
+            <id property="department_no" column="department_no"/>
+            <result property="department_name" column="department_name"/>
+         </association>
+      </association>
+      <association property="dayoff_kind" javaType="DayoffKinds">
+         <id property="dayoff_type_code" column="dayoff_type_code" />
+         <result property="dayoff_name" column="dayoff_name"/>
+      </association>
+      <association property="document" javaType="document">
+         <id property="document_no" column="document_no" />
+         <result property="document_date" column="document_date"/>
+         <result property="document_state" column="document_state"/>
+         <association property="employee" javaType="employee">
+            <id property="employee_no" column="employee_no"/>
+            <result property="employee_name" column="employee_name"/>
+         </association>
+      </association>
+      <collection property="dayoff_apply_detail" ofType="DayoffApplyDetail">
+         <id property="dayoff_no" column="dayoff_no" />
+         <id property="dayoff_day" column="dayoff_day"/>
+         <result property="days" column="days"/>
+         <result property="oneorhalf" column="oneorhalf"/>   
+      </collection>
+   </resultMap>
+	
+	
+	<resultMap id="detailMap" type="DayoffApply">
 		<id column="dayoff_no" property="dayoff_no" />
 		<result column="total_days" property="total_days" />
 		<result column="start_date" property="start_date" />
@@ -37,7 +73,7 @@
 			<id property="dayoff_type_code" column="dayoff_type_code" />
 			<result property="dayoff_name" column="dayoff_name"/>
 		</association>
-		<association property="document" javaType="document">
+		<association property="document" javaType="Document">
 			<id property="document_no" column="document_no" />
 			<result property="document_date" column="document_date"/>
 			<result property="document_state" column="document_state"/>
@@ -45,14 +81,49 @@
 				<id property="employee_no" column="employee_no"/>
 				<result property="employee_name" column="employee_name"/>
 			</association>
+			<collection property="approval" ofType="Approval" javaType="java.util.ArrayList" select="selectApproval" column="dayoff_no"/>
 		</association>
-		<collection property="dayoff_apply_detail" ofType="DayoffApplyDetail">
-			<id property="dayoff_no" column="dayoff_no" />
-			<id property="dayoff_day" column="dayoff_day"/>
-			<result property="days" column="days"/>
-			<result property="oneorhalf" column="oneorhalf"/>	
-		</collection>
+		<collection column="dayoff_no" property="dayoff_apply_detail" ofType="DayoffApplyDetail" javaType="java.util.ArrayList" select="selectDayoffApplyDetail"/>
 	</resultMap>
+
+	<resultMap type="DayoffApplyDetail" id="DayoffApplyDetailMap">
+		<id property="dayoff_no" column="dayoff_no" />
+		<id property="dayoff_day" column="dayoff_day" />
+		<result property="days" column="days" />
+		<result property="oneorhalf" column="oneorhalf" />
+	</resultMap>
+	
+	
+	<select id="selectDayoffApplyDetail" resultMap="DayoffApplyDetailMap">
+		select dayoff_no, dayoff_day, days, oneorhalf
+		from dayoff_apply_detail
+		where dayoff_no = #{dayoff_no}
+	</select>
+	
+	<resultMap type="Approval" id="approvalMap">
+		<id column="approval_no" property="approval_no"/>
+		<result column="approval_date" property="approval_date"/>
+		<result column="approval_state" property="approval_state"/>
+		<association property="employee" javaType="employee">
+			<id column="employee_no" property="employee_no"/>
+			<result column="employee_name" property="employee_name"/>
+			<result column="position" property="position"/>
+		</association> 
+	</resultMap>
+	
+	
+	<select id="selectApproval" resultMap="approvalMap">
+		SELECT approval_no, approval_date,approval_state, e.employee_no,employee_name
+		FROM approval a 
+		join employee e 
+		on a.EMPLOYEE_NO=e.EMPLOYEE_NO
+		join document d
+		on d.document_no = a.document_no
+		join dayoff_apply da
+		on da.document_no = d.document_no
+		where da.dayoff_no = #{dayoff_no}
+	</select>
+	
 
 
 
@@ -205,6 +276,22 @@
 			</if>
 		</where>
 		order by document_date desc
+	</select>
+	
+	
+	<select id="dayoffApplyDetailList" resultMap="detailMap" parameterType="DayoffApply">
+		select da.dayoff_no, document_date, document_state, eda.employee_name, ed.employee_name, department_name, dayoff_name, total_days,dayoff_reason
+		from dayoff_apply da join document d
+		on da.document_no = d.document_no
+		join employee ed
+		on d.document_writer_no = ed.employee_no
+		join dayoff_kinds dk
+		on da.dayoff_type_code = dk.dayoff_type_code
+        join employee eda
+        on da.employee_no = eda.employee_no
+        join department dep
+        on eda.department_no = dep.department_no
+        where da.dayoff_no = #{dayoff_no}
 	</select>
 
 

@@ -209,6 +209,25 @@ public class DayoffController {
 		System.out.println(json);
 		return json;
 	}
+	
+	@RequestMapping(value="/dayoffApplyDetailList", method=RequestMethod.POST ,produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String dayoffApplyDetailList(@RequestBody DayoffApplyVO vo) {
+		DayoffApplyVO applyVO = service.dayoffApplyDetailList(vo);
+		ObjectMapper mapper = new ObjectMapper();
+		String json=null;
+		try {
+			DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+			mapper.setDateFormat(fmt);
+			json =mapper.writeValueAsString(applyVO);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(json);
+		return json;
+	}
+	
 
 	/*@RequestMapping(value = "/dayoff_status_tap01", method = RequestMethod.GET)
 	@ResponseBody
