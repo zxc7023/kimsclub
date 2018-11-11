@@ -28,6 +28,10 @@ public interface DayoffService {
 
 	public void createDayoffkinds(DayoffKindsVO vo);
 	
+	/**
+	 * 전체사원의 휴가를 생성한다.
+	 * @param vo
+	 */
 	public void createDayoffTotalEmployee(EmployeeVO vo);
 	
 	public List<DayoffCreateRecodeVO> getMyCreateRecode(EmployeeVO vo);
@@ -56,4 +60,15 @@ public interface DayoffService {
 	 * @param map 
 	 */
 	public int selectUseDate(Map<String, Object> map);
+
+	/**
+	 * 해당하는 사용자의 휴가신청 내역을 가져온다.
+	 * @param vo
+	 * @return
+	 */
+	 public List<DayoffApplyVO> selectApplyList(EmployeeVO vo);
+
+	public List<DayoffApplyVO> selectApplyListWithCriteria(DayoffApplyVO vo);
+
+	public DayoffApplyVO dayoffApplyDetailList(DayoffApplyVO vo);
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,14 +99,22 @@ public class DayoffController {
 	}
 
 	@RequestMapping(value = "/dayoffWriteform", method = RequestMethod.POST)
-	public String applyDayoff(HttpSession session, @RequestBody DayoffApplyVO vo) {
+	@ResponseBody
+	public Map<String, Object> applyDayoff(HttpSession session, @RequestBody DayoffApplyVO vo) {
 
+		Map<String, Object> resultMap = new HashMap<>();
+		
 		EmployeeVO empVo = (EmployeeVO) session.getAttribute("loginInfo");
 		vo.getDocument().setEmployee(empVo);
 		System.out.println(vo);
-		service.applyDayoff(vo);
+		try {
+			service.applyDayoff(vo);
+			resultMap.put("result",1);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		return null;
+		return resultMap;
 	}
 
 	@RequestMapping(value = "/checkWhatDate", method = RequestMethod.POST)
@@ -135,7 +144,7 @@ public class DayoffController {
 	public ModelAndView readDayoffStatus(HttpSession session) {
 		EmployeeVO vo = (EmployeeVO) session.getAttribute("loginInfo");
 		ModelAndView mov = new ModelAndView();
-/*
+
 		// 나의 생성된 휴가 , 사용된 휴가 내역을 구하여 계산하는 부분
 
 		// 나의 생성된 휴가를 받아온다.
@@ -158,13 +167,69 @@ public class DayoffController {
 		mov.addObject("useRegular", useRegular);
 
 		List<DayoffCreateRecodeVO> createList = service.getMyCreateRecode(vo);
-		mov.addObject("createList", createList);*/
+		mov.addObject("createList", createList);
+		
+		
+		
+		//내가 신청한 휴가의 리스틀 보여주기위해서 사용
+		List<DayoffApplyVO> applyList = service.selectApplyList(vo);
+		System.out.println(applyList);
+		mov.addObject("applyList",applyList);
+		
+		
+		// 휴가 종류를 받아옴
+		List<DayoffKindsVO> kindsList = service.getDayoffKinds();
+		mov.addObject("kindsList",kindsList);
+		
 		mov.setViewName("dayoff/dayoff_status");
-
 		return mov;
 	}
+	
+	@RequestMapping(value="/dayoffApplyList", method=RequestMethod.POST ,produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String dayoffApplyList(@RequestBody DayoffApplyVO vo, HttpSession session) {
+		
+		System.out.println(vo);
+		vo.setEmployee((EmployeeVO)session.getAttribute("loginInfo"));
+		List<DayoffApplyVO> applyList =  service.selectApplyListWithCriteria(vo);
+		
+		String json = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+			mapper.setDateFormat(fmt);
+			json =mapper.writeValueAsString(applyList);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(json);
+		return json;
+	}
+	
+	@RequestMapping(value="/dayoffApplyDetailList", method=RequestMethod.POST ,produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String dayoffApplyDetailList(@RequestBody DayoffApplyVO vo) {
+		DayoffApplyVO applyVO = service.dayoffApplyDetailList(vo);
+		ObjectMapper mapper = new ObjectMapper();
+		String json=null;
+		try {
+			DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+			mapper.setDateFormat(fmt);
+			json =mapper.writeValueAsString(applyVO);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(json);
+		return json;
+	}
+	
 
-	@RequestMapping(value = "/dayoff_status_tap01", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/dayoff_status_tap01", method = RequestMethod.GET)
 	@ResponseBody
 	public String dayoff_status_tap01(HttpSession session) {
 		Map<String, Object> resultMap = new HashMap<>();
@@ -208,7 +273,7 @@ public class DayoffController {
 		
 		System.out.println(json);
 		return json;
-	}
+	}*/
 
 	/**
 	 * 
@@ -257,7 +322,6 @@ public class DayoffController {
 	public Map<String, String> createDayoffTotalEmployee(HttpSession session) {
 		EmployeeVO vo = (EmployeeVO) session.getAttribute("loginInfo");
 
-		// 세션정보가없어서 임시로 ajax로 보낸 데이터로 해당 관리자로 사용
 		System.out.println(vo.getEmployee_no());
 
 		Map<String, String> map = new HashMap<String, String>();

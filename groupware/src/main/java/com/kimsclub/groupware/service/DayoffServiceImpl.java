@@ -90,6 +90,22 @@ public class DayoffServiceImpl implements DayoffService {
 		return dao.selectUseDate(map);
 		
 	}
+	
+	@Override
+	public  List<DayoffApplyVO> selectApplyList(EmployeeVO vo) {
+		return dao.selectApplyList(vo);
+	}
+
+	@Override
+	public List<DayoffApplyVO> selectApplyListWithCriteria(DayoffApplyVO vo) {
+		return dao.selectApplyListWithCriteria(vo);
+		
+	}
+
+	@Override
+	public DayoffApplyVO dayoffApplyDetailList(DayoffApplyVO vo) {
+		return dao.dayoffApplyDetailList(vo);
+	}
 
 
 	
