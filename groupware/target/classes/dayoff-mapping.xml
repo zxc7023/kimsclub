@@ -102,7 +102,7 @@
 		update dayoff_my_recode set annual_dayoff = #{effect_day} where employee_no = #{employee_no}
 	</update>
 
-	<!-- 나의 휴가 생성내역을 가져오는 sql문 -->
+	<!-- 휴가 생성 내역을 가져온다. 올해의 데이터만 가쟈온다. -->
 	<select id="selecMytCreateRecode" parameterType="Employee" resultType="DayoffCreateRecode">
 		select *
 		from dayoff_create_recode
@@ -126,7 +126,7 @@
 		dk.dayoff_type_code
 		join document d
 		on da.document_no = d.document_no
-		where (dayoff_deduction = '1' or da.dayoff_type_code = 2) and d.document_state != 3 and da.employee_no = #{employee_no}
+		where (dayoff_deduction = '1' or da.dayoff_type_code = 2) and d.document_state != '반려' and da.employee_no = #{employee_no}
 	</select>
 
 	<insert id="insertDocument" parameterType="DayoffApply">
@@ -168,7 +168,7 @@
 		<foreach collection="dateList" open="(" close=")" separator="," item="item">
 			#{item}
 		</foreach>
-		and document_state != 3
+		and document_state != '반려'
 	</select>
 
 	<select id="selectApplyList"  resultMap="userDayoffList">
@@ -181,6 +181,29 @@
 		join dayoff_kinds dk
 		on da.dayoff_type_code = dk.dayoff_type_code
 		where da.employee_no =#{employee_no}
+		order by document_date desc
+	</select>
+	
+	<select id="selectApplyListWithCriteria" resultMap="userDayoffList" parameterType="DayoffApply">
+		select da.dayoff_no, e.employee_name,
+		dayoff_name, da.total_days, start_date, end_date, document_state
+		from dayoff_apply da join document d
+		on da.document_no = d.document_no
+		join employee e
+		on d.document_writer_no = e.employee_no
+		join dayoff_kinds dk
+		on da.dayoff_type_code = dk.dayoff_type_code
+		<where>
+			da.employee_no = #{employee.employee_no}
+			<if test="dayoff_kind.dayoff_type_code != null">
+				<if test="dayoff_kind.dayoff_type_code != 0">
+				and da.dayoff_type_code = #{dayoff_kind.dayoff_type_code}
+				</if>
+			</if>
+			<if test="document.document_date != null">
+				and to_char(document_date,'yyyy') = to_char(#{document.document_date},'yyyy')
+			</if>
+		</where>
 		order by document_date desc
 	</select>
 

@@ -96,6 +96,12 @@ public class DayoffServiceImpl implements DayoffService {
 		return dao.selectApplyList(vo);
 	}
 
+	@Override
+	public List<DayoffApplyVO> selectApplyListWithCriteria(DayoffApplyVO vo) {
+		return dao.selectApplyListWithCriteria(vo);
+		
+	}
+
 
 	
 

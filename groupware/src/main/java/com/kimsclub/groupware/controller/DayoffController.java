@@ -177,8 +177,37 @@ public class DayoffController {
 		mov.addObject("applyList",applyList);
 		
 		
+		// 휴가 종류를 받아옴
+		List<DayoffKindsVO> kindsList = service.getDayoffKinds();
+		mov.addObject("kindsList",kindsList);
+		
 		mov.setViewName("dayoff/dayoff_status");
 		return mov;
+	}
+	
+	@RequestMapping(value="/dayoffApplyList", method=RequestMethod.POST ,produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String dayoffApplyList(@RequestBody DayoffApplyVO vo, HttpSession session) {
+		
+		System.out.println(vo);
+		vo.setEmployee((EmployeeVO)session.getAttribute("loginInfo"));
+		List<DayoffApplyVO> applyList =  service.selectApplyListWithCriteria(vo);
+		
+		String json = null;
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+			mapper.setDateFormat(fmt);
+			json =mapper.writeValueAsString(applyList);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(json);
+		return json;
 	}
 
 	/*@RequestMapping(value = "/dayoff_status_tap01", method = RequestMethod.GET)

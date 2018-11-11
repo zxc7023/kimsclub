@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,13 +78,47 @@
 	} */
 	$(document).ready(function(){
 		
-		
-		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-			 console.log(e.target); // newly activated tab
-			 console.log(e.relatedTarget); // previous active tab
+		$("select").change(function(){
+			var selectArr = $("select option:selected");
+			
+			var dayoffApply = {};
+			dayoffApply.dayoff_kind = {};
+			dayoffApply.dayoff_kind.dayoff_type_code = selectArr[0].value; 
+			dayoffApply.document = {};
+			dayoffApply.document.document_date = new Date().setFullYear(selectArr[1].value);
+			$.ajax({
+				method : "post",
+				dataType : "json",
+				contentType : 'application/json;charset=UTF-8',
+				url : "${pageContext.request.contextPath}/dayoff/dayoffApplyList",
+				data : JSON.stringify(dayoffApply),
+				error : function() {
+					alert("전송 실패");
+				},
+				success : function(server_result) {
+					console.log(server_result);
+					var applyList = server_result;
+					console.log(applyList.length);
+					var $table = $("#dayoff_use_recode_tb");
+					$table.find("tbody").empty();
+					for(var i=0;i <applyList.length;i++){
+						var dayoffApply = applyList[i];
+						var row = "<tr>";
+						row += "<td>" + (applyList.length-i) +"</td>";
+						row += "<td>" + dayoffApply.document.employee.employee_name +"</td>";
+						row += "<td>" + dayoffApply.dayoff_kind.dayoff_name +"</td>";
+						row += "<td>" + dayoffApply.total_days + "</td>"
+						row += "<td>" + dayoffApply.start_date + "~" + dayoffApply.end_date + "</td>";
+						row += "<td>" + dayoffApply.document.document_state  + "</td>";
+						row += "<td> <a href=''>상세</a></td>";
+						row += "</tr>";
+						$table.find("tbody").append(row);
+					}
+				} 
+			});
 		});
 		
-		
+	
 		$("#calendar")
 				.fullCalendar(
 						{
@@ -108,6 +143,9 @@
 <title>휴가현황</title>
 </head>
 <body>
+	<jsp:useBean id="now" class="java.util.Date" /> 
+	<fmt:formatDate var="year" value="${now}" pattern="yyyy" /> 
+	
 	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
@@ -158,7 +196,7 @@
 												<td>${creation.real_day }</td>
 												<c:if test="${creation.dayoff_type eq 1}">
 													<td>정기 휴가</td>
-													<td>${creation.create_reason}, 최종일(${creation.real_day })
+													<td>${creation.create_reason} / 최종일(${creation.real_day }) / 생성 관리자 사번 : ${creation.dayoff_generator}
 												</c:if>
 												<c:if test="${creation.dayoff_type eq 2}">
 													<td>포상 휴가</td>
@@ -167,6 +205,7 @@
 												<c:if test="${creation.dayoff_type eq 3}">
 												수동 입력
 												</c:if>
+												
 												
 											</tr>
 										</c:forEach>
@@ -178,6 +217,22 @@
 							</div>
 							<div class="dayoff-use-recode-div">
 								<h3>휴가 신청 내역</h3>
+								<div class="form-group">
+									<select name="dayoff_type_code">
+										<option selected="selected" value="0">모든 휴가</option>
+										<c:forEach items="${requestScope.kindsList}" var="dayoffKind">
+											<option value="${dayoffKind.dayoff_type_code}">${dayoffKind.dayoff_name }</option>
+										</c:forEach>
+									</select>
+									<select name="document_write_date">
+										<option selected="selected">${year }</option>
+										<option>${year -1}</option>
+										<option>${year -2}</option>
+										<option>${year -3}</option>
+										<option>${year -4}</option>
+									</select>
+								</div>
+
 								<table class="table" id="dayoff_use_recode_tb">
 									<thead>
 										<tr>
@@ -193,7 +248,7 @@
 									<tbody>
 										<c:forEach items="${requestScope.applyList}" var="dayoffApply" varStatus="st">
 											<tr>
-												<td>${st.index}</td>
+												<td>${fn:length(requestScope.applyList) - st.index}</td>
 												<td>${dayoffApply.document.employee.employee_name}</td>
 												<td>${dayoffApply.dayoff_kind.dayoff_name}</td>
 												<td>${dayoffApply.total_days }</td>
