@@ -41,31 +41,56 @@ public class DocumentController {
 	 *  view : 문서 수정 페이지(modifyNewDoc) model : flist-활성화된 양식 목록 양식 불러올 때 사용 dvo-수정 할 문서의 정보
 	 */
 	@RequestMapping(value = "/modifyNewDoc", method=RequestMethod.GET)
-	public ModelAndView approvalDocModify(@RequestParam(name="document_no",defaultValue="0") int document_no){
+	public ModelAndView approvalDocModify(@RequestParam(name="document_no") int document_no){
 		ModelAndView mav = new ModelAndView();
 		
 		List<FormVO> flist = service3.getUsedFormList();
 		
 		mav.addObject("flist", flist);
 		
-		DocumentVO dvo = service2.viewNewDoc(document_no);
+		DocumentVO dvo = service2.viewDoc(document_no);
 		mav.addObject("dvo", dvo);
 		mav.setViewName("document/modifyNewDoc");
 		return mav;
 	}
 	
 	/**
-	 *  선택한 문서의 제목, 내용의 수정 처리
-	 *  view : 해당 번호의 문서 정보(viewNewDoc)
+	 *  자기자신을 제외한 결재선에 아무도 결재를 안했을 시에 결재를 회수할 수 있다.
 	 */
-	@RequestMapping(value = "/modifyNewDoc", method=RequestMethod.POST)
+	@RequestMapping(value = "/retrieveDoc", method=RequestMethod.GET)
+	public String retrieveDoc(@RequestParam(name="document_no") int document_no){
+		System.out.println("retrieveDoc() 메소드 호출");
+		service2.retrieveDocument(document_no);
+		return "/groupware/newDocList";
+	}
+	
+	/**
+	 *  결재 승인
+	 */
+	@RequestMapping(value = "/approveDoc", method=RequestMethod.GET)
+	@ResponseBody
+	public String approveDoc(HttpSession session, @RequestParam(name="document_no") int document_no){
+		System.out.println("approveDoc() 메소드 호출");
+		Map<String, Object> map = new HashMap<String,Object>();
+		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
+		map.put("document_no",document_no);
+		map.put("employee_no", evo.getEmployee_no());
+		service2.approveDocument(map);
+		return "/groupware/approvalDocList";
+	}
+	
+	/**
+	 *  선택한 문서의 제목, 내용의 수정 처리
+	 *  view : 해당 번호의 문서 정보(viewDoc)
+	 */
+	@RequestMapping(value = "/modifyDocState", method=RequestMethod.POST)
 	@ResponseBody
 	public String approvalDocModifyResult(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalDocModify() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
 		dvo.setEmployee(evo);
 		service2.modifyDocument(dvo);
-		return "/groupware/viewNewDoc?document_no="+dvo.getDocument_no();
+		return "/groupware/viewDoc?document_type=0&document_no="+dvo.getDocument_no();
 	}
 	
 	/**
@@ -83,14 +108,16 @@ public class DocumentController {
 			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '임시저장'");
 		}else if (doc_type==1) {
 			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '진행'");
-		}else if (doc_type==2) {
+		}else if (doc_type==3) {
 			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '반려'");
-		}
-		else if (doc_type==2) {
+		}else if (doc_type==4) {
 			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '완료'");
+		}else if (doc_type==2) {
+			map.put("whereOption", "document_no = (SELECT document_no FROM approval WHERE approval_state = 1 AND approval_next_no = (SELECT approval_no FROM approval WHERE approval_state=0 and employee_no = "+employee_no+"))");
 		}
+		
 		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음
-		map.put("selectOption", "B.document_no, B.document_title, B.document_date");
+		map.put("selectOption", "B.document_no, B.document_title, TO_CHAR(B.document_date, 'yyyy/mm/dd') document_date");
 		//페이징
 		BoardPageVO bpvo = new BoardPageVO(service2.getDocumentCnt(map), cur_page, page_scale); 
 		map.put("start", bpvo.getPageBegin());
@@ -134,7 +161,7 @@ public class DocumentController {
 			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
 		System.out.println("returnDocList() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,2);
+		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,3);
 	
 		mav.setViewName("document/retrunDocList");
 		
@@ -152,7 +179,7 @@ public class DocumentController {
 			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
 		System.out.println("completeDocList() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,3);
+		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,4);
 	
 		mav.setViewName("document/completeDocList");
 		
@@ -173,6 +200,24 @@ public class DocumentController {
 		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,1);
 	
 		mav.setViewName("document/proceedDocList");
+		
+		return mav;
+	}
+	
+	/**
+	 *  새 문서함 기안 전 작성한 문서 목록 문서를 선택해 기안, 삭제, 수정 할 수 있다.
+	 *  view : 결재문서함(approvalDocList) 
+	 */
+	@RequestMapping(value = "/approvalDocList", method=RequestMethod.GET)
+	public ModelAndView approvalDocList(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
+			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
+			@RequestParam(name="keyword", defaultValue="") String keyword,
+			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
+		System.out.println("approvalDocList() 메소드 호출");
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,2);
+	
+		mav.setViewName("document/approvalDocList");
 		
 		return mav;
 	}
@@ -219,19 +264,35 @@ public class DocumentController {
 	
 	/**
 	 *  임시저장된 문서 선택해서 보기
-	 * @return view : 임시저장된 문서(viewNewDoc.jsp)
+	 * @return view : 임시저장된 문서(viewDoc.jsp)
 	 */	
-	@RequestMapping(value = "/viewNewDoc", method=RequestMethod.GET)
-	public ModelAndView viewNewDoc(@RequestParam(name="document_no")int document_no){
-		System.out.println("viewNewDoc() 메소드 호출");
+	@RequestMapping(value = "/viewDoc", method=RequestMethod.GET)
+	public ModelAndView viewDoc(@RequestParam(name="document_no")int document_no,@RequestParam(name="document_type")int document_type){
+		System.out.println("viewDoc() 메소드 호출");
 		
 		ModelAndView mav = new ModelAndView();
 		
-		DocumentVO dvo = service2.viewNewDoc(document_no);
+		DocumentVO dvo = service2.viewDoc(document_no);
 		
 		mav.addObject("dvo", dvo);
-	
-		mav.setViewName("document/viewNewDoc");
+		System.out.println(document_type);
+		if(document_type == 0) {
+			System.out.println("임시저장페이지 호출");
+			mav.setViewName("document/viewNewDoc");			
+		}else if(document_type==1) {
+			System.out.println("진행페이지 호출");
+			mav.setViewName("document/viewProceedDoc");
+		}else if(document_type==3) {
+			System.out.println("반려페이지 호출");
+			mav.setViewName("document/viewReturnDoc");
+		}else if(document_type==2) {
+			System.out.println("결재페이지 호출");
+			mav.setViewName("document/viewApprovalDoc");
+		}else if(document_type==4) {
+			System.out.println("완료페이지 호출");
+			mav.setViewName("document/viewCompleteDoc");
+		}
+		
 		return mav;
 	}
 	
@@ -244,6 +305,6 @@ public class DocumentController {
 		System.out.println("deleteNewDoc() 메소드 호출");
 		
 		service2.deleteNewDoc(document_no);
-		return "document/newDocList";
+		return "groupware/newDocList";
 	}
 }

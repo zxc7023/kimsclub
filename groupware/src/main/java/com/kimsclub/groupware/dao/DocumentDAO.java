@@ -48,6 +48,13 @@ public class DocumentDAO {
 	public void changeDocState(DocumentVO dvo) {
 		session.update("Document.updateDocState", dvo);
 	}
-	
+
+	public void retrieveDoc(int document_no) {
+		session.update("Document.retrieveDoc",document_no);
+	}
+
+	public void completeDoc(Map<String, Object> map) {
+		session.update("Document.completeDoc",map);		
+	}
 	
 }

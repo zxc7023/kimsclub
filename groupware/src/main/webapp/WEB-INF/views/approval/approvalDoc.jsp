@@ -57,6 +57,10 @@ height: 80px;
 <script>
 $(document).ready(function() {
 	$("#app_btn").click(function(){
+		if($("div#approvalLine input[name='approval[][employee][employee_no]']").length < 2){
+			alert("결재선을 2명이상 입력해주세요.");
+			return false;
+		}
 		$("#type").attr("value","진행");
 		submitBtn();
 	});

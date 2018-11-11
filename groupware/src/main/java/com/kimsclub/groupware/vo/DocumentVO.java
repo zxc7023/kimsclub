@@ -9,7 +9,7 @@ public class DocumentVO {
 	private String document_contents;
 	private EmployeeVO employee;
 	private List<ApprovalVO> approval;
-	private Date document_date;
+	private String document_date;
 	private String document_state;
 	private int rn;
 	
@@ -54,10 +54,10 @@ public class DocumentVO {
 	public void setDocument_writer_no(EmployeeVO employee) {
 		this.employee = employee;
 	}
-	public Date getDocument_date() {
+	public String getDocument_date() {
 		return document_date;
 	}
-	public void setDocument_date(Date document_date) {
+	public void setDocument_date(String document_date) {
 		this.document_date = document_date;
 	}
 	public String getDocument_state() {

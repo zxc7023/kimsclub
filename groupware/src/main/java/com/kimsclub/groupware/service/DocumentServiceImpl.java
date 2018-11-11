@@ -5,7 +5,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.kimsclub.groupware.dao.ApprovalDAO;
 import com.kimsclub.groupware.dao.DocumentDAO;
 import com.kimsclub.groupware.vo.DocumentVO;
 
@@ -13,6 +16,8 @@ import com.kimsclub.groupware.vo.DocumentVO;
 public class DocumentServiceImpl implements DocumentService {
 	@Autowired
 	DocumentDAO ddao;
+	@Autowired
+	ApprovalDAO adao;
 	
 	//요구하는 문서 목록내에 문서들의 총 개수
 	@Override
@@ -34,7 +39,7 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	//선택한 문서 상세보기
 	@Override
-	public DocumentVO viewNewDoc(int document_no) {
+	public DocumentVO viewDoc(int document_no) {
 		return ddao.selectDocument(document_no);
 	}
 	
@@ -48,5 +53,23 @@ public class DocumentServiceImpl implements DocumentService {
 	@Override
 	public void deleteNewDoc(int document_no) {
 		ddao.deleteDoc(document_no);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void retrieveDocument(int document_no) {
+		ddao.retrieveDoc(document_no);
+		adao.removeApproval(document_no);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void approveDocument(Map<String, Object> map) {
+		adao.approveApproval(map);
+		int check = adao.checkComplete(map);
+		if(check==0) {
+			ddao.completeDoc(map);
+		}
+		
 	}
 }

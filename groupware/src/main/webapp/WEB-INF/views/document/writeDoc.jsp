@@ -66,12 +66,7 @@ $(document).ready(function() {
 	});
 
 	$("#save_btn").click(function(){
-		$("#submit").attr("value","임시저장");
-		submitBtn();
-	});
-	
-	$("#app_btn").click(function(){
-		$("#type").attr("value","진행");
+		$("#type").attr("value","임시저장");
 		submitBtn();
 	});
 	

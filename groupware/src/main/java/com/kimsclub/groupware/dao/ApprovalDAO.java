@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,18 @@ public class ApprovalDAO {
 				session.insert("Approval.insertApproval", alist.get(i));
 			}
 		}
+	}
+
+	public void removeApproval(int document_no) {
+		session.delete("Approval.deleteApproval", document_no);
+	}
+
+	public void approveApproval(Map<String, Object> map) {
+		session.update("Approval.approveApproval", map);
+	}
+
+	public int checkComplete(Map<String, Object> map) {
+		return session.selectOne("Approval.checkComplete", map);
 	}
 	
 

@@ -6,7 +6,7 @@ public class ApprovalVO {
 	private int approval_no;
 	private DocumentVO document;
 	private EmployeeVO employee;
-	private Date approval_date;
+	private String approval_date;
 	private int approval_state;
 	private int approval_next_no;
 	
@@ -25,10 +25,10 @@ public class ApprovalVO {
 		this.document = document;
 	}
 	
-	public Date getApproval_date() {
+	public String getApproval_date() {
 		return approval_date;
 	}
-	public void setApproval_date(Date approval_date) {
+	public void setApproval_date(String approval_date) {
 		this.approval_date = approval_date;
 	}
 	public int getApproval_state() {
