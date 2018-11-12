@@ -102,13 +102,12 @@
 						$("#approvalLineTb tbody tr:eq(0) td").eq(i).text(approvalList[i].employee.employee_name);
 						var stateTxt;
 						if(approvalList[i].approval_state == 0){
-							stateTxt= "진행중";
+							stateTxt= "";
 						}else if(approvalList[i].approval_state == 1){
-							stateTxt= "완료";
+							$("#approvalLineTb tbody tr:eq(1) td").eq(i).html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg' style='width:80px;height:80px;'></img>")
 						}else if(approvalList[i].approval_state == 2){
 							stateTxt= "반려";
 						}
-						$("#approvalLineTb tbody tr:eq(1) td").eq(i).text(stateTxt);
 					}
 					$("#document_date").text(documentVO.document_date);
 					$("#document_state").text(documentVO.document_state);
@@ -119,7 +118,15 @@
 					$("#total_days").text(applyVO.total_days);
 					var dateText ='';
 					for(var i=0 ; i <applyDetailList.length; i++){
-						dateText += applyDetailList[i].dayoff_day + "<br>";
+						var oneorhalf = applyDetailList[i].oneorhalf;
+						if(oneorhalf == 0){
+							oneorhalf = "일차";
+						}else if(oneorhalf ==1){
+							oneorhalf ="오전반차"
+						}else if(oneorhalf == 2){
+							oneorhalf = "오후반차"
+						}
+						dateText += applyDetailList[i].dayoff_day +"[" + oneorhalf +"]" + "<br>";
 					}
 					$("#dayoff_day").html(dateText);
 					$("#dayoff_reason").text(applyVO.dayoff_reason);
@@ -386,6 +393,14 @@
 							<div class="row">
 								<div class="col-lg-12">
 									<table class="table table-bordered no-footer" id="approvalLineTb">
+										<colgroup>
+											<col width="16%"></col>
+											<col width="16%"></col>
+											<col width="16%"></col>
+											<col width="16%"></col>
+											<col width="16%"></col>
+											<col width="16%"></col>
+										</colgroup>
 										<thead>
 											<tr>
 												<th colspan="6">결재 진행도</th>
