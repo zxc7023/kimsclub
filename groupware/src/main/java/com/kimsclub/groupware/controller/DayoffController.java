@@ -152,8 +152,8 @@ public class DayoffController {
 
 		// 내가 사용한 휴가내역을 받아온다.
 		List<DayoffApplyVO> myUseDayoffList = service.readUseMyDayoff(vo);
-		int useRegular = 0;
-		int useReward = 0;
+		double useRegular = 0.0;
+		double useReward = 0.0;
 
 		for (DayoffApplyVO applyVO : myUseDayoffList) {
 			if (applyVO.getDayoff_kind().getDayoff_type_code() == 2) {

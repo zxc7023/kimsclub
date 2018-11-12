@@ -129,6 +129,13 @@
 						dateText += applyDetailList[i].dayoff_day +"[" + oneorhalf +"]" + "<br>";
 					}
 					$("#dayoff_day").html(dateText);
+					$(".modal-footer").empty();
+					$(".modal-footer").append("<button type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>")
+					if(documentVO.document_state.indexOf("완료") == -1){
+						var btn = "<button type='button' class='btn btn-danger' id='approval_cancel''>기안 취소</button>";
+						$(".modal-footer").append(btn);
+					}
+					
 					$("#dayoff_reason").text(applyVO.dayoff_reason);
 					$("#applyDetailModal").modal('show');	
 				}
@@ -474,8 +481,6 @@
 						</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="finish">완료</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
