@@ -44,54 +44,77 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		
-		//검색 버튼 클릭시
+	//검색 버튼 클릭시
 		$("#searchBtn").click(function(){
 			$("#search").submit();
 			var keyWord = $("#keyword").val();
 		});
 		
-		//ajax내 배열 사용하기위한 설정
+	//ajax내 배열 사용하기위한 설정
 		jQuery.ajaxSettings.traditional = true;
 		
-		//쪽지 쓰기 버튼 클릭시	
+	//쪽지 쓰기 버튼 클릭시	
 		$("#writeBtn").click(function(){
 			location.href = "messageWrite";
 		});
 		
-		//쪽지 보관, 삭제 버튼 클릭시
+	//버튼(보관,삭제) 클릭시
 		$(".btn-form").click(function(){
 			var checkArr = [];
 			
 			$(".check:checked").each(function(){
 				checkArr.push($(this).val());
-				
 			});
 						
+	//보관 버튼 클릭
 			if($(this).val()=='keep'){
-				var result = confirm("정말로 삭제하시겠습니까?");
-				if(result){
-					$.ajax({
-						method : "GET",
-						url : "/message/messageList?box=${map.box}",
-						data : {
-							"form_no" : checkArr
-						},
-						error : function() {
-							alert('삭제 실패!!');
-							$('.use').removeClass('use');
-						},
-						success : function(data) {
-							$('.use').parent().remove();
-							alert("총" + checkNum + "개의 양식이 삭제되었습니다.");
-							$('.use').removeClass('use');
+				//쪽지를 선택하고 보관 버튼을 클릭했을때
+				if(checkArr.length>0){
+					var result = confirm("쪽지를 보관했습니다.");
+					if(result){
+						$.ajax({
+							method : "POST",
+							url : "${pageContext.request.contextPath}/keepMessage",
+							data : {"message_no" : checkArr},
+							error : function() {
+								alert("보관실패");
+							},
+							success : function(data) {
+								location.href = "messageList?box=${map.box}"
+								}
+							});
 						}
-					});
+					}
+				//쪽지를 선택하지 않고 보관 버튼을 클릭했을때
+				else{
+					alert("보관하실 쪽지를 선택하세요");
+				}
+			}//keep end
+			
+	//삭제 버튼을 클릭
+			else{
+				if(checkArr.length>0){
+					var result = confirm("쪽지를 삭제하시겠습니까?");
+					if(result){
+						$.ajax({
+							method : "POST",
+							url : "${pageContext.request.contextPath}/deleteMessage",
+							data : {"message_no" : checkArr},
+							error : function() {
+								alert("보관실패");
+							},
+							success : function(data) {
+								location.href = "messageList?box=${map.box}"
+								}
+							});
+						}
+					}
+				//쪽지를 선택하지 않고 보관 버튼을 클릭했을때
+				else{
+					alert("삭제하실 쪽지를 선택하세요");
 				}
 				
-			}
-			else{
-				
-			}
+			}//delete end
 			
 		});
 		

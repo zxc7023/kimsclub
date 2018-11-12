@@ -13,5 +13,9 @@ public interface MessageService {
 	public int countMessage(int employee_no, String searchOption, String keyword, String box);
 	//쪽지함 조회
 	public List<MessageVO> MessageList(int start, int end, int employee_no, String searchOption, String keyword, String box);
-
+	//쪽지 보관
+	public void keepMessage(int[] message_no);
+	//쪽지 삭제
+	public void deleteMessage(int[] message_no);
+	
 }

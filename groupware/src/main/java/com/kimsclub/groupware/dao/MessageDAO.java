@@ -41,4 +41,14 @@ public class MessageDAO {
 		map.put("box", box);
 		return session.selectList("message.selectMessageList",map);
 	}
+	
+	//쪽지 보관
+	public void keepMessage(int[] message_no) {
+		session.update("message.updateKeepMessage", message_no);
+	}
+	
+	//쪽지 삭제
+	public void deleteMessage(int[] message_no) {
+		/*session.update("message.updateDeleteMessage", message_no);*/
+	}
 }

@@ -25,12 +25,25 @@ public class MessageServiceImpl implements MessageService {
 	public int countMessage(int employee_no, String searchOption, String keyword, String box) {
 		return dao.countMessage(employee_no, searchOption, keyword, box);
 	}
-	
 
 	//보낸 쪽지함 조회
 	@Override
 	public List<MessageVO> MessageList(int start, int end, int employee_no, String searchOption, String keyword, String box) {
 		return dao.MessageList(start, end, employee_no, searchOption, keyword, box);
 	}
+	
+	//쪽지 보관
+	@Override
+	public void keepMessage(int[] message_no) {
+		dao.keepMessage(message_no);
+		
+	}
+
+	@Override
+	public void deleteMessage(int[] message_no) {
+		
+	}
+	
+	
 	
 }
