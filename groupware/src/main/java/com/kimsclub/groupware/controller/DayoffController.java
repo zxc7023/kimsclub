@@ -181,6 +181,10 @@ public class DayoffController {
 		List<DayoffKindsVO> kindsList = service.getDayoffKinds();
 		mov.addObject("kindsList",kindsList);
 		
+		
+		
+		
+		
 		mov.setViewName("dayoff/dayoff_status");
 		return mov;
 	}
@@ -226,6 +230,15 @@ public class DayoffController {
 		}
 		System.out.println(json);
 		return json;
+	}
+	
+	
+	@RequestMapping(value="/dayoffCal",method=RequestMethod.GET)
+	@ResponseBody
+	public String dayoffCal() {
+		System.out.println("호출");
+		service.getDayoffEvent();
+		return null;
 	}
 	
 

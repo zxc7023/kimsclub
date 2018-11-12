@@ -71,4 +71,6 @@ public interface DayoffService {
 	public List<DayoffApplyVO> selectApplyListWithCriteria(DayoffApplyVO vo);
 
 	public DayoffApplyVO dayoffApplyDetailList(DayoffApplyVO vo);
+
+	public DayoffApplyVO getDayoffEvent();
 }

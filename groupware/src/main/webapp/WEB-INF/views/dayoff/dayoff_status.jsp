@@ -33,50 +33,17 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-<script src="https://fullcalendar.io/releases/fullcalendar/3.9.0/gcal.min.js"></script>
+<!-- <script src="https://fullcalendar.io/releases/fullcalendar/3.9.0/gcal.min.js"></script> -->
 <!-- dayoff_writeform.css -->
-<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/day_status.css"> --%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/day_status.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
 <script type="text/javascript">
 
-/* 	function getTab01(){
-		$.ajax({
-			method : "get",
-			contentType : 'application/json;charset=UTF-8',
-			url : "${pageContext.request.contextPath}/dayoff/dayoff_status_tap01",
-			error : function() {
-				alert("tap1 데이터 받아오기 실패");
-			},
-			success : function(server_result) {
-				var obj = JSON.parse(server_result);
-				var list = obj.createList;
-				var $table = $("#dayoff_create_recode_tb");
-				$table.find("tbody").empty();
-				console.log(list);
-				for(var i=0;i <list.length;i++){
-					var createVO = list[i];
-					var row = "<tr>";
-					row += "<td>" + createVO.generation_date +"</td>";
-					row += "<td>" + createVO.effect_day +"</td>";
-					row += "<td>" + createVO.real_day +"</td>";
-					if(createVO.dayoff_type == 1){
-						row += "<td>정기휴가</td>";
-					}else if(createVO.dayoff_type == 2){
-						row += "<td>포상휴가</td>";
-					}else{
-						row +="<td>수동입력</td>";
-					}  
-					row += "<td>" + createVO.dayoff_generator +"</td>";
-					row += "</tr>";
-					$table.find("tbody").append(row);
-				}
-			}
 
-		});
-	} */
 	$(document).ready(function(){
+		
+		var trorfal = true;
 		
 		$("#dayoff_use_recode_tb").on("click","a",function(){
 			var dayoffApply = {};
@@ -144,9 +111,6 @@
 		});
 				
 			
-
-		
-		
 		$("select").change(function(){
 			var selectArr = $("select option:selected");
 			
@@ -188,25 +152,35 @@
 		});
 		
 	
-		$("#calendar")
-				.fullCalendar(
-						{
-							header : {
-								left : 'prev,next ',
-								center : 'title',
-								right : 'today'
-							},
-
-							googleCalendarApiKey : 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
-							eventSources : [
-							// 대한민국의 공휴일
-							{
-								googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com",
-								className : "koHolidays",
-								color : "#FF0000",
-								textColor : "#FFFFFF"
-							} ]
-						});
+		$("#calendar").fullCalendar({
+			header : {
+				left : 'today ',
+				center : 'prev title next',
+				right : ''
+			},
+			events : {
+			    url: "${pageContext.request.contextPath}/dayoff/dayoffCal",
+			    type: 'GET',
+			    error: function() {
+			      alert('there was an error while fetching events!');
+			    },
+			    color: 'yellow',   // a non-ajax option
+			    textColor: 'black' // a non-ajax option
+			},
+            googleCalendarApiKey : 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
+			eventSources : [
+				{
+                    googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com",
+					className : "Holidays",
+					color : "#FF0000",
+					textColor : "#FFFFFF"
+				}
+			],
+			locale: 'ko',
+			editable: false
+			
+		});
+		
 	});
 </script>
 <title>휴가현황</title>
@@ -233,7 +207,7 @@
 					<ul class="nav nav-tabs" id="myTab">
 						<li class="active"><a href="#tab01" data-toggle="tab">내 휴가</a></li>
 						<li><a href="#tab02" data-toggle="tab">휴가 캘랜더 </a></li>
-						<li><a href="#tab03" data-toggle="tab">휴가 신청 관리</a></li>
+					<!-- 	<li><a href="#tab03" data-toggle="tab">휴가 신청 관리</a></li> -->
 					</ul>
 					<!-- Tab panes -->
 					<div class="tab-content">
@@ -333,11 +307,9 @@
 							
 						</div>
 						<div class="tab-pane fade" id="tab02">
-							<div>
-								<div id="calendar"></div>
-							</div>
+							<div id="calendar" class="calendar col-lg-12"></div>
 						</div>
-						<div class="tab-pane fade" id="tab03">
+		<%-- 				<div class="tab-pane fade" id="tab03">
 							<div>
 								<table>
 									<caption>휴가 신청 내역</caption>
@@ -379,7 +351,7 @@
 									</tbody>
 								</table>
 							</div>
-						</div>
+						</div> --%>
 					</div>
 				</div>
 			</div>
