@@ -35,7 +35,9 @@
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.css" />
 
-<!--  -->
+<!--미니달력  -->
+<%-- <script src="${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.js"></script>
+<link href='${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.css' rel='stylesheet' /> --%>
 <!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -81,6 +83,14 @@
 <script
 	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 </head>
+<style>
+.wrap-btn {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
+.wrap-btn input.form-inputPop {position:absolute; top:0; left:0; opacity:0; cursor:pointer; z-index:5;}
+.wrap-btn i {float:left; display:block; width:14px; height:14px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox.png)no-repeat left top; z-index:3;}
+.wrap-btn label {float:left; margin-left:10px; cursor:pointer; font-size:13px;}
+.wrap-btn input.form-inputPop:checked+i {background-position:left bottom;}
+.wrap-btn input.form-inputPop:checked+i+label {color:#f56592;}
+</style>
 <body>
 
 
@@ -103,9 +113,16 @@
 
 			<div class="container-fluid row">
 				<div id='calendar1'
-					class='calendar col-md-2 -ms-overflow-style: none;'>
+					class='calendar col-md-2 '><!-- -ms-overflow-style: none; -->
 					<label class="form-control-label">공유 캘린더</label>
 					 <input type="button" value="만들기" style="position: absolute; right: 0;" />
+					 <!-- 카테고리 -->
+					 <div class="wrap-btn">
+<input class="form-inputPop" type="checkbox" id="checkbox01"/>
+<i></i>
+<label for="checkbox01">업무</label>
+</div>
+					 <!--  -->
 				</div>
 				<div id='calendar2' class='calendar col-md-10'></div>
 			</div>
@@ -132,7 +149,7 @@
 									<label class="form-control-label">색상</label> <select
 										name="color" id="color" class="form-control">
 										<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
-										<option value="#e0305a" style="background-color: #e0305a;">빨강</option>
+										<option value="#e0305a" style="background-color: #f56592;">업무</option>
 										<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
 										<option value="#008bca" style="background-color: #008bca;"
 											selected="selected">파란</option>
