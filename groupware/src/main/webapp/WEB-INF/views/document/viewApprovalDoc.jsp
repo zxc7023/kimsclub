@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,19 +64,15 @@ $(document).ready(function() {
 		arr.employee_no.push("${approval.employee.employee_no}");
 	</c:forEach>
 	
-	
 	for(var i = 0; i<arr.approval_state.length; i++){
 		if(arr.approval_state[i]==1){
-			alert(arr.employee_no[i]);
-			$('#sign[index='+i+']').html("<img src='${pageContext.request.contextPath}/resources/images/"+arr.employee_no[i]+".jpg' onError='javascript:noImageError(this)'>");
+			alert(i+":"+arr.approval_state[i]);
+			$("#sign[index='1']").html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
+			$("#sign[index='"+i+"']").html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
 		}
 	}
 });
-function noImageError(obj){
-	if(obj != null){
-		obj.src = "${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg";
-	}
-}
+
 </script>
 <style type="text/css">
 #sign img{
@@ -167,7 +164,7 @@ height: 65px;
 																		<c:forEach begin="0" end="5" varStatus="i">
 																			<td index="${i.index}"	style="text-align: center;">
 
-																				<div>${dvo.approval[i.index].approval_date}</div>
+																				<div><fmt:formatDate value="${dvo.approval[i.index].approval_date}" pattern="yyyy/MM/dd" /></div>
 																			</td>
 																		</c:forEach>
 																	</tr>
