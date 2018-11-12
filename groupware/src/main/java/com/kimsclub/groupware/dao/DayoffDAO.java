@@ -139,8 +139,8 @@ public class DayoffDAO {
 		return session.selectOne("dayoff.dayoffApplyDetailList",vo);
 	}
 
-	public DayoffApplyVO getDayoffEvent() {
-		return session.selectOne("dayoff.getDayoffEvent");
+	public List<DayoffApplyVO> getDayoffEvent(Map<String, Object> map) {
+		return session.selectList("dayoff.getDayoffEvent",map);
 	}
 
 }

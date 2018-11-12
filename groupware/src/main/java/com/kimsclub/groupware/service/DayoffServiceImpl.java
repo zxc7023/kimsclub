@@ -108,8 +108,8 @@ public class DayoffServiceImpl implements DayoffService {
 	}
 
 	@Override
-	public DayoffApplyVO getDayoffEvent() {
-		return dao.getDayoffEvent();
+	public List<DayoffApplyVO> getDayoffEvent(Map<String, Object> map) {
+		return dao.getDayoffEvent(map);
 	}
 
 

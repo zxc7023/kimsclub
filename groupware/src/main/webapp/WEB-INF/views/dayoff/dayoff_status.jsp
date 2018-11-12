@@ -33,10 +33,13 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+<script type='text/javascript'
+	src='${pageContext.request.contextPath}/resources/js/gcal.js'></script>
 <!-- <script src="https://fullcalendar.io/releases/fullcalendar/3.9.0/gcal.min.js"></script> -->
 <!-- dayoff_writeform.css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/day_status.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
+
 <script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
 <script type="text/javascript">
 
@@ -151,6 +154,21 @@
 			});
 		});
 		
+		var myCustomFetchFunction = function(start, end, callback) {
+		    $.ajax({
+		        url: '${pageContext.request.contextPath}/dayoff/dayoffCal',
+		        method :'GET',
+				contentType : 'application/json;charset=UTF-8',
+		        success: function(events) {
+		        	console.log(events);
+		            callback(events);
+		            // this is where I do some custom stuff with the events
+		            myCustomFunction(events);
+		        }
+		    });
+		};
+
+		
 	
 		$("#calendar").fullCalendar({
 			header : {
@@ -158,26 +176,47 @@
 				center : 'prev title next',
 				right : ''
 			},
-			events : {
-			    url: "${pageContext.request.contextPath}/dayoff/dayoffCal",
-			    type: 'GET',
-			    error: function() {
-			      alert('there was an error while fetching events!');
-			    },
-			    color: 'yellow',   // a non-ajax option
-			    textColor: 'black' // a non-ajax option
+			events: function(start,end,callback) {
+			      var d = $(calendar).fullCalendar('getDate');
+			      var month = moment(d).format("MM");
+			      var year = moment(d).format("YYYY");
+			      var data = { month: month, year: year};
+			      $.ajax({
+			        url: '${pageContext.request.contextPath}/dayoff/dayoffCal',
+			        dataType: 'json',
+					contentType : 'application/json;charset=UTF-8',
+			        method: 'POST',
+			        data: JSON.stringify(data),
+			        success: function(doc) {
+			            var events = [];
+			            for (var i=0;i<doc.length;i++){
+			              events.push({
+			                title: doc[i].title,
+			                start: doc[i].start,
+			              })//this is displaying!!!
+			            }
+			            callback(events);
+			        }
+			      });
 			},
-            googleCalendarApiKey : 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
-			eventSources : [
-				{
-                    googleCalendarId : "ko.south_korea#holiday@group.v.calendar.google.com",
-					className : "Holidays",
-					color : "#FF0000",
-					textColor : "#FFFFFF"
-				}
-			],
+			editable: false,
+			googleCalendarApiKey : "AIzaSyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
+		    eventSources : [{
+		         googleCalendarId : "qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com",
+		         className : "Holidays",
+		         color : "#FFFFFF",
+		         textColor : "#FF0000",
+		    }],
+
+		    timeFormat: 'HH:mm',
 			locale: 'ko',
-			editable: false
+			editable: false,
+			eventClick: function(calEvent, jsEvent, view) {
+				if(calEvent.url){
+					return false;
+				}
+			}
+			
 			
 		});
 		

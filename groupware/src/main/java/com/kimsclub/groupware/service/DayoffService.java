@@ -72,5 +72,5 @@ public interface DayoffService {
 
 	public DayoffApplyVO dayoffApplyDetailList(DayoffApplyVO vo);
 
-	public DayoffApplyVO getDayoffEvent();
+	public List<DayoffApplyVO> getDayoffEvent(Map<String, Object> map);
 }

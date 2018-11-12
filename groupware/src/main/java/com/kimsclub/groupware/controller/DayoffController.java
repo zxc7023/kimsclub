@@ -233,12 +233,23 @@ public class DayoffController {
 	}
 	
 	
-	@RequestMapping(value="/dayoffCal",method=RequestMethod.GET)
+	@RequestMapping(value="/dayoffCal",method=RequestMethod.POST)
 	@ResponseBody
-	public String dayoffCal() {
+	public String dayoffCal(@RequestBody Map<String, Object> map) {
 		System.out.println("호출");
-		service.getDayoffEvent();
-		return null;
+		System.out.println(map.get("year") +"/"+map.get("month"));
+		List<DayoffApplyVO> list = service.getDayoffEvent(map);
+		System.out.println(list);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		try {
+			json =mapper.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return json;
 	}
 	
 
