@@ -70,7 +70,6 @@
 		$("#deleteBtn").click(function(){
 			//댓글 삭제 버튼 클릭시
 			if(replyDelBtn=="reply"){
-				/* location.href = "ReplyDelete?board_no="+boardNo+"&reply_board_type="+boardType+"&reply_no="+reply_no; */
 				$.ajax({
 					type : "get",
 					url: "${pageContext.request.contextPath}/ReplyDelete",

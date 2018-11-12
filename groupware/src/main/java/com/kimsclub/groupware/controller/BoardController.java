@@ -106,10 +106,6 @@ public class BoardController {
 	public String boardUpdateSave(@ModelAttribute BoardVO vo) {
 	
 		service.updateBoard(vo);
-		System.out.println(vo.getBoard_type());
-		System.out.println(vo.getBoard_contents());
-		System.out.println(vo.getBoard_title());
-		System.out.println(vo.getBoard_no());
 		return "redirect:/detail?board_type="+vo.getBoard_type()+"&board_no="+vo.getBoard_no();
 	}
 	
@@ -138,14 +134,8 @@ public class BoardController {
 		//입력된 댓글의 답글 입력시
 		}else{
 			//댓글의 답글 order 조회
-			System.out.println(vo.getBoard_no());
-			System.out.println("getReply_group"+vo.getReply_group());
-			System.out.println("getReply_order"+vo.getReply_order());
-			System.out.println("getReply_depth"+vo.getReply_depth());
 			int replyOrder =  service.selectReplyOrder(vo);
-			System.out.println("전달받은order : "+replyOrder);
 			vo.setReply_order(replyOrder);
-			
 			service.insertBoardReply(vo);
 		}
 	}

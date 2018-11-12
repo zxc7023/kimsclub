@@ -28,6 +28,17 @@
 		<include refid="pagingFooter"></include>
 	</select>
 		
+<!-- 쪽지 보관 -->
+	<update id="updateKeepMessage" parameterType="int[]" >
+		update message
+		set message_keep='Y' where message_no In<foreach item="message_no" collection="array" open="(" close=")" separator=",">#{message_no}</foreach>
+	</update>
+		
+<!-- 쪽지 삭제 -->
+	<update id="updateDeleteMessage" parameterType="int[]" >
+		
+	</update>
+		
 <!-- sql검색 -->
 	<sql id="search">
 		<choose>

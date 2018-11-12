@@ -18,7 +18,7 @@
 <script src="resources/js/org/org_tree.js"></script>
 <script src="resources/js/org/orgmanage.js"></script> -->
 <link rel="stylesheet" type="text/css" href="resources/js/org/style.css">
-
+</head>
 <script>
 	$(document).ready(function(){
 		var row=0;
@@ -39,7 +39,11 @@
 	});//ready end
 </script>
 
-</head>
+<style>
+	i.fas{
+		border:1px solid red;
+	}
+</style>
 <body>
 <h1>${max_leaf} test			${max_level}</h1>
 	<table >
