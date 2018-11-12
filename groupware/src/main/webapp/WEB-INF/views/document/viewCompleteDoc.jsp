@@ -48,13 +48,8 @@ height: 80px;
 </style>
 <script>
 $(document).ready(function() {
-	$("#retrieve-btn").click(function(){
-		if("${dvo.approval[1].approval_state}"==1){
-			alert("이미 결재가 진행중입니다.");
-		}
-		else{
-			window.location.href = "/groupware/retrieveDoc?document_no=${dvo.document_no}";
-		}
+	$("#approve-btn").click(function(){
+		window.location.href = "/groupware/approveDoc?document_no=${dvo.document_no}";
 	});
 	
 	//결재한 사람 확인해서 sign 넣어주기
@@ -69,13 +64,27 @@ $(document).ready(function() {
 		arr.employee_no.push("${approval.employee.employee_no}");
 	</c:forEach>
 	
+	 /* 	for(var i = 0; i<arr.approval_state.length; i++){
+	if(arr.approval_state[i]==1){
+		alert(arr.employee_no[i]);
+		$("#sign[index='"+i+"']").html("<img src='${pageContext.request.contextPath}/resources/images/"+arr.employee_no[i]+".jpg' onError='javascript:noImageError(this)'>");
+	}
+}
+});
+function noImageError(obj){
+if(obj != null){
+	obj.src = "${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg";
+}
+}  */
 	
 	for(var i = 0; i<arr.approval_state.length; i++){
 		if(arr.approval_state[i]==1){
-			$('#sign[index='+i+']').html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
+			alert(i+":"+arr.approval_state[i]);
+			$("#sign[index='1']").html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
+			$("#sign[index='"+i+"']").html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
 		}
 	}
-});
+}); 
 </script>
 <style type="text/css">
 #sign img{
@@ -107,8 +116,8 @@ height: 65px;
 					<div class="panel-body">
 						<form class="col-sm-12" method="post">
 							<div class="panel-heading">
-								<input type="button" id="retrieve-btn" class="btn btn-info" value="결재회수">
-								<input type="button"  class="btn btn-info" onclick="location.href='/groupware/proceedDocList'" value="돌아가기">
+								<input type="button" id="transfer-btn" class="btn btn-info" value="문서송신">
+								<input type="button"  class="btn btn-info" onclick="location.href='/groupware/approvalDocList'" value="돌아가기">
 							</div>
 							<div class="panel-body">
 								<table
@@ -165,6 +174,7 @@ height: 65px;
 																	<tr>
 																		<c:forEach begin="0" end="5" varStatus="i">
 																			<td index="${i.index}"	style="text-align: center;">
+
 																				<div><fmt:formatDate value="${dvo.approval[i.index].approval_date}" pattern="yyyy/MM/dd" /></div>
 																			</td>
 																		</c:forEach>

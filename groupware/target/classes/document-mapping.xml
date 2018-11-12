@@ -30,13 +30,13 @@
 		</association> 
 	</resultMap>
 	<select id="selectDocument" parameterType="int" resultMap="documentMap">
-		SELECT document_no, document_title, document_contents, TO_CHAR(document_date, 'yyyy/mm/dd') as document_date, document_state, document_writer_no, employee_name, position
+		SELECT document_no, document_title, document_contents, document_date, document_state, document_writer_no, employee_name, position
 		FROM document d left join employee e on d.document_writer_no = e.employee_no WHERE document_no = #{document_no}
 	</select>
 	
 	
 	<select id="selectApproval" parameterType="int" resultMap="approvalMap">
-		SELECT approval_no,TO_CHAR(approval_date, 'yyyy/mm/dd') as approval_date, approval_state, e.employee_no as employee_no ,employee_name,position, department_name
+		SELECT approval_no,approval_date, approval_state, e.employee_no as employee_no ,employee_name,position, department_name
 		FROM approval a 
 		join employee e 
 		on a.EMPLOYEE_NO=e.EMPLOYEE_NO 

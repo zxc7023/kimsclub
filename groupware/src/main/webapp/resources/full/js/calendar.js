@@ -46,11 +46,18 @@ var initializeRightCalendar = function()  {
     slotEventOverlap: false,
     allDaySlot: true,
     header: {
-        left: 'today',
+        left: 'today,myCustomButton',
         center: 'prev title next',
         right: 'month,agendaWeek'
     },
-    
+    customButtons: {
+        myCustomButton: {
+          text: '일정등록!',
+          click: function() {
+        	  newEvent();
+          }
+        }
+      },
     selectable: true,
     selectHelper: true,
     select: function() {
@@ -66,12 +73,11 @@ var initializeRightCalendar = function()  {
 
 /* -------------------manage cal1 (left pane)------------------- */
 var initializeLeftCalendar = function() {
- $cal1.fullCalendar('changeView', 'agendaDay');
   $cal1.fullCalendar('option', {
       header: {
-          left: '',
-          center: 'prevYear,prev,today,next,nextYear',
-          right: ''
+          left: 'prev',
+          center: 'title',
+          right: 'next'
       },
       navLinks: false,
       
@@ -83,7 +89,7 @@ var initializeLeftCalendar = function() {
           cal2GoTo(calEvent.start);
           cal2GoTo(calEvent.end);
       },*/
-      height: screen.height - 500, //730
+      height: screen.height - 740, //730
   });
 }
 
