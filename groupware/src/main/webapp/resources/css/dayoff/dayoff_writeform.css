@@ -97,20 +97,59 @@
 .calendar_wrap #before,
 .calendar_wrap #next{
 	position:absolute;
-	top:40%;	
+	top:85px;;	
 	width:4rem;
 	height:4rem;
 	border-radius:100%;
+	backgournd:#fff;
+	box-shadow:none;
+}
+
+.calendar_wrap #before:hover,
+.calendar_wrap #next:hover{
+	backgournd:#ddd;
+	box-shadow:none;
 }
 
 .calendar_wrap #before{
-	left:0;
+	left:5px;
 }
 .calendar_wrap #next{
-	right:0;
+	right:5px;
+}
+.calendar_wrap table thead tr{
+	line-height:30px;
 }
 
 .calendar_wrap table tbody tr{
 	height: 72px;
 	border: 1px solid gray;
+}
+
+.dataTable.table>tbody>tr>td{
+	padding:15px 10px !important;
+}
+
+.dataTable tr > td:first-child{
+	text-align:center;
+	vertical-align:middle;	
+}
+
+#paste td + td{
+	border-left:1px solid #ddd;
+}
+
+.calendar_wrap .text-center{
+	margin:10px auto 0 auto;
+}
+
+th.t-tit{
+	line-height:33px !important;
+}
+th.t-tit:hover{
+	background:#f8f8f8;
+}
+
+textarea[name="dayoff_reason"]{
+	margin-bottom:20px;
 }

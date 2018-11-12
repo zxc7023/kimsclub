@@ -437,7 +437,7 @@ function dateToFormat(date){
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 								<div class="row">
 									<form id="approval" action="dayoff_write" method="get">
-										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+										<table class="table  dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<colgroup>
 												<col class="col-sm-1">
 												<col class="col-sm-11">
@@ -454,9 +454,9 @@ function dateToFormat(date){
 												<tr role="row">
 													<td>결재선</td>
 													<td>
-														<div class="col-lg-10">
+														<div class="col-lg-12">
 															<div class="panel panel-default" id="approvalLine">
-																<table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+																<table width="100%" class="table table-striped  table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
 																	<colgroup>
 																		<col width="15%">
 																		<col width="17%">
@@ -467,8 +467,9 @@ function dateToFormat(date){
 																	</colgroup>
 																	<tbody class="t-body">
 																		<tr>
-																			<th colspan="6">결재 순서
+																			<th colspan="6"  class="t-tit text-center">결재 순서
 																				<p class="fa fa-long-arrow-right"></p>
+																					<button type="button" class="btn  btn-default float-right" data-toggle="modal" data-target="#approvalLineSelect" id="LineSelectBtn">결재선 선택</button>
 																			</th>
 																		</tr>
 																		<tr id="paste">
@@ -483,9 +484,6 @@ function dateToFormat(date){
 																</table>
 															</div>
 														</div>
-														<div class="col-lg-2">
-															<button type="button" class="btn btn-outline btn-default" data-toggle="modal" data-target="#approvalLineSelect" id="LineSelectBtn">결재선 선택</button>
-														</div>
 													</td>
 												</tr>
 												<tr role="row">
@@ -497,7 +495,7 @@ function dateToFormat(date){
 														</table>
 														<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"></button>
 														<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right"></button>
-														<p>
+														<p class="text-center">
 															휴가신청일수 : <span id="total_day_span">0</span>일<input type="hidden" name="total_days">
 														</p> <script type="text/javascript">
 															buildCalendar();
@@ -514,11 +512,14 @@ function dateToFormat(date){
 												</tr>
 												<tr role="row">
 													<td>사유</td>
-													<td><textarea name="dayoff_reason" class="col-sm-12"></textarea></td>
+													<td><textarea name="dayoff_reason" class="col-sm-12"></textarea>
+													<input type="submit" class="btn  btn-default float-right" id="draft" value="기안하기">
+													</td>
+													
 												</tr>
 											</tbody>
 										</table>
-										<input type="submit" class="btn btn-outline btn-default" id="draft" value="기안하기">
+										
 									</form>
 								</div>
 							</div>
