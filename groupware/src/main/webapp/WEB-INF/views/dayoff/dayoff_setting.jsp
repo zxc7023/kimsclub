@@ -42,8 +42,7 @@
 	$(document)
 			.ready(
 					function() {
-						
-						$("#applyDetailModal").modal('show');						
+											
 						$("form#daysSettingForm")
 								.submit(
 										function() {
