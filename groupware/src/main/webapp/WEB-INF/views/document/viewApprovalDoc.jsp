@@ -52,6 +52,9 @@ $(document).ready(function() {
 		window.location.href = "/groupware/approveDoc?document_no=${dvo.document_no}";
 	});
 	
+	$("#return-btn").click(function(){
+		window.location.href = "/groupware/returnDoc?document_no=${dvo.document_no}";
+	});
 	//결재한 사람 확인해서 sign 넣어주기
 	var arr = {
 			approval_state: [],
@@ -66,8 +69,6 @@ $(document).ready(function() {
 	
 	for(var i = 0; i<arr.approval_state.length; i++){
 		if(arr.approval_state[i]==1){
-			alert(i+":"+arr.approval_state[i]);
-			$("#sign[index='1']").html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
 			$("#sign[index='"+i+"']").html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
 		}
 	}
