@@ -7,6 +7,10 @@ public class ApprovalLineVO {
 	private EmployeeVO employee; 
 		
 	
+	
+	public ApprovalLineVO() {
+		super();
+	}
 	public int getApproval_path_order() {
 		return approval_path_order;
 	}
@@ -30,6 +34,10 @@ public class ApprovalLineVO {
 	}
 	public void setEmployee(EmployeeVO employee) {
 		this.employee = employee;
+	}
+	@Override
+	public String toString() {
+		return "ApprovalLineVO [approval_path_no=" + approval_path_no + ", approval_path_name=" + approval_path_name + ", approval_path_order=" + approval_path_order + ", employee=" + employee + "]";
 	}
 	
 	

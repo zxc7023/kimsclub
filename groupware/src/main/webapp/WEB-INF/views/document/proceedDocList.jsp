@@ -38,52 +38,6 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
-<script>
-$(document).ready(function() {
-	$("#modify-btn").click(function(){
-		if($('.check:checked').val()==null){
-			alert("선택한 문서가 없습니다.");
-		}
-		else{
-			window.location.href = "/groupware/modifyNewDoc?document_no="+$('.check:checked').val();
-		}
-	});
-	
-	$("#approval-btn").click(function(){
-		if($('.check:checked').val()==null){
-			alert("선택한 문서가 없습니다.");
-		}
-		else{
-			window.location.href = "/groupware/approvalDoc?document_no="+$('.check:checked').val();
-		}
-	});
-	
-	$("#delete-btn").click(function(){
-		if($('.check:checked').val()==null){
-			alert("선택한 문서가 없습니다.");
-		}else{
-			var result = confirm('정말로 삭제하시겠습니까?');
-			if (result) {
-				$.ajax({
-					method : "GET",
-					url : "/groupware/deleteNewDoc",
-					data : {
-						"document_no" : $('.check:checked').val()
-					},
-					error : function() {
-						alert('삭제 실패!!');
-					},
-					success : function(data) {
-						alert("해당 문서가 삭제되었습니다.");
-					}
-				});
-			}
-		}
-	});
-});
-</script>
-
-
 </head>
 <body>
 
@@ -105,14 +59,10 @@ $(document).ready(function() {
 
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">새 문서함</div>
+					<div class="panel-heading">진행 문서함</div>
 					<div class="panel-body">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<button id="approval-btn" class="btn btn-default">기안하기</button>
-								<button id="modify-btn" class="btn btn-default">수정하기</button>
-								<button id="delete-btn" class="btn btn-default">삭제하기</button>
-								<button onclick="location='writeDoc'" class="btn btn-default">새 문서 작성</button>
 							</div>
 							<div class="panel-body">
 								<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -128,7 +78,7 @@ $(document).ready(function() {
 												</label>
 											</div>
 										</div>
-										<form action="newDocList">
+										<form action="proceedDocList">
 											<input type="hidden" name="page_scale" value="${page.page_scale}">
 											<div class="col-sm-3">
 												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목   </label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
@@ -161,7 +111,7 @@ $(document).ready(function() {
 											<c:forEach items="${dlist}" var="list">
 												<tr>
 													<td><input type="radio" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
-													<td><a href="viewDoc?document_type=0&document_no=${list.document_no}">${list.document_title}</a></td>
+													<td><a href="viewDoc?document_type=1&document_no=${list.document_no}">${list.document_title}</a></td>
 													<td><fmt:formatDate value="${list.document_date}" pattern="yyyy/MM/dd" /></td>
 												</tr>
 											</c:forEach>
@@ -175,13 +125,13 @@ $(document).ready(function() {
 											<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
 												<ul class="pagination">
 													<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
-															<a href="newDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
+															<a href="proceedDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
 														</c:if></li>
 													<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
-														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="newDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
+														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="proceedDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
 													</c:forEach>
 													<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
-															<a href="newDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
+															<a href="proceedDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
 														</c:if></li>
 												</ul>
 											</div>

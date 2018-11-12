@@ -31,4 +31,24 @@
 	<insert id="updateApprovalFirst" parameterType="Approval">
 		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
 	</insert>
+	
+	<!-- 해당 문서를 반려하거나 결재회수했을 때 결재 정보를 삭제 -->
+	<delete id="deleteApproval" parameterType="int">
+		DELETE FROM approval WHERE document_no = #{value}	
+	</delete>
+
+	<!-- 해당번호의 문서가 결재 진행중일 때 결재 상태를 1로 변경 -->	
+	<update id="approveApproval" parameterType="hashmap">
+		UPDATE approval
+		SET approval_state = 1,
+		approval_date = sysdate
+		WHERE document_no = #{document_no} AND employee_no = #{employee_no} AND '진행' = (SELECT document_state FROM document WHERE document_no = #{document_no})
+	</update>
+	
+	<select id="checkComplete" parameterType="hashmap" resultType="int">
+		SELECT approval_next_no
+		FROM approval
+		WHERE document_no = #{document_no} AND employee_no = #{employee_no}
+	</select>
+
 </mapper>

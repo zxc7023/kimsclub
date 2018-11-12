@@ -42,6 +42,7 @@
 	$(document)
 			.ready(
 					function() {
+											
 						$("form#daysSettingForm")
 								.submit(
 										function() {
@@ -248,6 +249,5 @@
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>

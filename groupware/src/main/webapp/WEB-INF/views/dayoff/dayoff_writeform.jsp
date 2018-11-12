@@ -165,16 +165,16 @@ function dateToFormat(date){
 				url : "${pageContext.request.contextPath}/dayoff/dayoffWriteform",
 				data : JSON.stringify(dayoffApply),
 				error : function() {
-					alert('휴가 전송 실패');
+					alert('다시 시도해주세요.');
 				},
 				success : function(
 						server_result) {
 					var server_json = server_result;
 					var result = server_json.result;
-					if (result == "1") {
-						alert("수정 성공");
+					if (result == 1) {
+						alert("휴가신청 성공");
 					} else {
-						alert("수정 실패");
+						alert("휴가신청 실패");
 					}
 				}
 			});  

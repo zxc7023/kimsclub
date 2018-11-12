@@ -36,7 +36,12 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+<style type="text/css">
 
+#sign td{
+height: 80px;
+}
+</style>
 
 </head>
 <body>
@@ -53,21 +58,53 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">제목을 입력하세요</h1>
+					<h1 class="page-header">결재</h1>
 				</div>
 			</div>
 
 			<div class="col-lg-12">
-				<div class="panel panel-primary">
-					<div class="panel-heading">판넬의 헤딩</div>
-					<div class="panel-body">판넬의 바디</div>
-				</div>
-			</div>
-
-			<div class="col-lg-12">
-				<div class="panel panel-primary">
-					<div class="panel-heading">판넬2의 헤딩</div>
-					<div class="panel-body">판넬2의 바디</div>
+				<div class="panel panel-default">
+					<div class="panel-heading">문서 작성</div>
+					<div class="panel-body">
+						<form class="col-sm-12" method="post">
+							<div class="panel-heading">
+								<button type="button" onclick="location.href='modifyNewDoc?document_no=${dvo.document_no}'" class="btn btn-info">수정하기</button>
+								<input type="button" class="btn btn-info" onclick="location.href='/groupware/newDocList'" value="돌아가기">
+							</div>
+							<div class="panel-body">
+								<table
+									class="table table-bordered dataTable no-footer dtr-inline"
+									id="dataTables-example" role="grid"
+									aria-describedby="dataTables-example_info">
+									<colgroup>
+										<col width="150">
+										<col width="auto">
+									</colgroup>
+									<tbody>
+										<tr>
+											<td class="odd">작성자</td>
+											<td>${dvo.employee.employee_name}</td>
+										</tr>
+										<tr>
+											<td class="odd">문서 제목<br>
+											</td>
+											<td>${dvo.document_title}</td>
+										</tr>
+										<tr>
+											<td colspan="2" class="odd">문서 내용</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<div class="col-lg-12">
+													${dvo.document_contents}
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 
