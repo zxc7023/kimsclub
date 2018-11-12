@@ -57,13 +57,18 @@ height: 80px;
 <script>
 $(document).ready(function() {
 	$("#app_btn").click(function(){
-		$("#type").attr("value",1);
+		if($("div#approvalLine input[name='approval[][employee][employee_no]']").length < 2){
+			alert("결재선을 2명이상 입력해주세요.");
+			return false;
+		}
+		$("#type").attr("value","진행");
 		submitBtn();
 	});
 	
 	function submitBtn(){
 		var tmpArr = $("form#writeDocForm").serializeObject();
 		console.log(tmpArr);
+		
 		$.ajax({
 			method : "post",
 			url : "/groupware/approvalDoc",
@@ -76,7 +81,8 @@ $(document).ready(function() {
 				
 				window.location.href = data;
 			}
-		});
+		}); 
+
 	}
 });
 </script>
@@ -109,7 +115,7 @@ $(document).ready(function() {
 										<div class="panel-heading">
 											<input type="hidden" name="document_no" value="${dvo.document_no}">
 											<input type="hidden" name="document_state" id="type" value="">
-											<button id="app_btn" class="btn btn-info">기안하기</button>
+											<button type="button" id="app_btn" class="btn btn-info">기안하기</button>
 										</div>
 										<div class="panel-body">
 											<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">

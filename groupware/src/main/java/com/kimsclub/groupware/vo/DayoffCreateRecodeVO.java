@@ -9,12 +9,14 @@ public class DayoffCreateRecodeVO {
 	int real_day;
 	String dayoff_type;
 	int dayoff_generator;
+	String create_reason;
 
 	public DayoffCreateRecodeVO() {
 
 	}
 
-	public DayoffCreateRecodeVO(int employee_no, Date generation_date, int effect_day, int real_day, String dayoff_type, int dayoff_generator) {
+	public DayoffCreateRecodeVO(int employee_no, Date generation_date, int effect_day, int real_day, String dayoff_type,
+			int dayoff_generator, String create_reason) {
 		super();
 		this.employee_no = employee_no;
 		this.generation_date = generation_date;
@@ -22,6 +24,7 @@ public class DayoffCreateRecodeVO {
 		this.real_day = real_day;
 		this.dayoff_type = dayoff_type;
 		this.dayoff_generator = dayoff_generator;
+		this.create_reason = create_reason;
 	}
 
 	public int getEmployee_no() {
@@ -72,10 +75,19 @@ public class DayoffCreateRecodeVO {
 		this.dayoff_generator = dayoff_generator;
 	}
 
+	public String getCreate_reason() {
+		return create_reason;
+	}
+
+	public void setCreate_reason(String create_reason) {
+		this.create_reason = create_reason;
+	}
+
 	@Override
 	public String toString() {
-		return "DayoffCreateRecodeVO [employee_no=" + employee_no + ", generation_date=" + generation_date + ", effect_day=" + effect_day + ", real_day=" + real_day + ", dayoff_type=" + dayoff_type + ", dayoff_generator=" + dayoff_generator
-				+ "]";
+		return "DayoffCreateRecodeVO [employee_no=" + employee_no + ", generation_date=" + generation_date
+				+ ", effect_day=" + effect_day + ", real_day=" + real_day + ", dayoff_type=" + dayoff_type
+				+ ", dayoff_generator=" + dayoff_generator + ", create_reason=" + create_reason + "]";
 	}
 
 	

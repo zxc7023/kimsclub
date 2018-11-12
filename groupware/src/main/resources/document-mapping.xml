@@ -20,7 +20,7 @@
 		<result column="approval_date" property="approval_date"/>
 		<result column="approval_state" property="approval_state"/>
 		<association property="employee" javaType="employee">
-			<id column="e.employee_no" property="employee_no"/>
+			<id column="employee_no" property="employee_no"/>
 			<result column="employee_name" property="employee_name"/>
 			<result column="position" property="position"/>
 			<association property="department" javaType="department">
@@ -30,13 +30,13 @@
 		</association> 
 	</resultMap>
 	<select id="selectDocument" parameterType="int" resultMap="documentMap">
-		SELECT document_no, document_title, document_contents, document_date, document_state, document_writer_no, employee_name, position
+		SELECT document_no, document_title, document_contents, TO_CHAR(document_date, 'yyyy/mm/dd') as document_date, document_state, document_writer_no, employee_name, position
 		FROM document d left join employee e on d.document_writer_no = e.employee_no WHERE document_no = #{document_no}
 	</select>
 	
 	
 	<select id="selectApproval" parameterType="int" resultMap="approvalMap">
-		SELECT approval_no, approval_date,approval_state, e.employee_no,employee_name,position, department_name
+		SELECT approval_no,TO_CHAR(approval_date, 'yyyy/mm/dd') as approval_date, approval_state, e.employee_no as employee_no ,employee_name,position, department_name
 		FROM approval a 
 		join employee e 
 		on a.EMPLOYEE_NO=e.EMPLOYEE_NO 
@@ -71,6 +71,30 @@
 		document_state = #{document_state}		
 		WHERE document_no = #{document_no}
 	</update>
+	
+	<!-- 문서 완료 -->
+	<update id="completeDoc" parameterType="hashmap">
+		UPDATE document 
+		SET document_state = '완료'		
+		WHERE document_no = #{document_no}
+	</update>
+	
+	<!-- 문서 반려 -->
+	<update id="returnDoc" parameterType="hashmap">
+		UPDATE document 
+		SET document_state = '반려'		
+		WHERE document_no = #{document_no}
+	</update>
+	
+	<!-- 결재문서 회수 -->
+	<update id="retrieveDoc" parameterType="int">
+		UPDATE document 
+		SET document_state = '임시저장'		
+		WHERE document_no = #{value} 
+		AND 0 = (SELECT approval_state FROM approval
+			WHERE document_no = #{value} AND approval_no = (SELECT MIN(approval_no)+1 FROM approval WHERE document_no = #{value}))
+	</update>
+	
 	<!-- 리스트 조회 -->		
 	<select id="selectList" resultType="Document" parameterType="hashmap" >
 		<include refid="pagingHeader"></include>

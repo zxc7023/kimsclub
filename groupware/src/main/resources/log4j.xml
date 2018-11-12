@@ -62,14 +62,27 @@
         <appender-ref ref="console-infolog"/> 
     </logger>
      
+     <logger name="jdbc.resultset">
+     	<level value="ERROR"/>
+     	<appender-ref ref="console"/> 
+     </logger>
+     
     <logger name="jdbc.resultsettable" additivity="false"> 
         <level value="INFO"/> 
         <appender-ref ref="console"/> 
-    </logger> 
+    </logger>
+    
+    <logger name="jdbc.audit">
+    	<level value="WARN"></level>
+    </logger>
+    
+    <logger name="jdbc.connection">
+    	<level value="WARN"></level>
+    </logger>
  
     <!-- Root Logger -->
     <root>
-        <priority value="INFO"/>
+        <priority value="ERROR"/>
         <appender-ref ref="console" />
     </root>
 

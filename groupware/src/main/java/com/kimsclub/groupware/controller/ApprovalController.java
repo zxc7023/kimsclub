@@ -48,7 +48,7 @@ public class ApprovalController {
 	@RequestMapping(value = "/approvalDoc", method=RequestMethod.GET)
 	public ModelAndView approvalDoc(@RequestParam(name="document_no",defaultValue="0") int document_no){
 		System.out.println("approvalDoc() 메소드 호출");
-		DocumentVO dvo = service3.viewNewDoc(document_no);
+		DocumentVO dvo = service3.viewDoc(document_no);
 		ModelAndView mav = new ModelAndView();
 		List<EmployeeVO> elist = service.loadAllEmp();
 		
@@ -82,7 +82,7 @@ public class ApprovalController {
 			avo.setDocument(dvo);
 		}
 		service.approvalNewDoc(dvo);
-		return "/groupware/proceedDoc";
+		return "/groupware/proceedDocList";
 	}
 	
 	
@@ -95,24 +95,7 @@ public class ApprovalController {
 		
 		return mav;
 	}
-	@RequestMapping(value = "/proceedDoc", method=RequestMethod.GET)
-	public ModelAndView proceedDoc(){
-		System.out.println("proceedDoc() 메소드 호출");
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("document/proceedDoc");
-		
-		return mav;
-	}
-	@RequestMapping(value = "/approvalReturnDoc", method=RequestMethod.GET)
-	public ModelAndView approvalReturnDoc(){
-		System.out.println("approvalReturnDoc() 메소드 호출");
-		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("approval/approvalReturnDoc");
-		
-		return mav;
-	}
+
 	
 	@RequestMapping(value = "/myApprovalLine", method=RequestMethod.GET)
 	@ResponseBody

@@ -89,7 +89,6 @@ public class DayoffDAO {
 			insertDocument(vo);
 			insertApproval(vo.getDocument().getApproval());
 			insertDayoffApply(vo);
-			insertDayoffApplyDetail(vo.getDayoff_apply_detail());	
 			insertDayoffApplyDetail(vo.getDayoff_apply_detail());
 		}catch (Exception e) {
 			transactionManager.rollback(status);
@@ -126,6 +125,18 @@ public class DayoffDAO {
 
 	public int selectUseDate(Map<String, Object> map) {
 		return session.selectOne("dayoff.selectUseDate",map);
+	}
+	
+	public List<DayoffApplyVO> selectApplyList(EmployeeVO vo) {
+		return session.selectList("dayoff.selectApplyList",vo);
+	}
+
+	public List<DayoffApplyVO> selectApplyListWithCriteria(DayoffApplyVO vo) {
+		return session.selectList("dayoff.selectApplyListWithCriteria",vo);
+	}
+
+	public DayoffApplyVO dayoffApplyDetailList(DayoffApplyVO vo) {
+		return session.selectOne("dayoff.dayoffApplyDetailList",vo);
 	}
 
 }
