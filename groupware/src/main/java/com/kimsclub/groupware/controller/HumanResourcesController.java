@@ -50,6 +50,24 @@ public class HumanResourcesController {
 		return mov;
 	}
 	
+	@RequestMapping(value = "/departmentList", method=RequestMethod.GET, produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String departmentList(){
+		System.out.println("departmentList 메소드 호출");
+		List<DepartmentVO> list = department_service.getDepartmentList();
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		
+		try {
+			json = mapper.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(json);
+		return json;
+	}
+	
 	@RequestMapping(value="/getDepartmentSeq", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Integer> getDepartmentSeq(){
