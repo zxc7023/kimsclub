@@ -123,7 +123,7 @@ $(document).ready(function() {
 		$.fn.zTree.init($("#treeDemo"), setting, zNodes)-로 zNodes의 내용을 세팅,시작 
 		모달창으로 보여줌
 		*/
-	$('#test-btn').click(function(){
+	$('#tree-btn').click(function(){
 		if(load_type==0 ){
 			$.ajax({
 				method : "get",
@@ -167,7 +167,6 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-	<button type="button" id="test-btn" class="btn btn-info">test</button>
 	<!-- tree-test modal -->
 	<div class="modal fade" id="testTreeModal"
 		aria-labelledby="modalLabel" aria-hidden="true">

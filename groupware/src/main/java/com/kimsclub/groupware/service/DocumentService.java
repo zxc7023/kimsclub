@@ -23,4 +23,6 @@ public interface DocumentService {
 	public void retrieveDocument(int document_no);
 
 	public void approveDocument(Map<String, Object> map);
+
+	public void returnDocument(Map<String, Object> map);
 }

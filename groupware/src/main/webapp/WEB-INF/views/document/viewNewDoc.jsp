@@ -70,11 +70,6 @@ height: 80px;
 					<div class="panel-body">
 						<form class="col-sm-12" method="post">
 							<div class="panel-heading">
-								<!-- 결재선 불러오기 modal -->
-								<!-- value 0 : 부서만 1: 사원 포함 -->
-								<jsp:include page="/WEB-INF/views/treeModal.jsp">
-									<jsp:param value="1" name="load_type"/>
-								</jsp:include>
 								<button type="button" onclick="location.href='modifyNewDoc?document_no=${dvo.document_no}'" class="btn btn-info">수정하기</button>
 								<input type="button" class="btn btn-info" onclick="location.href='/groupware/newDocList'" value="돌아가기">
 							</div>

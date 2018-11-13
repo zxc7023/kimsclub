@@ -55,6 +55,7 @@ public class DocumentServiceImpl implements DocumentService {
 		ddao.deleteDoc(document_no);
 	}
 
+	//미 결재된 문서 회수하기
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void retrieveDocument(int document_no) {
@@ -62,6 +63,7 @@ public class DocumentServiceImpl implements DocumentService {
 		adao.removeApproval(document_no);
 	}
 
+	//문서 결재하기
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void approveDocument(Map<String, Object> map) {
@@ -71,5 +73,11 @@ public class DocumentServiceImpl implements DocumentService {
 			ddao.completeDoc(map);
 		}
 		
+	}
+
+	@Override
+	public void returnDocument(Map<String, Object> map) {
+		ddao.returnDocState(map);
+		adao.returnApproval(map);
 	}
 }
