@@ -92,6 +92,29 @@ $(document).ready(function() {
 		}
 	});
 });
+
+//폼생성하여 post 방식으로 값 보내기 
+function post_to_url(path, params, method) {
+    method = method || "post"; // 전송 방식 기본값을 POST로
+ 
+    
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+ 
+    //히든으로 값을 주입시킨다.
+    for(var key in params) {
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+ 
+        form.appendChild(hiddenField);
+    }
+ 
+    document.body.appendChild(form);
+    form.submit();
+}
 </script>
 
 
@@ -170,7 +193,7 @@ $(document).ready(function() {
 											<c:forEach items="${dlist}" var="list">
 												<tr>
 													<td><input type="radio" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
-													<td><a href="viewDoc?document_type=4&document_no=${list.document_no}">${list.document_title}</a></td>
+													<td><a href="javascript:post_to_url('/groupware/viewDoc',{'document_type':'4','document_no':'${list.document_no}'})">${list.document_title}</a></td>
 													<td><fmt:formatDate value="${list.document_date}" pattern="yyyy/MM/dd" /></td>
 												</tr>
 											</c:forEach>
@@ -205,9 +228,12 @@ $(document).ready(function() {
 		</div>
 	</div>
 	<!-- 결재선 불러오기 modal -->
+	<!-- 사용려는 곳에 버튼 만든뒤 id에 tree-btn만들기 -->
 	<!-- value 0 : 부서만 1: 사원 포함 -->
 	<jsp:include page="/WEB-INF/views/treeModal.jsp">
 		<jsp:param value="0" name="load_type" />
+		<jsp:param value="beforeClick" name="beforeClick" />
+		<jsp:param value="null" name="beforeCheck" />
 	</jsp:include>
 </body>
 </html>

@@ -50,11 +50,12 @@
 height: 80px;
 }
 </style>
-<script>
+<script id="treeScript" >
 //Tree.beforeClick = true;
 //요청 타입
 var load_type = ${param.load_type};
-
+var beforeClick = ${param.beforeClick};
+var beforeCheck = ${param.beforeCheck};
 //zTree 세팅 부분
 var setting = {
 		view: {
@@ -81,8 +82,7 @@ var setting = {
 		},
 		callback: {
 			beforeClick : beforeClick,
-			beforeCheck: beforeCheck,
-			onCheck: onCheck
+			beforeCheck : beforeCheck
 		}
 	};
 var zNodes =[];
@@ -92,14 +92,14 @@ var department = {
 		
 var log,code, className = "dark";
 
-function beforeCheck(treeId, treeNode) {
+/*function beforeCheck(treeId, treeNode) {
 	className = (className === "dark" ? "":"dark");
 	showLog("[ beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
 	return (treeNode.doCheck !== false);
 }
 function onCheck(e, treeId, treeNode) {
 	showLog("[ onCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
-}		
+}*/
 function showLog(str) {
 	if (!log) log = $("#log");
 	log.append("<li class='"+className+"'>"+str+"</li>");

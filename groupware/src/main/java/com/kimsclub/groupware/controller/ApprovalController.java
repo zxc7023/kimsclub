@@ -68,6 +68,18 @@ public class ApprovalController {
 	}
 	
 	/**
+	 *  즐겨찾기 추가
+	 */
+	@RequestMapping(value = "/addFavorite", method=RequestMethod.POST)
+	@ResponseBody
+	public String addFavorite(@RequestBody List<ApprovalVO> alist,@RequestParam("approval_path_name")String approval_path_name){
+		System.out.println("addFavorite() 메소드 호출");
+		System.out.println(alist.get(0));
+		System.out.println(approval_path_name);
+		return "result";
+	}
+	
+	/**
 	 *  선택한 문서를 기안하기 위한 페이지 결재선을 선택 후 기안한다
 	 *  view : 결재선 선택 페이지(approvalDoc) model : elist-결재선을 선택할 때 사용 dvo-수정 할 문서의 정보
 	 */
