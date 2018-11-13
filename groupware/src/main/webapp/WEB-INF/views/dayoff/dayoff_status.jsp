@@ -21,8 +21,7 @@
 <!-- Custom CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 <!-- Custom Fonts -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
@@ -33,20 +32,95 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-<script type='text/javascript'
-	src='${pageContext.request.contextPath}/resources/js/gcal.js'></script>
-<!-- <script src="https://fullcalendar.io/releases/fullcalendar/3.9.0/gcal.min.js"></script> -->
+<script type='text/javascript'src='${pageContext.request.contextPath}/resources/js/gcal.js'></script>
+
 <!-- dayoff_writeform.css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/day_status.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
-
 <script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
 <script type="text/javascript">
 
 
 	$(document).ready(function(){
 		
-		var trorfal = true;
+		$("#calendar").fullCalendar({
+			header : {
+				left : 'today ',
+				center : 'prev title next',
+				right : ''
+			},
+			defaultView: 'month',
+			views: {
+			    month: {
+			      eventLimit: 4 // adjust to 6 only for agendaWeek/agendaDay
+			    }
+			},
+			eventLimit : true,
+			events: function(start, end, timezone, callback) {
+	               var d = $(calendar).fullCalendar('getDate');
+	               var month = moment(d).format("MM");
+	               var year = moment(d).format("YYYY");
+	               var data = { month: month, year: year};
+	               $.ajax({
+	                 url: '${pageContext.request.contextPath}/dayoff/dayoffCal',
+	                 dataType: 'json',
+	               contentType : 'application/json;charset=UTF-8',
+	                 method: 'POST',
+	                 data: JSON.stringify(data),
+	                 success: function(applyVo) {
+	                     var events = [];
+	                     for (var i=0;i<applyVo.length;i++){
+	                        var details = applyVo[i].dayoff_apply_detail;
+	                        for(var j=0;j<details.length;j++){
+	                           var tmpObj = {};
+	                           var start;
+	                           var end;
+	                           var color;
+	                           if(applyVo[i].dayoff_apply_detail[j].oneorhalf ==0){
+	                               start =applyVo[i].dayoff_apply_detail[j].dayoff_day + " 09:00";
+	                               end = applyVo[i].dayoff_apply_detail[j].dayoff_day + " 18:00";
+	                               color ="#007bff";
+	                            }else if(applyVo[i].dayoff_apply_detail[j].oneorhalf ==1){
+	                               start =applyVo[i].dayoff_apply_detail[j].dayoff_day + " 09:00";
+	                               end = applyVo[i].dayoff_apply_detail[j].dayoff_day + " 13:00";
+	                               color ="#21ff00";
+	                            }else if(applyVo[i].dayoff_apply_detail[j].oneorhalf ==2){
+	                               start =applyVo[i].dayoff_apply_detail[j].dayoff_day + " 13:00";
+	                               end = applyVo[i].dayoff_apply_detail[j].dayoff_day + " 18:00";
+	                               color ="#ffbf00";
+	                            }
+	                           
+	                           tmpObj.id =applyVo[i].dayoff_no;
+	                           tmpObj.title = applyVo[i].employee.employee_name;
+	                           tmpObj.start = start;
+	                           tmpObj.end = end;
+	                           tmpObj.color = color;
+	                           events.push(tmpObj);//this is displaying!!!   
+	                        }
+	                     }
+	                     callback(events);
+	                 }
+	               });
+	         },
+	         eventRender: function(event, element) {
+	        	 $(element).tooltip({title: event.title});  
+	       	},
+			timeFormat: 'HH:mm',
+			googleCalendarApiKey : "AIzaSyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
+		    eventSources : [{
+		         googleCalendarId : "qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com",
+		         className : "Holidays",
+		         color : "#FFFFFF",
+		         textColor : "#FF0000",
+		    }],
+			locale: 'ko',
+			eventClick: function(calEvent, jsEvent, view) {
+				alert("클릭");
+				console.log(calEvent);
+			}
+		});
+		
+		console.log($('#calendar').fullCalendar('getView'));
 		
 		$("#dayoff_use_recode_tb").on("click","a",function(){
 			var dayoffApply = {};
@@ -132,7 +206,6 @@
 					alert("전송 실패");
 				},
 				success : function(server_result) {
-					console.log(server_result);
 					var applyList = server_result;
 					console.log(applyList.length);
 					var $table = $("#dayoff_use_recode_tb");
@@ -152,72 +225,6 @@
 					}
 				} 
 			});
-		});
-		
-		var myCustomFetchFunction = function(start, end, callback) {
-		    $.ajax({
-		        url: '${pageContext.request.contextPath}/dayoff/dayoffCal',
-		        method :'GET',
-				contentType : 'application/json;charset=UTF-8',
-		        success: function(events) {
-		        	console.log(events);
-		            callback(events);
-		            // this is where I do some custom stuff with the events
-		            myCustomFunction(events);
-		        }
-		    });
-		};
-
-		
-	
-		$("#calendar").fullCalendar({
-			header : {
-				left : 'today ',
-				center : 'prev title next',
-				right : ''
-			},
-			events: function(start,end,callback) {
-			      var d = $(calendar).fullCalendar('getDate');
-			      var month = moment(d).format("MM");
-			      var year = moment(d).format("YYYY");
-			      var data = { month: month, year: year};
-			      $.ajax({
-			        url: '${pageContext.request.contextPath}/dayoff/dayoffCal',
-			        dataType: 'json',
-					contentType : 'application/json;charset=UTF-8',
-			        method: 'POST',
-			        data: JSON.stringify(data),
-			        success: function(doc) {
-			            var events = [];
-			            for (var i=0;i<doc.length;i++){
-			              events.push({
-			                title: doc[i].title,
-			                start: doc[i].start,
-			              })//this is displaying!!!
-			            }
-			            callback(events);
-			        }
-			      });
-			},
-			editable: false,
-			googleCalendarApiKey : "AIzaSyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
-		    eventSources : [{
-		         googleCalendarId : "qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com",
-		         className : "Holidays",
-		         color : "#FFFFFF",
-		         textColor : "#FF0000",
-		    }],
-
-		    timeFormat: 'HH:mm',
-			locale: 'ko',
-			editable: false,
-			eventClick: function(calEvent, jsEvent, view) {
-				if(calEvent.url){
-					return false;
-				}
-			}
-			
-			
 		});
 		
 	});

@@ -233,7 +233,7 @@ public class DayoffController {
 	}
 	
 	
-	@RequestMapping(value="/dayoffCal",method=RequestMethod.POST)
+	@RequestMapping(value="/dayoffCal",method=RequestMethod.POST, produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public String dayoffCal(@RequestBody Map<String, Object> map) {
 		System.out.println("호출");
@@ -244,6 +244,8 @@ public class DayoffController {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = null;
 		try {
+			DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+			mapper.setDateFormat(fmt);
 			json =mapper.writeValueAsString(list);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
