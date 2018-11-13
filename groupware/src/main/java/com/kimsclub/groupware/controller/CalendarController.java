@@ -1,5 +1,7 @@
 package com.kimsclub.groupware.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,7 +89,10 @@ public class CalendarController {
 		ObjectMapper mapper = new ObjectMapper();
 		String json = null;
 		try {
+			DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	        mapper.setDateFormat(fmt);
 			json = mapper.writeValueAsString(clist);
+			
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
