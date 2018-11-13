@@ -43,9 +43,12 @@
 
 	$(document).ready(function(){
 		
+		var eventList;
+		
+		
 		$("#calendar").fullCalendar({
 			header : {
-				left : 'today ',
+				left : '',
 				center : 'prev title next',
 				right : ''
 			},
@@ -95,15 +98,22 @@
 	                           tmpObj.start = start;
 	                           tmpObj.end = end;
 	                           tmpObj.color = color;
+	                           tmpObj.oneorhalf = applyVo[i].dayoff_apply_detail[j].oneorhalf;
 	                           events.push(tmpObj);//this is displaying!!!   
 	                        }
 	                     }
+	                     eventList=events;
 	                     callback(events);
 	                 }
 	               });
 	         },
 	         eventRender: function(event, element) {
-	        	 $(element).tooltip({title: event.title});  
+	        	 element.on('click', function(e){
+	        	        if (element.closest('.Holidays').length) {
+	        	            e.preventDefault();
+	        	        }
+	        	 });
+
 	       	},
 			timeFormat: 'HH:mm',
 			googleCalendarApiKey : "AIzaSyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
@@ -115,12 +125,31 @@
 		    }],
 			locale: 'ko',
 			eventClick: function(calEvent, jsEvent, view) {
-				alert("클릭");
-				console.log(calEvent);
+				jsEvent.preventDefault();
+				
 			}
 		});
+
+	  	 $("input[type=checkbox]").change(function () {
+	  		var arrayParam = new Array();
+	  		$("input:checkbox[name=oneorhalf]:checked").each(function(){
+				arrayParam.push($(this).val());
+			});
+	  		var tmpArr = [];
+	  		for(var i=0; i<eventList.length; i++){
+	  			
+	  	 		if(arrayParam.indexOf(eventList[i].oneorhalf) != -1){
+	  				tmpArr.push(eventList[i]);
+	  			} 
+	  		
+	  		}
+
+
+ 	  		$('#calendar').fullCalendar('removeEvents');
+	  		$('#calendar').fullCalendar('renderEvents',tmpArr);
+	  		
+	  	 });
 		
-		console.log($('#calendar').fullCalendar('getView'));
 		
 		$("#dayoff_use_recode_tb").on("click","a",function(){
 			var dayoffApply = {};
@@ -353,6 +382,11 @@
 							
 						</div>
 						<div class="tab-pane fade" id="tab02">
+							<div>
+								<input type="checkbox" name="oneorhalf" value="0" checked="checked">일차
+							 	<input type="checkbox" name="oneorhalf" value="1" checked="checked">오전반차
+							 	<input type="checkbox" name="oneorhalf" value="2" checked="checked">오후반자
+							</div>
 							<div id="calendar" class="calendar col-lg-12"></div>
 						</div>
 		<%-- 				<div class="tab-pane fade" id="tab03">
