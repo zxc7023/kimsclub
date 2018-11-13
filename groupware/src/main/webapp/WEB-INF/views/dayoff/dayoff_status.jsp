@@ -107,12 +107,21 @@
 	                 }
 	               });
 	         },
-	         eventRender: function(event, element) {
+	         eventRender: function(event, element, view) {
 	        	 element.on('click', function(e){
 	        	        if (element.closest('.Holidays').length) {
 	        	            e.preventDefault();
 	        	        }
 	        	 });
+	        	 var arrayParam = new Array();
+	        	 $("input:checkbox[name=oneorhalf]:checked").each(function(){
+	        		 arrayParam.push($(this).val());
+	        	 });
+	        	 var tmpArr = [];
+	        	 if(arrayParam.indexOf(event.oneorhalf) == -1){
+	        		 return false;
+	             }
+	        	 
 
 	       	},
 			timeFormat: 'HH:mm',
@@ -131,7 +140,7 @@
 		});
 
 	  	 $("input[type=checkbox]").change(function () {
-	  		var arrayParam = new Array();
+	  		arrayParam = new Array();
 	  		$("input:checkbox[name=oneorhalf]:checked").each(function(){
 				arrayParam.push($(this).val());
 			});
