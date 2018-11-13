@@ -51,6 +51,7 @@ height: 80px;
 }
 </style>
 <script>
+//Tree.beforeClick = true;
 //요청 타입
 var load_type = ${param.load_type};
 
@@ -106,8 +107,8 @@ function showLog(str) {
 		log.get(0).removeChild(log.children("li")[0]);
 	}
 }
-//클릭 했을시 호출되는 함수
-function beforeClick(treeId, treeNode) {
+//클릭 했을시 호출되는 함수 사용하는 페이지에서 복사
+/*function beforeClick(treeId, treeNode) {
 	if (treeNode.isParent) {
 		alert("부서 클릭 : "+treeNode.department_name+":"+treeNode.department_no);
 		//return true;
@@ -115,7 +116,7 @@ function beforeClick(treeId, treeNode) {
 		alert("사원 클릭");
 		//return false;
 	}
-}
+}*/
 
 
 $(document).ready(function() {

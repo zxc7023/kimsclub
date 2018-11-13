@@ -63,7 +63,7 @@ public class DocumentController {
 	public String retrieveDoc(@RequestParam(name="document_no") int document_no){
 		System.out.println("retrieveDoc() 메소드 호출");
 		service2.retrieveDocument(document_no);
-		return "/groupware/newDocList";
+		return "redirect:newDocList";
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class DocumentController {
 		map.put("document_no",document_no);
 		map.put("employee_no", evo.getEmployee_no());
 		service2.approveDocument(map);
-		return "/groupware/approvalDocList";
+		return "redirect:approvalDocList";
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class DocumentController {
 		
 		service2.returnDocument(map);
 		
-		return "/groupware/returnDocList";
+		return "redirect:returnDocList";
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class DocumentController {
 			map.put("fromOption", " (SELECT d.document_no, document_title,document_date FROM document d , approval a WHERE d.DOCUMENT_NO = a.document_no AND a.employee_no = "+employee_no+ " AND document_state = '완료' )");
 			map.put("whereOption", "1 = 1 ");
 		}else if (doc_type==2) {
-			map.put("fromOption", "(SELECT d.document_no, d.document_title, d.document_date FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=0 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
+			map.put("fromOption", "(SELECT d.document_no, d.document_title, d.document_date FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=1 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
 			map.put("whereOption", "1=1");
 		}
 		
@@ -301,7 +301,6 @@ public class DocumentController {
 		DocumentVO dvo = service2.viewDoc(document_no);
 		
 		mav.addObject("dvo", dvo);
-		System.out.println(document_type);
 		if(document_type == 0) {
 			System.out.println("임시저장페이지 호출");
 			mav.setViewName("document/viewNewDoc");			

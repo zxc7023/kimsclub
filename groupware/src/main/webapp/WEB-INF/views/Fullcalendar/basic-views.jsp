@@ -38,6 +38,9 @@
 <!--미니달력  -->
 <%-- <script src="${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.js"></script>
 <link href='${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.css' rel='stylesheet' /> --%>
+<!-- js -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/themes/default/style.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/jstree.min.js"></script> 
 <!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -88,13 +91,20 @@
 .wrap-btn input.form-inputPop:checked+i {background-position:left bottom;}
 .wrap-btn input.form-inputPop:checked+i+label {color:#f56592;}
 
-/*  .wrap-btn2 {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
+.wrap-btn2 {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
 .wrap-btn2 input.form-inputPop2 {position:absolute; top:0; left:0; opacity:0; cursor:pointer; z-index:5;}
 .wrap-btn2 i {float:left; display:block; width:14px; height:14px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox2.png)no-repeat left top; z-index:3;}
 .wrap-btn2 label {float:left; margin-left:10px; cursor:pointer; font-size:13px;}
 .wrap-btn2 input.form-inputPop2:checked+i {background-position:left bottom;}
-.wrap-btn2 input.form-inputPop2:checked+i+label {color:#f27d4a;}  */
+.wrap-btn2 input.form-inputPop2:checked+i+label {color:#f27d4a;}  
 </style>
+<script>
+$(function() {
+	$('#container').jstree({
+		  "plugins" : ["checkbox"]
+		});
+});
+</script>
 <body>
 
 
@@ -127,12 +137,23 @@
 <label for="checkbox01">업무</label>
 </div>
 <!--  -->
-<!-- <div class="wrap-btn2">
+<div class="wrap-btn2">
 <input class="form-inputPop2" type="checkbox" id="checkbox02"  checked="checked" onChange="scheduleChoice(1, '#008bca');"/>
 <i></i>
 <label for="checkbox02">휴가</label> 
-</div>   -->
+</div>  
 <!--  -->
+<div id="container">
+  <ul>
+    <li>Root node
+      <ul>
+        <li>Child node 1</li>
+        <li>Child node 2</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
 					 <!--  -->
 				</div>
 				<div id='calendar2' class='calendar col-md-10'></div>

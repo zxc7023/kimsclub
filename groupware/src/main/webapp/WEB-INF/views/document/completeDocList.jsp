@@ -39,6 +39,17 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <script>
+function beforeClick(treeId, treeNode) {
+	if (treeNode.parent) {
+		//parent 구분하기위해 부서 명 앞에 d적은 거 자르기
+		var department_no = treeNode.no.split('d')[1];
+		alert("부서 클릭 : "+treeNode.name+":"+department_no);
+		//return true;
+	} else {
+		alert("사원 클릭 : "+name+":"+no);
+		//return false;
+	}
+}
 $(document).ready(function() {
 	$("#modify-btn").click(function(){
 		if($('.check:checked').val()==null){
@@ -196,7 +207,7 @@ $(document).ready(function() {
 	<!-- 결재선 불러오기 modal -->
 	<!-- value 0 : 부서만 1: 사원 포함 -->
 	<jsp:include page="/WEB-INF/views/treeModal.jsp">
-		<jsp:param value="1" name="load_type" />
+		<jsp:param value="0" name="load_type" />
 	</jsp:include>
 </body>
 </html>
