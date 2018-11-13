@@ -56,5 +56,9 @@ public class DocumentDAO {
 	public void completeDoc(Map<String, Object> map) {
 		session.update("Document.completeDoc",map);		
 	}
+
+	public void returnDocState(Map<String, Object> map) {
+		session.update("Document.returnDoc", map);
+	}
 	
 }

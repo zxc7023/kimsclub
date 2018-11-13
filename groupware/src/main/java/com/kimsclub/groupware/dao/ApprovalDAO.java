@@ -48,6 +48,11 @@ public class ApprovalDAO {
 	public int checkComplete(Map<String, Object> map) {
 		return session.selectOne("Approval.checkComplete", map);
 	}
+
+	public void returnApproval(Map<String, Object> map) {
+		session.update("Approval.returnApproval",map);
+		
+	}
 	
 
 }

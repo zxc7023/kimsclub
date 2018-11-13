@@ -109,10 +109,8 @@ $(document).ready(function() {
 					<div class="panel-body">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<button id="approval-btn" class="btn btn-info">기안하기</button>
-								<button id="modify-btn" class="btn btn-info">수정하기</button>
-								<button id="delete-btn" class="btn btn-info">삭제하기</button>
-								<button onclick="location='writeDoc'" class="btn btn-info">새 문서 작성</button>
+								<button type="button" id="tree-btn" class="btn btn-default">지정하여 문서 보내기</button>
+								<button id="modify-btn" class="btn btn-default">공람문서함 보내기</button>
 							</div>
 							<div class="panel-body">
 								<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -131,7 +129,7 @@ $(document).ready(function() {
 										<form action="completeDocList">
 											<input type="hidden" name="page_scale" value="${page.page_scale}">
 											<div class="col-sm-3">
-												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목   </label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
+												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목</label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
 											</div>
 											<div class="col-sm-4">
 												<div id="dataTables-example_filter" class="dataTables_filter">
@@ -195,5 +193,10 @@ $(document).ready(function() {
 			</div>
 		</div>
 	</div>
+	<!-- 결재선 불러오기 modal -->
+	<!-- value 0 : 부서만 1: 사원 포함 -->
+	<jsp:include page="/WEB-INF/views/treeModal.jsp">
+		<jsp:param value="1" name="load_type" />
+	</jsp:include>
 </body>
 </html>
