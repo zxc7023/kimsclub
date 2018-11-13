@@ -6,7 +6,6 @@ $(function() {
   initializeRightCalendar();
   initializeLeftCalendar();
   disableEnter();
-  scheduleChoice();
 });
 
 /* --------------------------공통적인 캘린더-------------------------- */
@@ -30,6 +29,7 @@ var initializeCalendar = function() {
       forceEventDuration: true,
       eventBackgroundColor: '#337ab7',
       editable: false,
+      
     });
   $('#calendar1').fullCalendar({  });
 }
@@ -103,7 +103,7 @@ var cal2GoTo = function(date) {
 }
 
 
-var loadEvents = function() {
+var loadEvents = function(num, id, color, text) {
 /*  $.getScript("/resources/full/js/events.js", function(){
   });*/
 
@@ -118,19 +118,20 @@ var loadEvents = function() {
 		},
 		success : function(data){
 			events = data;
+			scheduleChoice();
 		}	
 	});
   
 }
 
-scheduleChoice = function(num, id, color, text) {
-	if($('.form-inputPop').eq(num).is(':checked')) {
+var scheduleChoice = function(num, id, color, text, event_no) {
+	if($('#checkbox01').eq(num).is(':checked')) {
 		$('#calendar2').fullCalendar('addEventSource', { googleCalendarId : id, color : color, textColor : text });
 
 	  } else {
 		  $('#calendar2').fullCalendar('removeEventSource', { googleCalendarId : id });
 	  }
-
+	
 }  
 
 var newEvent = function() {
