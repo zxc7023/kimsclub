@@ -48,7 +48,10 @@ public class MessageDAO {
 	}
 	
 	//쪽지 삭제
-	public void deleteMessage(int[] message_no) {
-		/*session.update("message.updateDeleteMessage", message_no);*/
+	public void deleteMessage(int[] message_no, String message_del) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("message_no", message_no);
+		map.put("message_del", message_del);
+		session.update("message.updateDeleteMessage", map);
 	}
 }

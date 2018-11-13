@@ -73,6 +73,7 @@ public class MessageController {
 			map.put("count", count); //게시글 갯수
 			map.put("messagePager", messagePager); //게시글 행,페이징
 			map.put("box", box); //쪽지함 구분(보낸쪽지함, 받은쪽지함, 보관함)
+			map.put("employee_no", employee_no);//자신의 사원번호
 			mav.addObject("map", map);
 			mav.setViewName("/message/messageList");
 			return mav;
@@ -88,8 +89,18 @@ public class MessageController {
 		//쪽지 보관
 		@RequestMapping(value="/deleteMessage", method=RequestMethod.POST)
 		@ResponseBody
-		public void deleteMessage(@RequestParam(value="message_no")int[] message_no) {
-			service.deleteMessage(message_no);
+		public void deleteMessage(@RequestParam(value="message_no")int[] message_no,
+								  @RequestParam(value="box")String box) {
+			String message_del;
+			if(box.equals("outBox")) {//보낸 쪽지 삭제시
+				message_del="message_send_del";
+				service.deleteMessage(message_no, message_del);
+			}else if(box.equals("inBox")) {//받은쪽지 삭제시
+				message_del="message_receive_del";
+				service.deleteMessage(message_no, message_del);
+			}else {//보관쪽지 삭제시
+				message_del="message_keep_del";
+				service.deleteMessage(message_no, message_del);
+			}
 		}
-		
-}
+	}

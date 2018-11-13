@@ -99,7 +99,9 @@
 						$.ajax({
 							method : "POST",
 							url : "${pageContext.request.contextPath}/deleteMessage",
-							data : {"message_no" : checkArr},
+							data : {"message_no" : checkArr,
+									"box" : "${map.box}"
+									},
 							error : function() {
 								alert("보관실패");
 							},
@@ -121,17 +123,20 @@
 		
 		//쪽지함 heading, 
 		if('${map.box}' =='outBox'){
-	  	  $(".page-header").text('보낸쪽지');
-	  	  $("title").text('보낸쪽지');
-	  	  $("#senderAndreceiver").text('받는사람');
+			$(".page-header").text('보낸쪽지');
+			$("title").text('보낸쪽지');
+			$("#senderAndreceiver").text('받는사람');
 		}
 		else if('${map.box}' =='inBox'){
-		  $(".page-header").text('받은쪽지');
-		  $("title").text('받은쪽지');
-		  $("#senderAndreceiver").text('보낸사람');
+			$(".page-header").text('받은쪽지');
+			$("title").text('받은쪽지');
+			$("#senderAndreceiver").text('보낸사람');
 		}else{
 			$(".page-header").text('보관함');
-			  $("title").text('보관함');
+			$("title").text('보관함');
+			$("#senderAndreceiver").text('보낸사람');
+			
+			
 		}
 		
 		//쪽지 레코드 갯수 설정
@@ -230,7 +235,22 @@
 				                                <c:forEach var="list" items="${map.list}" >
 					                                <tr class="odd gradeA">
 					                                    <td><input type="checkbox" class="check" value="${list.message_no}"></td>
-					                                    <td>${list.message_receiver_name}</td>
+					                                    <c:choose>
+					                                    	<c:when test="${map.box != 'keepBox'}">
+					                                    		<td>${list.message_receiver_name}</td>
+					                                    	</c:when>
+					                                    	<c:otherwise>
+					                                    	<c:choose>
+					                                    		<c:when test="${map.employee_no == list.message_sender_no}">
+					                                    			<td>${list.message_receiver_name} [보낸쪽지]</td>
+					                                    		</c:when>
+					                                    		<c:otherwise>
+					                                    			<td>${list.message_receiver_name} [받은쪽지]</td>
+					                                    		</c:otherwise>
+					                                    	</c:choose>
+					                                    	</c:otherwise>
+					                                    	
+					                                    </c:choose>
 					                                    <td><a href="detail?message_no=${message_no}&searchOption=${map.searchOption}&keyword=${map.keyword}&curPage=${map.messagePager.curPage}">${list.message_contents}</a></td>
 					                                    <td>${list.message_date}</td>
 					                                </tr>

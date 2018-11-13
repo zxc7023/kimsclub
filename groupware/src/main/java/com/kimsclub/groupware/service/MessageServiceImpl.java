@@ -36,12 +36,11 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public void keepMessage(int[] message_no) {
 		dao.keepMessage(message_no);
-		
 	}
 
 	@Override
-	public void deleteMessage(int[] message_no) {
-		
+	public void deleteMessage(int[] message_no, String message_del) {
+		dao.deleteMessage(message_no, message_del);
 	}
 	
 	

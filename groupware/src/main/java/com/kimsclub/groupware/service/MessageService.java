@@ -16,6 +16,6 @@ public interface MessageService {
 	//쪽지 보관
 	public void keepMessage(int[] message_no);
 	//쪽지 삭제
-	public void deleteMessage(int[] message_no);
+	public void deleteMessage(int[] message_no, String message_del);
 	
 }

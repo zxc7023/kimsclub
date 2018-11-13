@@ -9,7 +9,7 @@
 		values((select nvl(max(message_no),0)+1 from message), #{message_sender_no}, #{message_receiver_no}, #{message_contents}, sysdate)
 	</insert>
 	
-<!-- 보낸쪽지 레코드 갯수  -->
+<!-- 쪽지 레코드 갯수  -->
 	<select id="selectCountMessage" parameterType="map" resultType="int" >
 		select count(*) 
 		from message, employee
@@ -17,7 +17,7 @@
 		<include refid="search"></include>
 	</select>
 	
-<!-- 보낸 쪽지함 조회 -->
+<!-- 쪽지함 조회 -->
 	<select id="selectMessageList" parameterType="map" resultType="message" >
 		<include refid="pagingHeader"></include>
 			select message_no, message_sender_no, message_receiver_no, message_contents, message_date, employee_name as message_receiver_name
@@ -31,12 +31,13 @@
 <!-- 쪽지 보관 -->
 	<update id="updateKeepMessage" parameterType="int[]" >
 		update message
-		set message_keep='Y' where message_no In<foreach item="message_no" collection="array" open="(" close=")" separator=",">#{message_no}</foreach>
+		set message_keep='Y' where message_no IN<foreach item="message_no" collection="array" open="(" close=")" separator=",">#{message_no}</foreach>
 	</update>
 		
 <!-- 쪽지 삭제 -->
-	<update id="updateDeleteMessage" parameterType="int[]" >
-		
+	<update id="updateDeleteMessage" parameterType="hashmap" >
+		update message
+		set ${message_del} = 'Y' where message_no IN<foreach item="message_no" collection="message_no" open="(" close=")" separator=",">#{message_no}</foreach>
 	</update>
 		
 <!-- sql검색 -->
@@ -66,13 +67,13 @@
 	<sql id="boxsort">
 		<choose>
 			<when test="box == 'outBox'">
-			where employee_no=message_receiver_no and message_sender_no=#{employee_no} and message_sender_del='N'and message_keep='N'
+			where employee_no=message_receiver_no and message_sender_no=#{employee_no} and message_send_del='N' and  message_sender_no != message_receiver_no
 			</when>
 			<when test="box == 'inBox'">
-			where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_receive_del='N' and message_keep='N'
+			where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_receive_del='N' and  message_sender_no != message_receiver_no
 			</when>
 			<otherwise>
-			
+			where employee_no=message_sender_no and message_keep='Y' and message_keep_del='N'
 			</otherwise>
 		</choose>
 	</sql>	
