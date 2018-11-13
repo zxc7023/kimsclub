@@ -15,7 +15,7 @@
 	<!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <%-- <script src='${pageContext.request.contextPath}/resources/full/js/vendor/jquery.min.js'></script> --%>
-<%-- <script src='${pageContext.request.contextPath}/resources/full/js/vendor/moment.min.js'></script> --%>
+<script src='${pageContext.request.contextPath}/resources/full/js/vendor/moment.min.js'></script>
 <script src='${pageContext.request.contextPath}/resources/full/js/vendor/bootstrap.min.js'></script>
 
 <script src="${pageContext.request.contextPath}/resources/js/fullcalendar.js"></script>
@@ -65,10 +65,7 @@
 	rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
-	crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 
 
 <!-- Bootstrap Core JavaScript -->
@@ -91,12 +88,12 @@
 .wrap-btn input.form-inputPop:checked+i {background-position:left bottom;}
 .wrap-btn input.form-inputPop:checked+i+label {color:#f56592;}
 
-  .wrap-btn2 {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
+/*  .wrap-btn2 {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
 .wrap-btn2 input.form-inputPop2 {position:absolute; top:0; left:0; opacity:0; cursor:pointer; z-index:5;}
 .wrap-btn2 i {float:left; display:block; width:14px; height:14px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox2.png)no-repeat left top; z-index:3;}
 .wrap-btn2 label {float:left; margin-left:10px; cursor:pointer; font-size:13px;}
 .wrap-btn2 input.form-inputPop2:checked+i {background-position:left bottom;}
-.wrap-btn2 input.form-inputPop2:checked+i+label {color:#f27d4a;}  
+.wrap-btn2 input.form-inputPop2:checked+i+label {color:#f27d4a;}  */
 </style>
 <body>
 
@@ -125,16 +122,16 @@
 					 <input type="button" value="만들기" style="position: absolute; right: 0;" />
 					 <!-- 카테고리 -->
 					 <div class="wrap-btn">
-<input class="form-inputPop" type="checkbox" id="checkbox01"  checked="checked" onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com','#FFFFFF', '#FF0000');"/>
+<input class="form-inputPop" type="checkbox" id="checkbox01"  checked="checked" onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com','#FFFFFF', '#f27d4a');"/>
 <i></i>
 <label for="checkbox01">업무</label>
 </div>
 <!--  -->
-<div class="wrap-btn2">
-<input class="form-inputPop2" type="checkbox" id="checkbox02"  checked="checked" onChange="scheduleChoice(1, '26','#FFFFFF', '#FF0000');"/>
+<!-- <div class="wrap-btn2">
+<input class="form-inputPop2" type="checkbox" id="checkbox02"  checked="checked" onChange="scheduleChoice(1, '#008bca');"/>
 <i></i>
 <label for="checkbox02">휴가</label> 
-</div>
+</div>   -->
 <!--  -->
 					 <!--  -->
 				</div>

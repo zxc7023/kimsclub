@@ -124,14 +124,14 @@ var loadEvents = function(num, id, color, text) {
   
 }
 
-var scheduleChoice = function(num, id, color, text, event_no) {
-	if($('#checkbox01').eq(num).is(':checked')) {
+var scheduleChoice = function(num, id, color, text) {
+	if($('.form-inputPop').eq(num).is(':checked')) {
 		$('#calendar2').fullCalendar('addEventSource', { googleCalendarId : id, color : color, textColor : text });
 
 	  } else {
 		  $('#calendar2').fullCalendar('removeEventSource', { googleCalendarId : id });
 	  }
-	
+
 }  
 
 var newEvent = function() {
