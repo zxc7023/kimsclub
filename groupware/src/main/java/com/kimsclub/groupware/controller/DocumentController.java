@@ -68,6 +68,8 @@ public class DocumentController {
 	
 	/**
 	 *  결재 승인
+	 *  문서 번호와 사원번호를 통해 해당 사원의 결재 상태를 승인(1)으로 바꾸고 
+	 *  그 결재자가 마지막 결재자면 문서의 상태를 '완료'로 변경한다.
 	 */
 	@RequestMapping(value = "/approveDoc", method=RequestMethod.GET)
 	@ResponseBody
@@ -79,6 +81,24 @@ public class DocumentController {
 		map.put("employee_no", evo.getEmployee_no());
 		service2.approveDocument(map);
 		return "/groupware/approvalDocList";
+	}
+	
+	/**
+	 *  결재 반려
+	 *  문서 번호와 사원번호를 통해 해당 사원의 결재 상태를 반려(2)으로 바꾸고
+	 *  문서의 상태를 '반려'로 변경한다.
+	 */
+	@RequestMapping(value = "/returnDoc", method=RequestMethod.GET)
+	public String returnDoc(HttpSession session, @RequestParam(name="document_no") int document_no){
+		System.out.println("returnDoc() 메소드 호출");
+		Map<String, Object> map = new HashMap<String,Object>();
+		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
+		map.put("document_no",document_no);
+		map.put("employee_no", evo.getEmployee_no());
+		
+		service2.returnDocument(map);
+		
+		return "/groupware/returnDocList";
 	}
 	
 	/**
@@ -116,7 +136,8 @@ public class DocumentController {
 			map.put("fromOption", " (SELECT d.document_no, document_title,document_date FROM document d , approval a WHERE d.DOCUMENT_NO = a.document_no AND a.employee_no = "+employee_no+ " AND document_state = '완료' )");
 			map.put("whereOption", "1 = 1 ");
 		}else if (doc_type==2) {
-			map.put("whereOption", "document_no = (SELECT document_no FROM approval WHERE approval_state = 1 AND approval_next_no = (SELECT approval_no FROM approval WHERE approval_state=0 and employee_no = "+employee_no+"))");
+			map.put("fromOption", "(SELECT d.document_no, d.document_title, d.document_date FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=0 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
+			map.put("whereOption", "1=1");
 		}
 		
 		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음

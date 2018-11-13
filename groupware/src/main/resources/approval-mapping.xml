@@ -17,21 +17,6 @@
 		insert into approval values (approval_seq.nextval,#{document.document_no},#{employee.employee_no},sysdate,1,approval_seq.currval+1)
 	</insert>
 	
-	<!-- 결재 입력 -->	
-	<insert id="updateApproval" parameterType="Approval" >
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},approval_seq.currval+1)
-	</insert>
-
-	<!-- 결재라인 중 마지막 결재자 입력 -->	
-	<insert id="updateApprovalLast" parameterType="Approval">
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},'',#{approval_state},0)
-	</insert>
-	
-	<!-- 문서를 임시저장이 아닌 바로 기안하기 하였을 때 기안자(본인) 결재상태로 입력 -->	
-	<insert id="updateApprovalFirst" parameterType="Approval">
-		insert into approval values (approval_seq.nextval,(select nvl(max(document_no),1) from document),#{employee.employee_no},sysdate,'1',approval_seq.currval+1)
-	</insert>
-	
 	<!-- 해당 문서를 반려하거나 결재회수했을 때 결재 정보를 삭제 -->
 	<delete id="deleteApproval" parameterType="int">
 		DELETE FROM approval WHERE document_no = #{value}	
@@ -43,6 +28,14 @@
 		SET approval_state = 1,
 		approval_date = sysdate
 		WHERE document_no = #{document_no} AND employee_no = #{employee_no} AND '진행' = (SELECT document_state FROM document WHERE document_no = #{document_no})
+	</update>
+	
+	<!-- 해당번호의 문서가 결재 진행중일 때 결재 상태를 1로 변경 -->	
+	<update id="returnApproval" parameterType="hashmap">
+		UPDATE approval
+		SET approval_state = 2,
+		approval_date = sysdate
+		WHERE document_no = #{document_no} AND employee_no = #{employee_no} AND '반려' = (SELECT document_state FROM document WHERE document_no = #{document_no})
 	</update>
 	
 	<select id="checkComplete" parameterType="hashmap" resultType="int">

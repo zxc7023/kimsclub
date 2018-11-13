@@ -1,14 +1,28 @@
 package com.kimsclub.groupware.vo;
 
+import java.util.List;
+
 public class DepartmentVO {
 	private String department_name;
 	private int department_no;
 	private int department_parent_no;
 	private int department_people_cnt;
+	private List<EmployeeVO> employee;
 
 	public DepartmentVO() {
 		super();
 	}
+	
+
+	public List<EmployeeVO> getEmployee() {
+		return employee;
+	}
+
+
+	public void setEmployee(List<EmployeeVO> employee) {
+		this.employee = employee;
+	}
+
 
 	public DepartmentVO(String department_name, int department_no, int department_parent_no, int department_people_cnt) {
 		super();
