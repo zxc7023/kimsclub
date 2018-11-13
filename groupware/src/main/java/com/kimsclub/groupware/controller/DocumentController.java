@@ -1,5 +1,7 @@
 package com.kimsclub.groupware.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,13 +113,14 @@ public class DocumentController {
 		}else if (doc_type==3) {
 			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '반려'");
 		}else if (doc_type==4) {
-			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '완료'");
+			map.put("fromOption", " (SELECT d.document_no, document_title,document_date FROM document d , approval a WHERE d.DOCUMENT_NO = a.document_no AND a.employee_no = "+employee_no+ " AND document_state = '완료' )");
+			map.put("whereOption", "1 = 1 ");
 		}else if (doc_type==2) {
 			map.put("whereOption", "document_no = (SELECT document_no FROM approval WHERE approval_state = 1 AND approval_next_no = (SELECT approval_no FROM approval WHERE approval_state=0 and employee_no = "+employee_no+"))");
 		}
 		
 		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음
-		map.put("selectOption", "B.document_no, B.document_title, TO_CHAR(B.document_date, 'yyyy/mm/dd') document_date");
+		map.put("selectOption", "B.document_no, B.document_title, B.document_date ");
 		//페이징
 		BoardPageVO bpvo = new BoardPageVO(service2.getDocumentCnt(map), cur_page, page_scale); 
 		map.put("start", bpvo.getPageBegin());
@@ -125,6 +128,7 @@ public class DocumentController {
 				
 		//map을 통해 해당하는 리스트 불러오기
 		List<DocumentVO> dlist = service2.getDocumentList(map);
+
 		mav.addObject("map",map);
 		mav.addObject("dlist",dlist);
 		mav.addObject("page",bpvo);
@@ -137,6 +141,7 @@ public class DocumentController {
 	 *  view : 새문서함(newDocList) 
 	 */
 	@RequestMapping(value = "/newDocList", method=RequestMethod.GET)
+	@ResponseBody
 	public ModelAndView newDocList(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
 			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
 			@RequestParam(name="keyword", defaultValue="") String keyword,
@@ -144,7 +149,7 @@ public class DocumentController {
 		System.out.println("newDocList() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
 		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,0);
-	
+		
 		mav.setViewName("document/newDocList");
 		
 		return mav;
@@ -163,7 +168,7 @@ public class DocumentController {
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
 		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,3);
 	
-		mav.setViewName("document/retrunDocList");
+		mav.setViewName("document/returnDocList");
 		
 		return mav;
 	}

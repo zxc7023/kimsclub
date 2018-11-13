@@ -51,7 +51,6 @@ $(document).ready(function() {
 	$(function(){
 		
      	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
-     	   		enterMode : CKEDITOR.ENTER_BR,
      	   		width:'100%',
 	            height:'400px',
 	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
@@ -76,16 +75,15 @@ $(document).ready(function() {
 	});
 
 	if("${update}"=="update"){
-		
 		$("#title").val("${boardUpdateVO.board_title}");
 		$("#boardNo").attr("name","board_no");
-		$("#boardNo").val(${boardUpdateVO.board_no});
+		$("#boardNo").val("${boardUpdateVO.board_no}");
 		$("#writeSave").attr("action","BoardUpdateSave");
 	}
 });
 
 </script>
-<title>Insert title here</title>
+<title>게시글 작성</title>
 </head>
 <body>
 <div id="wrapper">
@@ -112,8 +110,8 @@ $(document).ready(function() {
                             
                             	<!-- 제목 입력 -->
                             	<div class="row">
-		                        	<div class="col-lg-12">
-                                    	<div class="form-group input-group">
+		                        	<div class="col-sm-12">
+                                    	<div class="form-group input-group ">
                                         	<span class="input-group-addon">제목</span>
                                         	<input id="title" type="text" class="form-control" name="board_title">
                                     	</div>

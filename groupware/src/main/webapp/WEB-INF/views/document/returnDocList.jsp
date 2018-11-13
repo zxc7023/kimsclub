@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -161,7 +162,7 @@ $(document).ready(function() {
 												<tr>
 													<td><input type="radio" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
 													<td><a href="viewDoc?document_type=3&document_no=${list.document_no}">${list.document_title}</a></td>
-													<td>${list.document_date}</td>
+													<td><fmt:formatDate value="${list.document_date}" pattern="yyyy/MM/dd" /></td>
 												</tr>
 											</c:forEach>
 										</tbody>

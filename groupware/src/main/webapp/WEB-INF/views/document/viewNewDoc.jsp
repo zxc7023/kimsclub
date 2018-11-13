@@ -36,13 +36,151 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+
+<!-- z-tree js -->
+<script src="http://www.treejs.cn/v3/js/jquery.ztree.core.js"></script>
+
+<!-- z-tree CSS -->
+<link href="http://www.treejs.cn/v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+
 <style type="text/css">
 
 #sign td{
 height: 80px;
 }
 </style>
+<script>
+var setting = {
+		view: {
+			selectedMulti: false
+		},
+		data: {
+			key: {
+				isParent: "isParent",
+				name:"department_name"
+				
+			},
+			simpleData: {
+				enable: true,
+				idKey : "department_no",
+				pIdKey : "department_parent_no",
+				cnt : "department_people_cnt"
+			}
+		},
+		callback: {
+			beforeClick: beforeClick,
+			beforeCollapse: beforeCollapse,
+			beforeExpand: beforeExpand,
+			onCollapse: onCollapse,
+			onExpand: onExpand
+		}
+	};
 
+var zNodes =[];
+var object1 = {
+		  isParent: true
+		};
+var log, className = "dark";
+function beforeClick(treeId, treeNode) {
+	if (treeNode.isParent) {
+		return true;
+	} else {
+		alert("This Demo is used to test the parent node expand / collapse...\n\nGo to click parent node... ");
+		return false;
+	}
+}
+function beforeCollapse(treeId, treeNode) {
+	className = (className === "dark" ? "":"dark");
+	showLog("[ "+getTime()+" beforeCollapse ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+	return (treeNode.collapse !== false);
+}
+function onCollapse(event, treeId, treeNode) {
+	showLog("[ "+getTime()+" onCollapse ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name);
+}		
+function beforeExpand(treeId, treeNode) {
+	className = (className === "dark" ? "":"dark");
+	showLog("[ "+getTime()+" beforeExpand ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+	return (treeNode.expand !== false);
+}
+function onExpand(event, treeId, treeNode) {
+	showLog("[ "+getTime()+" onExpand ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name);
+}
+function showLog(str) {
+	if (!log) log = $("#log");
+	log.append("<li class='"+className+"'>"+str+"</li>");
+	if(log.children("li").length > 8) {
+		log.get(0).removeChild(log.children("li")[0]);
+	}
+}
+function getTime() {
+	var now= new Date(),
+	h=now.getHours(),
+	m=now.getMinutes(),
+	s=now.getSeconds(),
+	ms=now.getMilliseconds();
+	return (h+":"+m+":"+s+ " " +ms);
+}
+
+function expandNode(e) {
+	var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+	type = e.data.type,
+	nodes = zTree.getSelectedNodes();
+	if (type.indexOf("All")<0 && nodes.length == 0) {
+		alert("Please select one parent node at first...");
+	}
+
+	if (type == "expandAll") {
+		zTree.expandAll(true);
+	} else if (type == "collapseAll") {
+		zTree.expandAll(false);
+	} else {
+		var callbackFlag = $("#callbackTrigger").attr("checked");
+		for (var i=0, l=nodes.length; i<l; i++) {
+			zTree.setting.view.fontCss = {};
+			if (type == "expand") {
+				zTree.expandNode(nodes[i], true, null, null, callbackFlag);
+			} else if (type == "collapse") {
+				zTree.expandNode(nodes[i], false, null, null, callbackFlag);
+			} else if (type == "toggle") {
+				zTree.expandNode(nodes[i], null, null, null, callbackFlag);
+			} else if (type == "expandSon") {
+				zTree.expandNode(nodes[i], true, true, null, callbackFlag);
+			} else if (type == "collapseSon") {
+				zTree.expandNode(nodes[i], false, true, null, callbackFlag);
+			}
+		}
+	}
+}
+$(document).ready(function() {
+	$('#test-btn').click(function(){
+		$.ajax({
+			method : "get",
+			contentType : 'application/json;charset=UTF-8',
+			url : "/groupware/humanResources/departmentList",
+			async: false,
+			error : function() {
+				alert("전송 실패");
+			},
+			success : function(server_result) {
+				zNodes = JSON.parse(server_result);
+				console.log(zNodes);
+				for(var i = 0; i<=zNodes.length; i++){
+					$.extend(zNodes[i],object1);
+				}
+				$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+				$("#expandBtn").bind("click", {type:"expand"}, expandNode);
+				$("#collapseBtn").bind("click", {type:"collapse"}, expandNode);
+				$("#toggleBtn").bind("click", {type:"toggle"}, expandNode);
+				$("#expandSonBtn").bind("click", {type:"expandSon"}, expandNode);
+				$("#collapseSonBtn").bind("click", {type:"collapseSon"}, expandNode);
+				$("#expandAllBtn").bind("click", {type:"expandAll"}, expandNode);
+				$("#collapseAllBtn").bind("click", {type:"collapseAll"}, expandNode);
+			} 
+		});
+		$('#testTreeModal').modal('show');
+	});
+});//ready end
+</script>
 </head>
 <body>
 
@@ -68,6 +206,8 @@ height: 80px;
 					<div class="panel-body">
 						<form class="col-sm-12" method="post">
 							<div class="panel-heading">
+								<button type="button" id="test-btn" class="btn btn-info">test</button>
+								
 								<button type="button" onclick="location.href='modifyNewDoc?document_no=${dvo.document_no}'" class="btn btn-info">수정하기</button>
 								<input type="button" class="btn btn-info" onclick="location.href='/groupware/newDocList'" value="돌아가기">
 							</div>
@@ -110,5 +250,40 @@ height: 80px;
 
 		</div>
 	</div>
+	<!-- tree-test modal -->
+	<div class="modal fade" id="testTreeModal"
+		aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="modalLabel">
+						주의!
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</h3>
+				</div>
+				<div class="modal-body">
+					<div class="content_wrap">
+						<div class="zTreeDemoBackground left">
+							<ul id="treeDemo" class="ztree">
+							</ul>
+						</div>
+						
+						<ul id="log" class="log">
+						</ul>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 </body>
 </html>

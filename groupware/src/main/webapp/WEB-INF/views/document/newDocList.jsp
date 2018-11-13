@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,10 +109,10 @@ $(document).ready(function() {
 					<div class="panel-body">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<button id="approval-btn" class="btn btn-info">기안하기</button>
-								<button id="modify-btn" class="btn btn-info">수정하기</button>
-								<button id="delete-btn" class="btn btn-info">삭제하기</button>
-								<button onclick="location='writeDoc'" class="btn btn-info">새 문서 작성</button>
+								<button id="approval-btn" class="btn btn-default">기안하기</button>
+								<button id="modify-btn" class="btn btn-default">수정하기</button>
+								<button id="delete-btn" class="btn btn-default">삭제하기</button>
+								<button onclick="location='writeDoc'" class="btn btn-default">새 문서 작성</button>
 							</div>
 							<div class="panel-body">
 								<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -161,7 +162,7 @@ $(document).ready(function() {
 												<tr>
 													<td><input type="radio" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
 													<td><a href="viewDoc?document_type=0&document_no=${list.document_no}">${list.document_title}</a></td>
-													<td>${list.document_date}</td>
+													<td><fmt:formatDate value="${list.document_date}" pattern="yyyy/MM/dd" /></td>
 												</tr>
 											</c:forEach>
 										</tbody>

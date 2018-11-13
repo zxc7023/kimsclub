@@ -50,7 +50,7 @@
 		var boardNo = ${param.board_no};
 		var searchOption = "${param.searchOption}";
 		var keyword = "${param.keyword}"; 
-		var curPage = ${param.curPage};
+		var curPage = "${param.curPage}";
 		var replyDelBtn = "board";
 		var reply_no;
 		
@@ -70,7 +70,6 @@
 		$("#deleteBtn").click(function(){
 			//댓글 삭제 버튼 클릭시
 			if(replyDelBtn=="reply"){
-				/* location.href = "ReplyDelete?board_no="+boardNo+"&reply_board_type="+boardType+"&reply_no="+reply_no; */
 				$.ajax({
 					type : "get",
 					url: "${pageContext.request.contextPath}/ReplyDelete",
@@ -108,7 +107,7 @@
 					var output="";
 					for(var i in result){
 						output += '<li class="left clearfix">';
-						for(var j=0;j < result[i].reply_depth ; j++ ){
+						for(var j=0;j < result[i].reply_depth ; j++ ){//댓글의 댓글 depth
 							output += '<span class="chat-img pull-left" style="padding-left:1%">&nbsp;</span>';
 						}
 						output += '<span class="chat-img pull-left"><div style="background-color: #fff; line-height: 50px; font-size: 1.4em; text-align: center; border-radius: 50% 50% 50% 50%; width: 50px; height: 50px; color: #999999;" class="timeline-badge"><i class="glyphicon glyphicon-user  "></i></div></span>';
@@ -121,7 +120,7 @@
 						output += '<strong class="primary-font">'+result[i].reply_writer +'</strong>';
 						output += '<small class="text-muted"> '+result[i].reply_date+'</small>';
 						output += ' <i class="glyphicon glyphicon-share-alt text-muted"></i><small class="text-muted "><a class="replyBtn" href="#">답글</a></small>'
-						if(result[i].reply_writer_no == ${sessionScope.loginInfo.employee_no}){
+						if(result[i].reply_writer_no == '${sessionScope.loginInfo.employee_no}'){//작성자가 작성한 댓글은 수정,삭제버튼 보이게
 						output += '<small class="pull-right text-muted"><button type="button" class="replyrevBtn btn btn-outline btn-success">R</button><button type="button" value="reply" class="replyDelBtn btn btn-outline btn-danger" data-toggle="modal" data-target="#myModal">D</button></small>';
 						}
 						output += '</div>';
@@ -301,12 +300,12 @@
                 	
 	                	<button id="listBtn" type="button" class="btn btn-outline btn-primary"><i class="fa fa-list"></i></button>
 	                	<c:if test="${sessionScope.loginInfo.employee_no == detailVO.board_writer_no}">
-	                	<input type="hidden" name="board_no" value="${param.board_no}">
-	                	<input type="hidden" name="board_type" value="${param.board_type}">
-	                	<input type="hidden" name="board_title" value="${detailVO.board_title}">
-	                	<input type="hidden" name="board_contents" value="${detailVO.board_contents}">
-		            	<button type="button" id="boardUpdateBtn" class="btn btn-success">수정</button>
-		            	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">삭제</button>
+		                	<input type="hidden" name="board_no" value="${param.board_no}">
+		                	<input type="hidden" name="board_type" value="${param.board_type}">
+		                	<input type="hidden" name="board_title" value="${detailVO.board_title}">
+		                	<input type="hidden" name="board_contents" value='${detailVO.board_contents}'>
+			            	<button type="button" id="boardUpdateBtn" class="btn btn-success">수정</button>
+			            	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">삭제</button>
 		            	</c:if>
 	            	</label>
 				</form>

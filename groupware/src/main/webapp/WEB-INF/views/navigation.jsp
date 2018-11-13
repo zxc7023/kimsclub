@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%-- <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/default.css"> --%>
+
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -8,7 +11,9 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="${pageContext.request.contextPath}">Kim's club</a>
+		<a class="navbar-brand " href="${pageContext.request.contextPath}" style="padding:0 25px;">
+			<img src="${pageContext.request.contextPath}/resources/images/logo.png" class="" />
+		</a>
 	</div>
 	<!-- /.navbar-header -->
 
@@ -171,13 +176,25 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav in" id="side-menu">
-				<li><a href="${pageContext.request.contextPath}/calendar"><i class="far fa-calendar"></i> 일정 관리</a>
-				<li><a><i class="fa fa-table fa-fw"></i> 게시판<span class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-
+				<li><a href="${pageContext.request.contextPath}/calendar"><i class="far fa-calendar"></i> 일정 관리</a></li>
+				
+					
+				<li>
+					<a><i class="fa fa-table fa-fw"></i> 게시판<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level collapse">
 						<li><a href="${pageContext.request.contextPath}/boardList?board_type=c"><i class="fa fa-list-alt"></i> 커뮤니티</a></li>
 						<li><a href="${pageContext.request.contextPath}/boardList?board_type=n"><i class="fa fa-tag"></i> 공지사항</a></li>
-					</ul></li>
+					</ul>
+				</li>
+				<li>
+					<a><i class="fa fa-envelope fa-fw"></i> 쪽지<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level collapse">
+						<li><a href="${pageContext.request.contextPath}/messageWrite"><i class="fa fa-list-alt"></i> 쪽지쓰기</a></li>
+						<li><a href="${pageContext.request.contextPath}/messageList?box=outBox"><i class="fa fa-list-alt"></i> 보낸쪽지</a></li>
+						<li><a href="${pageContext.request.contextPath}/messageList?box=inBox"><i class="fa fa-tag"></i> 받은쪽지</a></li>
+						<li><a href="${pageContext.request.contextPath}/messageList?box=keepBox"><i class="fa fa-tag"></i> 보관쪽지</a></li>
+					</ul>
+				</li>
 
 				<li><a href="#"><i class="fa fa-sitemap fa-fw"></i> 인사 관리<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">

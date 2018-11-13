@@ -40,38 +40,108 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
+
 <script type="text/javascript">
-	//검색 버튼 클릭시
 	$(document).ready(function() {
-	//boardType값 저장
-		var boardType = '${map.board_type}';
 		
 	//검색 버튼 클릭시
 		$("#searchBtn").click(function(){
 			$("#search").submit();
+			var keyWord = $("#keyword").val();
 		});
-	//글쓰기 버튼 클릭시	
+		
+	//ajax내 배열 사용하기위한 설정
+		jQuery.ajaxSettings.traditional = true;
+		
+	//쪽지 쓰기 버튼 클릭시	
 		$("#writeBtn").click(function(){
-			location.href = "BoardWrite?board_type="+boardType;
+			location.href = "messageWrite";
 		});
-	
-	//게시판 타입 heading
-		if(boardType =='c'){
-	  	  $(".panel-heading").text('커뮤니티');
-	  	  $("title").text('커뮤니티');
+		
+	//버튼(보관,삭제) 클릭시
+		$(".btn-form").click(function(){
+			var checkArr = [];
+			
+			$(".check:checked").each(function(){
+				checkArr.push($(this).val());
+			});
+						
+	//보관 버튼 클릭
+			if($(this).val()=='keep'){
+				//쪽지를 선택하고 보관 버튼을 클릭했을때
+				if(checkArr.length>0){
+					var result = confirm("쪽지를 보관했습니다.");
+					if(result){
+						$.ajax({
+							method : "POST",
+							url : "${pageContext.request.contextPath}/keepMessage",
+							data : {"message_no" : checkArr},
+							error : function() {
+								alert("보관실패");
+							},
+							success : function(data) {
+								location.href = "messageList?box=${map.box}"
+								}
+							});
+						}
+					}
+				//쪽지를 선택하지 않고 보관 버튼을 클릭했을때
+				else{
+					alert("보관하실 쪽지를 선택하세요");
+				}
+			}//keep end
+			
+	//삭제 버튼을 클릭
+			else{
+				if(checkArr.length>0){
+					var result = confirm("쪽지를 삭제하시겠습니까?");
+					if(result){
+						$.ajax({
+							method : "POST",
+							url : "${pageContext.request.contextPath}/deleteMessage",
+							data : {"message_no" : checkArr},
+							error : function() {
+								alert("보관실패");
+							},
+							success : function(data) {
+								location.href = "messageList?box=${map.box}"
+								}
+							});
+						}
+					}
+				//쪽지를 선택하지 않고 보관 버튼을 클릭했을때
+				else{
+					alert("삭제하실 쪽지를 선택하세요");
+				}
+				
+			}//delete end
+			
+		});
+		
+		
+		//쪽지함 heading, 
+		if('${map.box}' =='outBox'){
+	  	  $(".page-header").text('보낸쪽지');
+	  	  $("title").text('보낸쪽지');
+	  	  $("#senderAndreceiver").text('받는사람');
 		}
-		else if(boardType=='n'){
-		  $(".panel-heading").text('공지사항');
-		  $("title").text('공지사항');
+		else if('${map.box}' =='inBox'){
+		  $(".page-header").text('받은쪽지');
+		  $("title").text('받은쪽지');
+		  $("#senderAndreceiver").text('보낸사람');
+		}else{
+			$(".page-header").text('보관함');
+			  $("title").text('보관함');
 		}
-	//page scale
+		
+		//쪽지 레코드 갯수 설정
 		$(".selectPageScale").change(function(){
-			location.href="boardList?board_type="+boardType+"&page_scale="+$(this).val();
+			location.href="messageList?box=${map.box}&page_scale="+$(this).val();
 		});
+		
 	});
-	
 </script>
-<title>게시판</title>
+<title>Insert title here</title>
 </head>
 <body>
 <div id="wrapper">
@@ -83,7 +153,7 @@
 		<div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">게시판</h1>
+                    <h1 class="page-header"></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -92,46 +162,45 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-             <!-- 게시판 타입명  -->
+             <!-- 쪽지 전체 갯수  -->전체쪽지[${map.count}]
+             
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
 
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             
-	        <!-- 게시글 행 갯수 선택 --> 
+	        <!-- 쪽지 레코드 갯수 선택 --> 
 	                            <div class="row">
 	                            	<div class="col-sm-6">
 	                            		<div class="dataTables_length" id="dataTables-example_length">
 		                            		<label>Show 
 		                            			<select name="dataTables-example_length" aria-controls="dataTables-example" class="form-control input-sm selectPageScale">
 			                            			<option value="10" 
-			                            				<c:if test="${map.boardPager.page_scale==10}"> selected </c:if> >10</option>
+			                            				<c:if test="${map.messagePager.page_scale==10}"> selected </c:if> >10</option>
 			                            			<option value="15" 
-			                            				<c:if test="${map.boardPager.page_scale==15}"> selected </c:if> >15</option>
+			                            				<c:if test="${map.messagePager.page_scale==15}"> selected </c:if> >15</option>
 			                            			<option value="20" 
-			                            				<c:if test="${map.boardPager.page_scale==20}"> selected </c:if> >20</option>
+			                            				<c:if test="${map.messagePager.page_scale==20}"> selected </c:if> >20</option>
 			                            			<option value="25" 
-			                            				<c:if test="${map.boardPager.page_scale==25}"> selected </c:if> >25</option>
+			                            				<c:if test="${map.messagePager.page_scale==25}"> selected </c:if> >25</option>
 		                            			</select> entries
 		                            		</label>
 	                            		</div>
 	                            	</div>
-	                            	
-	         <!-- 게시글 검색  -->                   	
+	         <!-- 쪽지 검색  -->                   	
 	                            	<div class="col-sm-6">
 		                            	<div id="dataTables-example_filter" class="form-group input-group dataTables_filter">
-		                            		<form action="boardList" method="get" id="search" >
+		                            		<form action="messageList" method="get" id="search" >
 		                            		<label>
 			                            		<select name="searchOption" aria-controls="dataTables-example" class="form-control input-sm">
-			                            			<option value="all">제목+내용</option>
-													<option value="employee_name">작성자</option>
-													<option value="board_title">제목</option>
-													<option value="board_contents">내용</option>
+			                            			<option value="all" <c:out value="${map.searchOption=='all'?'selected':''}"/>>내용+이름</option>
+													<option value="message_contents" <c:out value="${map.searchOption=='message_contents'?'selected':''}"/> >내용</option>
+													<option value="employee_name" <c:out value="${map.searchOption=='employee_name'?'selected':''}"/> >이름</option>
 			                            		</select>
-		                            				<input type="search" name="keyword" class="form-control input-sm" placeholder="" aria-controls="dataTables-example"> 
-													<input type="hidden" name="board_type" value="${map.board_type}">
-													<input type="hidden" name="page_scale" value="${map.boardPager.page_scale }">
+		                            				<input id="keyword" type="search" name="keyword" class="form-control input-sm" value="${map.keyword}" aria-controls="dataTables-example"> 
+													<input type="hidden" name="box" value="${map.box}">
+													<input type="hidden" name="page_scale" value="${map.messagePager.page_scale }">
 														<span class="input-group-btn" >
 															<button id="searchBtn" class="btn btn-primary btn-sm" type="button" >
 																<i class="fa fa-search"></i>
@@ -143,95 +212,82 @@
 	                            	</div>
 	                            </div>
                             
-	         <!-- 게시글 목록 테이블  -->
+	         <!-- 쪽지 목록 테이블  -->
 	                            <div class="row">
 		                            <div class="col-sm-12">
-										<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+		                            	<div class="table-responsive table-bordered">
+										<table class="table table-hover" id="dataTables-example">
 			                                <thead>
 			                                    <tr>
-			                                        <th>번호</th>
-			                                        <th>제목</th>
-			                                        <th>작성자</th>
+			                                        <th><input type="checkbox"></th>
+			                                        <th id="senderAndreceiver"></th>
+			                                        <th>내용</th>
 			                                        <th>날짜</th>
-			                                        <th>조회수</th>
 			                                    </tr>
 			                                </thead>
 			                                
 			                                <tbody>
 				                                <c:forEach var="list" items="${map.list}" >
 					                                <tr class="odd gradeA">
-					                                    <td>${list.board_no}</td>
-					                                    <td><a class="text-muted" href="detail?board_type=${map.board_type}&board_no=${list.board_no}&searchOption=${map.searchOption}&keyword=${map.keyword}&curPage=${map.boardPager.curPage}">${list.board_title}
-					                                    		<c:if test="${list.reply_count>0}">
-					                                    			<span style="color: orange;">
-					                                    				[${list.reply_count}]
-					                                    			</span>
-					                                    		</c:if>	
-					                                    	</a>
-					                                    </td>
-					                                    <td>${list.board_writer}</td>
-					                                    <td class="center">${list.board_date}</td>
-					                                    <td class="center">${list.board_viewcount}</td>
+					                                    <td><input type="checkbox" class="check" value="${list.message_no}"></td>
+					                                    <td>${list.message_receiver_name}</td>
+					                                    <td><a href="detail?message_no=${message_no}&searchOption=${map.searchOption}&keyword=${map.keyword}&curPage=${map.messagePager.curPage}">${list.message_contents}</a></td>
+					                                    <td>${list.message_date}</td>
 					                                </tr>
 				                                </c:forEach>
 			                                </tbody>
 			                            </table>
+			                            </div>
 		                            </div>
 	                            </div>
+                            </div>
                             
-             <!-- 페이징 처리, 글쓰기 버튼 -->
-	                            <div class="row">
-	                       <!-- 글쓰기 버튼  -->
-	                            	<div class="col-sm-6">
-	                            		 <div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
-	                            		 <button id="writeBtn" type="button" class="btn btn-primary"><i class="fa fa-edit"></i></button>
-	                            		 </div>
-	                            	</div>
-	                            
-	                       <!-- 페이징 처리 -->
-	                            	<div class="col-sm-6">
-			                            <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_filter">
+              <!-- 페이징 처리 -->
+                            <div style="text-align: center;" class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
 				                            <ul class="pagination">	      
 				                                                  
 				                            	<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous">
-													<a href="boardList?curPage=${map.boardPager.prevPage}&board_type=${map.board_type}&page_scale=${map.boardPager.page_scale}&searchOption=${map.searchOption}&keyword=${map.keyword}">Previous</a>
+													<a href="messageList?box=${map.box}&curPage=${map.messagePager.prevPage}&page_scale=${map.messagePager.page_scale}&searchOption=${map.searchOption}&keyword=${map.keyword}">Previous</a>
 				                            	</li>
 				                            	
 						                       	<li class="paginate_button " aria-controls="dataTables-example" tabindex="0">
-						                           	<c:forEach var="num" begin="${map.boardPager.blockBegin}" end="${map.boardPager.blockEnd }"  >	
+						                           	<c:forEach var="num" begin="${map.messagePager.blockBegin}" end="${map.messagePager.blockEnd }"  >	
 						                           		<c:choose>
-						                           			<c:when test="${num == map.boardPager.curPage}">
+						                           			<c:when test="${num == map.messagePager.curPage}">
 						                           				<span style="color:orange">${num}</span>
 						                           			</c:when>
 						                           			<c:otherwise>
-																<a href="boardList?curPage=${num}&board_type=${map.board_type}&page_scale=${map.boardPager.page_scale}&searchOption=${map.searchOption}&keyword=${map.keyword}">${num}</a>
+																<a href="messageList?box=${map.box}&curPage=${num}&page_scale=${map.messagePager.page_scale}&searchOption=${map.searchOption}&keyword=${map.keyword}">${num}</a>
 															</c:otherwise>
 														</c:choose>
 													</c:forEach>
 												</li>
 				                            		                            
 				                            	<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next">
-				                            		<c:if test="${map.boardPager.curBlock <= map.boardPager.totBlock}">
-														<a href="boardList?curPage=${map.boardPager.nextPage}&board_type=${map.board_type}&page_scale=${map.boardPager.page_scale}&searchOption=${map.searchOption}&keyword=${map.keyword}">Next</a>
+				                            		<c:if test="${map.messagePager.curBlock <= map.messagePager.totBlock}">
+														<a href="messageList?box=${map.box}&curPage=${map.messagePager.nextPage}&page_scale=${map.messagePager.page_scale}&searchOption=${map.searchOption}&keyword=${map.keyword}">Next</a>
 													</c:if>
 				                            	</li>
 				                            </ul>
-			                            </div>
-	                           		</div>
-	                            </div>
+			                        </div>	 
+              <!-- 버튼(쪽지쓰기, 보관, 삭제) -->              	
                             </div>
-                            
-                            <div class="well">
-                                <h4>Kim's Club</h4>
-                                <p></p>
-                                <a class="btn btn-default btn-lg btn-block" target="_blank" href="#">S.W.KIM</a>
-                            </div>
+                            <div class="panel-footer">
+	                            <div class="row">
+	                            	<div class="col-sm-12">
+	                            		<label id="dataTables-example_filter">
+						                	<button id="writeBtn" type="button" class="btn btn-primary"><i class="fa fa-envelope fa-fw"></i></button>
+							            	<button type="button" class="btn btn-success btn-form" value="keep">보관</button>
+							            	<button type="button" class="btn btn-danger btn-form" data-toggle="modal" data-target="#myModal" value="del">삭제</button>	
+						            	</label>
+					            	</div>
+	                           </div>
+                        	</div>
                         </div>
                     </div>
                 </div>
             </div>
 	</div>
 </div>
-
 </body>
 </html>

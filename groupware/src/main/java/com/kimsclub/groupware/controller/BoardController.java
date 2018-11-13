@@ -103,16 +103,10 @@ public class BoardController {
 	
 	//게시글 수정 처리
 	@RequestMapping(value="/BoardUpdateSave", method=RequestMethod.POST)
-	public ModelAndView boardUpdateSave(@ModelAttribute BoardVO vo) {
-		ModelAndView mav = new ModelAndView();
-		System.out.println(vo.getBoard_type());
-		System.out.println(vo.getBoard_contents());
-		System.out.println(vo.getBoard_title());
-		System.out.println(vo.getBoard_no());
-/*		mav.addObject("boardUpdateVO",vo);
-		mav.addObject("update","update");
-		mav.setViewName("/Board/BoardWrite");*/
-		return null;
+	public String boardUpdateSave(@ModelAttribute BoardVO vo) {
+	
+		service.updateBoard(vo);
+		return "redirect:/detail?board_type="+vo.getBoard_type()+"&board_no="+vo.getBoard_no();
 	}
 	
 	
@@ -140,14 +134,8 @@ public class BoardController {
 		//입력된 댓글의 답글 입력시
 		}else{
 			//댓글의 답글 order 조회
-			System.out.println(vo.getBoard_no());
-			System.out.println("getReply_group"+vo.getReply_group());
-			System.out.println("getReply_order"+vo.getReply_order());
-			System.out.println("getReply_depth"+vo.getReply_depth());
 			int replyOrder =  service.selectReplyOrder(vo);
-			System.out.println("전달받은order : "+replyOrder);
 			vo.setReply_order(replyOrder);
-			
 			service.insertBoardReply(vo);
 		}
 	}

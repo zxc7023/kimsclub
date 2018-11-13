@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="message">
+		
+<!-- 쪽지 등록 -->
+	<insert id="insertMessage" parameterType="message" >
+		insert into message(message_no, message_sender_no, message_receiver_no, message_contents, message_date) 
+		values((select nvl(max(message_no),0)+1 from message), #{message_sender_no}, #{message_receiver_no}, #{message_contents}, sysdate)
+	</insert>
+	
+<!-- 보낸쪽지 레코드 갯수  -->
+	<select id="selectCountMessage" parameterType="map" resultType="int" >
+		select count(*) 
+		from message, employee
+		<include refid="boxsort"></include> and 
+		<include refid="search"></include>
+	</select>
+	
+<!-- 보낸 쪽지함 조회 -->
+	<select id="selectMessageList" parameterType="map" resultType="message" >
+		<include refid="pagingHeader"></include>
+			select message_no, message_sender_no, message_receiver_no, message_contents, message_date, employee_name as message_receiver_name
+			from message, employee 
+			<include refid="boxsort"></include> and
+			<include refid="search"></include>
+			order by message_date desc
+		<include refid="pagingFooter"></include>
+	</select>
+		
+<!-- 쪽지 보관 -->
+	<update id="updateKeepMessage" parameterType="int[]" >
+		update message
+		set message_keep='Y' where message_no In<foreach item="message_no" collection="array" open="(" close=")" separator=",">#{message_no}</foreach>
+	</update>
+		
+<!-- 쪽지 삭제 -->
+	<update id="updateDeleteMessage" parameterType="int[]" >
+		
+	</update>
+		
+<!-- sql검색 -->
+	<sql id="search">
+		<choose>
+			<!-- 내용+받은사람 이름 검색 일 경우 -->
+			<when test="searchOption == 'all'">
+				(message_contents like '%'||#{keyword}||'%' or employee_name like '%'||#{keyword}||'%')
+			</when>
+			<!-- 검색 옵션이 하나일 경우 -->
+			<otherwise>
+				(${searchOption} like '%'||#{keyword}||'%')
+			</otherwise>
+		</choose>
+	</sql>	
+	
+<!-- 페이징sql -->
+	<sql id="pagingHeader">
+		select * from (select rownum as rn, A.*from(
+	</sql>	
+	<sql id="pagingFooter">
+		)A
+		)where rn between #{start} and #{end}
+	</sql>	
+	
+<!-- 보낸쪽지, 받은쪽지, 쪽지 보관 구분 -->
+	<sql id="boxsort">
+		<choose>
+			<when test="box == 'outBox'">
+			where employee_no=message_receiver_no and message_sender_no=#{employee_no} and message_sender_del='N'and message_keep='N'
+			</when>
+			<when test="box == 'inBox'">
+			where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_receive_del='N' and message_keep='N'
+			</when>
+			<otherwise>
+			
+			</otherwise>
+		</choose>
+	</sql>	
+</mapper>

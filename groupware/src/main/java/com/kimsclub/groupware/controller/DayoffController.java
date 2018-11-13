@@ -152,8 +152,8 @@ public class DayoffController {
 
 		// 내가 사용한 휴가내역을 받아온다.
 		List<DayoffApplyVO> myUseDayoffList = service.readUseMyDayoff(vo);
-		int useRegular = 0;
-		int useReward = 0;
+		double useRegular = 0.0;
+		double useReward = 0.0;
 
 		for (DayoffApplyVO applyVO : myUseDayoffList) {
 			if (applyVO.getDayoff_kind().getDayoff_type_code() == 2) {
@@ -180,6 +180,10 @@ public class DayoffController {
 		// 휴가 종류를 받아옴
 		List<DayoffKindsVO> kindsList = service.getDayoffKinds();
 		mov.addObject("kindsList",kindsList);
+		
+		
+		
+		
 		
 		mov.setViewName("dayoff/dayoff_status");
 		return mov;
@@ -225,6 +229,26 @@ public class DayoffController {
 			e.printStackTrace();
 		}
 		System.out.println(json);
+		return json;
+	}
+	
+	
+	@RequestMapping(value="/dayoffCal",method=RequestMethod.POST)
+	@ResponseBody
+	public String dayoffCal(@RequestBody Map<String, Object> map) {
+		System.out.println("호출");
+		System.out.println(map.get("year") +"/"+map.get("month"));
+		List<DayoffApplyVO> list = service.getDayoffEvent(map);
+		System.out.println(list);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		try {
+			json =mapper.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return json;
 	}
 	

@@ -60,8 +60,7 @@ $(document).ready(function() {
 	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
 	    	height:'400px',
-	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp',
-	    	extraPlugins : 'uploadimage'
+	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
 	    });
 	});
 

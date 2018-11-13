@@ -21,5 +21,6 @@
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffApplyDetailVO" alias="DayoffApplyDetail"/>
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffMyRecodeVO" alias="DayoffMyRecode"/>
 		<typeAlias type="com.kimsclub.groupware.vo.CalendarVO" alias="calendar"/>
+		<typeAlias type="com.kimsclub.groupware.vo.MessageVO" alias="message" />
 	</typeAliases>
 </configuration>
