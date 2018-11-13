@@ -12,4 +12,6 @@ public interface EmployeeService {
 	 * @return
 	 */
 	List<EmployeeVO> getEmployeeList();
+	
+	public List<EmployeeVO> loadAllEmp();
 }

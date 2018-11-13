@@ -1,5 +1,6 @@
 package com.kimsclub.groupware.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,6 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kimsclub.groupware.service.DepartmentService;
 import com.kimsclub.groupware.service.EmployeeService;
 import com.kimsclub.groupware.vo.DepartmentVO;
+import com.kimsclub.groupware.vo.EmployeeVO;
+import com.kimsclub.groupware.vo.TreeVO;
 
 @Controller
 @RequestMapping(value = "/humanResources/*")
@@ -50,21 +54,34 @@ public class HumanResourcesController {
 		return mov;
 	}
 	
+	
 	@RequestMapping(value = "/departmentList", method=RequestMethod.GET, produces="text/html;charset=UTF-8")
 	@ResponseBody
-	public String departmentList(){
+	public String departmentList(@RequestParam("load_type")int load_type){
 		System.out.println("departmentList 메소드 호출");
-		List<DepartmentVO> list = department_service.getDepartmentList();
-		ObjectMapper mapper = new ObjectMapper();
-		String json = null;
+		List<TreeVO> tlist = new ArrayList<TreeVO>();
+		List<DepartmentVO> dlist = new ArrayList<DepartmentVO>();
+		List<EmployeeVO> elist = new ArrayList<EmployeeVO>();
 		
+		dlist = department_service.getDepartmentList();
+		for(DepartmentVO dvo : dlist) {
+			tlist.add(new TreeVO(dvo));
+		}
+		if(load_type == 1){
+			elist = employee_service.loadAllEmp();
+			for(EmployeeVO evo : elist) {
+				tlist.add(new TreeVO(evo));
+			}
+		}
+		String json = null;
+		ObjectMapper mapper = new ObjectMapper();
 		try {
-			json = mapper.writeValueAsString(list);
+			json = mapper.writeValueAsString(tlist);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(json);
+		
 		return json;
 	}
 	

@@ -23,11 +23,13 @@ var initializeCalendar = function() {
          className : "Holidays",
          color : "#FFFFFF",
          textColor : "#FF0000",
-      }],
+      }      
+],
       defaultTimedEventDuration: '00:30:00',
       forceEventDuration: true,
       eventBackgroundColor: '#337ab7',
       editable: false,
+      
     });
   $('#calendar1').fullCalendar({  });
 }
@@ -38,6 +40,8 @@ var getCalendars = function() {
   $cal1 = $('#calendar1');
   $cal2 = $('#calendar2');
 }
+
+
 
 /* -------------------(right pane)------------------- */
 var initializeRightCalendar = function()  {
@@ -99,10 +103,11 @@ var cal2GoTo = function(date) {
 }
 
 
-var loadEvents = function() {
+var loadEvents = function(num, id, color, text) {
 /*  $.getScript("/resources/full/js/events.js", function(){
   });*/
-  
+
+	 
   $.ajax({
 		method : "get",
 		contentType : 'application/json;charset=UTF-8',
@@ -113,11 +118,21 @@ var loadEvents = function() {
 		},
 		success : function(data){
 			events = data;
+			scheduleChoice();
 		}	
 	});
   
 }
 
+var scheduleChoice = function(num, id, color, text, event_no) {
+	if($('#checkbox01').eq(num).is(':checked')) {
+		$('#calendar2').fullCalendar('addEventSource', { googleCalendarId : id, color : color, textColor : text });
+
+	  } else {
+		  $('#calendar2').fullCalendar('removeEventSource', { googleCalendarId : id });
+	  }
+	
+}  
 
 var newEvent = function() {
 
