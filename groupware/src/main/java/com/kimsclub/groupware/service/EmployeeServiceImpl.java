@@ -24,4 +24,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return dao.selectEmployeeList();
 	}
 
+	@Override
+	public List<EmployeeVO> loadAllEmp() {
+		return dao.loadAllEmp();
+	}
 }

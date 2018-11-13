@@ -39,5 +39,4 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public void removeDepartment(DepartmentVO vo) {
 		dao.deleteDepartments(vo);
 	}
-
 }

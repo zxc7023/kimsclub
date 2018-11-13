@@ -15,4 +15,5 @@ public interface DepartmentService {
 	public void modifyDepartmentName(DepartmentVO vo);
 
 	public void removeDepartment(DepartmentVO vo);
+
 }

@@ -14,7 +14,7 @@
 	</resultMap>
 	
 	<select id="loadAllEmployee" resultMap="employeeMap">
-		SELECT employee_no,department_name, position, employee_name
+		SELECT employee_no,department_name, d.department_no as department_no, position, employee_name
 		from employee e
 		left join department d
 		on e.department_no = d.department_no

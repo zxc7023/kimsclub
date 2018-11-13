@@ -39,5 +39,4 @@ public class DepartmentDAO {
 		session.delete("department.deleteDepartments",vo);
 	}
 
-
 }

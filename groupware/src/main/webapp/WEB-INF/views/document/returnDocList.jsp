@@ -109,10 +109,10 @@ $(document).ready(function() {
 					<div class="panel-body">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<button id="approval-btn" class="btn btn-info">기안하기</button>
-								<button id="modify-btn" class="btn btn-info">수정하기</button>
-								<button id="delete-btn" class="btn btn-info">삭제하기</button>
-								<button onclick="location='writeDoc'" class="btn btn-info">새 문서 작성</button>
+								<button id="approval-btn" class="btn btn-default">기안하기</button>
+								<button id="modify-btn" class="btn btn-default">수정하기</button>
+								<button id="delete-btn" class="btn btn-default">삭제하기</button>
+								<button onclick="location='writeDoc'" class="btn btn-default">새 문서 작성</button>
 							</div>
 							<div class="panel-body">
 								<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
