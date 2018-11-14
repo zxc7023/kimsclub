@@ -107,7 +107,7 @@
 	                 }
 	               });
 	         },
-	         eventRender: function(event, element, view) {
+	         eventRender: function(event, element, view) {1
 	        	 element.on('click', function(e){
 	        	        if (element.closest('.Holidays').length) {
 	        	            e.preventDefault();
@@ -124,22 +124,7 @@
 	        	 
 
 	       	},
-			timeFormat: 'HH:mm',
-			googleCalendarApiKey : "AIzaSyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
-		    eventSources : [{
-		         googleCalendarId : "qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com",
-		         className : "Holidays",
-		         color : "#FFFFFF",
-		         textColor : "#FF0000",
-		    }],
-			locale: 'ko',
-			eventClick: function(calEvent, jsEvent, view) {
-				jsEvent.preventDefault();
-				
-			}
-		});
-
-	  	 $("input[type=checkbox]").change(function () {
+	  	 $("input[type=checkbox]").change(function () {1
 	  		arrayParam = new Array();
 	  		$("input:checkbox[name=oneorhalf]:checked").each(function(){
 				arrayParam.push($(this).val());
@@ -158,6 +143,21 @@
 	  		$('#calendar').fullCalendar('renderEvents',tmpArr);
 	  		
 	  	 });
+			timeFormat: 'HH:mm',
+			googleCalendarApiKey : "AIzaSyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
+		    eventSources : [{
+		         googleCalendarId : "qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com",
+		         className : "Holidays",
+		         color : "#FFFFFF",
+		         textColor : "#FF0000",
+		    }],
+			locale: 'ko',
+			eventClick: function(calEvent, jsEvent, view) {
+				jsEvent.preventDefault();
+				
+			}
+		});
+
 		
 		
 		$("#dayoff_use_recode_tb").on("click","a",function(){

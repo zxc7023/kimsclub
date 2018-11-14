@@ -129,30 +129,21 @@ $(function() {
 				<div id='calendar1'
 					class='calendar col-md-2 '><!-- -ms-overflow-style: none; -->
 					<label class="form-control-label">공유 캘린더</label>
-					 <input type="button" value="만들기" style="position: absolute; right: 0;" />
+					 <input type="submit" id="category" value="만들기" style="position: absolute; right: 0;" />
 					 <!-- 카테고리 -->
 					 <div class="wrap-btn">
-<input class="form-inputPop" type="checkbox" id="checkbox01"  checked="checked" onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com','#FFFFFF', '#f27d4a');"/>
+<input class="form-inputPop" type="checkbox" name="checkbox01" id="checkbox01"  checked="checked" onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com','#FFFFFF', '#f27d4a');"/>
 <i></i>
 <label for="checkbox01">업무</label>
 </div>
 <!--  -->
 <div class="wrap-btn2">
-<input class="form-inputPop2" type="checkbox" id="checkbox02"  checked="checked" onChange="scheduleChoice(1, '#008bca');"/>
+<input class="form-inputPop2" type="checkbox" name="e1" id="e1"  checked="checked"/>
 <i></i>
 <label for="checkbox02">휴가</label> 
 </div>  
 <!--  -->
-<div id="container">
-  <ul>
-    <li>Root node
-      <ul>
-        <li>Child node 1</li>
-        <li>Child node 2</li>
-      </ul>
-    </li>
-  </ul>
-</div>
+
 
 					 <!--  -->
 				</div>
@@ -246,6 +237,62 @@ $(function() {
 					</div>
 				</div>
 			</div>
+			
+			<!--카테고리  -->
+						<div class="modal fade" id="addcategory" role="dialog"
+				aria-labelledby="eventFormLabel" aria-hidden="true"
+				data-persist="false">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title" id="shereEvent">공유캘린더</h4>
+						</div>
+						<form>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="title" class="form-control-label">캘린더 이름</label> 
+									<input type="text" class="form-control" id="shereTitle">
+									<!--t수정  -->								
+									<label class="form-control-label">색상</label> <select
+										name="color" id="color2" class="form-control">
+										<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
+										<option value="#e0305a" style="background-color: #e0305a;">빨강</option>
+										<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
+										<option value="#008bca" style="background-color: #008bca;"
+											selected="selected">파란</option>
+									</select>
+									<label class="form-control-label">공유 대상</label>
+									<table><tr><td>
+									<div id="container">
+										<ul>
+											<li data-jstree='{"opened":true}'>KIM'SCLUB
+												<ul>
+													<li>영업부</li>
+													<li>전산팀</li>
+												</ul>
+											</li>
+										</ul>
+									</div></td>
+									<td >리스트가 존재하지않습니다.</td>
+									</tr>
+									</table>
+									<!--수정끝  -->
+								</div>
+							</div>
+								<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-success" id="submit">저장</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!--  -->
 			<script
 				src="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.full.js"></script>
 			<script>
