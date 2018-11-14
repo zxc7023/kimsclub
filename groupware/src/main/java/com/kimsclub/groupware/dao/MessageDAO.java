@@ -54,4 +54,23 @@ public class MessageDAO {
 		map.put("message_del", message_del);
 		session.update("message.updateDeleteMessage", map);
 	}
+	
+	//쪽지 상세보기
+	public MessageVO detailMessage(MessageVO vo, String box) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("message_no", vo.getMessage_no());
+		map.put("box", box);
+		return session.selectOne("message.selectDetailMessage", map);
+
+	}
+	
+	//쪽지 읽음
+	public void readMessage(MessageVO vo) {
+		session.update("message.updateReadMessage", vo);
+	}
+	
+	//읽지 않은 쪽지
+	public int unReadMesaage(int employee_no) {
+		return session.selectOne("message.selectUnReadMessage", employee_no);
+	}
 }

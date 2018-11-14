@@ -37,12 +37,31 @@ public class MessageServiceImpl implements MessageService {
 	public void keepMessage(int[] message_no) {
 		dao.keepMessage(message_no);
 	}
-
+	
+	//쪽지 삭제
 	@Override
 	public void deleteMessage(int[] message_no, String message_del) {
 		dao.deleteMessage(message_no, message_del);
 	}
+
+	//쪽지 상세보기
+	@Override
+	public MessageVO detailMessage(MessageVO vo, String box) {
+		return dao.detailMessage(vo, box);
+	}
 	
+	//쪽지 읽음
+	@Override
+	public void readMessage(MessageVO vo) {
+		dao.readMessage(vo);
+	}
+
+	//읽지 않은 쪽지
+	@Override
+	public int unReadMessage(int employee_no) {
+		return dao.unReadMesaage(employee_no);
+	}
+
 	
 	
 }
