@@ -229,9 +229,9 @@
 						
 						<li><a href="#">문서수발<span class="fa arrow"></span></a>
 							<ul class="nav nav-third-level collapse">
-								<li><a href="${pageContext.request.contextPath}/approvalSendDoc">발송문서함</a></li>
-								<li><a href="${pageContext.request.contextPath}/approvalReceiveDoc">수신문서함</a></li>
-								<li><a href="${pageContext.request.contextPath}/approvalDisplayDoc">공람문서함</a></li>
+								<li><a href="${pageContext.request.contextPath}/sendDocList">발송문서함</a></li>
+								<li><a href="${pageContext.request.contextPath}/receiveDocList">수신문서함</a></li>
+								<li><a href="${pageContext.request.contextPath}/publicDocList">공람문서함</a></li>
 							</ul> <!-- /.nav-third-level --></li>
 					</ul> <!-- /.nav-second-level --></li>
 			</ul>

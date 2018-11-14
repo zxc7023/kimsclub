@@ -15,6 +15,13 @@ public class TransmissionVO {
 	public TransmissionVO() {
 		super();
 	}
+	public TransmissionVO(int employee_no, int receiver_no, int document_no) {
+		super();
+		System.out.println(employee_no+":"+receiver_no+":"+document_no);
+		this.sender_emp= new EmployeeVO(employee_no);
+		this.receiver_emp = new EmployeeVO(receiver_no);
+		this.document = new DocumentVO(document_no);
+	}
 	public int getTransmission_no() {
 		return transmission_no;
 	}
