@@ -288,7 +288,7 @@ public class DocumentController {
 	}
 	
 	/**
-	 *  임시저장된 문서 선택해서 보기
+	 *  문서 선택해서 보기
 	 * @return view : 임시저장된 문서(viewDoc.jsp)
 	 */	
 	@RequestMapping(value = "/viewDoc", method=RequestMethod.POST)

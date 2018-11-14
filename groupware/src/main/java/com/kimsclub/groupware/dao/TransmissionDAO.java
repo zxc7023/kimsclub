@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,12 @@ public class TransmissionDAO {
 	
 	public void sendDocs(List<TransmissionVO> tlist) {
 		for(TransmissionVO tvo : tlist) {
-			session.insert("sendDoc",tvo);
+			session.insert("Transmission.sendDoc",tvo);
 		}
+	}
+
+	public List<TransmissionVO> getTransmissionList(Map<String, Object> map) {
+		return session.selectList("Transmission.selectList", map);
 	}
 
 }

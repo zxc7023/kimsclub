@@ -102,7 +102,7 @@ function post_to_url(path, params, method) {
 												</label>
 											</div>
 										</div>
-										<form action="proceedDocList">
+										<form action="publicDocList">
 											<input type="hidden" name="page_scale" value="${page.page_scale}">
 											<div class="col-sm-3">
 												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목   </label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
@@ -149,13 +149,13 @@ function post_to_url(path, params, method) {
 											<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
 												<ul class="pagination">
 													<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
-															<a href="proceedDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
+															<a href="publicDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
 														</c:if></li>
 													<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
-														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="proceedDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
+														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="publicDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
 													</c:forEach>
 													<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
-															<a href="proceedDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
+															<a href="publicDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
 														</c:if></li>
 												</ul>
 											</div>

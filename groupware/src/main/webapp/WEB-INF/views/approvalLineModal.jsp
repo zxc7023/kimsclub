@@ -4,6 +4,9 @@
 <!-- jquery-ui.js -->
 <script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
 
+<!-- jquery-ui.css -->
+<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
+
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <style>

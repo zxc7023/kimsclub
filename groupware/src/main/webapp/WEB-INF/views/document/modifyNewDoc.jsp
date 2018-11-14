@@ -25,9 +25,6 @@
 <!-- Custom Fonts -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
-<!-- jquery-ui.css -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
@@ -44,8 +41,10 @@
 <script src="resources/ckeditor/ckeditor.js"></script>
 
 <!-- jquery-ui.js -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
 
+<!-- jquery-ui.css -->
+<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <style>
