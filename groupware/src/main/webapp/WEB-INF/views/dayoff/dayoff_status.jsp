@@ -39,19 +39,29 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
 <script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
 <script type="text/javascript">
-	function beforeClick(treeId, treeNode) {
-		   if (treeNode.parent) {
-		      //parent 구분하기위해 부서 명 앞에 d적은 거 자르기
-		      var department_no = treeNode.no.split('d')[1];
-		      alert("부서 클릭 : "+treeNode.name+":"+department_no);
-		      //return true;
-		   } else {
-		      alert("사원 클릭 : "+name+":"+no);
-		      //return false;
-		   }
+
+var department_no = 1;
+
+function beforeClick(treeId, treeNode) {
+	   if (treeNode.parent) {
+	      //parent 구분하기위해 부서 명 앞에 d적은 거 자르기
+	      department_no = treeNode.no.split('d')[1];
+	      $('#testTreeModal').modal('hide');
+	      $('#calendar').fullCalendar('rerenderEvents');
+	      $("#tree-btn").text(treeNode.name);
+	      //return true;
+	   } else {
+	      alert("사원 클릭 : "+name+":"+no);
+	      //return false;
+	   }
+
 	}
 
+
+
 	$(document).ready(function(){
+		
+		
 		var eventList;
 	
 		$("#calendar").fullCalendar({
@@ -63,7 +73,7 @@
 			defaultView: 'month',
 			views: {
 			    month: {
-			      eventLimit: 4 // adjust to 6 only for agendaWeek/agendaDay
+			      eventLimit: 3 // adjust to 6 only for agendaWeek/agendaDay
 			    }
 			},
 			eventLimit : true,
@@ -108,6 +118,8 @@
 	                           tmpObj.color = color;
 	                           tmpObj.oneorhalf = applyVo[i].dayoff_apply_detail[j].oneorhalf;
 	                           tmpObj.className = "dayoffApply";
+	                           tmpObj.department_no = applyVo[i].employee.department.department_no;
+	                    
 	                           events.push(tmpObj);//this is displaying!!!   
 	                        }
 	                     }
@@ -130,6 +142,10 @@
 		        	 if(arrayParam.indexOf(event.oneorhalf) == -1){
 		        		 return false;
 		             }	        		 
+	        	 }
+	        	 
+	        	 if(event.department_no != department_no ){
+	        		 return false;
 	        	 }
 	        	 return true;
 
@@ -409,7 +425,7 @@
 						</div>
 						<div class="tab-pane fade" id="tab02">
 							<div>
-								<button id="tree-btn">부서</button>
+								<span>부서:<a id="tree-btn">모든 조직</a></span>
 								<input type="checkbox" name="oneorhalf" value="0" checked="checked">일차
 							 	<input type="checkbox" name="oneorhalf" value="1" checked="checked">오전반차
 							 	<input type="checkbox" name="oneorhalf" value="2" checked="checked">오후반자
@@ -569,10 +585,8 @@
    <!-- value 0 : 부서만 1: 사원 포함 -->
    <jsp:include page="/WEB-INF/views/treeModal.jsp">
       <jsp:param value="0" name="load_type" />
-      <!-- 클릭이벤트 -->
       <jsp:param value="beforeClick" name="beforeClick" />
-      <!-- 체크이벤트 -->
-      <jsp:param value="null" name="beforeCheck" />
+      <jsp:param value="beforeCheck" name="beforeCheck" />
    </jsp:include>
 </body>
 </html>
