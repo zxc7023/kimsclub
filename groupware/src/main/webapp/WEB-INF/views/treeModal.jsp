@@ -78,18 +78,24 @@ var setting = {
 				enable: true,
 				idKey : "no",
 				pIdKey : "pNo",
-				cnt : "cnt"
+				cnt : "cnt",
 				
 			}
 		},
 		callback: {
 			beforeClick : beforeClick,
 			beforeCheck : beforeCheck
+		},
+		edit: {
+		      enable: true,
+		      drag: {
+		         autoOpenTime: 0
+		      }
 		}
 	};
 var zNodes =[];
-var department = {
-		  isParent: true
+var open = {
+		  open: true
 		};
 		
 var log,code, className = "dark";
@@ -135,13 +141,9 @@ $(document).ready(function() {
 				success : function(server_result) {
 					zNodes = JSON.parse(server_result);
 					console.log(zNodes);
-					/* for(var i = 0; i<=zNodes.length; i++){
-						$.extend(zNodes[i],department);
-					} */
 					
 					var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-					console.log(tree);
-					console.log($.fn.zTree);
+					tree.expandAll(true);
 				} 
 			});
 		}else if(load_type == 1){
@@ -157,9 +159,8 @@ $(document).ready(function() {
 					console.log(zNodes);
 					
 					var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-					console.log(tree);
 					tree.setting.check.enable=true;
-					console.log(tree);
+					tree.expandAll(true);
 				} 
 			});
 		}

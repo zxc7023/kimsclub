@@ -31,6 +31,11 @@ public class DocumentVO {
 
 	
 	
+	public DocumentVO(int document_no) {
+		super();
+		this.document_no = document_no;
+	}
+
 	public int getDocument_no() {
 		return document_no;
 	}
