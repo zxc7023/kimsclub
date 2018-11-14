@@ -6,6 +6,7 @@ public class TreeVO {
 	private String name;
 	private int cnt;
 	private boolean isParent;
+
 	public TreeVO(EmployeeVO evo) {
 		super();
 		this.no = "e"+evo.getEmployee_no();
