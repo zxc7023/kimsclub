@@ -103,7 +103,7 @@ $(document).ready(function() {
 		var send = [];
 		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 		var nodes = treeObj.getCheckedNodes(true);
-	   var method = method || "post"; // 전송 방식 기본값을 POST로
+	   	var method = method || "post"; // 전송 방식 기본값을 POST로
 	    
 	    
 	    var form = document.createElement("form");
