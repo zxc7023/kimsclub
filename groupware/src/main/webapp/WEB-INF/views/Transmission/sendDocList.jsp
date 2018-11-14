@@ -39,95 +39,6 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <script>
-/* function beforeClick(treeId, treeNode) {
-	if (treeNode.parent) {
-		//parent 구분하기위해 부서 명 앞에 d적은 거 자르기
-		var department_no = treeNode.no.split('d')[1];
-		alert("부서 클릭 : "+treeNode.name+":"+department_no);
-		//return true;
-	} else {
-		alert("사원 클릭 : "+name+":"+no);
-		//return false;
-	}
-} */
-
-/* function beforeCheck(treeId, treeNode) {
-	className = (className === "dark" ? "":"dark");
-	showLog("[ beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
-	return (treeNode.doCheck !== false);
-} */
-$(document).ready(function() {
-	$("#modify-btn").click(function(){
-		if($('.check:checked').val()==null){
-			alert("선택한 문서가 없습니다.");
-		}
-		else{
-			window.location.href = "/groupware/modifyNewDoc?document_no="+$('.check:checked').val();
-		}
-	});
-	
-	$("#approval-btn").click(function(){
-		if($('.check:checked').val()==null){
-			alert("선택한 문서가 없습니다.");
-		}
-		else{
-			window.location.href = "/groupware/approvalDoc?document_no="+$('.check:checked').val();
-		}
-	});
-	
-	$("#delete-btn").click(function(){
-		if($('.check:checked').val()==null){
-			alert("선택한 문서가 없습니다.");
-		}else{
-			var result = confirm('정말로 삭제하시겠습니까?');
-			if (result) {
-				$.ajax({
-					method : "GET",
-					url : "/groupware/deleteNewDoc",
-					data : {
-						"document_no" : $('.check:checked').val()
-					},
-					error : function() {
-						alert('삭제 실패!!');
-					},
-					success : function(data) {
-						alert("해당 문서가 삭제되었습니다.");
-					}
-				});
-			}
-		}
-	});
-	
-	//체크된 부서나 사원 가져오기
-	$('#checkDepAndEmp').click(function(){
-		var send = [];
-		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-		var nodes = treeObj.getCheckedNodes(true);
-		
-	   var method = method || "post"; // 전송 방식 기본값을 POST로
-	    
-	    
-	    var form = document.createElement("form");
-	    form.setAttribute("method", method);
-	    form.setAttribute("action", "/groupware/sendDoc");
-		
-		for (var key in nodes) {
-			if (!nodes[key].parent) {
-				 var hiddenField = document.createElement("input");
-			        hiddenField.setAttribute("type", "hidden");
-			        hiddenField.setAttribute("name", "employee_no");
-			        hiddenField.setAttribute("value", nodes[key].no.split('e')[1]);
-				
-			        form.appendChild(hiddenField);
-			}
-		}
-		document.body.appendChild(form);
-	    console.log(document.body);
-	    form.submit();
-		
-	});
-});
-
 //폼생성하여 post 방식으로 값 보내기 
 function post_to_url(path, params, method) {
     method = method || "post"; // 전송 방식 기본값을 POST로
@@ -147,12 +58,10 @@ function post_to_url(path, params, method) {
         form.appendChild(hiddenField);
     }
  
-   	document.body.appendChild(form);
+    document.body.appendChild(form);
     form.submit();
 }
 </script>
-
-
 </head>
 <body>
 
@@ -174,12 +83,10 @@ function post_to_url(path, params, method) {
 
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">완료 문서함</div>
+					<div class="panel-heading">진행 문서함</div>
 					<div class="panel-body">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<button type="button" id="tree-btn" class="btn btn-default">지정하여 문서 보내기</button>
-								<button id="modify-btn" class="btn btn-default">공람문서함 보내기</button>
 							</div>
 							<div class="panel-body">
 								<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -195,10 +102,10 @@ function post_to_url(path, params, method) {
 												</label>
 											</div>
 										</div>
-										<form action="completeDocList">
+										<form action="proceedDocList">
 											<input type="hidden" name="page_scale" value="${page.page_scale}">
 											<div class="col-sm-3">
-												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목</label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
+												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목   </label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
 											</div>
 											<div class="col-sm-4">
 												<div id="dataTables-example_filter" class="dataTables_filter">
@@ -228,7 +135,7 @@ function post_to_url(path, params, method) {
 											<c:forEach items="${dlist}" var="list">
 												<tr>
 													<td><input type="radio" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
-													<td><a href="javascript:post_to_url('/groupware/viewDoc',{'document_type':'4','document_no':'${list.document_no}'})">${list.document_title}</a></td>
+													<td><a href="javascript:post_to_url('/groupware/viewDoc',{'document_type':'1','document_no':'${list.document_no}'})">${list.document_title}</a></td>
 													<td><fmt:formatDate value="${list.document_date}" pattern="yyyy/MM/dd" /></td>
 												</tr>
 											</c:forEach>
@@ -242,13 +149,13 @@ function post_to_url(path, params, method) {
 											<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
 												<ul class="pagination">
 													<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
-															<a href="completeDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
+															<a href="proceedDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
 														</c:if></li>
 													<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
-														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="completeDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
+														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="proceedDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
 													</c:forEach>
 													<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
-															<a href="completeDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
+															<a href="proceedDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
 														</c:if></li>
 												</ul>
 											</div>
@@ -262,17 +169,5 @@ function post_to_url(path, params, method) {
 			</div>
 		</div>
 	</div>
-	<!-- 결재선 불러오기 modal -->
-	<!-- 사용려는 곳에 버튼 만든뒤 id에 tree-btn만들기 -->
-	<!-- value 0 : 부서만 1: 사원 포함 -->
-	<jsp:include page="/WEB-INF/views/treeModal.jsp">
-		<jsp:param value="1" name="load_type" />
-		<jsp:param value="null" name="beforeClick" />
-		<jsp:param value="beforeCheck" name="beforeCheck" />
-	</jsp:include>
-	<div id="test">
-	
-	</div>
-	
 </body>
 </html>

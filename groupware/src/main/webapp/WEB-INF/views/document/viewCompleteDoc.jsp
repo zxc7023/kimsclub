@@ -112,8 +112,9 @@ height: 65px;
 			<form class="col-sm-12" method="post">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<input type="button" id="transfer-btn" class="btn btn-default" value="문서송신">
-								<input type="button"  class="btn btn-default" onclick="location.href='/groupware/completeDocList'" value="돌아가기">
+						<button type="button" id="tree-btn" class="btn btn-default">지정하여 문서 보내기</button>
+						<button id="modify-btn" class="btn btn-default">공람문서함 보내기</button>
+						<input type="button" class="btn btn-default" onclick="location.href='/groupware/completeDocList'" value="돌아가기">
 					</div>
 					<div class="panel-body">
 						<div role="row">
