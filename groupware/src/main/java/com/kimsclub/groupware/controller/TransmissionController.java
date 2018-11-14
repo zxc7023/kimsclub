@@ -58,11 +58,11 @@ public class TransmissionController {
 		map.put("keyword", keyword);
 		map.put("order", "document_no");
 		if(doc_type==0) {
-			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '임시저장'");
+			map.put("whereOption", "TRANSMISSION_SENDER_NO = "+employee_no);
 		}else if (doc_type==1) {
-			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '진행'");
+			map.put("whereOption", "TRANSMISSION_RECEIVER_NO = "+employee_no);
 		}else if (doc_type==2) {
-			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '반려'");
+			map.put("whereOption", "TRANSMISSION_RECEIVER_NO = ''");
 		}
 		
 		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음

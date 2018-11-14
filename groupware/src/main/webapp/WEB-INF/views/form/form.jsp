@@ -154,10 +154,10 @@
 						<div class="col-lg-12">
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<button onclick="location='createform'" class="btn btn-info">양식 생성</button>
-									<button class="btn btn-info btn-form" value="삭제">양식 삭제</button>
-									<button class="btn btn-info btn-form" value="활성화">양식 활성화</button>
-									<button class="btn btn-info btn-form" value="비활성화">양식 비활성화</button>
+									<button onclick="location='createform'" class="btn btn-default">양식 생성</button>
+									<button class="btn btn-default btn-form" value="삭제">양식 삭제</button>
+									<button class="btn btn-default btn-form" value="활성화">양식 활성화</button>
+									<button class="btn btn-default btn-form" value="비활성화">양식 비활성화</button>
 								</div>
 								<div class="panel-body">
 									<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
