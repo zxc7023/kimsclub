@@ -334,7 +334,7 @@
 	</select>
 
 	<select id="getDayoffEvent" parameterType="map" resultMap="calMap">
-		select da.dayoff_no, e.employee_name
+		select da.dayoff_no, e.employee_name, e.department_no
 		from dayoff_apply da
 		join document d
 		on da.document_no = d.document_no

@@ -40,12 +40,30 @@
 <script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
 <script type="text/javascript">
 
+var department_no = 1;
+
+function beforeClick(treeId, treeNode) {
+	   if (treeNode.parent) {
+	      //parent 구분하기위해 부서 명 앞에 d적은 거 자르기
+	      department_no = treeNode.no.split('d')[1];
+	      $('#testTreeModal').modal('hide');
+	      $('#calendar').fullCalendar('rerenderEvents');
+	      $("#tree-btn").text(treeNode.name);
+	      //return true;
+	   } else {
+	      alert("사원 클릭 : "+name+":"+no);
+	      //return false;
+	   }
+
+	}
+
+
 
 	$(document).ready(function(){
 		
+		
 		var eventList;
-		
-		
+	
 		$("#calendar").fullCalendar({
 			header : {
 				left : '',
@@ -55,7 +73,7 @@
 			defaultView: 'month',
 			views: {
 			    month: {
-			      eventLimit: 4 // adjust to 6 only for agendaWeek/agendaDay
+			      eventLimit: 3 // adjust to 6 only for agendaWeek/agendaDay
 			    }
 			},
 			eventLimit : true,
@@ -92,13 +110,16 @@
 	                               end = applyVo[i].dayoff_apply_detail[j].dayoff_day + " 18:00";
 	                               color ="#ffbf00";
 	                            }
-	                           
+	                          
 	                           tmpObj.id =applyVo[i].dayoff_no;
 	                           tmpObj.title = applyVo[i].employee.employee_name;
 	                           tmpObj.start = start;
 	                           tmpObj.end = end;
 	                           tmpObj.color = color;
 	                           tmpObj.oneorhalf = applyVo[i].dayoff_apply_detail[j].oneorhalf;
+	                           tmpObj.className = "dayoffApply";
+	                           tmpObj.department_no = applyVo[i].employee.department.department_no;
+	                    
 	                           events.push(tmpObj);//this is displaying!!!   
 	                        }
 	                     }
@@ -117,11 +138,16 @@
 	        	 $("input:checkbox[name=oneorhalf]:checked").each(function(){
 	        		 arrayParam.push($(this).val());
 	        	 });
-	        	 var tmpArr = [];
-	        	 if(arrayParam.indexOf(event.oneorhalf) == -1){
-	        		 return false;
-	             }
+	        	 if(event.className[0] == "dayoffApply"){
+		        	 if(arrayParam.indexOf(event.oneorhalf) == -1){
+		        		 return false;
+		             }	        		 
+	        	 }
 	        	 
+	        	 if(event.department_no != department_no ){
+	        		 return false;
+	        	 }
+	        	 return true;
 
 	       	},
 			timeFormat: 'HH:mm',
@@ -138,7 +164,7 @@
 				
 			}
 		});
-
+ 
 	  	 $("input[type=checkbox]").change(function () {
 	  		arrayParam = new Array();
 	  		$("input:checkbox[name=oneorhalf]:checked").each(function(){
@@ -154,7 +180,14 @@
 	  		}
 
 
- 	  		$('#calendar').fullCalendar('removeEvents');
+ 	  		$('#calendar').fullCalendar('removeEvents',function(event){
+ 	  			//공휴일만 삭제
+ 	  			if(event.className.length > 0){
+ 	  				return true;
+ 	  			}
+ 	  			return false;
+ 	  		});
+
 	  		$('#calendar').fullCalendar('renderEvents',tmpArr);
 	  		
 	  	 });
@@ -392,6 +425,7 @@
 						</div>
 						<div class="tab-pane fade" id="tab02">
 							<div>
+								<span>부서:<a id="tree-btn">모든 조직</a></span>
 								<input type="checkbox" name="oneorhalf" value="0" checked="checked">일차
 							 	<input type="checkbox" name="oneorhalf" value="1" checked="checked">오전반차
 							 	<input type="checkbox" name="oneorhalf" value="2" checked="checked">오후반자
@@ -546,6 +580,13 @@
 			</div>
 		</div>
 	</div>
-	
+	   <!-- 결재선 불러오기 modal -->
+   <!-- 사용려는 곳에 버튼 만든뒤 id에 tree-btn만들기 -->
+   <!-- value 0 : 부서만 1: 사원 포함 -->
+   <jsp:include page="/WEB-INF/views/treeModal.jsp">
+      <jsp:param value="0" name="load_type" />
+      <jsp:param value="beforeClick" name="beforeClick" />
+      <jsp:param value="beforeCheck" name="beforeCheck" />
+   </jsp:include>
 </body>
 </html>
