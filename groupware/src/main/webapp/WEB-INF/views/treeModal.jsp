@@ -51,11 +51,13 @@ height: 80px;
 }
 </style>
 <script id="treeScript" >
-//Tree.beforeClick = true;
 //요청 타입
 var load_type = ${param.load_type};
+
 var beforeClick = ${param.beforeClick};
+
 var beforeCheck = ${param.beforeCheck};
+
 //zTree 세팅 부분
 var setting = {
 		view: {
@@ -97,9 +99,6 @@ var log,code, className = "dark";
 	showLog("[ beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
 	return (treeNode.doCheck !== false);
 }
-function onCheck(e, treeId, treeNode) {
-	showLog("[ onCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
-}*/
 function showLog(str) {
 	if (!log) log = $("#log");
 	log.append("<li class='"+className+"'>"+str+"</li>");
@@ -140,7 +139,8 @@ $(document).ready(function() {
 						$.extend(zNodes[i],department);
 					} */
 					
-					$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+					var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+					console.log(tree);
 					console.log($.fn.zTree);
 				} 
 			});
@@ -157,6 +157,7 @@ $(document).ready(function() {
 					console.log(zNodes);
 					
 					var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+					console.log(tree);
 					tree.setting.check.enable=true;
 					console.log(tree);
 				} 
@@ -194,7 +195,7 @@ $(document).ready(function() {
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+					<button type="button" id="checkDepAndEmp" class="btn btn-primary" data-dismiss="modal">확인</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취소</button>
 				</div>

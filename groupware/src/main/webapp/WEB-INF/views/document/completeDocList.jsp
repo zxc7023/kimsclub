@@ -50,6 +50,12 @@ function beforeClick(treeId, treeNode) {
 		//return false;
 	}
 }
+
+/* function beforeCheck(treeId, treeNode) {
+	className = (className === "dark" ? "":"dark");
+	showLog("[ beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+	return (treeNode.doCheck !== false);
+} */
 $(document).ready(function() {
 	$("#modify-btn").click(function(){
 		if($('.check:checked').val()==null){
@@ -90,6 +96,15 @@ $(document).ready(function() {
 				});
 			}
 		}
+	});
+	//체크된 부서나 사원 가져오기
+	$('#checkDepAndEmp').click(function(){
+
+		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+		alert(treeObj);
+		var nodes = treeObj.getCheckedNodes(true);
+		alert(nodes);
+		console.log(nodes);
 	});
 });
 
@@ -235,5 +250,9 @@ function post_to_url(path, params, method) {
 		<jsp:param value="beforeClick" name="beforeClick" />
 		<jsp:param value="null" name="beforeCheck" />
 	</jsp:include>
+	<div id="test">
+	
+	</div>
+	
 </body>
 </html>
