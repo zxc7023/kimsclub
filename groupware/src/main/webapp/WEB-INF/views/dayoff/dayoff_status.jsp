@@ -44,11 +44,13 @@ var department_no = 1;
 
 function beforeClick(treeId, treeNode) {
 	   if (treeNode.parent) {
-	      //parent 구분하기위해 부서 명 앞에 d적은 거 자르기
+	      
+		   //parent 구분하기위해 부서 명 앞에 d적은 거 자르기
 	      department_no = treeNode.no.split('d')[1];
 	      $('#testTreeModal').modal('hide');
 	      $('#calendar').fullCalendar('rerenderEvents');
 	      $("#tree-btn").text(treeNode.name);
+	      
 	      //return true;
 	   } else {
 	      alert("사원 클릭 : "+name+":"+no);
@@ -57,6 +59,12 @@ function beforeClick(treeId, treeNode) {
 
 	}
 
+function selectDayoffWithEventId(event){
+	alert("헬로");
+	alert(event.id);
+	
+	console.log(eventList);
+}
 
 
 	$(document).ready(function(){
@@ -144,8 +152,10 @@ function beforeClick(treeId, treeNode) {
 		             }	        		 
 	        	 }
 	        	 
-	        	 if(event.department_no != department_no ){
-	        		 return false;
+	        	 if(department_no != 1){
+	        		 if(event.department_no != department_no){
+	        		 	return false;
+	        	 	}
 	        	 }
 	        	 return true;
 
@@ -160,8 +170,16 @@ function beforeClick(treeId, treeNode) {
 		    }],
 			locale: 'ko',
 			eventClick: function(calEvent, jsEvent, view) {
-				jsEvent.preventDefault();
-				
+				var sameIdArr = [];
+				for(var i =0; i < eventList.length ; i++){
+					if(eventList[i].id == calEvent.id){
+						sameIdArr.push(eventList[i]);
+					} 
+				}
+				console.log(sameIdArr);
+			},
+			dayClick : function(){
+				alert("캘린더선택");
 			}
 		});
  
