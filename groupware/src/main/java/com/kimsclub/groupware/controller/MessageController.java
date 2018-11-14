@@ -39,7 +39,7 @@ public class MessageController {
 			vo.setMessage_sender_no(message_sender_no);
 			service.insertMessage(vo);
 			return "redirect:/messageList?box=outBox";
-		}	
+		}
 		
 	//쪽지함(보낸쪽지, 받은쪽지, 보관쪽지)
 		@RequestMapping(value="/messageList")

@@ -46,6 +46,35 @@
 			$("#messageSave").submit();
 		});
 		
+		//체크된 부서나 사원 가져오기
+		$('#checkDepAndEmp').click(function(){
+
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			var nodes = treeObj.getCheckedNodes(true);
+		   	var method = method || "post"; // 전송 방식 기본값을 POST로
+		    
+		   	var form = document.createElement("form");
+		    form.setAttribute("method", method);
+		    form.setAttribute("action", "/groupware/messageWrite");
+		    var tmp= "";
+			for (var key in nodes) {
+				if (!nodes[key].parent) {
+					tmp+=(nodes[key].name+",");
+					$("#userName").val(tmp);
+					 var hiddenField = document.createElement("input");
+				        hiddenField.setAttribute("type", "hidden");
+				        hiddenField.setAttribute("name", "employee_no");
+				        hiddenField.setAttribute("value", nodes[key].no.split('e')[1]);
+					
+				        form.appendChild(hiddenField);
+				}
+			}
+			document.body.appendChild(form);
+			//messageSave
+		    //form.submit();
+			
+		});	
+		
 	});
 </script>
 <title>쪽지작성</title>
@@ -72,15 +101,15 @@
                         </div>
                         <div class="panel-body">
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-	        <!-- 받는이 선택 --> 
+	       	 <!-- 받는이 선택 --> 
 	        				<form id="messageSave" action="messageWrite" method="post">
 	                            <div class="row">
 	                            	<div class="col-sm-8">
 	                            		<div class="form-group input-group">
                                             <span class="input-group-addon">받는이</span>
-                                            <input type="text" class="form-control" name="message_receiver_no" placeholder="Username" >
+                                            <input id="userName" type="text" class="form-control" name="message_receiver_no" placeholder="Username" >
                                             <span class="input-group-btn">
-                                                <button class="btn btn-warning" type="button"><i class="glyphicon glyphicon-user"></i>
+                                                <button id="tree-btn" class="btn btn-warning" type="button"><i class="glyphicon glyphicon-user"></i>
                                                 </button>
                                             </span>
 	                            		</div>
@@ -106,5 +135,13 @@
             </div>
 	</div>
 </div>
+<!-- 결재선 불러오기 modal -->
+	<!-- 사용려는 곳에 버튼 만든뒤 id에 tree-btn만들기 -->
+	<!-- value 0 : 부서만 1: 사원 포함 -->
+	<jsp:include page="/WEB-INF/views/treeModal.jsp">
+		<jsp:param value="1" name="load_type" />
+		<jsp:param value="null" name="beforeClick" />
+		<jsp:param value="beforeCheck" name="beforeCheck" />
+	</jsp:include>
 </body>
 </html>

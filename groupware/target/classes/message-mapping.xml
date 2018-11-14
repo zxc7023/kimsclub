@@ -20,7 +20,7 @@
 <!-- 쪽지함 조회 -->
 	<select id="selectMessageList" parameterType="map" resultType="message" >
 		<include refid="pagingHeader"></include>
-			select message_no, message_sender_no, message_receiver_no, message_contents, message_date, employee_name as message_receiver_name
+			select message_no, message_sender_no, message_receiver_no, message_contents, message_date, message_read_state, employee_name as message_receiver_name
 			from message, employee 
 			<include refid="msgListBoxSort"></include> and
 			<include refid="search"></include>
