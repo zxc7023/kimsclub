@@ -135,9 +135,6 @@ $(document).ready(function() {
 				success : function(server_result) {
 					zNodes = JSON.parse(server_result);
 					console.log(zNodes);
-					/* for(var i = 0; i<=zNodes.length; i++){
-						$.extend(zNodes[i],department);
-					} */
 					
 					var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 					console.log(tree);
