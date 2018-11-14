@@ -85,18 +85,18 @@
 </head>
 <style>
 .wrap-btn {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
-.wrap-btn input.form-inputPop {position:absolute; top:0; left:0; opacity:0; cursor:pointer; z-index:5;}
-.wrap-btn i {float:left; display:block; width:14px; height:14px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox.png)no-repeat left top; z-index:3;}
 .wrap-btn label {float:left; margin-left:10px; cursor:pointer; font-size:13px;}
-.wrap-btn input.form-inputPop:checked+i {background-position:left bottom;}
-.wrap-btn input.form-inputPop:checked+i+label {color:#f56592;}
+.wrap-btn input.form-inputPop {position:absolute; top:0; left:0; opacity:0; cursor:pointer; z-index:5;} 
+.wrap-btn #i1 {float:left; display:block; width:20px; height:20px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox.png)no-repeat left top; z-index:3;}
+.wrap-btn input.form-inputPop:checked+#i1 {background-position:left bottom;}
+.wrap-btn #i2 {float:left; display:block; width:20px; height:20px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox2.png)no-repeat left top; z-index:3;}
+.wrap-btn input.form-inputPop:checked+#i2 {background-position:left bottom;}
+.wrap-btn #i3 {float:left; display:block; width:20px; height:20px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox3.png)no-repeat left top; z-index:3;}
+.wrap-btn input.form-inputPop:checked+#i3 {background-position:left bottom;}
+.wrap-btn #i4 {float:left; display:block; width:20px; height:20px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox4.png)no-repeat left top; z-index:3;}
+.wrap-btn input.form-inputPop:checked+#i4 {background-position:left bottom;}
+/* .wrap-btn input.form-inputPop:checked+i+label {color:#f56592;} */
 
-.wrap-btn2 {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
-.wrap-btn2 input.form-inputPop2 {position:absolute; top:0; left:0; opacity:0; cursor:pointer; z-index:5;}
-.wrap-btn2 i {float:left; display:block; width:14px; height:14px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox2.png)no-repeat left top; z-index:3;}
-.wrap-btn2 label {float:left; margin-left:10px; cursor:pointer; font-size:13px;}
-.wrap-btn2 input.form-inputPop2:checked+i {background-position:left bottom;}
-.wrap-btn2 input.form-inputPop2:checked+i+label {color:#f27d4a;}  
 </style>
 <script>
 $(function() {
@@ -131,11 +131,6 @@ $(function() {
 					<label class="form-control-label">공유 캘린더</label>
 					 <input type="submit" id="category" value="만들기" style="position: absolute; right: 0;" />
 					 <!-- 카테고리 -->
-					 <div class="wrap-btn">
-<input class="form-inputPop" type="checkbox" name="checkbox01" id="checkbox01"  checked="checked" onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com','#FFFFFF', '#f27d4a');"/>
-<i></i>
-<label for="checkbox01">업무</label>
-</div>
 <!--  -->
 <div class="wrap-btn2">
 <input class="form-inputPop2" type="checkbox" name="e1" id="e1"  checked="checked"/>
@@ -169,14 +164,29 @@ $(function() {
 									<!--t수정  -->
 									<label class="form-control-label">내용</label>
 									<textarea rows="5" cols="30" id="content" class="form-control"></textarea>
-									<label class="form-control-label">색상</label> <select
+									<label class="form-control-label">색상</label>
+									<div class="wrap-btn">
+										<label ><input class="form-inputPop" type="radio" name="color"
+											id="checkbox1" style="display: none;"/> <i id="i1"></i></label>  
+									
+										<label ><input class="form-inputPop" type="radio" name="color"
+											id="checkbox2" style="display: none;"/> <i id="i2"></i></label> 
+											
+										<label><input class="form-inputPop" type="radio" name="color"
+											id="checkbox3" style="display: none;" /> <i id="i3"></i></label>
+											
+										<label><input class="form-inputPop" type="radio" name="color"
+											id="checkbox4" style="display: none;" /> <i id="i4"></i></label>
+									</div>
+
+									<!-- <select
 										name="color" id="color" class="form-control">
 										<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
 										<option value="#f56592" style="background-color: #f56592;">업무</option>
 										<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
 										<option value="#008bca" style="background-color: #008bca;"
 											selected="selected">파란</option>
-									</select> <label class="form-control-label">시작날짜</label> <input
+									</select> --> <label class="form-control-label">시작날짜</label> <input
 										type="text" class="form-control" id="starts_at"> <label
 										class="form-control-label">종료날짜</label> <input type="text"
 										class="form-control" id="ends_at">

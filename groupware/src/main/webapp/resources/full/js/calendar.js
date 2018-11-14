@@ -106,12 +106,7 @@ var cal2GoTo = function(date) {
 var loadEvents = function(num, id, color, text) {
 /*  $.getScript("/resources/full/js/events.js", function(){
   });*/
-	var curSource = new Array();
-	//first source uses querystring to determine what events to pull back
-	curSource[0] = '/hackyjson/cal?e1=' +  $('#e1').is(':checked') ;
-	//second source just returns all events
-	curSource[1] = '/hackyjson/anothercal/';
-	var newSource = new Array(); //we'll use this later
+
 	 
   $.ajax({
 		method : "get",
