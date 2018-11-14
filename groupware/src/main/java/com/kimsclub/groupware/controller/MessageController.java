@@ -37,7 +37,6 @@ public class MessageController {
 			EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
 			int message_sender_no = evo.getEmployee_no();
 			vo.setMessage_sender_no(message_sender_no);
-			System.out.println(vo);
 			service.insertMessage(vo);
 			return "redirect:/messageList?box=outBox";
 		}	
@@ -61,6 +60,10 @@ public class MessageController {
 			
 			//쪽지 레코드 갯수
 			int count = service.countMessage(employee_no, searchOption, keyword, box);
+			
+			//받은쪽지중 읽지 않은 쪽지 갯수
+			int unReadMsgCnt = service.unReadMessage(employee_no);
+			
 			//쪽지 레코드수, 현재페이지, 페이지당 게시글 행수
 			BoardPageVO messagePager = new BoardPageVO(count, curPage, page_scale);
 			int start = messagePager.getPageBegin();
@@ -74,19 +77,20 @@ public class MessageController {
 			map.put("messagePager", messagePager); //게시글 행,페이징
 			map.put("box", box); //쪽지함 구분(보낸쪽지함, 받은쪽지함, 보관함)
 			map.put("employee_no", employee_no);//자신의 사원번호
+			map.put("unReadMsgCnt", unReadMsgCnt);//받은쪽지중 읽지 않은 쪽지 갯수
 			mav.addObject("map", map);
 			mav.setViewName("/message/messageList");
 			return mav;
 			}
 		
-		//쪽지 보관
+	//쪽지 보관
 		@RequestMapping(value="/keepMessage", method=RequestMethod.POST)
 		@ResponseBody
 		public void keepMessage(@RequestParam(value="message_no")int[] message_no) {
 			service.keepMessage(message_no);
 		}
 		
-		//쪽지 보관
+	//쪽지 삭제
 		@RequestMapping(value="/deleteMessage", method=RequestMethod.POST)
 		@ResponseBody
 		public void deleteMessage(@RequestParam(value="message_no")int[] message_no,
@@ -103,4 +107,34 @@ public class MessageController {
 				service.deleteMessage(message_no, message_del);
 			}
 		}
+		
+	//쪽지 상세보기
+		@RequestMapping(value="/messageDetail", method=RequestMethod.POST)
+		public ModelAndView messageDetail(MessageVO vo,
+				@RequestParam(name="box",defaultValue="inBox") String box,
+				@RequestParam(name="searchOption", defaultValue="all") String searchOption,					  
+				@RequestParam(name="keyword",defaultValue="") String keyword,
+				@RequestParam(name="page_scale",defaultValue="10") int page_scale,
+				@RequestParam(name="curPage",defaultValue="1") int curPage) {
+			
+			//쪽지 read
+			service.readMessage(vo);
+			
+			//해당쪽지 세부내용 가져오기			
+			MessageVO detailvo = service.detailMessage(vo, box);
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("detailvo", detailvo);
+			mav.addObject("searchOption", searchOption);
+			mav.addObject("keyword", keyword);
+			mav.addObject("page_scale", page_scale);
+			mav.addObject("curPage", curPage);
+			mav.addObject("box", box);	
+			System.out.println(detailvo.getMessage_senderAndReceiver_name());
+			mav.setViewName("/message/messageDetail");
+			System.out.println(box);
+			return mav;
+		}
+
+	//읽은 쪽지 확인
+
 	}

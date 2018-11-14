@@ -44,11 +44,13 @@ var department_no = 1;
 
 function beforeClick(treeId, treeNode) {
 	   if (treeNode.parent) {
-	      //parent 구분하기위해 부서 명 앞에 d적은 거 자르기
+	      
+		   //parent 구분하기위해 부서 명 앞에 d적은 거 자르기
 	      department_no = treeNode.no.split('d')[1];
 	      $('#testTreeModal').modal('hide');
 	      $('#calendar').fullCalendar('rerenderEvents');
 	      $("#tree-btn").text(treeNode.name);
+	      
 	      //return true;
 	   } else {
 	      alert("사원 클릭 : "+name+":"+no);
@@ -56,8 +58,6 @@ function beforeClick(treeId, treeNode) {
 	   }
 
 	}
-
-
 
 	$(document).ready(function(){
 		
@@ -103,10 +103,10 @@ function beforeClick(treeId, treeNode) {
 	                               color ="#007bff";
 	                            }else if(applyVo[i].dayoff_apply_detail[j].oneorhalf ==1){
 	                               start =applyVo[i].dayoff_apply_detail[j].dayoff_day + " 09:00";
-	                               end = applyVo[i].dayoff_apply_detail[j].dayoff_day + " 13:00";
+	                               end = applyVo[i].dayoff_apply_detail[j].dayoff_day + " 14:00";
 	                               color ="#21ff00";
 	                            }else if(applyVo[i].dayoff_apply_detail[j].oneorhalf ==2){
-	                               start =applyVo[i].dayoff_apply_detail[j].dayoff_day + " 13:00";
+	                               start =applyVo[i].dayoff_apply_detail[j].dayoff_day + " 14:00";
 	                               end = applyVo[i].dayoff_apply_detail[j].dayoff_day + " 18:00";
 	                               color ="#ffbf00";
 	                            }
@@ -119,7 +119,8 @@ function beforeClick(treeId, treeNode) {
 	                           tmpObj.oneorhalf = applyVo[i].dayoff_apply_detail[j].oneorhalf;
 	                           tmpObj.className = "dayoffApply";
 	                           tmpObj.department_no = applyVo[i].employee.department.department_no;
-	                    
+	                           tmpObj.department_name = applyVo[i].employee.department.department_name;
+	                           tmpObj.dayoff_name = applyVo[i].dayoff_kind.dayoff_name;
 	                           events.push(tmpObj);//this is displaying!!!   
 	                        }
 	                     }
@@ -144,8 +145,10 @@ function beforeClick(treeId, treeNode) {
 		             }	        		 
 	        	 }
 	        	 
-	        	 if(event.department_no != department_no ){
-	        		 return false;
+	        	 if(department_no != 1){
+	        		 if(event.department_no != department_no){
+	        		 	return false;
+	        	 	}
 	        	 }
 	        	 return true;
 
@@ -160,8 +163,25 @@ function beforeClick(treeId, treeNode) {
 		    }],
 			locale: 'ko',
 			eventClick: function(calEvent, jsEvent, view) {
-				jsEvent.preventDefault();
+			
+				var sameIdArr = [];
+				var trStream = '';
+				for(var i =0; i < eventList.length ; i++){
+					if(eventList[i].id == calEvent.id){
+						sameIdArr.push(eventList[i]);
+						trStream += "<tr><td>"+eventList[i].start+"</td><td>"+eventList[i].end+"</td></tr>";
+					} 
+				}
+				console.log(sameIdArr);
+				$("#myModalCalLabel").text(calEvent.title +"/"+calEvent.department_name + "  "+calEvent.dayoff_name+ "휴가내역");
+				$("#myModalCalTable tbody").html(trStream);
 				
+				
+				$("#myDayoffCal").modal("show");
+				jsEvent.preventDefault();
+			},
+			dayClick : function(){
+				alert("캘린더선택");
 			}
 		});
  
@@ -248,7 +268,7 @@ function beforeClick(treeId, treeNode) {
 					$(".modal-footer").append("<button type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>")
 					if(documentVO.document_state.indexOf("완료") == -1){
 						var btn = "<button type='button' class='btn btn-danger' id='approval_cancel''>기안 취소</button>";
-						$(".modal-footer").append(btn);
+						$("#applyDetailModal .modal-footer").append(btn);
 					}
 					
 					$("#dayoff_reason").text(applyVO.dayoff_reason);
@@ -580,6 +600,44 @@ function beforeClick(treeId, treeNode) {
 			</div>
 		</div>
 	</div>
+	
+		<div class="modal fade" id="myDayoffCal" tabindex="-1" role="dialog" aria-labelledby="myModalCalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalCalLabel"></h4>
+				</div>
+				<div class="modal-body">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-lg-12">
+									<table id="myModalCalTable" class="table table-bordered no-footer">
+										<thead>
+											<tr>
+												<th>시작일시</th>
+												<th>종료일시</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+											
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 	   <!-- 결재선 불러오기 modal -->
    <!-- 사용려는 곳에 버튼 만든뒤 id에 tree-btn만들기 -->
    <!-- value 0 : 부서만 1: 사원 포함 -->

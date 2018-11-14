@@ -39,8 +39,16 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+<style type="text/css">
+#msgContent{
+	display: inline-block; 
+	width: 800px; 
+	white-space: nowrap; 
+	overflow: hidden; 
+	text-overflow: ellipsis;
+}
 
-
+</style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		
@@ -120,35 +128,53 @@
 			
 		});
 		
-		
-		//쪽지함 heading, 
+		//보낸 쪽지
 		if('${map.box}' =='outBox'){
 			$(".page-header").text('보낸쪽지');
 			$("title").text('보낸쪽지');
 			$("#senderAndreceiver").text('받는사람');
+			$(".panel-heading").text('전체쪽지[${map.count}]');
 		}
+		//받은 쪽지
 		else if('${map.box}' =='inBox'){
 			$(".page-header").text('받은쪽지');
 			$("title").text('받은쪽지');
 			$("#senderAndreceiver").text('보낸사람');
-		}else{
-			$(".page-header").text('보관함');
-			$("title").text('보관함');
-			$("#senderAndreceiver").text('보낸사람');
-			
-			
+			$(".panel-heading").text('전체쪽지[${map.unReadMsgCnt} / ${map.count}]');
 		}
+		//보관 쪽지
+		else{
+			$("#keepBtn").hide();
+			$(".page-header").text('쪽지보관');
+			$("title").text('쪽지보관');
+			$("#senderAndreceiver").text('보낸사람');
+			$(".panel-heading").text('전체쪽지[${map.count}]');
+		}
+		
+		//쪽지 상세보기 링크 클릭
+		$(".detailLink").click(function(){
+			$(this).parents("td").find(".messageDetail").submit();
+		});
+		
+		//모든 체크박스 선택 함수
+		$('.checkAll').click(function() {
+			$('.check').prop('checked', this.checked);
+		});
+
 		
 		//쪽지 레코드 갯수 설정
 		$(".selectPageScale").change(function(){
 			location.href="messageList?box=${map.box}&page_scale="+$(this).val();
 		});
 		
+		
 	});
 </script>
 <title>Insert title here</title>
 </head>
 <body>
+
+
 <div id="wrapper">
 
 		<!-- header,navigation div -->
@@ -167,7 +193,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-             <!-- 쪽지 전체 갯수  -->전체쪽지[${map.count}]
+             <!-- 쪽지 전체 갯수  -->
              
                         </div>
                         <!-- /.panel-heading -->
@@ -224,7 +250,7 @@
 										<table class="table table-hover" id="dataTables-example">
 			                                <thead>
 			                                    <tr>
-			                                        <th><input type="checkbox"></th>
+			                                        <th><input type="checkbox" class="checkAll"></th>
 			                                        <th id="senderAndreceiver"></th>
 			                                        <th>내용</th>
 			                                        <th>날짜</th>
@@ -235,23 +261,35 @@
 				                                <c:forEach var="list" items="${map.list}" >
 					                                <tr class="odd gradeA">
 					                                    <td><input type="checkbox" class="check" value="${list.message_no}"></td>
-					                                    <c:choose>
-					                                    	<c:when test="${map.box != 'keepBox'}">
-					                                    		<td>${list.message_receiver_name}</td>
-					                                    	</c:when>
-					                                    	<c:otherwise>
-					                                    	<c:choose>
-					                                    		<c:when test="${map.employee_no == list.message_sender_no}">
-					                                    			<td>${list.message_receiver_name} [보낸쪽지]</td>
-					                                    		</c:when>
-					                                    		<c:otherwise>
-					                                    			<td>${list.message_receiver_name} [받은쪽지]</td>
-					                                    		</c:otherwise>
-					                                    	</c:choose>
-					                                    	</c:otherwise>
-					                                    	
-					                                    </c:choose>
-					                                    <td><a href="detail?message_no=${message_no}&searchOption=${map.searchOption}&keyword=${map.keyword}&curPage=${map.messagePager.curPage}">${list.message_contents}</a></td>
+						                                    <c:choose>
+						                                    	<c:when test="${map.box != 'keepBox'}">
+						                                    		<td>${list.message_receiver_name}</td>
+						                                    	</c:when>
+						                                    	<c:otherwise>
+						                                    	<c:choose>
+						                                    		<c:when test="${map.employee_no == list.message_sender_no}">
+						                                    			<td>${list.message_receiver_name} [보낸쪽지]</td>
+						                                    		</c:when>
+						                                    		<c:otherwise>
+						                                    			<td>${list.message_receiver_name} [받은쪽지]</td>
+						                                    		</c:otherwise>
+						                                    	</c:choose>
+						                                    	</c:otherwise>
+						                                    	
+						                                    </c:choose>
+					                                    <td >
+					                                    <%-- <a href="messageDetail?message_no=${list.message_no}&searchOption=${map.searchOption}&keyword=${map.keyword}&curPage=${map.messagePager.curPage}">${list.message_contents}</a> --%>
+							                                    <a id="msgContent" href="#" class="detailLink" >${list.message_contents} </a>
+					                                    		<form action="messageDetail" method="post" class="messageDetail" >
+								                                    <input type="hidden" name="message_no" value="${list.message_no}">
+								                                    <input type="hidden" name="searchOption" value="${map.searchOption}">
+								                                    <input type="hidden" name="keyword" value="${map.keyword}">
+								                                    <input type="hidden" name="curPage" value="${map.messagePager.curPage}">
+								                                    <input type="hidden" name="page_scale" value="${map.messagePager.page_scale}">
+								                                    <input type="hidden" name="box" value="${map.box}">
+							                                  	</form>
+							                                   
+					                                    </td>
 					                                    <td>${list.message_date}</td>
 					                                </tr>
 				                                </c:forEach>
@@ -297,7 +335,7 @@
 	                            	<div class="col-sm-12">
 	                            		<label id="dataTables-example_filter">
 						                	<button id="writeBtn" type="button" class="btn btn-primary"><i class="fa fa-envelope fa-fw"></i></button>
-							            	<button type="button" class="btn btn-success btn-form" value="keep">보관</button>
+							            	<button id="keepBtn" type="button" class="btn btn-success btn-form" value="keep">보관</button>
 							            	<button type="button" class="btn btn-danger btn-form" data-toggle="modal" data-target="#myModal" value="del">삭제</button>	
 						            	</label>
 					            	</div>
