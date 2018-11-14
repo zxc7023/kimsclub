@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- jquery-ui.js -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<!-- jquery-serializeObject.js  -->
+<script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <style>
 .ui-autocomplete-category {
   font-weight: bold;
@@ -81,7 +85,7 @@
 				}
 			});
 		}
-
+		
 		//modal내의 내 결재선 목록을 선택하면 해당 결재선에 포함된 정보들을 가져온다
 		$('.myApprovalLine').change(function() {
 			if($(this).val()!='default'){
@@ -152,6 +156,9 @@
 		    }
 	    });
 	   
+	    $('#favorites').click(function(){
+	    	$('#addFavorites').modal("show");
+	    });
 	    
 	    $("#approvalLineSelect").on("shown.bs.modal", function() { 
 	    	$("#search").catcomplete("option", "appendTo", "#approvalLineSelect");
@@ -162,8 +169,44 @@
 		$('#confirm').click(function(){
 			$('#approvalLine').find('#paste').html($('#sortable').html());
 		});
+	    
+		//즐겨찾기 추가
+		$('#addConfirm').click(function(){
+			var form = document.createElement("form");
+		 	form.setAttribute("id","addFavoritesForm");
+		 	form.setAttribute("hidden","hidden");
+	        var hiddenField = document.createElement("input");
+	        hiddenField.setAttribute("type", "hidden");
+	        hiddenField.setAttribute("name", "approval_path_name");
+	        hiddenField.setAttribute("value", $('#approval_path_name').val());
+		 	 document.body.appendChild(form);
+		    $('#addFavoritesForm').html($('#sortable').html());
+		    //히든으로 값을 주입시킨다.
+		 
+		   	form.appendChild(hiddenField);
+		 
+			tmpArr = $("form#addFavoritesForm").serializeObject();
+			
+			console.log(tmpArr);
+			$.ajax({
+				method : "post",
+				url : "/groupware/addFavorite",
+				contentType: "application/json;charset=UTF-8",
+				data :  JSON.stringify(tmpArr),
+				error : function(error) {
+					alert("전송 실패");
+				},
+				success : function(data) {
+					
+					window.location.href = data;
+				}
+			}); 
+			
+			
+			 $('#addFavoritesForm').html("");
+		});
 	});
-</script>	
+</script>
 	<div class="modal fade" id="approvalLineSelect" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -199,7 +242,7 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="panel panel-default" id="approvalLineLoad">
-								<table width="100%"  heigt="250px" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline sendTable" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+								<table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline sendTable" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
 									<colgroup>
 										<col width="15%">
 										<col width="17%">
@@ -230,7 +273,40 @@
 				</div>
 				<div class="modal-footer">
 					<i class="far fa-trash-alt fa-3x ui-sortable-handle" id="droppable" style="float: left;"></i>
+					<button type="button" class="btn btn-default" id="favorites">즐겨찾기 추가</button>
 					<button type="button" class="btn btn-primary" data-dismiss="modal" id="confirm">확인</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">취소</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="addFavorites" tabindex="-1" z-index="1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title" id="modalLabel" >즐겨찾기 추가
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</h3>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">현재 선택한 결재선을 즐겨찾기에 추가 하시려면 제목을 적고 확인을 누르세요.</div>
+								<div class="panel-body">
+									<input type="text" style="width: 100%;" id="approval_path_name">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" id="addConfirm">확인</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취소</button>
 				</div>

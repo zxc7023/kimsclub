@@ -89,10 +89,8 @@
 	<!-- 결재문서 회수 -->
 	<update id="retrieveDoc" parameterType="int">
 		UPDATE document 
-		SET document_state = '임시저장'		
+		SET document_state = '취소'		
 		WHERE document_no = #{value} 
-		AND 0 = (SELECT approval_state FROM approval
-			WHERE document_no = #{value} AND approval_no = (SELECT MIN(approval_no)+1 FROM approval WHERE document_no = #{value}))
 	</update>
 	
 	<!-- 리스트 조회 -->		

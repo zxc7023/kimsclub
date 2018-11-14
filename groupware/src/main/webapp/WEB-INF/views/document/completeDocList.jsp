@@ -39,6 +39,23 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <script>
+/* function beforeClick(treeId, treeNode) {
+	if (treeNode.parent) {
+		//parent 구분하기위해 부서 명 앞에 d적은 거 자르기
+		var department_no = treeNode.no.split('d')[1];
+		alert("부서 클릭 : "+treeNode.name+":"+department_no);
+		//return true;
+	} else {
+		alert("사원 클릭 : "+name+":"+no);
+		//return false;
+	}
+} */
+
+/* function beforeCheck(treeId, treeNode) {
+	className = (className === "dark" ? "":"dark");
+	showLog("[ beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+	return (treeNode.doCheck !== false);
+} */
 $(document).ready(function() {
 	$("#modify-btn").click(function(){
 		if($('.check:checked').val()==null){
@@ -80,7 +97,64 @@ $(document).ready(function() {
 			}
 		}
 	});
+	
+	//체크된 부서나 사원 가져오기
+	$('#checkDepAndEmp').click(function(){
+		var send = [];
+		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+		var nodes = treeObj.getCheckedNodes(true);
+	   var method = method || "post"; // 전송 방식 기본값을 POST로
+	    
+	    
+	    var form = document.createElement("form");
+	    form.setAttribute("method", method);
+	    form.setAttribute("action", "/groupware/sendDoc");
+		
+		for (var key in nodes) {
+			if (!nodes[key].parent) {
+				 var hiddenField = document.createElement("input");
+			        hiddenField.setAttribute("type", "hidden");
+			        hiddenField.setAttribute("name", "employee_no");
+			        hiddenField.setAttribute("value", nodes[key].no.split('e')[1]);
+				
+			        form.appendChild(hiddenField);
+			}
+		}
+		alert($('.check:checked').val());
+		var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "document_no");
+        hiddenField.setAttribute("value", $('.check:checked').val());
+        form.appendChild(hiddenField);
+		document.body.appendChild(form);
+	    console.log(document.body);
+	    form.submit();
+		
+	});
 });
+
+//폼생성하여 post 방식으로 값 보내기 
+function post_to_url(path, params, method) {
+    method = method || "post"; // 전송 방식 기본값을 POST로
+ 
+    
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+ 
+    //히든으로 값을 주입시킨다.
+    for(var key in params) {
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+ 
+        form.appendChild(hiddenField);
+    }
+ 
+   	document.body.appendChild(form);
+    form.submit();
+}
 </script>
 
 
@@ -159,7 +233,7 @@ $(document).ready(function() {
 											<c:forEach items="${dlist}" var="list">
 												<tr>
 													<td><input type="radio" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
-													<td><a href="viewDoc?document_type=4&document_no=${list.document_no}">${list.document_title}</a></td>
+													<td><a href="javascript:post_to_url('/groupware/viewDoc',{'document_type':'4','document_no':'${list.document_no}'})">${list.document_title}</a></td>
 													<td><fmt:formatDate value="${list.document_date}" pattern="yyyy/MM/dd" /></td>
 												</tr>
 											</c:forEach>
@@ -194,9 +268,16 @@ $(document).ready(function() {
 		</div>
 	</div>
 	<!-- 결재선 불러오기 modal -->
+	<!-- 사용려는 곳에 버튼 만든뒤 id에 tree-btn만들기 -->
 	<!-- value 0 : 부서만 1: 사원 포함 -->
 	<jsp:include page="/WEB-INF/views/treeModal.jsp">
 		<jsp:param value="1" name="load_type" />
+		<jsp:param value="null" name="beforeClick" />
+		<jsp:param value="beforeCheck" name="beforeCheck" />
 	</jsp:include>
+	<div id="test">
+	
+	</div>
+	
 </body>
 </html>

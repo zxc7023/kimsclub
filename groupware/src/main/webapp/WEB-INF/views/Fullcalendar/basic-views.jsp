@@ -38,6 +38,9 @@
 <!--미니달력  -->
 <%-- <script src="${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.js"></script>
 <link href='${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.css' rel='stylesheet' /> --%>
+<!-- js -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/themes/default/style.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/jstree.min.js"></script> 
 <!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -88,13 +91,20 @@
 .wrap-btn input.form-inputPop:checked+i {background-position:left bottom;}
 .wrap-btn input.form-inputPop:checked+i+label {color:#f56592;}
 
-/*  .wrap-btn2 {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
+.wrap-btn2 {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
 .wrap-btn2 input.form-inputPop2 {position:absolute; top:0; left:0; opacity:0; cursor:pointer; z-index:5;}
 .wrap-btn2 i {float:left; display:block; width:14px; height:14px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox2.png)no-repeat left top; z-index:3;}
 .wrap-btn2 label {float:left; margin-left:10px; cursor:pointer; font-size:13px;}
 .wrap-btn2 input.form-inputPop2:checked+i {background-position:left bottom;}
-.wrap-btn2 input.form-inputPop2:checked+i+label {color:#f27d4a;}  */
+.wrap-btn2 input.form-inputPop2:checked+i+label {color:#f27d4a;}  
 </style>
+<script>
+$(function() {
+	$('#container').jstree({
+		  "plugins" : ["checkbox"]
+		});
+});
+</script>
 <body>
 
 
@@ -119,20 +129,22 @@
 				<div id='calendar1'
 					class='calendar col-md-2 '><!-- -ms-overflow-style: none; -->
 					<label class="form-control-label">공유 캘린더</label>
-					 <input type="button" value="만들기" style="position: absolute; right: 0;" />
+					 <input type="submit" id="category" value="만들기" style="position: absolute; right: 0;" />
 					 <!-- 카테고리 -->
 					 <div class="wrap-btn">
-<input class="form-inputPop" type="checkbox" id="checkbox01"  checked="checked" onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com','#FFFFFF', '#f27d4a');"/>
+<input class="form-inputPop" type="checkbox" name="checkbox01" id="checkbox01"  checked="checked" onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com','#FFFFFF', '#f27d4a');"/>
 <i></i>
 <label for="checkbox01">업무</label>
 </div>
 <!--  -->
-<!-- <div class="wrap-btn2">
-<input class="form-inputPop2" type="checkbox" id="checkbox02"  checked="checked" onChange="scheduleChoice(1, '#008bca');"/>
+<div class="wrap-btn2">
+<input class="form-inputPop2" type="checkbox" name="e1" id="e1"  checked="checked"/>
 <i></i>
 <label for="checkbox02">휴가</label> 
-</div>   -->
+</div>  
 <!--  -->
+
+
 					 <!--  -->
 				</div>
 				<div id='calendar2' class='calendar col-md-10'></div>
@@ -225,6 +237,62 @@
 					</div>
 				</div>
 			</div>
+			
+			<!--카테고리  -->
+						<div class="modal fade" id="addcategory" role="dialog"
+				aria-labelledby="eventFormLabel" aria-hidden="true"
+				data-persist="false">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title" id="shereEvent">공유캘린더</h4>
+						</div>
+						<form>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="title" class="form-control-label">캘린더 이름</label> 
+									<input type="text" class="form-control" id="shereTitle">
+									<!--t수정  -->								
+									<label class="form-control-label">색상</label> <select
+										name="color" id="color2" class="form-control">
+										<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
+										<option value="#e0305a" style="background-color: #e0305a;">빨강</option>
+										<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
+										<option value="#008bca" style="background-color: #008bca;"
+											selected="selected">파란</option>
+									</select>
+									<label class="form-control-label">공유 대상</label>
+									<table><tr><td>
+									<div id="container">
+										<ul>
+											<li data-jstree='{"opened":true}'>KIM'SCLUB
+												<ul>
+													<li>영업부</li>
+													<li>전산팀</li>
+												</ul>
+											</li>
+										</ul>
+									</div></td>
+									<td >리스트가 존재하지않습니다.</td>
+									</tr>
+									</table>
+									<!--수정끝  -->
+								</div>
+							</div>
+								<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-success" id="submit">저장</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!--  -->
 			<script
 				src="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.full.js"></script>
 			<script>

@@ -65,7 +65,7 @@ $(document).ready(function() {
 	});
 
 	$("#modify_btn").click(function(){
-		$("#submit").attr("value","임시저장");
+		$("#type").attr("value","임시저장");
 		submitBtn();
 	});
 
@@ -75,7 +75,7 @@ $(document).ready(function() {
 
 		$.ajax({
 			method : "post",
-			url : "/groupware/modifyNewDoc",
+			url : "/groupware/modifyDocState",
 			contentType: "application/json;charset=UTF-8",
 			data :  JSON.stringify(tmpArr),
 			error : function(error) {
@@ -100,6 +100,29 @@ $(document).ready(function() {
 	});
 	
 });//ready end
+//폼생성하여 post 방식으로 값 보내기 
+function post_to_url(path, params, method) {
+    method = method || "post"; // 전송 방식 기본값을 POST로
+ 
+    
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+ 
+    //히든으로 값을 주입시킨다.
+    for(var key in params) {
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+ 
+        form.appendChild(hiddenField);
+    }
+ 
+    document.body.appendChild(form);
+    form.submit();
+}
+
 function loadForm(){
 	$.ajax({
 		method : "GET",

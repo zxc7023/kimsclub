@@ -50,9 +50,13 @@
 height: 80px;
 }
 </style>
-<script>
+<script id="treeScript" >
 //요청 타입
 var load_type = ${param.load_type};
+
+var beforeClick = ${param.beforeClick};
+
+var beforeCheck = ${param.beforeCheck};
 
 //zTree 세팅 부분
 var setting = {
@@ -74,31 +78,33 @@ var setting = {
 				enable: true,
 				idKey : "no",
 				pIdKey : "pNo",
-				cnt : "cnt"
+				cnt : "cnt",
 				
 			}
 		},
 		callback: {
 			beforeClick : beforeClick,
-			beforeCheck: beforeCheck,
-			onCheck: onCheck
+			beforeCheck : beforeCheck
+		},
+		edit: {
+		      enable: true,
+		      drag: {
+		         autoOpenTime: 0
+		      }
 		}
 	};
 var zNodes =[];
-var department = {
-		  isParent: true
+var open = {
+		  open: true
 		};
 		
 var log,code, className = "dark";
 
-function beforeCheck(treeId, treeNode) {
+/*function beforeCheck(treeId, treeNode) {
 	className = (className === "dark" ? "":"dark");
 	showLog("[ beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
 	return (treeNode.doCheck !== false);
 }
-function onCheck(e, treeId, treeNode) {
-	showLog("[ onCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
-}		
 function showLog(str) {
 	if (!log) log = $("#log");
 	log.append("<li class='"+className+"'>"+str+"</li>");
@@ -106,8 +112,8 @@ function showLog(str) {
 		log.get(0).removeChild(log.children("li")[0]);
 	}
 }
-//클릭 했을시 호출되는 함수
-function beforeClick(treeId, treeNode) {
+//클릭 했을시 호출되는 함수 사용하는 페이지에서 복사
+/*function beforeClick(treeId, treeNode) {
 	if (treeNode.isParent) {
 		alert("부서 클릭 : "+treeNode.department_name+":"+treeNode.department_no);
 		//return true;
@@ -115,7 +121,7 @@ function beforeClick(treeId, treeNode) {
 		alert("사원 클릭");
 		//return false;
 	}
-}
+}*/
 
 
 $(document).ready(function() {
@@ -135,12 +141,9 @@ $(document).ready(function() {
 				success : function(server_result) {
 					zNodes = JSON.parse(server_result);
 					console.log(zNodes);
-					/* for(var i = 0; i<=zNodes.length; i++){
-						$.extend(zNodes[i],department);
-					} */
 					
-					$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-					console.log($.fn.zTree);
+					var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+					tree.expandAll(true);
 				} 
 			});
 		}else if(load_type == 1){
@@ -157,7 +160,7 @@ $(document).ready(function() {
 					
 					var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 					tree.setting.check.enable=true;
-					console.log(tree);
+					tree.expandAll(true);
 				} 
 			});
 		}
@@ -193,7 +196,7 @@ $(document).ready(function() {
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+					<button type="button" id="checkDepAndEmp" class="btn btn-primary" data-dismiss="modal">확인</button>
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취소</button>
 				</div>

@@ -63,7 +63,7 @@ public class DocumentController {
 	public String retrieveDoc(@RequestParam(name="document_no") int document_no){
 		System.out.println("retrieveDoc() 메소드 호출");
 		service2.retrieveDocument(document_no);
-		return "/groupware/newDocList";
+		return "redirect:proceedDocList";
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class DocumentController {
 		map.put("document_no",document_no);
 		map.put("employee_no", evo.getEmployee_no());
 		service2.approveDocument(map);
-		return "/groupware/approvalDocList";
+		return "redirect:approvalDocList";
 	}
 	
 	/**
@@ -98,12 +98,11 @@ public class DocumentController {
 		
 		service2.returnDocument(map);
 		
-		return "/groupware/returnDocList";
+		return "redirect:returnDocList";
 	}
 	
 	/**
 	 *  선택한 문서의 제목, 내용의 수정 처리
-	 *  view : 해당 번호의 문서 정보(viewDoc)
 	 */
 	@RequestMapping(value = "/modifyDocState", method=RequestMethod.POST)
 	@ResponseBody
@@ -112,7 +111,7 @@ public class DocumentController {
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
 		dvo.setEmployee(evo);
 		service2.modifyDocument(dvo);
-		return "/groupware/viewDoc?document_type=0&document_no="+dvo.getDocument_no();
+		return "/groupware/newDocList";
 	}
 	
 	/**
@@ -136,7 +135,7 @@ public class DocumentController {
 			map.put("fromOption", " (SELECT d.document_no, document_title,document_date FROM document d , approval a WHERE d.DOCUMENT_NO = a.document_no AND a.employee_no = "+employee_no+ " AND document_state = '완료' )");
 			map.put("whereOption", "1 = 1 ");
 		}else if (doc_type==2) {
-			map.put("fromOption", "(SELECT d.document_no, d.document_title, d.document_date FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=0 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
+			map.put("fromOption", "(SELECT d.document_no, d.document_title, d.document_date FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=0 AND a1.approval_state =1 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
 			map.put("whereOption", "1=1");
 		}
 		
@@ -292,16 +291,14 @@ public class DocumentController {
 	 *  임시저장된 문서 선택해서 보기
 	 * @return view : 임시저장된 문서(viewDoc.jsp)
 	 */	
-	@RequestMapping(value = "/viewDoc", method=RequestMethod.GET)
-	public ModelAndView viewDoc(@RequestParam(name="document_no")int document_no,@RequestParam(name="document_type")int document_type){
+	@RequestMapping(value = "/viewDoc", method=RequestMethod.POST)
+	public ModelAndView viewDoc(HttpSession session,@RequestParam(name="document_no")int document_no,@RequestParam(name="document_type")int document_type){
 		System.out.println("viewDoc() 메소드 호출");
-		
+		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
 		ModelAndView mav = new ModelAndView();
-		
 		DocumentVO dvo = service2.viewDoc(document_no);
 		
 		mav.addObject("dvo", dvo);
-		System.out.println(document_type);
 		if(document_type == 0) {
 			System.out.println("임시저장페이지 호출");
 			mav.setViewName("document/viewNewDoc");			
@@ -326,11 +323,12 @@ public class DocumentController {
 	 *  선택한 문서 삭제하기
 	 * @return view : 새문서함목록(newDocList.jsp)
 	 */	
-	@RequestMapping(value = "/deleteNewDoc", method=RequestMethod.GET)
+	@RequestMapping(value = "/deleteNewDoc", method=RequestMethod.POST)
+	@ResponseBody
 	public String deleteNewDoc(@RequestParam(name="document_no")int document_no){
 		System.out.println("deleteNewDoc() 메소드 호출");
 		
 		service2.deleteNewDoc(document_no);
-		return "groupware/newDocList";
+		return "/groupware/newDocList";
 	}
 }
