@@ -334,7 +334,7 @@
 	</select>
 
 	<select id="getDayoffEvent" parameterType="map" resultMap="calMap">
-		select da.dayoff_no, e.employee_name, e.department_no
+		select da.dayoff_no, e.employee_name, e.department_no, de.department_name, dk.dayoff_name
 		from dayoff_apply da
 		join document d
 		on da.document_no = d.document_no
@@ -342,6 +342,8 @@
 		on da.employee_no = e.employee_no
 		join department de
 		on e.department_no = de.department_no
+		join dayoff_kinds dk
+		on da.dayoff_type_code = dk.dayoff_type_code
 		where document_state = '진행' and to_char(start_date,'yyyy-mm') = '${year}-${month}'
 
 	</select>

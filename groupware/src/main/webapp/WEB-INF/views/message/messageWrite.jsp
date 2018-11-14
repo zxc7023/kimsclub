@@ -62,16 +62,14 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">쪽지작성</h1>
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
+            
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
              <!-- 게시판 타입명  -->${sessionScope.loginInfo.employee_name}
                         </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 	        <!-- 받는이 선택 --> 
@@ -91,19 +89,17 @@
 	         <!-- 쪽지 내용 입력  -->
 	                            <div class="row">
                           		 	 <div class="col-sm-8">
-                          				  <textarea class="form-control" rows="15" cols="80" name="message_contents" ></textarea>
+                          				  <textarea style="resize: none;" class="form-control" rows="15" cols="80" name="message_contents" ></textarea>
                            			 </div>
-	                            </div>
-             <!-- 쪽지 보내기  -->
-	                            <div class="row">
-	                            	<div class="col-sm-6">
-	                            		 <div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
-	                            		 	<button id="sendBtn" type="button" class="btn btn-primary">send</button>
-	                            		 </div>
-	                            	</div>
 	                            </div>
 	                        </form>    
                             </div>
+                        </div>
+    		<!-- 쪽지 보내기  -->                        
+                        <div class="panel-footer">
+                            <div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
+								<button id="sendBtn" type="button" class="btn btn-primary">send</button>
+	                        </div>
                         </div>
                     </div>
                 </div>

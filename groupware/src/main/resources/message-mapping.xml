@@ -13,7 +13,7 @@
 	<select id="selectCountMessage" parameterType="map" resultType="int" >
 		select count(*) 
 		from message, employee
-		<include refid="boxsort"></include> and 
+		<include refid="msgListBoxSort"></include> and 
 		<include refid="search"></include>
 	</select>
 	
@@ -22,7 +22,7 @@
 		<include refid="pagingHeader"></include>
 			select message_no, message_sender_no, message_receiver_no, message_contents, message_date, employee_name as message_receiver_name
 			from message, employee 
-			<include refid="boxsort"></include> and
+			<include refid="msgListBoxSort"></include> and
 			<include refid="search"></include>
 			order by message_date desc
 		<include refid="pagingFooter"></include>
@@ -39,6 +39,27 @@
 		update message
 		set ${message_del} = 'Y' where message_no IN<foreach item="message_no" collection="message_no" open="(" close=")" separator=",">#{message_no}</foreach>
 	</update>
+		
+<!-- 쪽지 상세보기 -->		
+	<select id="selectDetailMessage" parameterType="hashmap" resultType="message" >
+		select message_no, message_sender_no, message_receiver_no, message_contents, message_date, employee_name as message_senderAndReceiver_name
+		from message, employee
+		<include refid="msgDetailBoxSort"></include>
+		
+	</select>	
+		
+<!-- 쪽지 읽음 -->		
+	<update id="updateReadMessage" parameterType="message" >
+		update message
+		set message_read_state ='Y' where message_no=#{message_no}
+	</update>		
+		
+<!-- 읽지 않은 쪽지 -->		
+	<select id="selectUnReadMessage" parameterType="hashmap" resultType="int" >
+		select count(*) 
+		from message 
+		where message_receiver_no=#{employee_no} and message_read_state='N'
+	</select>
 		
 <!-- sql검색 -->
 	<sql id="search">
@@ -63,8 +84,8 @@
 		)where rn between #{start} and #{end}
 	</sql>	
 	
-<!-- 보낸쪽지, 받은쪽지, 쪽지 보관 구분 -->
-	<sql id="boxsort">
+<!-- 쪽지목록,레코드 갯수(보낸쪽지, 받은쪽지, 쪽지 보관 구분) -->
+	<sql id="msgListBoxSort">
 		<choose>
 			<when test="box == 'outBox'">
 			where employee_no=message_receiver_no and message_sender_no=#{employee_no} and message_send_del='N' and  message_sender_no != message_receiver_no
@@ -76,5 +97,23 @@
 			where employee_no=message_sender_no and message_keep='Y' and message_keep_del='N'
 			</otherwise>
 		</choose>
-	</sql>	
+	</sql>
+
+<!-- 쪽지상세(보낸쪽지, 받은쪽지, 쪽지 보관 구분) -->	
+	<sql id="msgDetailBoxSort">
+		<choose>
+			<when test="box == 'outBox'">
+			where employee_no=message_receiver_no and message_no=#{message_no}
+			</when>
+			<when test="box == 'inBox'">
+			where employee_no=message_sender_no and message_no=#{message_no}
+			</when>
+			<otherwise>
+			where employee_no=message_receiver_no and message_no=#{message_no}
+			</otherwise>
+		</choose>
+	</sql>
+	
+
+	
 </mapper>
