@@ -29,7 +29,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
 
 <!-- jquery-ui.css -->
-<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css">
 
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>

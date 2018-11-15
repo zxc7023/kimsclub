@@ -288,7 +288,21 @@
 						                                    	
 						                                    </c:choose>
 					                                    <td>
-							                            		<a id="msgContent" href="#" class="detailLink" >${list.message_contents} </a>
+					                                    <c:choose>
+					                                    	<c:when test="${map.box == 'inBox'}">
+																<c:choose>
+							                                    	<c:when test="${list.message_read_state =='N'}">
+									                            		<a id="msgContent" href="#" class="detailLink" >${list.message_contents} </a>
+									                            	</c:when>
+									                            	<c:otherwise>
+									                            		<a id="msgContent" href="#" class="detailLink text-muted" >${list.message_contents} </a>
+									                            	</c:otherwise>
+								                            	</c:choose>
+					                                    	</c:when>
+					                                    	<c:otherwise>
+					                                    			<a id="msgContent" href="#" class="detailLink text-muted" >${list.message_contents} </a>
+							                            	</c:otherwise>	
+														</c:choose>
 					                                    		<form action="messageDetail" method="post" class="messageDetail" >
 								                                    <input type="hidden" name="message_no" value="${list.message_no}">
 								                                    <input type="hidden" name="searchOption" value="${map.searchOption}">

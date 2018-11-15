@@ -40,6 +40,7 @@
 
 <script>
 $(document).ready(function() {
+	//문서를 선택하고 수정한다
 	$("#modify-btn").click(function(){
 		if($('.check:checked').val()==null){
 			alert("선택한 문서가 없습니다.");
@@ -49,15 +50,17 @@ $(document).ready(function() {
 		}
 	});
 	
+	//문서를 선택하고 기안한다	
 	$("#approval-btn").click(function(){
 		if($('.check:checked').val()==null){
 			alert("선택한 문서가 없습니다.");
 		}
 		else{
-			window.location.href = "/groupware/approvalDoc?document_no="+$('.check:checked').val();
+			window.location.href = "javascript:post_to_url('/groupware/approvalDoc',{'document_no':"+$('.check:checked').val()+"})";
 		}
 	});
 	
+	//문서를 선택하고 삭제한다
 	$("#delete-btn").click(function(){
 		if($('.check:checked').val()==null){
 			alert("선택한 문서가 없습니다.");
@@ -84,9 +87,8 @@ $(document).ready(function() {
 	
 	// 페이지당 보여줄 개수 변경시 호출
 	$('.pg-scale').change(function() {
-		location.href = 'newDocList?page_scale=' + $(this).val()+'&keyword='+$('.search').val()+'&cur_page='+${page.curPage};
+		location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
 	});
-	
 	
 });
 //폼생성하여 post 방식으로 값 보내기 

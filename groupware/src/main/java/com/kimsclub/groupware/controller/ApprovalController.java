@@ -1,6 +1,8 @@
 package com.kimsclub.groupware.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +21,7 @@ import com.kimsclub.groupware.service.ApprovalService;
 import com.kimsclub.groupware.service.DocumentService;
 import com.kimsclub.groupware.service.FormService;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
+import com.kimsclub.groupware.vo.ApprovalPathVO;
 import com.kimsclub.groupware.vo.ApprovalVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
@@ -32,6 +35,9 @@ public class ApprovalController {
 	@Autowired
 	DocumentService service3;	
 		
+	/**
+	 *  
+	 */
 	@RequestMapping(value = "/approval", method=RequestMethod.GET)
 	public ModelAndView approval(){
 		System.out.println("approval() 메소드 호출");
@@ -45,8 +51,8 @@ public class ApprovalController {
 	 *  선택한 문서를 기안하기 위한 페이지 결재선을 선택 후 기안한다
 	 *  view : 결재선 선택 페이지(approvalDoc) model : elist-결재선을 선택할 때 사용 dvo-수정 할 문서의 정보
 	 */
-	@RequestMapping(value = "/approvalDoc", method=RequestMethod.GET)
-	public ModelAndView approvalDoc(@RequestParam(name="document_no",defaultValue="0") int document_no){
+	@RequestMapping(value = "/approvalDoc", method=RequestMethod.POST)
+	public ModelAndView approvalDoc(@RequestParam("document_no")int document_no){
 		System.out.println("approvalDoc() 메소드 호출");
 		DocumentVO dvo = service3.viewDoc(document_no);
 		ModelAndView mav = new ModelAndView();
@@ -72,18 +78,24 @@ public class ApprovalController {
 	 */
 	@RequestMapping(value = "/addFavorite", method=RequestMethod.POST)
 	@ResponseBody
-	public String addFavorite(@RequestBody List<ApprovalVO> alist,@RequestParam("approval_path_name")String approval_path_name){
+	public Map<String, String> addFavorite(@RequestBody ApprovalPathVO apvo){
 		System.out.println("addFavorite() 메소드 호출");
-		System.out.println(alist.get(0));
-		System.out.println(approval_path_name);
-		return "result";
+		System.out.println(apvo);
+		service.addFavorite(apvo);
+		
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("result", "1");
+		
+		
+		return map;
 	}
 	
 	/**
 	 *  선택한 문서를 기안하기 위한 페이지 결재선을 선택 후 기안한다
 	 *  view : 결재선 선택 페이지(approvalDoc) model : elist-결재선을 선택할 때 사용 dvo-수정 할 문서의 정보
 	 */
-	@RequestMapping(value = "/approvalDoc", method=RequestMethod.POST)
+	@RequestMapping(value = "/approvalDocResult", method=RequestMethod.POST)
 	@ResponseBody
 	public String approvalDocResult(@RequestBody DocumentVO dvo){
 		System.out.println("approvalDocResult() 메소드 호출");

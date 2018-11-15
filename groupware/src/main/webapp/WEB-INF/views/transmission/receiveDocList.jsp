@@ -61,6 +61,14 @@ function post_to_url(path, params, method) {
     document.body.appendChild(form);
     form.submit();
 }
+$(document).ready(function() {
+	// 페이지당 보여줄 개수 변경시 호출
+	$('.pg-scale').change(function() {
+		location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
+	});
+});
+
+
 </script>
 </head>
 <body>

@@ -71,7 +71,11 @@ $(document).ready(function() {
 	    });
 	
 	$("#save").click(function(){
+		if($("#title").val()==""){
+			alert("제목을 입력해주세요.")	
+		}else{
 		$("#writeSave").submit();
+		}
 	});
 
 	if("${update}"=="update"){
@@ -105,7 +109,6 @@ $(document).ready(function() {
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             <form id="writeSave" action="BoardWrite" method="post">
                             
                             	<!-- 제목 입력 -->
@@ -128,7 +131,6 @@ $(document).ready(function() {
                            		 <input type="hidden" id="boardType" name="board_type" value="${param.board_type}" >
                            		 <button id="save" type="button" class="btn btn-outline btn-primary">저장</button>                        		 
                            	</form>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -43,5 +43,18 @@
 		FROM approval
 		WHERE document_no = #{document_no} AND employee_no = #{employee_no}
 	</select>
+	
+	
+	<!-- insert approval_path  -->
+	<insert id="insertAP" parameterType="ApprovalPath">
+		INSERT INTO approval_path
+		values(approval_path_seq.nextval,#{approval_path_name},#{employee.employee_no})
+	</insert>
+	
+	<!-- insert approval_path_detail  -->
+	<insert id="insertAPD" parameterType="ApprovalPathDetail">
+		INSERT INTO approval_path_detail
+		values(approval_path_seq.nextval,#{approval_path_order},#{employee.employee_no})
+	</insert>
 
 </mapper>
