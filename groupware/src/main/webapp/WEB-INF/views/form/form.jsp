@@ -119,7 +119,7 @@
 
 		// 페이지당 보여줄 개수 변경시 호출
 		$('.pg-scale').change(function() {
-			location.href = 'form?page_scale=' + $(this).val();
+			location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}&cur_page='+'${page.curPage}'+'<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
 		});
 		
 
@@ -176,11 +176,13 @@
 											<form action="form">
 												<input type="hidden" name="page_scale" value="${page.page_scale}">
 												<div class="col-sm-3">
-													<label><input type="checkbox" name="searchOption" value="form_name" checked="checked" multiple="multiple">이름 </label> <label><input type="checkbox" name="searchOption" value="form_desc" multiple="multiple">설명 </label> <label><input type="checkbox" name="searchOption" value="form_contents" multiple="multiple">내용</label>
+													<label><input type="checkbox" name="searchOption" value="form_name" checked="checked" multiple="multiple">이름 </label> 
+													<label><input type="checkbox" name="searchOption" value="form_desc" multiple="multiple">설명 </label>
+													<label><input type="checkbox" name="searchOption" value="form_contents" multiple="multiple">내용</label>
 												</div>
 												<div class="col-sm-4">
 													<div id="dataTables-example_filter" class="dataTables_filter">
-														<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword">
+														<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword" value="${map.keyword}">
 														</label>
 														<button class="btn btn-primary btn-sm">
 															<i class="fa fa-search"></i>

@@ -17,9 +17,15 @@ public class TransmissionServiceImpl implements TransmissionService {
 	public void sendDocs(List<TransmissionVO> tlist) {
 		tdao.sendDocs(tlist);
 	}
+	
 	@Override
 	public List<TransmissionVO> getTransmissionList(Map<String, Object> map) {
 		return tdao.getTransmissionList(map);
+	}
+	
+	@Override
+	public void sendPublicDoc(TransmissionVO tvo) {
+		tdao.sendPublicDoc(tvo);
 	}
 
 }

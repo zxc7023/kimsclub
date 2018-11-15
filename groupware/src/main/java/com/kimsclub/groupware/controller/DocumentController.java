@@ -148,7 +148,12 @@ public class DocumentController {
 				
 		//map을 통해 해당하는 리스트 불러오기
 		List<DocumentVO> dlist = service2.getDocumentList(map);
-
+		
+		//현재 페이지가 page_scale 변경 시 최대 페이지보다 크면 1로 초기화
+		if(cur_page>bpvo.getTotPage()) {
+			cur_page=1;
+		}
+		
 		mav.addObject("map",map);
 		mav.addObject("dlist",dlist);
 		mav.addObject("page",bpvo);
@@ -169,7 +174,6 @@ public class DocumentController {
 		System.out.println("newDocList() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
 		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,0);
-		
 		mav.setViewName("document/newDocList");
 		
 		return mav;

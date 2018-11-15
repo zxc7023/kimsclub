@@ -24,4 +24,9 @@ public class TransmissionDAO {
 		return session.selectList("Transmission.selectList", map);
 	}
 
+	public void sendPublicDoc(TransmissionVO tvo) {
+		session.insert("Transmission.sendPublicDoc", tvo);
+		
+	}
+
 }

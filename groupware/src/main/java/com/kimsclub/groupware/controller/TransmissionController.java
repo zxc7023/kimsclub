@@ -32,7 +32,7 @@ public class TransmissionController {
 	DocumentService service2;
 	
 	/**
-	 *  완료된 문서를 공람이나 받을 사람을 지정하여 보내준다.
+	 *  완료된 문서를 받을 사람을 지정하여 보내준다.
 	 */
 	@RequestMapping(value = "/sendDoc", method=RequestMethod.POST)
 	public String sendDoc(HttpSession session, @RequestParam("employee_no")int[] employee_no, @RequestParam("document_no")int document_no){
@@ -44,9 +44,21 @@ public class TransmissionController {
 			System.out.println(receiver_no);
 			tlist.add(new TransmissionVO(evo.getEmployee_no(),receiver_no,document_no));
 		}
-		
 		service.sendDocs(tlist);
 		return "transmission/sendDocList";
+	}
+	
+	/**
+	 *  완료된 문서를 전 사원이 볼 수 있는 공람문서함으로 보내준다.
+	 */
+	@RequestMapping(value = "/sendPublicDoc", method=RequestMethod.POST)
+	public String sendPublicDoc(HttpSession session, @RequestParam("document_no")int document_no){
+		System.out.println("sendPublicDoc() 메소드 호출");
+		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
+		
+		TransmissionVO tvo = new TransmissionVO(evo.getEmployee_no(),0,document_no);
+		service.sendPublicDoc(tvo);
+		return "transmission/publicDocList";
 	}
 	
 	/**
@@ -65,10 +77,11 @@ public class TransmissionController {
 		}else if (doc_type==1) {
 			map.put("whereOption", "TRANSMISSION_RECEIVER_NO = "+employee_no);
 		}else if (doc_type==2) {
-			map.put("whereOption", "TRANSMISSION_RECEIVER_NO = ''");
+			map.put("fromOption", "(SELECT * FROM transmission, document)");
+			map.put("whereOption", "transmission_document_no = document_no AND TRANSMISSION_RECEIVER_NO is null");
 		}
 		
-		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음
+		
 		map.put("selectOption", "*");
 		//페이징
 		BoardPageVO bpvo = new BoardPageVO(service2.getDocumentCnt(map), cur_page, page_scale); 
@@ -77,7 +90,12 @@ public class TransmissionController {
 				
 		//map을 통해 해당하는 리스트 불러오기
 		List<TransmissionVO> tlist = service.getTransmissionList(map);
-
+		
+		//현재 페이지가 page_scale 변경 시 최대 페이지보다 크면 1로 초기화
+		if(cur_page>bpvo.getTotPage()) {
+			cur_page=1;
+		}
+		
 		mav.addObject("map",map);
 		mav.addObject("tlist",tlist);
 		mav.addObject("page",bpvo);
@@ -135,7 +153,7 @@ public class TransmissionController {
 			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
 		System.out.println("publicDocList() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,0);
+		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,2);
 		
 		mav.setViewName("transmission/publicDocList");
 		

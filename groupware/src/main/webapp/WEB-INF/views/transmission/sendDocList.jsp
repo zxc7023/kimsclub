@@ -105,7 +105,9 @@ function post_to_url(path, params, method) {
 										<form action="sendDocList">
 											<input type="hidden" name="page_scale" value="${page.page_scale}">
 											<div class="col-sm-3">
-												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목   </label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
+												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목</label>
+												<label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
+												<label><input type="checkbox" name="searchOption" value="receiver_name" multiple="multiple">받는사람</label>
 											</div>
 											<div class="col-sm-4">
 												<div id="dataTables-example_filter" class="dataTables_filter">

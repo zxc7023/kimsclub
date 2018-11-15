@@ -165,9 +165,7 @@ function loadForm(){
 										<tr>
 											<td class="odd">문서 제목<br>
 											</td>
-											<td><input type="text" name="document_title"
-												class="form-control" required="required"
-												autofocus="autofocus" maxlength="40"></td>
+											<td><input type="text" size="20" name="document_title" class="form-control" required="required" autofocus="autofocus" maxlength="40"></td>
 										</tr>
 										<tr>
 											<td colspan="2" class="odd">문서 내용</td>

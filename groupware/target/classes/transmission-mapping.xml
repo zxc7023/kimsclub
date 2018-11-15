@@ -19,7 +19,7 @@
 			<result column="position" property="position"/>
 		</association>
 		<association property="document" javaType="Document">
-			<id column="document_no" property="document_no"/>
+			<id column="transmission_document_no" property="document_no"/>
 			<result column="document_title" property="document_title"/>
 			<result column="document_contents" property="document_contents"/>
 			<result column="document_date" property="document_date"/>
@@ -32,6 +32,11 @@
 	<insert id="sendDoc" parameterType="Transmission">
 		INSERT INTO transmission
 		VALUES (transmission_seq.nextval,#{sender_emp.employee_no},#{receiver_emp.employee_no},#{document.document_no},sysdate,'0','')
+	</insert>
+	
+	<insert id="sendPublicDoc" parameterType="Transmission">
+		INSERT INTO transmission
+		VALUES (transmission_seq.nextval,#{sender_emp.employee_no},'',#{document.document_no},sysdate,'0','')
 	</insert>
 	
 	<!-- 리스트 조회 -->		

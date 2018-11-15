@@ -11,4 +11,6 @@ public interface TransmissionService {
 
 	List<TransmissionVO> getTransmissionList(Map<String, Object> map);
 
+	void sendPublicDoc(TransmissionVO tvo);
+
 }
