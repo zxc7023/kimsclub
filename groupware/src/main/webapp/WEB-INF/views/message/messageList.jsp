@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html >
 <html>
 <head>
@@ -143,6 +145,14 @@
 			$(".panel-heading").text('전체쪽지[${map.unReadMsgCnt} / ${map.count}]');
 		}
 		//보관 쪽지
+		else if('${map.box}'=='myBox' ){
+			$("#keepBtn").hide();
+			$(".page-header").text('내게쓴쪽지');
+			$("title").text('내게쓴쪽지');
+			$("#senderAndreceiver").text('보낸사람');
+			$(".panel-heading").text('전체쪽지[${map.count}]');
+		}
+		//보관 쪽지
 		else{
 			$("#keepBtn").hide();
 			$(".page-header").text('쪽지보관');
@@ -277,9 +287,22 @@
 						                                    	</c:otherwise>
 						                                    	
 						                                    </c:choose>
-					                                    <td >
-					                                    <%-- <a href="messageDetail?message_no=${list.message_no}&searchOption=${map.searchOption}&keyword=${map.keyword}&curPage=${map.messagePager.curPage}">${list.message_contents}</a> --%>
-							                                    <a id="msgContent" href="#" class="detailLink" >${list.message_contents} </a>
+					                                    <td>
+					                                    <c:choose>
+					                                    	<c:when test="${map.box == 'inBox'}">
+																<c:choose>
+							                                    	<c:when test="${list.message_read_state =='N'}">
+									                            		<a id="msgContent" href="#" class="detailLink" >${list.message_contents} </a>
+									                            	</c:when>
+									                            	<c:otherwise>
+									                            		<a id="msgContent" href="#" class="detailLink text-muted" >${list.message_contents} </a>
+									                            	</c:otherwise>
+								                            	</c:choose>
+					                                    	</c:when>
+					                                    	<c:otherwise>
+					                                    			<a id="msgContent" href="#" class="detailLink text-muted" >${list.message_contents} </a>
+							                            	</c:otherwise>	
+														</c:choose>
 					                                    		<form action="messageDetail" method="post" class="messageDetail" >
 								                                    <input type="hidden" name="message_no" value="${list.message_no}">
 								                                    <input type="hidden" name="searchOption" value="${map.searchOption}">
@@ -288,9 +311,10 @@
 								                                    <input type="hidden" name="page_scale" value="${map.messagePager.page_scale}">
 								                                    <input type="hidden" name="box" value="${map.box}">
 							                                  	</form>
-							                                   
 					                                    </td>
-					                                    <td>${list.message_date}</td>
+					                                    <td>
+					                                    ${list.message_date}
+					                                    </td>
 					                                </tr>
 				                                </c:forEach>
 			                                </tbody>

@@ -48,7 +48,9 @@
 			location.href = "messageList?box=${box}&curPage=${map.curPage}&page_scale=${map.page_scale}&searchOption=${map.searchOption}&keyword=${keyword}";
 		});
 		
-		//버튼(보관,삭제) 클릭시
+		//
+		
+		//버튼(보관,답장,삭제) 클릭시
 		$(".btn-form").click(function(){
 						
 		//보관 버튼 클릭
@@ -69,7 +71,11 @@
 							});
 						}
 					}//keep end
-			
+		//답장 버튼 클릭			
+			else if($(this).val()=='answer'){
+				$("#answerForm").submit();
+			}		
+					
 		//삭제 버튼을 클릭
 			else{
 					var result = confirm("쪽지를 삭제하시겠습니까?");
@@ -105,6 +111,13 @@
 			$("#senderAndreceiver").text('보낸사람');
 			
 		}
+		//내게쓴쪽지
+		else if('${box}' == 'myBox'){
+			$("#keepBtn").hide();
+			$(".page-header").text('내게쓴쪽지');
+			$("title").text('내게쓴쪽지');
+			$("#senderAndreceiver").text('보낸사람');
+		}
 		//보관 쪽지
 		else{
 			$("#keepBtn").hide();
@@ -128,16 +141,20 @@
 			<!-- 게시글 제목  row-->
 			<div class="row">
                 <div class="col-lg-6">
-                    <h1 class="page-header">            </h1>
+                    <h1 class="page-header"></h1>
                 </div>
                 
                 <!-- 목록,수정,삭제 버튼 -->
                 <div class="col-lg-12">
                 	<label id="dataTables-example_filter" >
 	                	<button id="listBtn" type="button" class="btn btn-outline btn-primary"><i class="fa fa-list"></i></button>
+	                	<button id="answerBtn" type="button" class="btn btn-primary btn-form" value="answer">답장</button>
 	                	<button id="keepBtn" type="button" class="btn btn-success btn-form"  value="keep">보관</button>
 						<button type="button" class="btn btn-danger btn-form"  value="del">삭제</button>
 	            	</label>
+	            	<form id="answerForm" action="messageAnswer" method="post"  >
+	            		<input type="hidden" name="message_sender_no" value="${detailvo.message_sender_no}" >
+	            	</form>
                 </div>
             </div>
 			

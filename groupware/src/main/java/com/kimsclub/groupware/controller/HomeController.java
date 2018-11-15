@@ -35,7 +35,6 @@ public class HomeController {
 	//-------//
 		
 		map.put("unReadMsgCnt", unReadMsgCnt);//받은쪽지중 읽지 않은 쪽지 갯수
-		System.out.println("왱쇼"+unReadMsgCnt);
 		mav.addObject("map", map);
 		mav.setViewName("index");
 		

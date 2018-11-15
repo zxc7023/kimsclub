@@ -5,8 +5,11 @@
 		
 <!-- 쪽지 등록 -->
 	<insert id="insertMessage" parameterType="message" >
-		insert into message(message_no, message_sender_no, message_receiver_no, message_contents, message_date) 
-		values((select nvl(max(message_no),0)+1 from message), #{message_sender_no}, #{message_receiver_no}, #{message_contents}, sysdate)
+		<!-- insert into message(message_no, message_sender_no, message_receiver_no, message_contents, message_date) --> 
+		<foreach item="item" collection="message_receiver_no" index="index" open="insert all" close="select * from dual" >
+		into message(message_no, message_sender_no, message_receiver_no, message_contents, message_date)
+		values((select nvl(max(message_no),0)+(#{index}+1) from message), #{message_sender_no}, #{item}, #{message_contents}, sysdate)
+		</foreach>
 	</insert>
 	
 <!-- 쪽지 레코드 갯수  -->
@@ -45,7 +48,6 @@
 		select message_no, message_sender_no, message_receiver_no, message_contents, message_date, employee_name as message_senderAndReceiver_name
 		from message, employee
 		<include refid="msgDetailBoxSort"></include>
-		
 	</select>	
 		
 <!-- 쪽지 읽음 -->		
@@ -56,9 +58,9 @@
 		
 <!-- 읽지 않은 쪽지 -->		
 	<select id="selectUnReadMessage" parameterType="hashmap" resultType="int" >
-		select count(*) 
-		from message 
-		where message_receiver_no=#{employee_no} and message_read_state='N'
+		select count(*)
+		from message
+		where message_receiver_no=#{employee_no} and message_read_state='N' and message_sender_no != message_receiver_no
 	</select>
 		
 <!-- sql검색 -->
@@ -93,6 +95,9 @@
 			<when test="box == 'inBox'">
 			where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_receive_del='N' and  message_sender_no != message_receiver_no
 			</when>
+			<when test="box == 'myBox'">
+			where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_to_me_del='N' and  message_sender_no = message_receiver_no
+			</when>
 			<otherwise>
 			where employee_no=message_sender_no and message_keep='Y' and message_keep_del='N'
 			</otherwise>
@@ -107,6 +112,9 @@
 			</when>
 			<when test="box == 'inBox'">
 			where employee_no=message_sender_no and message_no=#{message_no}
+			</when>
+			<when test="box == 'myBox'">
+			where employee_no=message_sender_no and message_no=#{message_no} and message_to_me_del='N' and message_sender_no = message_receiver_no
 			</when>
 			<otherwise>
 			where employee_no=message_receiver_no and message_no=#{message_no}

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kimsclub.groupware.vo.MessageVO;
+import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 
 @Repository
 public class MessageDAO {
@@ -63,6 +64,12 @@ public class MessageDAO {
 		return session.selectOne("message.selectDetailMessage", map);
 
 	}
+	
+/*	//쪽지 답장하기
+	public MessageVO answerMessage(MessageVO vo) {
+		return session.selectOne(("message.selectAnswerMe")
+	}
+	*/
 	
 	//쪽지 읽음
 	public void readMessage(MessageVO vo) {

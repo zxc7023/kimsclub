@@ -36,7 +36,7 @@ public class BoardController {
 	//게시판(커뮤니티,공지사항)게시글 목록
 	@RequestMapping("/boardList")
 	public ModelAndView boardList(@RequestParam("board_type") String board_type,
-			@RequestParam(name="searchOption", defaultValue="board_title") String searchOption,					  
+			@RequestParam(name="searchOption", defaultValue="all") String searchOption,					  
 			@RequestParam(name="keyword",defaultValue="") String keyword,
 			@RequestParam(name="page_scale",defaultValue="10") int page_scale,
 			@RequestParam(name="curPage",defaultValue="1") int curPage){

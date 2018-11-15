@@ -45,7 +45,7 @@ display:none;
   margin-right: 15px;
 }
 
-.fc-today .fc-day-number {
+/* .fc-today .fc-day-number {
   background: #d9534f;
   color: white;
   font-weight: bold;
@@ -53,7 +53,7 @@ display:none;
   border-radius: 50%;
   text-align: center;
   margin: 2px;
-}
+} */
 
 .fc-today {
   background-color: #F2F2F2;
@@ -62,7 +62,145 @@ display:none;
 .fc-sat {color:#007dc3}
 
 
+/*  */
 
+
+.fc-day-header {
+  border: none !important;
+  font-size: 13px;
+}
+
+.fc-head {
+  line-height: 40px;
+  border: none !important;
+}
+
+.fc-body {
+  background-color: #f8f8f8;
+}
+
+.fc-day {
+  /*border-left: none !important;
+  border-right: none !important;*/
+}
+
+.fc-head-container {
+  /*border-right: none !important;
+  border-left: none !important;*/
+}
+
+.fc-day-number {
+  font-size: 13px;
+  margin-right: 4px;
+  margin-top: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  line-height: 24px;
+  text-align: center;
+  color: #777;
+}
+
+.fc-day-number:hover {
+  text-decoration: none !important;
+  color: #777;
+}
+
+.fc-today {
+  background-color: #E6FAF3 !important; 
+}
+
+.fc-today .fc-day-number {
+  background-color: #00c983; 
+  font-weight: 700;
+  color: #fff;
+}
+
+.fc-widget-content {
+  border-right: solid 8px #f8f8f8 !important;
+  border-left: solid 8px #f8f8f8 !important;
+}
+
+.fc-more-cell > div {
+ text-align: right;
+  margin-right: 8px;
+  font-size: 14px;
+  color: #777;
+}
+
+.fc-more-cell > div > a:hover {
+  text-decoration: none;
+  color: #333;
+}
+
+.fc-content {
+  padding: 1px 4px;
+}
+
+.fc-widget-header {
+  border: none !important; 
+}
+
+.fc-time {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.fc-time.fc-widget-content {
+  border: none;
+}
+
+.fc-time-grid .fc-slats .fc-minor td {
+  border-top-style: none !important; 
+}
+
+.fc-axis.fc-time.fc-widget-content {
+  transform: translate(-8px, -12px);
+}
+
+.fc-popover.fc-more-popover,
+.fc-popover.fc-more-popover .fc-widget-header,
+.fc-popover.fc-more-popover .fc-widget-content {
+  background-color: #fff !important; 
+}
+
+.fc-axis.fc-widget-content {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/*#calendar .dot-event {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: text-bottom;
+}*/
+
+.red {
+  width: 10px;
+  height: 10px;
+  background-color: "#000";
+}
+
+/* New CSS */
+
+.fc-month-view .fc-row .fc-day {
+  /* Aligns the event dots at the bottom of the cell. */
+  vertical-align: bottom;
+}
+
+.fc-month-view .fc-day .fc-event-dot {
+  cursor: default;
+  /* Gives some spacing between the dots in a cell. */
+  margin-right: 2px;
+}
+
+.fc-month-view .hidden {
+  display: none;
+}
+/*  */
 @import url('https://fonts.googleapis.com/css?family=Raleway');
 @import url('https://fonts.googleapis.com/css?family=Lato');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');

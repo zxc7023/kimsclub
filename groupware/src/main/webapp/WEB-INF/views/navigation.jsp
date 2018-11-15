@@ -190,9 +190,10 @@
 					<a><i class="fa fa-envelope fa-fw"></i> 쪽지<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
 						<li><a href="${pageContext.request.contextPath}/messageWrite"><i class="fa fa-edit"></i> 쪽지쓰기</a></li>
-						<li><a href="${pageContext.request.contextPath}/messageList?box=outBox"><i class="fa fa-list-alt"></i> 보낸쪽지</a></li>
-						<li><a href="${pageContext.request.contextPath}/messageList?box=inBox"><i class="fa fa-tag"></i> 받은쪽지</a></li>
-						<li><a href="${pageContext.request.contextPath}/messageList?box=keepBox"><i class="fa fa-tag"></i> 보관쪽지</a></li>
+						<li><a href="${pageContext.request.contextPath}/messageList?box=inBox"><i class="fa fa-indent"></i> 받은쪽지</a></li>
+						<li><a href="${pageContext.request.contextPath}/messageList?box=outBox"><i class="fa fa-outdent"></i> 보낸쪽지</a></li>
+						<li><a href="${pageContext.request.contextPath}/messageList?box=myBox"><i class="glyphicon glyphicon-save"></i> 내게쓴쪽지</a></li>
+						<li><a href="${pageContext.request.contextPath}/messageList?box=keepBox"><i class="glyphicon glyphicon-saved"></i> 보관쪽지</a></li>
 					</ul>
 				</li>
 

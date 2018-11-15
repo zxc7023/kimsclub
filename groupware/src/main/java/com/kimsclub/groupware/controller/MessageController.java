@@ -41,6 +41,17 @@ public class MessageController {
 			return "redirect:/messageList?box=outBox";
 		}
 		
+	//쪽지 답장 화면
+		@RequestMapping(value="/messageAnswer", method=RequestMethod.POST)
+		public ModelAndView messageAnswer(MessageVO vo) {
+			System.out.println("d"+vo.getMessage_senderAndReceiver_name());
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("answervo", vo);
+			mav.addObject("messageAnswer", "messageAnswer");
+			mav.setViewName("/message/messageWrite");
+			return mav;
+		}
+		
 	//쪽지함(보낸쪽지, 받은쪽지, 보관쪽지)
 		@RequestMapping(value="/messageList")
 		public ModelAndView messageList(HttpSession session,
@@ -70,6 +81,7 @@ public class MessageController {
 			int end = messagePager.getPageEnd();
 			//쪽지 목록(보낸쪽지,받은쪽지,보관쪽지)
 			List<MessageVO>	list = service.MessageList(start, end, employee_no, searchOption, keyword, box);
+			
 			map.put("list", list); //보낸 쪽지함 목록
 			map.put("searchOption", searchOption); //검색옵션
 			map.put("keyword", keyword); //검색 키워드
@@ -102,6 +114,9 @@ public class MessageController {
 			}else if(box.equals("inBox")) {//받은쪽지 삭제시
 				message_del="message_receive_del";
 				service.deleteMessage(message_no, message_del);
+			}else if(box.equals("myBox")) {//내게쓴쪽지 삭제시
+				message_del="message_to_me_del";
+				service.deleteMessage(message_no, message_del);
 			}else {//보관쪽지 삭제시
 				message_del="message_keep_del";
 				service.deleteMessage(message_no, message_del);
@@ -117,13 +132,15 @@ public class MessageController {
 				@RequestParam(name="page_scale",defaultValue="10") int page_scale,
 				@RequestParam(name="curPage",defaultValue="1") int curPage) {
 			
-			//쪽지 read
-			service.readMessage(vo);
-			
-			//해당쪽지 세부내용 가져오기			
+			//받은쪽지만 read
+			if(box.equals("inBox")) {
+				service.readMessage(vo);	
+			}
+
+			//해당쪽지 세부내용 가져오기
 			MessageVO detailvo = service.detailMessage(vo, box);
 			ModelAndView mav = new ModelAndView();
-			mav.addObject("detailvo", detailvo);
+			mav.addObject("detailvo", detailvo);			
 			mav.addObject("searchOption", searchOption);
 			mav.addObject("keyword", keyword);
 			mav.addObject("page_scale", page_scale);
