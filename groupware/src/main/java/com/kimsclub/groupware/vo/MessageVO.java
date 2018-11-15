@@ -4,8 +4,8 @@ public class MessageVO {
 
 	private int message_no;
 	private int message_sender_no;
-	private int message_receiver_no;
-	
+	private int[] message_receiver_no;
+		
 	private String message_sender_name;
 	private String message_receiver_name;
 	
@@ -32,10 +32,10 @@ public class MessageVO {
 	public void setMessage_sender_no(int message_sender_no) {
 		this.message_sender_no = message_sender_no;
 	}
-	public int getMessage_receiver_no() {
+	public int[] getMessage_receiver_no() {
 		return message_receiver_no;
 	}
-	public void setMessage_receiver_no(int message_receiver_no) {
+	public void setMessage_receiver_no(int[] message_receiver_no) {
 		this.message_receiver_no = message_receiver_no;
 	}
 	public String getMessage_sender_name() {
@@ -97,8 +97,6 @@ public class MessageVO {
 	}
 	public void setMessage_keep_del(String message_keep_del) {
 		this.message_keep_del = message_keep_del;
-	}
-	
-	
+	}	
 		
 }

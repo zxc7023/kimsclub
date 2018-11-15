@@ -40,40 +40,54 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
+<style type="text/css">
+#userName{
+	width: 500px; 
+
+}
+/* #textMsg{
+	width: 500px; 
+
+} */
+
+</style>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#sendBtn").click(function(){
-			$("#messageSave").submit();
-		});
-		
+/* 		var test = "abcd";
+		var abc  = test.substring(0,2);
+		alert(abc);
+ */		
 		//체크된 부서나 사원 가져오기
 		$('#checkDepAndEmp').click(function(){
-
+			$("#userName").val("");
 			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 			var nodes = treeObj.getCheckedNodes(true);
 		   	var method = method || "post"; // 전송 방식 기본값을 POST로
-		    
-		   	var form = document.createElement("form");
-		    form.setAttribute("method", method);
-		    form.setAttribute("action", "/groupware/messageWrite");
+		    var receiverName="";
 		    var tmp= "";
+		    
 			for (var key in nodes) {
 				if (!nodes[key].parent) {
 					tmp+=(nodes[key].name+",");
-					$("#userName").val(tmp);
-					 var hiddenField = document.createElement("input");
-				        hiddenField.setAttribute("type", "hidden");
-				        hiddenField.setAttribute("name", "employee_no");
-				        hiddenField.setAttribute("value", nodes[key].no.split('e')[1]);
 					
-				        form.appendChild(hiddenField);
+					var hiddenField = document.createElement("input");
+				        hiddenField.setAttribute("type", "hidden");
+				        hiddenField.setAttribute("name", "message_receiver_no");
+				        hiddenField.setAttribute("value", nodes[key].no.split('e')[1]);
+						$(".form-group").append(hiddenField);
 				}
 			}
-			document.body.appendChild(form);
-			//messageSave
-		    //form.submit();
+			var receiverName = tmp.substring(0, tmp.length-1);
+			$("#userName").val(receiverName);
 			
+			/* document.body.appendChild(form); */			
 		});	
+		
+		//쪽지 보내기 버튼
+		
+		$("#sendBtn").click(function(){
+			$("#messageSave").submit();
+		});
 		
 	});
 </script>
@@ -95,7 +109,7 @@
             
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
              <!-- 게시판 타입명  -->${sessionScope.loginInfo.employee_name}
                         </div>
@@ -107,7 +121,7 @@
 	                            	<div class="col-sm-8">
 	                            		<div class="form-group input-group">
                                             <span class="input-group-addon">받는이</span>
-                                            <input id="userName" type="text" class="form-control" name="message_receiver_no" placeholder="Username" >
+                                            <input id="userName" type="text" class="form-control" readonly="readonly" placeholder="Username" >
                                             <span class="input-group-btn">
                                                 <button id="tree-btn" class="btn btn-warning" type="button"><i class="glyphicon glyphicon-user"></i>
                                                 </button>
@@ -118,7 +132,7 @@
 	         <!-- 쪽지 내용 입력  -->
 	                            <div class="row">
                           		 	 <div class="col-sm-8">
-                          				  <textarea style="resize: none;" class="form-control" rows="15" cols="80" name="message_contents" ></textarea>
+                          				  <textarea id="textMsg" style="resize: none;" class="form-control" rows="15" cols="80" name="message_contents" ></textarea>
                            			 </div>
 	                            </div>
 	                        </form>    

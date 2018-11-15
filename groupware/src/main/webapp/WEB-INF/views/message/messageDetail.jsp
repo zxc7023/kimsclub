@@ -105,6 +105,13 @@
 			$("#senderAndreceiver").text('보낸사람');
 			
 		}
+		//내게쓴쪽지
+		else if('${box}' == 'myBox'){
+			$("#keepBtn").hide();
+			$(".page-header").text('내게쓴쪽지');
+			$("title").text('내게쓴쪽지');
+			$("#senderAndreceiver").text('보낸사람');
+		}
 		//보관 쪽지
 		else{
 			$("#keepBtn").hide();
