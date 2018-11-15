@@ -51,6 +51,10 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-12"></div>
+				
+				<script type="text/javascript">
+					buildCalendar();
+				</script>
 			</div>
 		</div>
 	</div>
