@@ -56,6 +56,7 @@
 	href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/themes/default/style.min.css" />
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/jstree.min.js"></script>
+
 <!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -98,6 +99,15 @@
 <!-- Custom Theme JavaScript -->
 <script
 	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+
+<!-- z-tree js -->
+<script src="http://www.treejs.cn/v3/js/jquery.ztree.core.js"></script>
+<script src="http://www.treejs.cn/v3/js/jquery.ztree.excheck.js"></script>
+
+<!-- z-tree CSS -->
+<link href="http://www.treejs.cn/v3/css/zTreeStyle/zTreeStyle.css"
+	rel="stylesheet">
+
 </head>
 <style>
 .wrap-btn {
@@ -188,28 +198,111 @@
 
 
 
-<style>  
-.mytable { border-collapse:collapse; }  
-.mytable th, .mytable td { border:1px solid black; }
+<style>
+.mytable {
+	border-collapse: collapse;
+}
+
+.mytable th, .mytable td {
+	border: 1px solid black;
+}
 </style>
-<!-- <script>
-	$(function() {
-		$('#container').jstree({
-			"plugins" : [ "search" ],
-			"plugins" : [ "checkbox" ]
-		});
-		var to = false;
-	});
-		$('#plugins4_q').keyup(function() {
-			if (to) {
-				clearTimeout(to);
-			}
-			to = setTimeout(function() {
-				var v = $('#plugins4_q').val();
-				$('#plugins4').jstree(true).search(v);
-			}, 250);
-		});
-</script> -->
+<script>
+	$(document)
+			.ready(
+					function() {
+						function showLog(str) {
+							if (!log)
+								log = $("#log");
+							log.append("<li class='"+className+"'>" + str
+									+ "</li>");
+							if (log.children("li").length > 6) {
+								log.get(0).removeChild(log.children("li")[0]);
+							}
+						}
+
+						function beforeClick(treeId, treeNode) {
+							console.log(treeNode);
+							alert("부서 클릭 : " + treeNode.name + ":"
+									+ treeNode.no);
+							showLog("부서 클릭 : " + treeNode.name + ":"
+									+ treeNode.no);
+						}
+						//zTree 세팅 부분
+						var setting = {
+							view : {
+								selectedMulti : false
+							},
+							//체크박스 사용 여부 부분
+							check : {
+								enable : false,
+								chkStyle : "checkbox"
+							},
+							data : {
+								key : {
+									isParent : "parent",
+									name : "name"
+
+								},
+								simpleData : {
+									enable : true,
+									idKey : "no",
+									pIdKey : "pNo",
+									cnt : "cnt",
+
+								}
+							},
+							callback : {
+								beforeClick : beforeClick
+							},
+							edit : {
+								enable : true,
+								drag : {
+									autoOpenTime : 0
+								}
+							}
+						};
+						var zNodes = [];
+						var open = {
+							open : true
+						};
+
+						var log, code, className = "dark";
+						$('#category')
+								.click(
+										function() {
+
+											$
+													.ajax({
+														method : "get",
+														contentType : 'application/json;charset=UTF-8',
+														url : "/groupware/humanResources/departmentList?load_type=0",
+														error : function() {
+															alert("전송 실패");
+														},
+														success : function(
+																server_result) {
+															zNodes = JSON
+																	.parse(server_result);
+															console.log(zNodes);
+
+															var tree = $.fn.zTree
+																	.init(
+																			$("#treeDemo"),
+																			setting,
+																			zNodes);
+															tree
+																	.expandAll(true);
+
+														}
+													});
+
+											$('#addcategory').modal('show');
+										});
+
+					});
+</script>
+
 <body>
 
 
@@ -234,13 +327,15 @@
 				<div id='calendar1' class='calendar col-md-2 '>
 					<!-- -ms-overflow-style: none; -->
 					<label class="form-control-label">공유 캘린더</label> <input
-						type="submit" id="category" value="만들기"
+						type="button" id="category" value="만들기"
 						style="position: absolute; right: 0;" />
 					<!-- 카테고리 -->
 					<!--  -->
-					<div class="wrap-btn2">
-						<input class="form-inputPop2" type="checkbox" name="e1" id="e1"
-							checked="checked" /> <i></i> <label for="checkbox02">휴가</label>
+					<div class="wrap-btn">
+						<input class="form-inputPop" type="checkbox" name="e1" id="e1"
+							checked="checked"
+							onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com', 'Holidays', '#f8f8f8', '#FF0000');" />
+						<i></i> <label for="checkbox02">휴가</label>
 					</div>
 					<!--  -->
 
@@ -384,6 +479,15 @@
 														</li>
 														<li>위원회</li>
 													</ul>
+												</div>
+												<div>
+													<div class="zTreeDemoBackground left">
+														<ul id="treeDemo" class="ztree">
+														</ul>
+													</div>
+
+													<ul id="log" class="log">
+													</ul>
 												</div> <script>
 													$(function() {
 														$("#plugins4")
@@ -392,29 +496,51 @@
 																			"plugins" : [ "search" ]
 																		});
 														var to = false;
-														$('#plugins4_q').keyup(function() {
-														if (to) {clearTimeout(to);
-														}
-														to = setTimeout(function() {
-														var v = $('#plugins4_q').val();
-														$('#plugins4').jstree(true).search(v);
-														},
-														250);
-														});
+														$('#plugins4_q')
+																.keyup(
+																		function() {
+																			if (to) {
+																				clearTimeout(to);
+																			}
+																			to = setTimeout(
+																					function() {
+																						var v = $(
+																								'#plugins4_q')
+																								.val();
+																						$(
+																								'#plugins4')
+																								.jstree(
+																										true)
+																								.search(
+																										v);
+																					},
+																					250);
+																		});
 													});
 												</script></td>
 											<td valign=top>리스트가 존재하지않습니다.</td>
 											<td valign=top>
-				<h5>등록 권한 <span id="selToCnt">0</span></h5>
-				<div class="to" >
-					<select multiple="multiple" style="height:176px;width:150px;" id="selTo"><option value="97" disabled></option></select>
-					<div class="del-btn"><a href="">삭제</a></div>
-				</div>
-				<h5>조회 권한 <span id="selBccCnt">0</span></h5>
-				<div class="bcc" >
-					<select multiple="multiple" style="height:176px;width:150px;"  id="selBcc"></select>
-					<div class="del-btn"><a href="">삭제</a></div>
-				</div>
+												<h5>
+													등록 권한 <span id="selToCnt">0</span>
+												</h5>
+												<div class="to">
+													<select multiple="multiple"
+														style="height: 176px; width: 150px;" id="selTo"><option
+															value="97" disabled></option></select>
+													<div class="del-btn">
+														<a href="">삭제</a>
+													</div>
+												</div>
+												<h5>
+													조회 권한 <span id="selBccCnt">0</span>
+												</h5>
+												<div class="bcc">
+													<select multiple="multiple"
+														style="height: 176px; width: 150px;" id="selBcc"></select>
+													<div class="del-btn">
+														<a href="">삭제</a>
+													</div>
+												</div>
 											</td>
 										</tr>
 									</table>
