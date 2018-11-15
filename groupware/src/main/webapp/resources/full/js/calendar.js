@@ -10,9 +10,13 @@ $(function() {
 
 /* --------------------------공통적인 캘린더-------------------------- */
 var initializeCalendar = function() {
-  $('#calendar2').fullCalendar({
+  $('.calendar').fullCalendar({
       editable: true,
       eventLimit: true, 
+      navLinks: true,
+      navLinkDayClick: function(date, jsEvent) {
+    	  newEvent();
+    	  },
       events: events, //이벤트 생성
       timeFormat: 'HH:mm',
       googleCalendarApiKey : "AIzaSyCDfUSkgM9JFdDtehs-JcJD9tVgPtzmUtQ",
@@ -31,7 +35,9 @@ var initializeCalendar = function() {
       editable: false,
       
     });
-  $('#calendar1').fullCalendar({  });
+ /* $('#calendar1').fullCalendar({ 
+	  
+  });*/
 }
 
 /*--------------------------calendar 이름--------------------------*/
@@ -62,7 +68,7 @@ var initializeRightCalendar = function()  {
           }
         }
       },
-    selectable: true,
+    selectable: false,
     selectHelper: true,
     select: function() {
         newEvent();

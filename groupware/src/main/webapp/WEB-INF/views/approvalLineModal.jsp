@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- jquery-ui.js -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
+
+<!-- jquery-ui.css -->
+<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
 
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>

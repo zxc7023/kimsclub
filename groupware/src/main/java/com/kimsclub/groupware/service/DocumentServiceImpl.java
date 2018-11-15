@@ -28,7 +28,7 @@ public class DocumentServiceImpl implements DocumentService {
 	//조건에 맞는 문서의 목록 가져오기
 	@Override
 	public List<DocumentVO> getDocumentList(Map<String, Object> map) {
-		return ddao.selectDocList(map);
+			return ddao.selectDocList(map);
 	}
 	
 	//문서 임시 저장

@@ -65,6 +65,7 @@ public class TransmissionVO {
 	public void setTransmission_state(int transmission_state) {
 		this.transmission_state = transmission_state;
 	}
+	
 	@Override
 	public String toString() {
 		return "TransmissionVO [transmission_no=" + transmission_no + ", sender_emp=" + sender_emp + ", receiver_emp=" + receiver_emp + ", document=" + document + ", transmission_sender_date=" + transmission_sender_date + ", transmission_receiver_date=" + transmission_receiver_date + ", transmission_state=" + transmission_state + "]";

@@ -83,7 +83,7 @@ function post_to_url(path, params, method) {
 
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">진행 문서함</div>
+					<div class="panel-heading">발송 문서함</div>
 					<div class="panel-body">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -102,10 +102,12 @@ function post_to_url(path, params, method) {
 												</label>
 											</div>
 										</div>
-										<form action="proceedDocList">
+										<form action="sendDocList">
 											<input type="hidden" name="page_scale" value="${page.page_scale}">
 											<div class="col-sm-3">
-												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목   </label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
+												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목</label>
+												<label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
+												<label><input type="checkbox" name="searchOption" value="receiver_name" multiple="multiple">받는사람</label>
 											</div>
 											<div class="col-sm-4">
 												<div id="dataTables-example_filter" class="dataTables_filter">
@@ -120,23 +122,26 @@ function post_to_url(path, params, method) {
 									</div>
 									<table class="table table-bordered" id="dataTable">
 										<colgroup>
-											<col width="15%">
-											<col width="70%">
+											<col width="10%">
+											<col width="10%">
+											<col width="65%">
 											<col width="15%">
 										</colgroup>
 										<thead>
 											<tr role="row">
-												<th>번호</th>
+												<th>받는사람</th>
+												<th>문서번호</th>
 												<th>제목</th>
-												<th>문서 생성일</th>
+												<th>문서 발송일</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach items="${dlist}" var="list">
+											<c:forEach items="${tlist}" var="list">
 												<tr>
-													<td><input type="radio" name="check" class="check" value="${list.document_no}"> ${list.document_no}</td>
-													<td><a href="javascript:post_to_url('/groupware/viewDoc',{'document_type':'1','document_no':'${list.document_no}'})">${list.document_title}</a></td>
-													<td><fmt:formatDate value="${list.document_date}" pattern="yyyy/MM/dd" /></td>
+													<td>${list.receiver_emp.employee_name}</td>
+													<td>${list.document.document_no}</td>
+													<td><a href="javascript:post_to_url('/groupware/viewTransmissionDoc',{'document_type':'0','document_no':'${list.document.document_no}'})">${list.document.document_title}</a></td>
+													<td><fmt:formatDate value="${list.transmission_sender_date}" pattern="yyyy/MM/dd" /></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -149,13 +154,13 @@ function post_to_url(path, params, method) {
 											<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
 												<ul class="pagination">
 													<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
-															<a href="proceedDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
+															<a href="sendDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
 														</c:if></li>
 													<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
-														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="proceedDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
+														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="sendDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
 													</c:forEach>
 													<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
-															<a href="proceedDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
+															<a href="sendDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
 														</c:if></li>
 												</ul>
 											</div>

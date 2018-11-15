@@ -57,43 +57,17 @@
 	return (treeNode.doCheck !== false);
 } */
 $(document).ready(function() {
-	$("#modify-btn").click(function(){
+	$("#sendPublic-btn").click(function(){
 		if($('.check:checked').val()==null){
 			alert("선택한 문서가 없습니다.");
 		}
 		else{
-			window.location.href = "/groupware/modifyNewDoc?document_no="+$('.check:checked').val();
-		}
-	});
-	
-	$("#approval-btn").click(function(){
-		if($('.check:checked').val()==null){
-			alert("선택한 문서가 없습니다.");
-		}
-		else{
-			window.location.href = "/groupware/approvalDoc?document_no="+$('.check:checked').val();
-		}
-	});
-	
-	$("#delete-btn").click(function(){
-		if($('.check:checked').val()==null){
-			alert("선택한 문서가 없습니다.");
-		}else{
-			var result = confirm('정말로 삭제하시겠습니까?');
-			if (result) {
-				$.ajax({
-					method : "GET",
-					url : "/groupware/deleteNewDoc",
-					data : {
-						"document_no" : $('.check:checked').val()
-					},
-					error : function() {
-						alert('삭제 실패!!');
-					},
-					success : function(data) {
-						alert("해당 문서가 삭제되었습니다.");
-					}
-				});
+			if(!alert("이 문서를 전 사원이 볼 수 있는 공람문서함으로 보내시겠습니까?")){
+				var send = {
+						document_no : $('.check:checked').val()
+				};
+				console.log(send);
+				post_to_url('/groupware/sendPublicDoc',send);
 			}
 		}
 	});
@@ -133,11 +107,12 @@ $(document).ready(function() {
 	});
 });
 
+
 //폼생성하여 post 방식으로 값 보내기 
 function post_to_url(path, params, method) {
     method = method || "post"; // 전송 방식 기본값을 POST로
  
-    
+ 	console.log(params);
     var form = document.createElement("form");
     form.setAttribute("method", method);
     form.setAttribute("action", path);
@@ -151,13 +126,12 @@ function post_to_url(path, params, method) {
  
         form.appendChild(hiddenField);
     }
- 
+    
    	document.body.appendChild(form);
-    form.submit();
+ 	console.log(document.body);
+	form.submit();
 }
 </script>
-
-
 </head>
 <body>
 
@@ -184,7 +158,7 @@ function post_to_url(path, params, method) {
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<button type="button" id="tree-btn" class="btn btn-default">지정하여 문서 보내기</button>
-								<button id="modify-btn" class="btn btn-default">공람문서함 보내기</button>
+								<button id="sendPublic-btn" class="btn btn-default">공람문서함 보내기</button>
 							</div>
 							<div class="panel-body">
 								<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">

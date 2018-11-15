@@ -12,6 +12,9 @@ public class DocumentVO {
 	private Date document_date;
 	private String document_state;
 	private int rn;
+	private TransmissionVO transmission;
+	
+	
 
 	public DocumentVO() {
 		super();
@@ -31,6 +34,14 @@ public class DocumentVO {
 
 	
 	
+	public TransmissionVO getTransmission() {
+		return transmission;
+	}
+
+	public void setTransmission(TransmissionVO transmission) {
+		this.transmission = transmission;
+	}
+
 	public DocumentVO(int document_no) {
 		super();
 		this.document_no = document_no;

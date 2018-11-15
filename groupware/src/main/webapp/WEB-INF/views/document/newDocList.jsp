@@ -82,6 +82,11 @@ $(document).ready(function() {
 		}
 	});
 	
+	// 페이지당 보여줄 개수 변경시 호출
+	$('.pg-scale').change(function() {
+		location.href = 'newDocList?page_scale=' + $(this).val()+'&keyword='+$('.search').val()+'&cur_page='+${page.curPage};
+	});
+	
 	
 });
 //폼생성하여 post 방식으로 값 보내기 

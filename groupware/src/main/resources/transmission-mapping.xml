@@ -2,10 +2,90 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Transmission">
+
+	<resultMap type="Transmission" id="transmissionMap">
+		<id property="transmission_no" column="transmission_no"/>
+		<result property="transmission_sender_date" column="transmission_sender_date"/>
+		<result property="transmission_receiver_date" column="transmission_receiver_date"/>
+		<result property="transmission_state" column="transmission_state"/>
+		<association property="sender_emp" javaType="employee">
+			<id property="employee_no" column="transmission_sender_no"/>
+			<result property="employee_name" column="sender_name"/> 
+			<result column="position" property="position"/>
+		</association>
+		<association property="receiver_emp" javaType="employee">
+			<id property="employee_no" column="transmission_receiver_no"/>
+			<result property="employee_name" column="receiver_name"/> 
+			<result column="position" property="position"/>
+		</association>
+		<association property="document" javaType="Document">
+			<id column="transmission_document_no" property="document_no"/>
+			<result column="document_title" property="document_title"/>
+			<result column="document_contents" property="document_contents"/>
+			<result column="document_date" property="document_date"/>
+			<result column="document_state" property="document_state"/>
+		</association>
+	</resultMap>
+	
+	
+	
 	<insert id="sendDoc" parameterType="Transmission">
 		INSERT INTO transmission
 		VALUES (transmission_seq.nextval,#{sender_emp.employee_no},#{receiver_emp.employee_no},#{document.document_no},sysdate,'0','')
 	</insert>
 	
+	<insert id="sendPublicDoc" parameterType="Transmission">
+		INSERT INTO transmission
+		VALUES (transmission_seq.nextval,#{sender_emp.employee_no},'',#{document.document_no},sysdate,'0','')
+	</insert>
 	
+	<!-- 리스트 조회 -->		
+	<select id="selectList" resultMap="transmissionMap" parameterType="hashmap" >
+		<include refid="pagingHeader"></include>
+		select
+		<if test="selectOption != null">
+			 ${selectOption}
+		</if>
+		<if test="selectOption == null">
+		 B.*
+		</if>
+		from (${fromOption}) B
+		<where>
+			${whereOption}
+			<if test="searchOption != null">
+				<include refid="search"/>
+			</if>
+			<if test="order != null">
+				order by ${order} desc
+			</if>
+		</where>
+		<include refid="pagingFooter"></include>
+	</select>
+	
+<!-- 게시글 레코드 갯수 -->
+	<select id="countArticle" resultType="int" parameterType="hashmap">
+		select count(*) 
+		from ${fromOption}
+		<where>
+			${whereOption}
+			<if test="searchOption != null">
+				<include refid="search"/>
+			</if>
+			</where>
+	</select>	
+
+	<!-- 검색sql -->
+	<sql id="search">
+		<foreach collection="searchOption" item="searchOption" open="AND (" close=" )" separator=" OR ">${searchOption} LIKE '%'||#{keyword}||'%'</foreach>
+	</sql>
+
+	<!-- 페이징sql -->
+	<sql id="pagingHeader">
+		select * from (select rownum as rn, A.* from(
+	</sql>	
+	<sql id="pagingFooter">
+		)A
+		)where rn between #{start} and #{end}
+	</sql>
+
 </mapper>

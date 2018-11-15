@@ -119,7 +119,7 @@
 
 		// 페이지당 보여줄 개수 변경시 호출
 		$('.pg-scale').change(function() {
-			location.href = 'form?page_scale=' + $(this).val();
+			location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}&cur_page='+'${page.curPage}'+'<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
 		});
 		
 
@@ -154,10 +154,10 @@
 						<div class="col-lg-12">
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<button onclick="location='createform'" class="btn btn-info">양식 생성</button>
-									<button class="btn btn-info btn-form" value="삭제">양식 삭제</button>
-									<button class="btn btn-info btn-form" value="활성화">양식 활성화</button>
-									<button class="btn btn-info btn-form" value="비활성화">양식 비활성화</button>
+									<button onclick="location='createform'" class="btn btn-default">양식 생성</button>
+									<button class="btn btn-default btn-form" value="삭제">양식 삭제</button>
+									<button class="btn btn-default btn-form" value="활성화">양식 활성화</button>
+									<button class="btn btn-default btn-form" value="비활성화">양식 비활성화</button>
 								</div>
 								<div class="panel-body">
 									<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -176,11 +176,13 @@
 											<form action="form">
 												<input type="hidden" name="page_scale" value="${page.page_scale}">
 												<div class="col-sm-3">
-													<label><input type="checkbox" name="searchOption" value="form_name" checked="checked" multiple="multiple">이름 </label> <label><input type="checkbox" name="searchOption" value="form_desc" multiple="multiple">설명 </label> <label><input type="checkbox" name="searchOption" value="form_contents" multiple="multiple">내용</label>
+													<label><input type="checkbox" name="searchOption" value="form_name" checked="checked" multiple="multiple">이름 </label> 
+													<label><input type="checkbox" name="searchOption" value="form_desc" multiple="multiple">설명 </label>
+													<label><input type="checkbox" name="searchOption" value="form_contents" multiple="multiple">내용</label>
 												</div>
 												<div class="col-sm-4">
 													<div id="dataTables-example_filter" class="dataTables_filter">
-														<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword">
+														<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword" value="${map.keyword}">
 														</label>
 														<button class="btn btn-primary btn-sm">
 															<i class="fa fa-search"></i>

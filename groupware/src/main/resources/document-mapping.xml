@@ -29,6 +29,7 @@
 			</association>
 		</association> 
 	</resultMap>
+	
 	<select id="selectDocument" parameterType="int" resultMap="documentMap">
 		SELECT document_no, document_title, document_contents, document_date, document_state, document_writer_no, employee_name, position
 		FROM document d left join employee e on d.document_writer_no = e.employee_no WHERE document_no = #{document_no}
@@ -141,6 +142,5 @@
 		)A
 		)where rn between #{start} and #{end}
 	</sql>
-	
 	
 </mapper>

@@ -9,20 +9,32 @@
 
 <title>일정</title>
 
-<link href='${pageContext.request.contextPath}/resources/full/css/vendor/bootstrap.min.css' rel='stylesheet' />
-<link href='${pageContext.request.contextPath}/resources/full/css/vendor/fullcalendar.css'rel='stylesheet' />
-<link href='${pageContext.request.contextPath}/resources/full/css/style.css' rel='stylesheet' />
-	<!-- jQuery -->
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
+<link
+	href='${pageContext.request.contextPath}/resources/full/css/vendor/bootstrap.min.css'
+	rel='stylesheet' />
+<link
+	href='${pageContext.request.contextPath}/resources/full/css/vendor/fullcalendar.css'
+	rel='stylesheet' />
+<link
+	href='${pageContext.request.contextPath}/resources/full/css/style.css'
+	rel='stylesheet' />
+<!-- jQuery -->
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <%-- <script src='${pageContext.request.contextPath}/resources/full/js/vendor/jquery.min.js'></script> --%>
-<script src='${pageContext.request.contextPath}/resources/full/js/vendor/moment.min.js'></script>
-<script src='${pageContext.request.contextPath}/resources/full/js/vendor/bootstrap.min.js'></script>
+<script
+	src='${pageContext.request.contextPath}/resources/full/js/vendor/moment.min.js'></script>
+<script
+	src='${pageContext.request.contextPath}/resources/full/js/vendor/bootstrap.min.js'></script>
 
-<script src="${pageContext.request.contextPath}/resources/js/fullcalendar.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/fullcalendar.js"></script>
 <%-- <script src='${pageContext.request.contextPath}/resources/full/js/vendor/fullcalendar.js'></script>  --%>
 
-<script src='${pageContext.request.contextPath}/resources/full/js/events.js'></script>
-<script src='${pageContext.request.contextPath}/resources/full/js/calendar.js'></script>
+<script
+	src='${pageContext.request.contextPath}/resources/full/js/events.js'></script>
+<script
+	src='${pageContext.request.contextPath}/resources/full/js/calendar.js'></script>
 <script src="${pageContext.request.contextPath}/resources/locale/ko.js"></script>
 
 <script type='text/javascript'
@@ -33,14 +45,17 @@
 	href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/full/jquery.datetimepicker.css" />
 
 <!--미니달력  -->
 <%-- <script src="${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.js"></script>
 <link href='${pageContext.request.contextPath}/resources/minicalendar/pignose.calendar.min.css' rel='stylesheet' /> --%>
 <!-- js -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/themes/default/style.min.css" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/jstree.min.js"></script> 
+<link rel="stylesheet"
+	href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/themes/default/style.min.css" />
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/jstree.min.js"></script>
 <!-- header 및 navigation을 불러오기 위해서 사용해야하는 자원들 아래 다 복사해서 붙여넣기 하세요. -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -68,7 +83,8 @@
 	rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 
 
 <!-- Bootstrap Core JavaScript -->
@@ -84,27 +100,116 @@
 	src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 </head>
 <style>
-.wrap-btn {position:relative; margin-top:10px; text-align:left; cursor:pointer; overflow:hidden;}
-.wrap-btn label {float:left; margin-left:10px; cursor:pointer; font-size:13px;}
-.wrap-btn input.form-inputPop {position:absolute; top:0; left:0; opacity:0; cursor:pointer; z-index:5;} 
-.wrap-btn #i1 {float:left; display:block; width:20px; height:20px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox.png)no-repeat left top; z-index:3;}
-.wrap-btn input.form-inputPop:checked+#i1 {background-position:left bottom;}
-.wrap-btn #i2 {float:left; display:block; width:20px; height:20px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox2.png)no-repeat left top; z-index:3;}
-.wrap-btn input.form-inputPop:checked+#i2 {background-position:left bottom;}
-.wrap-btn #i3 {float:left; display:block; width:20px; height:20px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox3.png)no-repeat left top; z-index:3;}
-.wrap-btn input.form-inputPop:checked+#i3 {background-position:left bottom;}
-.wrap-btn #i4 {float:left; display:block; width:20px; height:20px; background:url(${pageContext.request.contextPath}/resources/images/btn_checkbox4.png)no-repeat left top; z-index:3;}
-.wrap-btn input.form-inputPop:checked+#i4 {background-position:left bottom;}
-/* .wrap-btn input.form-inputPop:checked+i+label {color:#f56592;} */
+.wrap-btn {
+	position: relative;
+	margin-top: 10px;
+	text-align: left;
+	cursor: pointer;
+	overflow: hidden;
+}
 
+.wrap-btn label {
+	float: left;
+	margin-left: 10px;
+	cursor: pointer;
+	font-size: 13px;
+}
+
+.wrap-btn input.form-inputPop {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	cursor: pointer;
+	z-index: 5;
+}
+
+.wrap-btn #i1 {
+	float: left;
+	display: block;
+	width: 20px;
+	height: 20px;
+	background:
+		url(${pageContext.request.contextPath}/resources/images/btn_checkbox.png)
+		no-repeat left top;
+	z-index: 3;
+}
+
+.wrap-btn input.form-inputPop:checked+#i1 {
+	background-position: left bottom;
+}
+
+.wrap-btn #i2 {
+	float: left;
+	display: block;
+	width: 20px;
+	height: 20px;
+	background:
+		url(${pageContext.request.contextPath}/resources/images/btn_checkbox2.png)
+		no-repeat left top;
+	z-index: 3;
+}
+
+.wrap-btn input.form-inputPop:checked+#i2 {
+	background-position: left bottom;
+}
+
+.wrap-btn #i3 {
+	float: left;
+	display: block;
+	width: 20px;
+	height: 20px;
+	background:
+		url(${pageContext.request.contextPath}/resources/images/btn_checkbox3.png)
+		no-repeat left top;
+	z-index: 3;
+}
+
+.wrap-btn input.form-inputPop:checked+#i3 {
+	background-position: left bottom;
+}
+
+.wrap-btn #i4 {
+	float: left;
+	display: block;
+	width: 20px;
+	height: 20px;
+	background:
+		url(${pageContext.request.contextPath}/resources/images/btn_checkbox4.png)
+		no-repeat left top;
+	z-index: 3;
+}
+
+.wrap-btn input.form-inputPop:checked+#i4 {
+	background-position: left bottom;
+}
+/* .wrap-btn input.form-inputPop:checked+i+label {color:#f56592;} */
 </style>
-<script>
-$(function() {
-	$('#container').jstree({
-		  "plugins" : ["checkbox"]
+
+
+
+<style>  
+.mytable { border-collapse:collapse; }  
+.mytable th, .mytable td { border:1px solid black; }
+</style>
+<!-- <script>
+	$(function() {
+		$('#container').jstree({
+			"plugins" : [ "search" ],
+			"plugins" : [ "checkbox" ]
 		});
-});
-</script>
+		var to = false;
+	});
+		$('#plugins4_q').keyup(function() {
+			if (to) {
+				clearTimeout(to);
+			}
+			to = setTimeout(function() {
+				var v = $('#plugins4_q').val();
+				$('#plugins4').jstree(true).search(v);
+			}, 250);
+		});
+</script> -->
 <body>
 
 
@@ -117,7 +222,7 @@ $(function() {
 
 		<!-- content div -->
 		<div id="page-wrapper">
-		
+
 
 			<nav class="navbar navbar-default">
 				<div class="container-fluid">
@@ -126,25 +231,25 @@ $(function() {
 			</nav>
 
 			<div class="container-fluid row">
-				<div id='calendar1'
-					class='calendar col-md-2 '><!-- -ms-overflow-style: none; -->
-					<label class="form-control-label">공유 캘린더</label>
-					 <input type="submit" id="category" value="만들기" style="position: absolute; right: 0;" />
-					 <!-- 카테고리 -->
-<!--  -->
-<div class="wrap-btn2">
-<input class="form-inputPop2" type="checkbox" name="e1" id="e1"  checked="checked"/>
-<i></i>
-<label for="checkbox02">휴가</label> 
-</div>  
-<!--  -->
+				<div id='calendar1' class='calendar col-md-2 '>
+					<!-- -ms-overflow-style: none; -->
+					<label class="form-control-label">공유 캘린더</label> <input
+						type="submit" id="category" value="만들기"
+						style="position: absolute; right: 0;" />
+					<!-- 카테고리 -->
+					<!--  -->
+					<div class="wrap-btn2">
+						<input class="form-inputPop2" type="checkbox" name="e1" id="e1"
+							checked="checked" /> <i></i> <label for="checkbox02">휴가</label>
+					</div>
+					<!--  -->
 
 
-					 <!--  -->
+					<!--  -->
 				</div>
 				<div id='calendar2' class='calendar col-md-10'></div>
 			</div>
-<!--이벤트 등록  -->
+			<!--이벤트 등록  -->
 			<div class="modal fade" id="newEvent" role="dialog"
 				aria-labelledby="eventFormLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
@@ -164,29 +269,14 @@ $(function() {
 									<!--t수정  -->
 									<label class="form-control-label">내용</label>
 									<textarea rows="5" cols="30" id="content" class="form-control"></textarea>
-									<label class="form-control-label">색상</label>
-									<div class="wrap-btn">
-										<label ><input class="form-inputPop" type="radio" name="color"
-											id="checkbox1" style="display: none;"/> <i id="i1"></i></label>  
-									
-										<label ><input class="form-inputPop" type="radio" name="color"
-											id="checkbox2" style="display: none;"/> <i id="i2"></i></label> 
-											
-										<label><input class="form-inputPop" type="radio" name="color"
-											id="checkbox3" style="display: none;" /> <i id="i3"></i></label>
-											
-										<label><input class="form-inputPop" type="radio" name="color"
-											id="checkbox4" style="display: none;" /> <i id="i4"></i></label>
-									</div>
-
-									<!-- <select
+									<label class="form-control-label">색상</label> <select
 										name="color" id="color" class="form-control">
 										<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
 										<option value="#f56592" style="background-color: #f56592;">업무</option>
 										<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
 										<option value="#008bca" style="background-color: #008bca;"
 											selected="selected">파란</option>
-									</select> --> <label class="form-control-label">시작날짜</label> <input
+									</select> <label class="form-control-label">시작날짜</label> <input
 										type="text" class="form-control" id="starts_at"> <label
 										class="form-control-label">종료날짜</label> <input type="text"
 										class="form-control" id="ends_at">
@@ -202,7 +292,7 @@ $(function() {
 					</div>
 				</div>
 			</div>
-<!--이벤트 편집  -->
+			<!--이벤트 편집  -->
 			<div class="modal fade" id="editEvent" role="dialog"
 				aria-labelledby="eventFormLabel" aria-hidden="true"
 				data-persist="false">
@@ -247,9 +337,9 @@ $(function() {
 					</div>
 				</div>
 			</div>
-			
+
 			<!--카테고리  -->
-						<div class="modal fade" id="addcategory" role="dialog"
+			<div class="modal fade" id="addcategory" role="dialog"
 				aria-labelledby="eventFormLabel" aria-hidden="true"
 				data-persist="false">
 				<div class="modal-dialog" role="document">
@@ -264,36 +354,74 @@ $(function() {
 						<form>
 							<div class="modal-body">
 								<div class="form-group">
-									<label for="title" class="form-control-label">캘린더 이름</label> 
-									<input type="text" class="form-control" id="shereTitle">
-									<!--t수정  -->								
-									<label class="form-control-label">색상</label> <select
-										name="color" id="color2" class="form-control">
-										<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
-										<option value="#e0305a" style="background-color: #e0305a;">빨강</option>
-										<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
-										<option value="#008bca" style="background-color: #008bca;"
-											selected="selected">파란</option>
-									</select>
+									<label for="title" class="form-control-label">캘린더 이름</label> <input
+										type="text" class="form-control" id="shereTitle">
+									<!--t수정  -->
+									<label class="form-control-label">색상</label>
+									<div class="wrap-btn">
+										<label><input class="form-inputPop" type="radio"
+											name="color" id="checkbox1" style="display: none;" /> <i
+											id="i1"></i></label> <label><input class="form-inputPop"
+											type="radio" name="color" id="checkbox2"
+											style="display: none;" /> <i id="i2"></i></label> <label><input
+											class="form-inputPop" type="radio" name="color"
+											id="checkbox3" style="display: none;" /> <i id="i3"></i></label> <label><input
+											class="form-inputPop" type="radio" name="color"
+											id="checkbox4" style="display: none;" /> <i id="i4"></i></label>
+									</div>
 									<label class="form-control-label">공유 대상</label>
-									<table><tr><td>
-									<div id="container">
-										<ul>
-											<li data-jstree='{"opened":true}'>KIM'SCLUB
-												<ul>
-													<li>영업부</li>
-													<li>전산팀</li>
-												</ul>
-											</li>
-										</ul>
-									</div></td>
-									<td >리스트가 존재하지않습니다.</td>
-									</tr>
+									<table>
+										<tr valign=top>
+											<td><input type="text" id="plugins4_q" value=""
+												class="input"
+												style="margin: 0em auto 1em auto; display: block; padding: 4px; border-radius: 4px; border: 1px solid silver;" />
+												<div id="plugins4">
+													<ul>
+														<li data-jstree='{"opened":true}'>KIM'S CLUB
+															<ul>
+																<li>영업부</li>
+															</ul>
+														</li>
+														<li>위원회</li>
+													</ul>
+												</div> <script>
+													$(function() {
+														$("#plugins4")
+																.jstree(
+																		{
+																			"plugins" : [ "search" ]
+																		});
+														var to = false;
+														$('#plugins4_q').keyup(function() {
+														if (to) {clearTimeout(to);
+														}
+														to = setTimeout(function() {
+														var v = $('#plugins4_q').val();
+														$('#plugins4').jstree(true).search(v);
+														},
+														250);
+														});
+													});
+												</script></td>
+											<td valign=top>리스트가 존재하지않습니다.</td>
+											<td valign=top>
+				<h5>등록 권한 <span id="selToCnt">0</span></h5>
+				<div class="to" >
+					<select multiple="multiple" style="height:176px;width:150px;" id="selTo"><option value="97" disabled></option></select>
+					<div class="del-btn"><a href="">삭제</a></div>
+				</div>
+				<h5>조회 권한 <span id="selBccCnt">0</span></h5>
+				<div class="bcc" >
+					<select multiple="multiple" style="height:176px;width:150px;"  id="selBcc"></select>
+					<div class="del-btn"><a href="">삭제</a></div>
+				</div>
+											</td>
+										</tr>
 									</table>
 									<!--수정끝  -->
 								</div>
 							</div>
-								<div class="modal-footer">
+							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
 									data-dismiss="modal">취소</button>
 								<button type="button" class="btn btn-success" id="submit">저장</button>

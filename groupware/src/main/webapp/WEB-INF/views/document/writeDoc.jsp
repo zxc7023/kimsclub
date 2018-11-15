@@ -25,8 +25,11 @@
 <!-- Custom Fonts -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
+<!-- jquery-ui.js -->
+<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
+
 <!-- jquery-ui.css -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
 
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
@@ -42,9 +45,6 @@
 
 <!-- ckeditor -->
 <script src="resources/ckeditor/ckeditor.js"></script>
-
-<!-- jquery-ui.js -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
@@ -165,9 +165,7 @@ function loadForm(){
 										<tr>
 											<td class="odd">문서 제목<br>
 											</td>
-											<td><input type="text" name="document_title"
-												class="form-control" required="required"
-												autofocus="autofocus" maxlength="40"></td>
+											<td><input type="text" size="20" name="document_title" class="form-control" required="required" autofocus="autofocus" maxlength="40"></td>
 										</tr>
 										<tr>
 											<td colspan="2" class="odd">문서 내용</td>

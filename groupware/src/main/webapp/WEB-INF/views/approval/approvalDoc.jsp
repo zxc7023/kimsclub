@@ -22,11 +22,14 @@
 <!-- Custom CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 
-<!-- jquery-ui.css -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <!-- Custom Fonts -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+<!-- jquery-ui.js -->
+<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
+
+<!-- jquery-ui.css -->
+<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
 
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
@@ -39,9 +42,6 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
-
-<!-- jquery-ui.js -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
@@ -139,7 +139,7 @@ $(document).ready(function() {
 															<div role="row">
 																<div class="col-lg-10">
 																	<div class="panel panel-default" id="approvalLine">
-																		<table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+																		<table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
 																			<colgroup>
 																				<col width="15%">
 																				<col width="17%">
