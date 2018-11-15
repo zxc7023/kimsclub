@@ -80,7 +80,6 @@
 <!-- 게시글 댓글 등록 -->
 	<insert id="insertBoardReply" parameterType="boardReply">
 		<selectKey resultType="boardReply" keyProperty="reply_no,reply_group" order="BEFORE">
-			<!-- select (nvl(max(reply_no),0)+1)as reply_no, (nvl(max(reply_group),0)+1)as reply_group from reply where reply_board_type=#{reply_board_type} -->
 			select (select nvl(max(reply_no),0)+1 from reply where reply_board_type=#{reply_board_type})as reply_no , (select nvl(max(reply_group),0)+1 from reply where reply_board_type=#{reply_board_type} and board_no=#{board_no} )as reply_group from dual
 		</selectKey>
 		insert into reply(reply_no, board_no, reply_group, reply_order, reply_depth, reply_writer_no, reply_contents, reply_date, reply_board_type) 

@@ -19,8 +19,11 @@ public interface MessageService {
 	public void deleteMessage(int[] message_no, String message_del);
 	//쪽지 상세보기
 	public MessageVO detailMessage(MessageVO vo, String box); 
-	//쪽지 읽음
+	//쪽지 답장하기
+/*	public MessageVO answerMessage(MessageVO vo);
+*/	//쪽지 읽음
 	public void readMessage(MessageVO vo);
 	//읽지 않은 쪽지
 	public int unReadMessage(int employee_no);
+	
 }

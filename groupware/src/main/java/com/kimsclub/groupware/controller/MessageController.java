@@ -37,9 +37,19 @@ public class MessageController {
 			EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
 			int message_sender_no = evo.getEmployee_no();
 			vo.setMessage_sender_no(message_sender_no);
-			/*System.out.println("asdf"+vo.getMessage_receiver_no()[0]); */
 			service.insertMessage(vo);
 			return "redirect:/messageList?box=outBox";
+		}
+		
+	//쪽지 답장 화면
+		@RequestMapping(value="/messageAnswer", method=RequestMethod.POST)
+		public ModelAndView messageAnswer(MessageVO vo) {
+			System.out.println("d"+vo.getMessage_senderAndReceiver_name());
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("answervo", vo);
+			mav.addObject("messageAnswer", "messageAnswer");
+			mav.setViewName("/message/messageWrite");
+			return mav;
 		}
 		
 	//쪽지함(보낸쪽지, 받은쪽지, 보관쪽지)
@@ -122,13 +132,15 @@ public class MessageController {
 				@RequestParam(name="page_scale",defaultValue="10") int page_scale,
 				@RequestParam(name="curPage",defaultValue="1") int curPage) {
 			
-			//쪽지 read
-			service.readMessage(vo);
-			
-			//해당쪽지 세부내용 가져오기			
+			//받은쪽지만 read
+			if(box.equals("inBox")) {
+				service.readMessage(vo);	
+			}
+
+			//해당쪽지 세부내용 가져오기
 			MessageVO detailvo = service.detailMessage(vo, box);
 			ModelAndView mav = new ModelAndView();
-			mav.addObject("detailvo", detailvo);
+			mav.addObject("detailvo", detailvo);			
 			mav.addObject("searchOption", searchOption);
 			mav.addObject("keyword", keyword);
 			mav.addObject("page_scale", page_scale);

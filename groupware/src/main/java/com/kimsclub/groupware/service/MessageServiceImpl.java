@@ -49,7 +49,13 @@ public class MessageServiceImpl implements MessageService {
 	public MessageVO detailMessage(MessageVO vo, String box) {
 		return dao.detailMessage(vo, box);
 	}
-	
+
+/*	//쪽지 답장하기
+	@Override
+	public MessageVO answerMessage(MessageVO vo) {
+		return null;
+	}*/
+
 	//쪽지 읽음
 	@Override
 	public void readMessage(MessageVO vo) {

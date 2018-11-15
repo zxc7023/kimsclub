@@ -48,7 +48,6 @@
 		select message_no, message_sender_no, message_receiver_no, message_contents, message_date, employee_name as message_senderAndReceiver_name
 		from message, employee
 		<include refid="msgDetailBoxSort"></include>
-		
 	</select>	
 		
 <!-- 쪽지 읽음 -->		
@@ -59,8 +58,8 @@
 		
 <!-- 읽지 않은 쪽지 -->		
 	<select id="selectUnReadMessage" parameterType="hashmap" resultType="int" >
-		select count(*) 
-		from message 
+		select count(*)
+		from message
 		where message_receiver_no=#{employee_no} and message_read_state='N' and message_sender_no != message_receiver_no
 	</select>
 		
