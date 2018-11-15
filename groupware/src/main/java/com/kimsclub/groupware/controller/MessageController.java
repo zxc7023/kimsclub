@@ -37,6 +37,7 @@ public class MessageController {
 			EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
 			int message_sender_no = evo.getEmployee_no();
 			vo.setMessage_sender_no(message_sender_no);
+			/*System.out.println("asdf"+vo.getMessage_receiver_no()[0]); */
 			service.insertMessage(vo);
 			return "redirect:/messageList?box=outBox";
 		}
@@ -70,6 +71,7 @@ public class MessageController {
 			int end = messagePager.getPageEnd();
 			//쪽지 목록(보낸쪽지,받은쪽지,보관쪽지)
 			List<MessageVO>	list = service.MessageList(start, end, employee_no, searchOption, keyword, box);
+			
 			map.put("list", list); //보낸 쪽지함 목록
 			map.put("searchOption", searchOption); //검색옵션
 			map.put("keyword", keyword); //검색 키워드
@@ -101,6 +103,9 @@ public class MessageController {
 				service.deleteMessage(message_no, message_del);
 			}else if(box.equals("inBox")) {//받은쪽지 삭제시
 				message_del="message_receive_del";
+				service.deleteMessage(message_no, message_del);
+			}else if(box.equals("myBox")) {//내게쓴쪽지 삭제시
+				message_del="message_to_me_del";
 				service.deleteMessage(message_no, message_del);
 			}else {//보관쪽지 삭제시
 				message_del="message_keep_del";

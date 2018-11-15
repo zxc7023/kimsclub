@@ -72,13 +72,13 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">${map.unReadMsgCnt}</div>
-                                    <div>New Message!</div>
+                                    <div>읽지않은 쪽지</div>
                                 </div>
                             </div>
                         </div>
                         <a href="messageList?box=inBox">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
+                                <span class="pull-left">받은쪽지함</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>

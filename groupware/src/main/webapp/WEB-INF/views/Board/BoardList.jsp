@@ -39,7 +39,10 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+<style type="text/css">
 
+
+</style>
 <script type="text/javascript">
 	//검색 버튼 클릭시
 	$(document).ready(function() {
@@ -124,12 +127,12 @@
 		                            		<form action="boardList" method="get" id="search" >
 		                            		<label>
 			                            		<select name="searchOption" aria-controls="dataTables-example" class="form-control input-sm">
-			                            			<option value="all">제목+내용</option>
-													<option value="employee_name">작성자</option>
-													<option value="board_title">제목</option>
-													<option value="board_contents">내용</option>
+			                            			<option value="all"<c:out value="${map.searchOption=='all'?'selected':''}"/> >제목+내용</option>
+													<option value="employee_name" <c:out value="${map.searchOption=='employee_name'?'selected':''}"/>>작성자</option>
+													<option value="board_title" <c:out value="${map.searchOption=='board_title'?'selected':''}"/>>제목</option>
+													<option value="board_contents" <c:out value="${map.searchOption=='board_contents'?'selected':''}"/>>내용</option>
 			                            		</select>
-		                            				<input type="search" name="keyword" class="form-control input-sm" placeholder="" aria-controls="dataTables-example"> 
+		                            				<input type="search" name="keyword" class="form-control input-sm" value="${map.keyword}" placeholder="" aria-controls="dataTables-example"> 
 													<input type="hidden" name="board_type" value="${map.board_type}">
 													<input type="hidden" name="page_scale" value="${map.boardPager.page_scale }">
 														<span class="input-group-btn" >
@@ -161,7 +164,7 @@
 				                                <c:forEach var="list" items="${map.list}" >
 					                                <tr class="odd gradeA">
 					                                    <td>${list.board_no}</td>
-					                                    <td><a class="text-muted" href="detail?board_type=${map.board_type}&board_no=${list.board_no}&searchOption=${map.searchOption}&keyword=${map.keyword}&curPage=${map.boardPager.curPage}">${list.board_title}
+					                                    <td><a class="text-muted textBoard" href="detail?board_type=${map.board_type}&board_no=${list.board_no}&searchOption=${map.searchOption}&keyword=${map.keyword}&curPage=${map.boardPager.curPage}">${list.board_title}
 					                                    		<c:if test="${list.reply_count>0}">
 					                                    			<span style="color: orange;">
 					                                    				[${list.reply_count}]

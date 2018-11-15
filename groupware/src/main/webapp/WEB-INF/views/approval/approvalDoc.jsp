@@ -139,7 +139,7 @@ $(document).ready(function() {
 															<div role="row">
 																<div class="col-lg-10">
 																	<div class="panel panel-default" id="approvalLine">
-																		<table width="100%" class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+																		<table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
 																			<colgroup>
 																				<col width="15%">
 																				<col width="17%">
