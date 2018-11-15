@@ -10,11 +10,11 @@ $(function() {
 
 /* --------------------------공통적인 캘린더-------------------------- */
 var initializeCalendar = function() {
-  $('.calendar').fullCalendar({
+  $('#calendar2').fullCalendar({
       editable: true,
-      eventLimit: true, 
+      eventLimit: true,      
       navLinks: true,
-      navLinkDayClick: function(date, jsEvent) {
+      navLinkDayClick: function() {
     	  newEvent();
     	  },
       events: events, //이벤트 생성
@@ -25,7 +25,7 @@ var initializeCalendar = function() {
       {
          googleCalendarId : "qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com",
          className : "Holidays",
-         color : "#FFFFFF",
+         color : "#f8f8f8",
          textColor : "#FF0000",
       }      
 ],
@@ -35,9 +35,12 @@ var initializeCalendar = function() {
       editable: false,
       
     });
- /* $('#calendar1').fullCalendar({ 
-	  
-  });*/
+  
+  
+  $('#calendar1').fullCalendar({ 
+	  eventLimit: true,
+	  events: events
+  });
 }
 
 /*--------------------------calendar 이름--------------------------*/
@@ -100,6 +103,7 @@ var initializeLeftCalendar = function() {
           cal2GoTo(calEvent.end);
       },*/
       height: screen.height - 740, //730
+      
   });
 }
 
@@ -125,8 +129,10 @@ var loadEvents = function(num, id, color, text) {
 		success : function(data){
 			events = data;
 			scheduleChoice();
+			
 		}	
 	});
+  
   
   $('#category').on('click', function() {
 	  $('#addcategory').modal('show');
