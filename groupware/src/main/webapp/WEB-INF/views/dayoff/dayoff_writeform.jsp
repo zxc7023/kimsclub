@@ -26,8 +26,6 @@
 <!-- <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet"> -->
 <!-- dayoff_writeform.css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dayoff/dayoff_writeform.css">
-<!-- jquery-ui.css -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
@@ -49,7 +47,6 @@
 	line-height: 1.5;
 }
 </style>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <script type="text/javascript">
 function dateToFormat(date){

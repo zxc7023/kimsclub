@@ -28,4 +28,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeVO> loadAllEmp() {
 		return dao.loadAllEmp();
 	}
+
+	@Override
+	public void updateLastLogin(EmployeeVO vo) {
+		dao.updatelastLogin(vo);
+	}
+
 }
