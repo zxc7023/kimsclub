@@ -40,30 +40,10 @@
 
 <script>
 $(document).ready(function() {
-	
-	/* 
-	$("#delete-btn").click(function(){
-		if($('.check:checked').val()==null){
-			alert("선택한 문서가 없습니다.");
-		}else{
-			var result = confirm('정말로 삭제하시겠습니까?');
-			if (result) {
-				$.ajax({
-					method : "GET",
-					url : "/groupware/deleteNewDoc",
-					data : {
-						"document_no" : $('.check:checked').val()
-					},
-					error : function() {
-						alert('삭제 실패!!');
-					},
-					success : function(data) {
-						alert("해당 문서가 삭제되었습니다.");
-					}
-				});
-			}
-		}
-	}); */
+	// 페이지당 보여줄 개수 변경시 호출
+	$('.pg-scale').change(function() {
+		location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
+	});
 });
 
 //폼생성하여 post 방식으로 값 보내기 

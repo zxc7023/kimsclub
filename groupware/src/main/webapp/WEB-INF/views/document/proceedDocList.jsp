@@ -39,6 +39,13 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <script>
+$(document).ready(function() {
+	// 페이지당 보여줄 개수 변경시 호출
+	$('.pg-scale').change(function() {
+		location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
+	});
+});
+
 //폼생성하여 post 방식으로 값 보내기 
 function post_to_url(path, params, method) {
     method = method || "post"; // 전송 방식 기본값을 POST로

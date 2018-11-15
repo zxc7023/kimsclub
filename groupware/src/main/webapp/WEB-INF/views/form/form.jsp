@@ -119,7 +119,7 @@
 
 		// 페이지당 보여줄 개수 변경시 호출
 		$('.pg-scale').change(function() {
-			location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}&cur_page='+'${page.curPage}'+'<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
+			location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
 		});
 		
 

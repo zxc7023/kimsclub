@@ -25,12 +25,6 @@
 <!-- Custom Fonts -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
-<!-- jquery-ui.js -->
-<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
-
-<!-- jquery-ui.css -->
-<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
-
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 
@@ -71,7 +65,7 @@ $(document).ready(function() {
 		
 		$.ajax({
 			method : "post",
-			url : "/groupware/approvalDoc",
+			url : "/groupware/approvalDocResult",
 			contentType: "application/json;charset=UTF-8",
 			data :  JSON.stringify(tmpArr),
 			error : function(error) {
@@ -115,7 +109,7 @@ $(document).ready(function() {
 										<div class="panel-heading">
 											<input type="hidden" name="document_no" value="${dvo.document_no}">
 											<input type="hidden" name="document_state" id="type" value="">
-											<button type="button" id="app_btn" class="btn btn-info">기안하기</button>
+											<button type="button" id="app_btn" class="btn btn-default">기안하기</button>
 										</div>
 										<div class="panel-body">
 											<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">

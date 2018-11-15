@@ -6,10 +6,13 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kimsclub.groupware.vo.ApprovalLineVO;
+import com.kimsclub.groupware.vo.ApprovalPathDetailVO;
+import com.kimsclub.groupware.vo.ApprovalPathVO;
 import com.kimsclub.groupware.vo.ApprovalVO;
-import com.kimsclub.groupware.vo.DocumentVO;
 
 @Repository
 public class ApprovalDAO {
@@ -51,6 +54,15 @@ public class ApprovalDAO {
 
 	public void returnApproval(Map<String, Object> map) {
 		session.update("Approval.returnApproval",map);
+		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	public void addFavorite(ApprovalPathVO apvo) {
+		session.insert("Approval.insertAP",apvo);
+		for(ApprovalPathDetailVO apdvo: apvo.getApdlist()) {
+			session.insert("Approval.insertAPD",apdvo);
+		}
 		
 	}
 	

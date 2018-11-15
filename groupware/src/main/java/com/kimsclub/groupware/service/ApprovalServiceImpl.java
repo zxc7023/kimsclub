@@ -11,6 +11,7 @@ import com.kimsclub.groupware.dao.ApprovalDAO;
 import com.kimsclub.groupware.dao.DocumentDAO;
 import com.kimsclub.groupware.dao.EmployeeDAO;
 import com.kimsclub.groupware.vo.ApprovalLineVO;
+import com.kimsclub.groupware.vo.ApprovalPathVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 
@@ -43,5 +44,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public void approvalNewDoc(DocumentVO dvo) {
 		ddao.changeDocState(dvo);
 		adao.insertApproval(dvo.getApproval());
+	}
+
+	@Override
+	public void addFavorite(ApprovalPathVO apvo) {
+		adao.addFavorite(apvo);
+		
 	}
 }
