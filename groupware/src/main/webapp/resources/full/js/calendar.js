@@ -41,8 +41,47 @@ var initializeCalendar = function() {
   
   
   $('#calendar1').fullCalendar({ 
-	  eventLimit: true,
-	  events: events
+	  /*eventLimit: true,*/
+	  events: events,
+	  eventAfterRender: function( event, element, view ){
+		    // Enable for the 'month' view only.
+		    if ( 'month' !== view.name ) {
+		      return;
+		    }
+
+		    var a = moment( event.start, 'YYYY-MM-DD' ),
+		      b = moment( event.end, 'YYYY-MM-DD' ),
+		      duration = moment.duration( b.diff( a ) ),
+		      row = element.closest( '.fc-row' ),
+		      d = a.clone(), i, c;
+
+		    var title = event.title;
+		    if ( b.isValid() ) {
+		      title += ' (' + $.fullCalendar.formatRange( a, b, 'MMM D YYYY' ) + ')';
+		    }
+
+		    // Add the event's "dot", styled with the appropriate background color.
+		    for ( i = 0; i <= duration._data.days; i++ ) {
+		      if ( 0 === 1 ) {
+		        c = a;
+		      } else {
+		        d.add( 1, 'days' );
+		        c = d;
+		      }
+
+		      row.find( '.fc-day[data-date="' + c.format( 'YYYY-MM-DD' ) + '"]' )
+		        .append(
+		          '<a href="#" class="fc-event-dot" onclick="return false;" ' +
+		            'style="background-color: ' + event.backgroundColor + ';" ' +
+		            'title="' + title + '"></a>'
+		        );
+		    }
+
+		    // Here you can either completely remove the default element, or just
+		    // hide it visually on screen.
+		    element.remove();
+		    //element.addClass( 'hidden' );
+		  }
   });
   
   
@@ -61,6 +100,9 @@ var getCalendars = function() {
   $cal1 = $('#calendar1');
   $cal2 = $('#calendar2');
 }
+
+
+
 
 
 
@@ -116,6 +158,7 @@ var initializeLeftCalendar = function() {
           cal2GoTo(calEvent.end);
       },*/
       height: screen.height - 740, //730
+      
       
   });
 }

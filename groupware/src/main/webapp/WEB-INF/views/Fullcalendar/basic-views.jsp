@@ -256,7 +256,7 @@
 						}
 
 						function beforeClick(treeId, treeNode) {
-							var department_no = treeNode.no;
+							var department_no = treeNode.no.split('d')[1];;
 							alert(department_no);
 /* 							$.ajax({
 								method : "post",
