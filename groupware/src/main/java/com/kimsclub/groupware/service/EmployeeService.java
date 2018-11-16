@@ -14,4 +14,6 @@ public interface EmployeeService {
 	List<EmployeeVO> getEmployeeList();
 	
 	public List<EmployeeVO> loadAllEmp();
+	
+	public void updateLastLogin(EmployeeVO vo);
 }

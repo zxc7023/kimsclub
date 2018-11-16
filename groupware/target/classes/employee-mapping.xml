@@ -34,7 +34,9 @@
 		where employee_no = #{employee_no} and password = #{password}
 	</select>
 	
-	<select id="selectEmployeeList" resultMap="employeeMap">
 	
-	</select>
+	<update id="updateLastLogin" parameterType="employee">
+		update employee set last_login = sysdate where employee_no = #{employee_no}
+	</update>
+	
 </mapper>

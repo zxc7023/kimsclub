@@ -44,17 +44,21 @@
 		WHERE document_no = #{document_no} AND employee_no = #{employee_no}
 	</select>
 	
+	<!-- select seq -->
+	<select id="selectAPSeq" resultType="int">
+		SELECT approval_path_seq.nextval FROM dual
+	</select>
 	
 	<!-- insert approval_path  -->
-	<insert id="insertAP" parameterType="ApprovalPath">
+	<insert id="insertAP" parameterType="ApprovalPath" keyProperty="approval_path_no">
 		INSERT INTO approval_path
-		values(approval_path_seq.nextval,#{approval_path_name},#{employee.employee_no})
+		values(#{approval_path_no},#{approval_path_name},#{employee.employee_no})
 	</insert>
 	
 	<!-- insert approval_path_detail  -->
 	<insert id="insertAPD" parameterType="ApprovalPathDetail">
 		INSERT INTO approval_path_detail
-		values(approval_path_seq.nextval,#{approval_path_order},#{employee.employee_no})
+		values(#{approval_path_no},#{approval_path_order},#{employee.employee_no})
 	</insert>
 
 </mapper>

@@ -39,6 +39,8 @@ public class LoginController {
 			if(resultUser != null) {
 				model.addAttribute("loginInfo",resultUser);
 				session.setMaxInactiveInterval(60 * 30);
+				System.out.println(employee);
+				service.updateLastLogin(employee);
 				returnURL = "redirect:/";
 			}else {
 				returnURL = "redirect:/login";
