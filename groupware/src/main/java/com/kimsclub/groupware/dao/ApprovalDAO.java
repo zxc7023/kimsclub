@@ -59,8 +59,11 @@ public class ApprovalDAO {
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void addFavorite(ApprovalPathVO apvo) {
+		int seq = session.selectOne("Approval.selectAPSeq");
+		apvo.setApproval_path_no(seq);
 		session.insert("Approval.insertAP",apvo);
 		for(ApprovalPathDetailVO apdvo: apvo.getApdlist()) {
+			apdvo.setApproval_path_no(apvo.getApproval_path_no());
 			session.insert("Approval.insertAPD",apdvo);
 		}
 		
