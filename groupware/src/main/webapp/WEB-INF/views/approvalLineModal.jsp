@@ -208,7 +208,8 @@
 						var server_json = server_result;
 						var result = server_json.result;
 						if (result == "1") {
-							alert("수정 성공");
+							alert("즐겨찾기 추가 성공");
+							loadMyApprovalLine();
 						} else {
 							alert("수정 실패");
 						}
