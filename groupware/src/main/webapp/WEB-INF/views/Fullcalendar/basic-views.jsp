@@ -134,7 +134,7 @@
 	z-index: 5;
 }
 
-.wrap-btn #i1 {
+.wrap-btn .ii1 {
 	float: left;
 	display: block;
 	width: 20px;
@@ -193,7 +193,41 @@
 .wrap-btn input.form-inputPop:checked+#i4 {
 	background-position: left bottom;
 }
-/* .wrap-btn input.form-inputPop:checked+i+label {color:#f56592;} */
+
+.wrap-btn #i5 {
+	float: left;
+	display: block;
+	width: 20px;
+	height: 20px;
+	background:
+		url(${pageContext.request.contextPath}/resources/images/btn_checkbox5.png)
+		no-repeat left top;
+	z-index: 3;
+}
+
+.wrap-btn input.form-inputPop:checked+#i5 {
+	background-position: left bottom;
+}
+/* 카테고리 색 */
+.wrap-btn input.form-inputPop:checked+#i1+label {
+	color: #ff7473;
+}
+
+.wrap-btn input.form-inputPop:checked+#i2+label {
+	color: #ffc952;
+}
+
+.wrap-btn input.form-inputPop:checked+#i3+label {
+	color: #47b8e0;
+}
+
+.wrap-btn input.form-inputPop:checked+#i4+label {
+	color: #34314c;
+}
+/*  */
+.wrap-btn input.form-inputPop:checked+#i5+label {
+	color: #f56592;
+}
 </style>
 
 
@@ -222,11 +256,29 @@
 						}
 
 						function beforeClick(treeId, treeNode) {
-							console.log(treeNode);
+							var department_no = treeNode.no;
+							alert(department_no);
+/* 							$.ajax({
+								method : "post",
+								data : JSON.stringify(eventData),
+								dataType : "json",
+								contentType : 'application/json;charset=UTF-8',
+								url : "/groupware/addCalendar",
+								error : function() {
+									alert('전송 실패:데이터 저장');
+								},
+								success : function(data) {
+									alert(data.result);
+									$cal2.fullCalendar('renderEvent',
+											eventData, true);
+								}
+							}) */
+
+/* 							console.log(treeNode);
 							alert("부서 클릭 : " + treeNode.name + ":"
 									+ treeNode.no);
 							showLog("부서 클릭 : " + treeNode.name + ":"
-									+ treeNode.no);
+									+ treeNode.no); */
 						}
 						//zTree 세팅 부분
 						var setting = {
@@ -235,7 +287,7 @@
 							},
 							//체크박스 사용 여부 부분
 							check : {
-								enable : false,
+								enable : true,
 								chkStyle : "checkbox"
 							},
 							data : {
@@ -253,7 +305,8 @@
 								}
 							},
 							callback : {
-								beforeClick : beforeClick
+							/* 	beforeClick : beforeClick, */
+								beforeCheck:beforeClick
 							},
 							edit : {
 								enable : true,
@@ -302,10 +355,21 @@
 
 					});
 </script>
+<script>
+$(document).on("click","#index_submit",function() {
+	$('#update').unbind();
+	 var radioVal = $('input[name="color"]:checked').val();
+	 var nameVal = $('#shereTitle').val();
+	$("#index_list").append (
+			"<div class='.wrap-btn'><input type='checkbox'><i class='ii1'></i><label style='color:"+radioVal+"'>"+nameVal+"</label></div>"			
+			);
+	$('#shereTitle').val("");
+	 $('#addcategory').modal('hide');
+	
+});
+</script>
 
 <body>
-
-
 	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
@@ -330,12 +394,13 @@
 						type="button" id="category" value="만들기"
 						style="position: absolute; right: 0;" />
 					<!-- 카테고리 -->
+					<div id="index_list"></div>
 					<!--  -->
 					<div class="wrap-btn">
 						<input class="form-inputPop" type="checkbox" name="e1" id="e1"
 							checked="checked"
-							onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com', 'Holidays', '#f8f8f8', '#FF0000');" />
-						<i></i> <label for="checkbox02">휴가</label>
+							onChange="scheduleChoice(0, 'qansohiecib58ga9k1bmppvt5oi65b1q@import.calendar.google.com', '#f8f8f8', '#FF0000');" />
+						<i id="i5"></i> <label for="checkbox01">공휴일</label>
 					</div>
 					<!--  -->
 
@@ -366,11 +431,10 @@
 									<textarea rows="5" cols="30" id="content" class="form-control"></textarea>
 									<label class="form-control-label">색상</label> <select
 										name="color" id="color" class="form-control">
-										<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
-										<option value="#f56592" style="background-color: #f56592;">업무</option>
-										<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
-										<option value="#008bca" style="background-color: #008bca;"
-											selected="selected">파란</option>
+										<option value="#ff7473" style="background-color: #ff7473">주황</option>
+										<option value="#ffc952" style="background-color: #ffc952;">업무</option>
+										<option value="#47b8e0" style="background-color: #47b8e0;">노랑</option>
+										<option value="#34314c" style="background-color: #34314c;">파란</option>
 									</select> <label class="form-control-label">시작날짜</label> <input
 										type="text" class="form-control" id="starts_at"> <label
 										class="form-control-label">종료날짜</label> <input type="text"
@@ -410,11 +474,10 @@
 									<textarea rows="5" cols="30" id="content2" class="form-control"></textarea>
 									<label class="form-control-label">색상</label> <select
 										name="color" id="color2" class="form-control">
-										<option value="#f27d4a" style="background-color: #f27d4a">주황</option>
-										<option value="#e0305a" style="background-color: #e0305a;">빨강</option>
-										<option value="#feeb5b" style="background-color: #feeb5b;">노랑</option>
-										<option value="#008bca" style="background-color: #008bca;"
-											selected="selected">파란</option>
+										<option value="#ff7473" style="background-color: #ff7473">주황</option>
+										<option value="#ffc952" style="background-color: #ffc952;">빨강</option>
+										<option value="#47b8e0" style="background-color: #47b8e0;">노랑</option>
+										<option value="#34314c" style="background-color: #34314c;">파란</option>
 									</select> <label class="form-control-label">시작날짜</label> <input
 										type="text" class="form-control" id="starts_at2"> <label
 										class="form-control-label">종료날짜</label> <input type="text"
@@ -454,94 +517,31 @@
 									<!--t수정  -->
 									<label class="form-control-label">색상</label>
 									<div class="wrap-btn">
-										<label><input class="form-inputPop" type="radio"
-											name="color" id="checkbox1" style="display: none;" /> <i
-											id="i1"></i></label> <label><input class="form-inputPop"
-											type="radio" name="color" id="checkbox2"
-											style="display: none;" /> <i id="i2"></i></label> <label><input
-											class="form-inputPop" type="radio" name="color"
-											id="checkbox3" style="display: none;" /> <i id="i3"></i></label> <label><input
-											class="form-inputPop" type="radio" name="color"
-											id="checkbox4" style="display: none;" /> <i id="i4"></i></label>
+										<label>
+										<input class="form-inputPop" type="radio"
+											name="color" id="checkbox1" value="#ff7473" style="display: none;" /> <i class="ii1"
+											id="i1"></i></label> 
+											<label>
+											<input class="form-inputPop"
+											type="radio" name="color" id="checkbox2"value="#ffc952"
+											style="display: none;" /> <i class="form-inputPop"id="i2"></i></label> 
+											<label>
+											<input class="form-inputPop" type="radio" name="color"
+											id="checkbox3" value="#47b8e0"style="display: none;" /> <i class="form-inputPop" id="i3"></i></label> 
+											<label>
+											<input class="form-inputPop" type="radio" name="color"
+											id="checkbox4"value="#34314c" style="display: none;" /> <i class="form-inputPop"id="i4"></i></label>
 									</div>
 									<label class="form-control-label">공유 대상</label>
-									<table>
+									<table >
 										<tr valign=top>
-											<td><input type="text" id="plugins4_q" value=""
-												class="input"
-												style="margin: 0em auto 1em auto; display: block; padding: 4px; border-radius: 4px; border: 1px solid silver;" />
-												<div id="plugins4">
-													<ul>
-														<li data-jstree='{"opened":true}'>KIM'S CLUB
-															<ul>
-																<li>영업부</li>
-															</ul>
-														</li>
-														<li>위원회</li>
-													</ul>
-												</div>
+											<td>
 												<div>
 													<div class="zTreeDemoBackground left">
 														<ul id="treeDemo" class="ztree">
 														</ul>
 													</div>
-
-													<ul id="log" class="log">
-													</ul>
-												</div> <script>
-													$(function() {
-														$("#plugins4")
-																.jstree(
-																		{
-																			"plugins" : [ "search" ]
-																		});
-														var to = false;
-														$('#plugins4_q')
-																.keyup(
-																		function() {
-																			if (to) {
-																				clearTimeout(to);
-																			}
-																			to = setTimeout(
-																					function() {
-																						var v = $(
-																								'#plugins4_q')
-																								.val();
-																						$(
-																								'#plugins4')
-																								.jstree(
-																										true)
-																								.search(
-																										v);
-																					},
-																					250);
-																		});
-													});
-												</script></td>
-											<td valign=top>리스트가 존재하지않습니다.</td>
-											<td valign=top>
-												<h5>
-													등록 권한 <span id="selToCnt">0</span>
-												</h5>
-												<div class="to">
-													<select multiple="multiple"
-														style="height: 176px; width: 150px;" id="selTo"><option
-															value="97" disabled></option></select>
-													<div class="del-btn">
-														<a href="">삭제</a>
-													</div>
-												</div>
-												<h5>
-													조회 권한 <span id="selBccCnt">0</span>
-												</h5>
-												<div class="bcc">
-													<select multiple="multiple"
-														style="height: 176px; width: 150px;" id="selBcc"></select>
-													<div class="del-btn">
-														<a href="">삭제</a>
-													</div>
-												</div>
-											</td>
+												</div> </td>																																	
 										</tr>
 									</table>
 									<!--수정끝  -->
@@ -550,7 +550,7 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
 									data-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-success" id="submit">저장</button>
+								<button type="button" class="btn btn-success" id="index_submit">저장</button>
 							</div>
 						</form>
 					</div>

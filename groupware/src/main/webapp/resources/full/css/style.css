@@ -169,14 +169,14 @@ display:none;
   font-weight: 700;
 }
 
-/*#calendar .dot-event {
+.dot-event {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     display: inline-block;
     margin-left: 10px;
     vertical-align: text-bottom;
-}*/
+}
 
 .red {
   width: 10px;
