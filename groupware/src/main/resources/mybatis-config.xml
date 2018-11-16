@@ -25,5 +25,6 @@
 		<typeAlias type="com.kimsclub.groupware.vo.CalendarVO" alias="calendar"/>
 		<typeAlias type="com.kimsclub.groupware.vo.MessageVO" alias="message" />
 		<typeAlias type="com.kimsclub.groupware.vo.TransmissionVO" alias="Transmission" />
+		<typeAlias type="com.kimsclub.groupware.vo.WorkRecodeVO" alias="WorkRecode"/>
 	</typeAliases>
 </configuration>
