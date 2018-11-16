@@ -205,7 +205,7 @@
 							<ul class="nav nav-third-level collapse">
 								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffWriteform"><i class="far fa-edit"></i> 휴가 신청</a></li>
 								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffStatus"><i class="fas fa-history"></i> 휴가 현황</a></li>
-								<li><a href="#"><i class="fas fa-business-time"></i> 근태 현황</a></li>
+								<li><a href="${pageContext.request.contextPath}/work/workStatus"><i class="fas fa-business-time"></i> 근태 현황</a></li>
 							</ul> <!-- /.nav-third-level -->
 						</li>
 						<li><a href="#"><i class="fas fa-user-lock"></i> 휴가 관리<span class="fa arrow"></span></a>

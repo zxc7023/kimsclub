@@ -5,7 +5,7 @@ public class ApprovalLineVO {
 	private String approval_path_name;
 	private int approval_path_order;
 	private EmployeeVO employee; 
-		
+	
 	
 	
 	public ApprovalLineVO() {

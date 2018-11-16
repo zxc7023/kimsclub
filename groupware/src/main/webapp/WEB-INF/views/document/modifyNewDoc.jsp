@@ -44,8 +44,8 @@
 <script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
 
 <!-- jquery-ui.css -->
-<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
-<!-- jquery-serializeObject.js  -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css">
+
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
 <style>
 .odd {
@@ -156,8 +156,8 @@ function loadForm(){
 							<div class="panel-heading">
 								<input type="hidden" name="document_no" value="${dvo.document_no}">
 								<input type="hidden" name="document_state" id="type" value="">
-								<input type="button" class="btn btn-info" id="modify_btn" value="저장하기">
-								<input type="button" class="btn btn-info" onclick="location.href='/groupware/newDocList'" value="돌아가기">
+								<input type="button" class="btn btn-default" id="modify_btn" value="저장하기">
+								<input type="button" class="btn btn-default" onclick="location.href='/groupware/newDocList'" value="돌아가기">
 							</div>
 							<div class="panel-body">
 								<table

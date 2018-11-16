@@ -26,4 +26,10 @@ public class EmployeeDAO {
 	public List<EmployeeVO> selectEmployeeList() {
 		return session.selectList("employee.selectEmployeeList");
 	}
+
+
+	public void updatelastLogin(EmployeeVO vo) {
+		System.out.println(vo);
+		session.update("employee.updateLastLogin",vo);
+	}
 }

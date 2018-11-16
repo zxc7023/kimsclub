@@ -5,7 +5,7 @@
 <script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
 
 <!-- jquery-ui.css -->
-<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css">
 
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
@@ -159,9 +159,6 @@
 		    }
 	    });
 	   
-	    $('#favorites').click(function(){
-	    	$('#addFavorites').modal("show");
-	    });
 	    
 	    $("#approvalLineSelect").on("shown.bs.modal", function() { 
 	    	$("#search").catcomplete("option", "appendTo", "#approvalLineSelect");
@@ -173,41 +170,56 @@
 			$('#approvalLine').find('#paste').html($('#sortable').html());
 		});
 	    
-		//즐겨찾기 추가
-		$('#addConfirm').click(function(){
-			var form = document.createElement("form");
-		 	form.setAttribute("id","addFavoritesForm");
-		 	form.setAttribute("hidden","hidden");
-	        var hiddenField = document.createElement("input");
-	        hiddenField.setAttribute("type", "hidden");
-	        hiddenField.setAttribute("name", "approval_path_name");
-	        hiddenField.setAttribute("value", $('#approval_path_name').val());
-		 	 document.body.appendChild(form);
-		    $('#addFavoritesForm').html($('#sortable').html());
-		    //히든으로 값을 주입시킨다.
-		 
-		   	form.appendChild(hiddenField);
-		 
-			tmpArr = $("form#addFavoritesForm").serializeObject();
-			
-			console.log(tmpArr);
-			$.ajax({
-				method : "post",
-				url : "/groupware/addFavorite",
-				contentType: "application/json;charset=UTF-8",
-				data :  JSON.stringify(tmpArr),
-				error : function(error) {
-					alert("전송 실패");
-				},
-				success : function(data) {
-					
-					window.location.href = data;
-				}
-			}); 
-			
-			
-			 $('#addFavoritesForm').html("");
-		});
+	    //즐겨찾기 모달 창 열기
+	    $('#favorites').click(function(){
+	    	$('#addFavorites').modal("show");
+	    });
+	    
+	    $('#addConfirm').click(function(){
+	    	if($('#approval_path_name').val()){
+	    		var apvo = {
+	    				apdlist : []
+	    		};;
+	    		apvo.approval_path_name = $('#approval_path_name').val(); 
+	    		var emp ={};
+	    		
+	    		for(var i=0; i < index; i++){
+	    			var apdvo = {};
+	    			apdvo.approval_path_order = i;
+	    			apdvo.employee = {
+	    					employee_no : $('.modal_name[index='+i+']').children().children().val()
+	    			}
+	    			apvo.apdlist[i]=apdvo;
+	    		}
+	    		emp.employee_no=${sessionScope.loginInfo.employee_no};
+	    		apvo.employee=emp;
+	    		console.log(apvo);
+	    		$.ajax({
+					method : "post",
+					url : "${pageContext.request.contextPath}/addFavorite",
+					dataType : "json",
+					contentType : 'application/json;charset=UTF-8',
+					data : JSON.stringify(apvo),
+					error : function() {
+						alert("apvo 전송 실패");
+					},
+					success : function(
+							server_result) {
+						var server_json = server_result;
+						var result = server_json.result;
+						if (result == "1") {
+							alert("즐겨찾기 추가 성공");
+							loadMyApprovalLine();
+						} else {
+							alert("수정 실패");
+						}
+					}
+				});
+	    		
+	    	}else{
+	    		alert("즐겨찾기 제목을 입력해 주세요.");
+	    	}
+	    });
 	});
 </script>
 	<div class="modal fade" id="approvalLineSelect" tabindex="-1" role="dialog" aria-hidden="true">
@@ -302,7 +314,7 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">현재 선택한 결재선을 즐겨찾기에 추가 하시려면 제목을 적고 확인을 누르세요.</div>
 								<div class="panel-body">
-									<input type="text" style="width: 100%;" id="approval_path_name">
+									<input type="text" style="width: 100%;" id="approval_path_name" size="25" autofocus="autofocus">
 								</div>
 							</div>
 						</div>

@@ -8,6 +8,8 @@
 	<typeAliases>
 		<typeAlias type="com.kimsclub.groupware.vo.ApprovalVO" alias="Approval" />
 		<typeAlias type="com.kimsclub.groupware.vo.ApprovalLineVO" alias="ApprovalLine" />
+		<typeAlias type="com.kimsclub.groupware.vo.ApprovalPathVO" alias="ApprovalPath" />
+		<typeAlias type="com.kimsclub.groupware.vo.ApprovalPathDetailVO" alias="ApprovalPathDetail" />
 		<typeAlias type="com.kimsclub.groupware.vo.BoardVO" alias="board" />
 		<typeAlias type="com.kimsclub.groupware.vo.BoardReplyVO" alias="boardReply" />
 		<typeAlias type="com.kimsclub.groupware.vo.DayoffCreateTermsVO" alias="DayoffCreateTerms"/>

@@ -25,11 +25,11 @@
 <!-- Custom Fonts -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
-<!-- jquery-ui.js -->
+<%-- <!-- jquery-ui.js -->
 <script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.js"></script>
 
 <!-- jquery-ui.css -->
-<script src="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css"> --%>
 
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>

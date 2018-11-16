@@ -45,14 +45,28 @@ height: 80px;
 }
 </style>
 <script>
-$("#approval-btn").click(function(){
-	if($('.check:checked').val()==null){
-		alert("선택한 문서가 없습니다.");
-	}
-	else{
-		window.location.href = "/groupware/approvalDoc?document_no="+$('.check:checked').val();
-	}
-});
+//폼생성하여 post 방식으로 값 보내기 
+function post_to_url(path, params, method) {
+    method = method || "post"; // 전송 방식 기본값을 POST로
+	
+    console.log(params);
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+ 
+    //히든으로 값을 주입시킨다.
+    for(var key in params) {
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+ 
+        form.appendChild(hiddenField);
+    }
+	document.body.appendChild(form);
+	console.log(document.body);
+	form.submit();
+}
 </script>
 </head>
 <body>
@@ -75,7 +89,7 @@ $("#approval-btn").click(function(){
 			<form class="col-sm-12" method="post">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<button id="approval-btn" class="btn btn-default">기안하기</button>
+						<a class="btn btn-default" href="javascript:post_to_url('/groupware/approvalDoc',{'document_no':${dvo.document_no}})">기안하기</a>
 						<button type="button" onclick="location.href='modifyNewDoc?document_no=${dvo.document_no}'" class="btn btn-default">수정하기</button>
 						<input type="button" class="btn btn-default" onclick="location.href='/groupware/newDocList'" value="돌아가기">
 					</div>

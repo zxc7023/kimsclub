@@ -150,8 +150,13 @@ public class DocumentController {
 		List<DocumentVO> dlist = service2.getDocumentList(map);
 		
 		//현재 페이지가 page_scale 변경 시 최대 페이지보다 크면 1로 초기화
+		System.out.println("cur_page:"+cur_page);
+		System.out.println("tot_page:"+bpvo.getTotPage());
+
 		if(cur_page>bpvo.getTotPage()) {
-			cur_page=1;
+			bpvo.setCurPage(1);
+			System.out.println("2cur_page:"+cur_page);
+			System.out.println("2tot_page:"+bpvo.getTotPage());
 		}
 		
 		mav.addObject("map",map);
@@ -245,7 +250,7 @@ public class DocumentController {
 		System.out.println("approvalDocList() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
 		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,2);
-	
+		
 		mav.setViewName("document/approvalDocList");
 		
 		return mav;

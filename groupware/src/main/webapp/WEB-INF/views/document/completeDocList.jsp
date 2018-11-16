@@ -39,23 +39,6 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <script>
-/* function beforeClick(treeId, treeNode) {
-	if (treeNode.parent) {
-		//parent 구분하기위해 부서 명 앞에 d적은 거 자르기
-		var department_no = treeNode.no.split('d')[1];
-		alert("부서 클릭 : "+treeNode.name+":"+department_no);
-		//return true;
-	} else {
-		alert("사원 클릭 : "+name+":"+no);
-		//return false;
-	}
-} */
-
-/* function beforeCheck(treeId, treeNode) {
-	className = (className === "dark" ? "":"dark");
-	showLog("[ beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
-	return (treeNode.doCheck !== false);
-} */
 $(document).ready(function() {
 	$("#sendPublic-btn").click(function(){
 		if($('.check:checked').val()==null){
@@ -104,6 +87,11 @@ $(document).ready(function() {
 	    console.log(document.body);
 	    form.submit();
 		
+	});
+	
+	// 페이지당 보여줄 개수 변경시 호출
+	$('.pg-scale').change(function() {
+		location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
 	});
 });
 

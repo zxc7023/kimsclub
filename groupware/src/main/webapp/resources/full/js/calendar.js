@@ -10,6 +10,9 @@ $(function() {
 
 /* --------------------------공통적인 캘린더-------------------------- */
 var initializeCalendar = function() {
+	
+	
+	
   $('#calendar2').fullCalendar({
       editable: true,
       eventLimit: true,      
@@ -27,7 +30,7 @@ var initializeCalendar = function() {
          className : "Holidays",
          color : "#f8f8f8",
          textColor : "#FF0000",
-      }      
+      }
 ],
       defaultTimedEventDuration: '00:30:00',
       forceEventDuration: true,
@@ -41,6 +44,15 @@ var initializeCalendar = function() {
 	  eventLimit: true,
 	  events: events
   });
+  
+  
+/*	$("#index_submit").on('click', function(){
+			 var radioVal = $('input[name="color"]:checked').val();
+			 var nameVal = $('#shereTitle').val();
+		$("#index_list").append (
+				"<div class='.wrap-btn'><input type='checkbox'>"+nameVal+"</div>"			
+				);
+	});*/
 }
 
 /*--------------------------calendar 이름--------------------------*/
@@ -57,6 +69,7 @@ var initializeRightCalendar = function()  {
   $cal2.fullCalendar('changeView', 'month');
   $cal2.fullCalendar('option', {
     slotEventOverlap: false,
+    editable: true,
     allDaySlot: true,
     header: {
         left: 'today,myCustomButton',
@@ -142,7 +155,7 @@ var loadEvents = function(num, id, color, text) {
 
 var scheduleChoice = function(num, id, color, text) {
 	if($('.form-inputPop').eq(num).is(':checked')) {
-		$('#calendar2').fullCalendar('addEventSource', { googleCalendarId : id, color : color, textColor : text });
+		$('#calendar2').fullCalendar('addEventSource', { googleCalendarId : id,  color : color, textColor : text });
 
 	  } else {
 		  $('#calendar2').fullCalendar('removeEventSource', { googleCalendarId : id });
