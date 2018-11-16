@@ -60,5 +60,9 @@ public class DocumentDAO {
 	public void returnDocState(Map<String, Object> map) {
 		session.update("Document.returnDoc", map);
 	}
+
+	public DayoffApplyVO dayoffApplyDetailListByDocNo(int document_no) {
+		return session.selectOne("Document.dayoffApplyDetailListByDocNo", document_no);
+	}
 	
 }

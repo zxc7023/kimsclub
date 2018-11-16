@@ -60,7 +60,6 @@ function dateToFormat(date){
 		var keys;
 		
 		function isVaild(){
-			
 			if($("div#approvalLine input[name='approval[][employee][employee_no]']").length < 2){
 				alert("결재선을 2명이상 입력해주세요.");
 				return false;
@@ -151,10 +150,27 @@ function dateToFormat(date){
 			approval.approval = dayoffApply.approval;
 			dayoffApply.document = approval;
 			delete dayoffApply.approval;
-			console.log(JSON.stringify(dayoffApply)); 
+			console.log(JSON.stringify(dayoffApply));
 			
-			
-		 	
+			/* 
+			$('#dayoff_name').html($('select[name=dayoff_type_code] option:selected').text());
+			$('#total_days').html($("input[name=total_days]").val());
+			$('#dayoff_reason').html($('textarea[name=dayoff_reason]').val());
+			//alert(dayoffApply);
+			var dateText ='';
+			for(var i=0 ; i <detailObj.length; i++){
+				var oneorhalf = detailObj[i].oneorhalf;
+				if(oneorhalf == 0){
+					oneorhalf = "일차";
+				}else if(oneorhalf ==1){
+					oneorhalf ="오전반차"
+				}else if(oneorhalf == 2){
+					oneorhalf = "오후반차"
+				}
+				dateText += detailObj[i].dayoff_day +"[" + oneorhalf +"]" + "<br>";
+			}			
+			$("#dayoff_day").html(dateText);
+			 */
 	 		$.ajax({
 				method : "post",
 				dataType : "json",
@@ -174,7 +190,7 @@ function dateToFormat(date){
 						alert("휴가신청 실패");
 					}
 				}
-			});  
+			});
 		
 	 
 			
@@ -527,7 +543,43 @@ function dateToFormat(date){
 		</div>
 	</div>
 	<jsp:include page="/WEB-INF/views/approvalLineModal.jsp"></jsp:include>
-	<textarea name="document_contents" id="document_contents" style="display: none;">
-	</textarea>
+	<!-- <textarea name="document_contents" id="document_contents" style="display: none;">
+	</textarea> -->
+	<div id="document_contents" style="display: none;">
+		<table class="table table-bordered no-footer">
+			<colgroup>
+				<col width="20%">
+				<col width="30%">
+				<col width="20%">
+				<col width="30%">
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>사용자</th>
+					<td id="user_name">${sessionScope.loginInfo.employee_name}</td>
+					<th>신청자</th>
+					<td id="applicant_name">${sessionScope.loginInfo.employee_name}</td>
+				</tr>
+				<tr>
+					<th>소속</th>
+					<td colspan="3" id="department_name"></td>
+				</tr>
+				<tr>
+					<th>종류</th>
+					<td id="dayoff_name"></td>
+					<th>일수</th>
+					<td id="total_days"></td>
+				</tr>
+				<tr>
+					<th>기간</th>
+					<td colspan="3" id="dayoff_day">2018-11-29[일차]<br>2018-11-30[일차]<br></td>
+				</tr>
+				<tr>
+					<th>사유</th>
+					<td colspan="3" id="dayoff_reason"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>

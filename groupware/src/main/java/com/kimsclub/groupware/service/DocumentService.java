@@ -3,6 +3,7 @@ package com.kimsclub.groupware.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 
 
@@ -25,4 +26,6 @@ public interface DocumentService {
 	public void approveDocument(Map<String, Object> map);
 
 	public void returnDocument(Map<String, Object> map);
+
+	public DayoffApplyVO dayoffApplyDetailList(int document_no);
 }

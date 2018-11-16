@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kimsclub.groupware.dao.ApprovalDAO;
 import com.kimsclub.groupware.dao.DocumentDAO;
+import com.kimsclub.groupware.vo.DayoffApplyVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 
 @Service
@@ -79,5 +80,11 @@ public class DocumentServiceImpl implements DocumentService {
 	public void returnDocument(Map<String, Object> map) {
 		ddao.returnDocState(map);
 		adao.returnApproval(map);
+	}
+
+	@Override
+	public DayoffApplyVO dayoffApplyDetailList(int document_no) {
+		
+		return ddao.dayoffApplyDetailListByDocNo(document_no);
 	}
 }

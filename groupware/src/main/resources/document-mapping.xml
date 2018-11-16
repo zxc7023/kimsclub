@@ -30,6 +30,24 @@
 		</association> 
 	</resultMap>
 	
+	<!-- 문서 번호를 통해 휴가 정보 가져오기 -->
+	<select id="dayoffApplyDetailListByDocNo" resultMap="dayoff.detailMap" parameterType="int">
+		select da.dayoff_no, document_date, document_state, eda.employee_name, ed.employee_name, department_name, dayoff_name, total_days,dayoff_reason
+		from dayoff_apply da join document d
+		on da.document_no = d.document_no
+		join employee ed
+		on d.document_writer_no = ed.employee_no
+		join dayoff_kinds dk
+		on da.dayoff_type_code = dk.dayoff_type_code
+        join employee eda
+        on da.employee_no = eda.employee_no
+        join department dep
+        on eda.department_no = dep.department_no
+        where d.document_no = #{value}
+	</select>
+	
+	
+	
 	<select id="selectDocument" parameterType="int" resultMap="documentMap">
 		SELECT document_no, document_title, document_contents, document_date, document_state, document_writer_no, employee_name, position
 		FROM document d left join employee e on d.document_writer_no = e.employee_no WHERE document_no = #{document_no}
