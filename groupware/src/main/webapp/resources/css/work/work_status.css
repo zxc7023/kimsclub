@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+.calendar .sunday {
+	color: #F79DC2;
+}
+
+.calendar .saturday {
+	color: skyblue;
+}
+
+table#calendar{
+	top:0;
+	height:60%;
+	margin: auto;
+	text-align: center;
+}
+table#calendar td{
+	border:1px solid #dedede;
+	width:5%;
+	position:relative;
+}
+table#calendar thead tr{
+	line-height:30px;
+}
+table#calendar tbody tr{
+	height: 72px;
+	border: 1px solid gray;
+}
+

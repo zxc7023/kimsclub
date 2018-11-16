@@ -121,6 +121,7 @@
 		join dayoff_apply da
 		on da.document_no = d.document_no
 		where da.dayoff_no = #{dayoff_no}
+		order by approval_no asc
 	</select>
 	
 
