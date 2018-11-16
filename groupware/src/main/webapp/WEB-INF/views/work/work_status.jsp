@@ -20,7 +20,9 @@
 <!-- Custom CSS -->
 <link href="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
 <!-- Custom Fonts -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<!-- 전용css -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/work/work_status.css">
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.1.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
@@ -30,6 +32,87 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 <script>
+	//캘린더 html 요소를 찾아서 변수에 저장.
+	var today = new Date();
+	var cal_start_date = new Date(today.getFullYear(),today.getMonth(),1);
+	
+	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11', '12');
+	function prevWeekCalendar() {
+		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),1);
+		buildCalendar();
+	}
+
+	function nextWeekCalendar() {
+		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),16);
+		buildCalendar();
+	}
+
+	function prevMonCalendar() {
+		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()-1,1);
+		buildCalendar();
+	}
+
+	function nextMonCalendar() {
+		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1,1);
+		buildCalendar();
+	}
+
+	function buildCalendar() {
+		var tbCalendar = $("#calendar");
+
+		//초기에 테이블이의 row(tr)이 존재하는경우 초기화
+		if (tbCalendar.find("tr").length > 0) {
+			tbCalendar.find("tr").remove();
+		}
+
+		var cnt = 0;
+
+		var tr = "<tr></tr>";
+		var td = "<td></td>";
+		var thead = tbCalendar.find("thead");
+		var tbody = tbCalendar.find("tbody");
+
+		//thead의 첫 번째 row 추가 및 변수 선언
+		thead.append(tr);
+		var row1 = tbCalendar.find("thead tr:last-child").addClass("year_month");
+
+		//thead의 두 번째 row 추가 및 변수 선언
+		thead.append(tr);
+		var row2 = tbCalendar.find("thead tr:nth-child(2)").addClass("date");
+		if (cal_start_date.getDate()==1) {
+			
+			for (var i = 0; i < 15; i++) {
+				row2.append(td);
+				var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(),
+						cal_start_date.getDate() + i);
+				row2.find("td:last-child").text(cell_date.getDate());
+			}
+			row2.append(td);
+			var next = "<button type='button' id='nextWeek()' onclick='nextWeekCalendar()' class='glyphicon glyphicon-chevron-right'></button>";
+			row2.find("td:last-child").html(next);
+			cnt = 16;
+		} else {
+			var lastDateObj = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1,0);
+			var lastDateTerms = lastDateObj.getDate()-15;
+			for (var i = 0; i < lastDateTerms; i++) {
+				row2.append(td);
+				var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(),
+						cal_start_date.getDate() + i)
+				row2.find("td:last-child").text(cell_date.getDate());
+			}
+			row2.append(td);
+			var next = "<button type='button' id='prevWeek()' onclick='prevWeekCalendar()' class='glyphicon glyphicon-chevron-left'></button>";
+			row2.find("td:last-child").html(next);
+			cnt = lastDateTerms+1;
+		}
+		
+		row1.append(td);
+		var cell= row1.find("td:last-child").attr("colspan", cnt);
+		var leftBtn = "<button type='button' id='prevMonthBtn' onclick='prevMonCalendar()' class='glyphicon glyphicon-chevron-left'></button>";
+		var rightBtn = "<button type='button' id='nextMonthBtn' onclick='nextMonCalendar()' class='glyphicon glyphicon-chevron-right'></button>";
+		cell.html(leftBtn + cal_start_date.getFullYear() + "." +  month[cal_start_date.getMonth()] + rightBtn);
+
+	}
 	$(document).ready(function() {
 
 	});
@@ -50,11 +133,17 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-12"></div>
-				
-				<script type="text/javascript">
-					buildCalendar();
-				</script>
+				<div class="col-sm-12">
+					<table id="calendar">
+						<thead></thead>
+						<tbody></tbody>
+					</table>
+					<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"></button>
+					<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right"></button>
+					<script type="text/javascript">
+						buildCalendar();
+					</script>
+				</div>
 			</div>
 		</div>
 	</div>
