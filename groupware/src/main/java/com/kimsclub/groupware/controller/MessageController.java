@@ -43,10 +43,10 @@ public class MessageController {
 		
 	//쪽지 답장 화면
 		@RequestMapping(value="/messageAnswer", method=RequestMethod.POST)
-		public ModelAndView messageAnswer(MessageVO vo) {
-			System.out.println("d"+vo.getMessage_senderAndReceiver_name());
+		public ModelAndView messageAnswer(MessageVO vo, String box) {
 			ModelAndView mav = new ModelAndView();
 			mav.addObject("answervo", vo);
+			mav.addObject("box",box);
 			mav.addObject("messageAnswer", "messageAnswer");
 			mav.setViewName("/message/messageWrite");
 			return mav;
@@ -98,8 +98,9 @@ public class MessageController {
 	//쪽지 보관
 		@RequestMapping(value="/keepMessage", method=RequestMethod.POST)
 		@ResponseBody
-		public void keepMessage(@RequestParam(value="message_no")int[] message_no) {
-			service.keepMessage(message_no);
+		public void keepMessage(@RequestParam(value="message_no")int[] message_no,
+								@RequestParam(value="box")String box) {
+			service.keepMessage(message_no, box);
 		}
 		
 	//쪽지 삭제
@@ -146,9 +147,8 @@ public class MessageController {
 			mav.addObject("page_scale", page_scale);
 			mav.addObject("curPage", curPage);
 			mav.addObject("box", box);	
-			System.out.println(detailvo.getMessage_senderAndReceiver_name());
+
 			mav.setViewName("/message/messageDetail");
-			System.out.println(box);
 			return mav;
 		}
 

@@ -32,9 +32,10 @@
 	</select>
 		
 <!-- 쪽지 보관 -->
-	<update id="updateKeepMessage" parameterType="int[]" >
+	<update id="updateKeepMessage" parameterType="hashmap" >
 		update message
-		set message_keep='Y' where message_no IN<foreach item="message_no" collection="array" open="(" close=")" separator=",">#{message_no}</foreach>
+		<include refid="msgKeep"></include>
+		<foreach item="message_no" collection="message_no" open="(" close=")" separator=",">#{message_no}</foreach>
 	</update>
 		
 <!-- 쪽지 삭제 -->
@@ -48,9 +49,9 @@
 		select message_no, message_sender_no, message_receiver_no, message_contents, message_date, employee_name as message_senderAndReceiver_name
 		from message, employee
 		<include refid="msgDetailBoxSort"></include>
-	</select>	
+	</select>
 		
-<!-- 쪽지 읽음 -->		
+<!-- 쪽지 읽음 -->
 	<update id="updateReadMessage" parameterType="message" >
 		update message
 		set message_read_state ='Y' where message_no=#{message_no}
@@ -75,7 +76,7 @@
 				(${searchOption} like '%'||#{keyword}||'%')
 			</otherwise>
 		</choose>
-	</sql>	
+	</sql>
 	
 <!-- 페이징sql -->
 	<sql id="pagingHeader">
@@ -86,42 +87,56 @@
 		)where rn between #{start} and #{end}
 	</sql>	
 	
-<!-- 쪽지목록,레코드 갯수(보낸쪽지, 받은쪽지, 쪽지 보관 구분) -->
+<!--쪽지목록,레코드 갯수(보낸쪽지, 받은쪽지, 쪽지 보관 구분)-->
 	<sql id="msgListBoxSort">
 		<choose>
 			<when test="box == 'outBox'">
-			where employee_no=message_receiver_no and message_sender_no=#{employee_no} and message_send_del='N' and  message_sender_no != message_receiver_no
+				where employee_no=message_receiver_no and message_sender_no=#{employee_no} and message_send_del='N' and  message_sender_no != message_receiver_no
 			</when>
 			<when test="box == 'inBox'">
-			where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_receive_del='N' and  message_sender_no != message_receiver_no
+				where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_receive_del='N' and  message_sender_no != message_receiver_no
 			</when>
 			<when test="box == 'myBox'">
-			where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_to_me_del='N' and  message_sender_no = message_receiver_no
+				where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_to_me_del='N' and  message_sender_no = message_receiver_no
 			</when>
-			<otherwise>
-			where employee_no=message_sender_no and message_keep='Y' and message_keep_del='N'
-			</otherwise>
+			<when test="box == 'keepBox'">
+				<!-- where employee_no=message_sender_no and message_keep='Y' and message_keep_del='N' and message_sender_no=#{employee_no} -->
+				where (employee_no=message_sender_no and message_send_keep='Y' and message_keep_del='N' and message_sender_no=#{employee_no})
+				or
+				(employee_no=message_sender_no and message_receive_keep='Y' and message_keep_del='N' and message_receiver_no=#{employee_no})
+			</when>
 		</choose>
 	</sql>
 
-<!-- 쪽지상세(보낸쪽지, 받은쪽지, 쪽지 보관 구분) -->	
+<!--쪽지상세(보낸쪽지, 받은쪽지, 쪽지 보관 구분)-->	
 	<sql id="msgDetailBoxSort">
 		<choose>
 			<when test="box == 'outBox'">
-			where employee_no=message_receiver_no and message_no=#{message_no}
+				where employee_no=message_receiver_no and message_no=#{message_no}
 			</when>
 			<when test="box == 'inBox'">
-			where employee_no=message_sender_no and message_no=#{message_no}
+				where employee_no=message_sender_no and message_no=#{message_no}
 			</when>
 			<when test="box == 'myBox'">
-			where employee_no=message_sender_no and message_no=#{message_no} and message_to_me_del='N' and message_sender_no = message_receiver_no
+				where employee_no=message_sender_no and message_no=#{message_no} and message_to_me_del='N' and message_sender_no = message_receiver_no
 			</when>
 			<otherwise>
-			where employee_no=message_receiver_no and message_no=#{message_no}
+				where employee_no=message_receiver_no and message_no=#{message_no}
 			</otherwise>
 		</choose>
 	</sql>
 	
-
+<!--쪽지 보관-->
+	<sql id="msgKeep">
+		<choose>
+			<when test="box == 'outBox'">
+				set message_send_keep='Y' where message_no IN
+			</when>
+			<when test="box == 'inBox'">
+				set message_receive_keep='Y' where message_no IN
+			</when>
+		</choose>
+	</sql>
 	
+<!-- -->
 </mapper>

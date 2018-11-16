@@ -44,8 +44,11 @@ public class MessageDAO {
 	}
 	
 	//쪽지 보관
-	public void keepMessage(int[] message_no) {
-		session.update("message.updateKeepMessage", message_no);
+	public void keepMessage(int[] message_no, String box) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("message_no",message_no);
+		map.put("box",box);
+		session.update("message.updateKeepMessage", map);
 	}
 	
 	//쪽지 삭제
@@ -64,12 +67,6 @@ public class MessageDAO {
 		return session.selectOne("message.selectDetailMessage", map);
 
 	}
-	
-/*	//쪽지 답장하기
-	public MessageVO answerMessage(MessageVO vo) {
-		return session.selectOne(("message.selectAnswerMe")
-	}
-	*/
 	
 	//쪽지 읽음
 	public void readMessage(MessageVO vo) {

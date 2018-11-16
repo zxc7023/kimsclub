@@ -42,7 +42,7 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 <style type="text/css">
-#msgContent{
+.detailLink{
 	display: inline-block; 
 	width: 800px; 
 	white-space: nowrap; 
@@ -85,7 +85,8 @@
 						$.ajax({
 							method : "POST",
 							url : "${pageContext.request.contextPath}/keepMessage",
-							data : {"message_no" : checkArr},
+							data : {"message_no" : checkArr
+									,"box" : '${map.box}' },
 							error : function() {
 								alert("보관실패");
 							},
@@ -130,21 +131,21 @@
 			
 		});
 		
-		//보낸 쪽지
+	//보낸 쪽지
 		if('${map.box}' =='outBox'){
 			$(".page-header").text('보낸쪽지');
 			$("title").text('보낸쪽지');
 			$("#senderAndreceiver").text('받는사람');
 			$(".panel-heading").text('전체쪽지[${map.count}]');
 		}
-		//받은 쪽지
+	//받은 쪽지
 		else if('${map.box}' =='inBox'){
 			$(".page-header").text('받은쪽지');
 			$("title").text('받은쪽지');
 			$("#senderAndreceiver").text('보낸사람');
 			$(".panel-heading").text('전체쪽지[${map.unReadMsgCnt} / ${map.count}]');
 		}
-		//보관 쪽지
+	//내게쓴 쪽지
 		else if('${map.box}'=='myBox' ){
 			$("#keepBtn").hide();
 			$(".page-header").text('내게쓴쪽지');
@@ -152,27 +153,27 @@
 			$("#senderAndreceiver").text('보낸사람');
 			$(".panel-heading").text('전체쪽지[${map.count}]');
 		}
-		//보관 쪽지
+	//보관 쪽지
 		else{
 			$("#keepBtn").hide();
 			$(".page-header").text('쪽지보관');
 			$("title").text('쪽지보관');
-			$("#senderAndreceiver").text('보낸사람');
+			$("#senderAndreceiver").text('보낸사람/받은사람');
 			$(".panel-heading").text('전체쪽지[${map.count}]');
 		}
 		
-		//쪽지 상세보기 링크 클릭
+	//쪽지 상세보기 링크 클릭
 		$(".detailLink").click(function(){
 			$(this).parents("td").find(".messageDetail").submit();
 		});
 		
-		//모든 체크박스 선택 함수
+	//모든 체크박스 선택 함수
 		$('.checkAll').click(function() {
 			$('.check').prop('checked', this.checked);
 		});
 
 		
-		//쪽지 레코드 갯수 설정
+	//쪽지 레코드 갯수 설정
 		$(".selectPageScale").change(function(){
 			location.href="messageList?box=${map.box}&page_scale="+$(this).val();
 		});
@@ -292,15 +293,15 @@
 					                                    	<c:when test="${map.box == 'inBox'}">
 																<c:choose>
 							                                    	<c:when test="${list.message_read_state =='N'}">
-									                            		<a id="msgContent" href="#" class="detailLink" >${list.message_contents} </a>
+									                            		<a href="#" class="detailLink" >${list.message_contents} </a>
 									                            	</c:when>
 									                            	<c:otherwise>
-									                            		<a id="msgContent" href="#" class="detailLink text-muted" >${list.message_contents} </a>
+									                            		<a href="#" class="detailLink text-muted" >${list.message_contents} </a>
 									                            	</c:otherwise>
 								                            	</c:choose>
 					                                    	</c:when>
 					                                    	<c:otherwise>
-					                                    			<a id="msgContent" href="#" class="detailLink text-muted" >${list.message_contents} </a>
+					                                    			<a href="#" class="detailLink text-muted" >${list.message_contents} </a>
 							                            	</c:otherwise>	
 														</c:choose>
 					                                    		<form action="messageDetail" method="post" class="messageDetail" >

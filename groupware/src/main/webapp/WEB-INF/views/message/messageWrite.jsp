@@ -41,19 +41,26 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <style type="text/css">
-/* #userName{
-	width: 500px; 
-
-} */
-/* #textMsg{
-	width: 500px; 
-
-} */
 
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
 		
+		
+		
+		//메세지 답장할 경우
+		if('${messageAnswer}' == 'messageAnswer'){
+			$(".page-header").text("답장하기");
+			$(".input-group-btn").remove();
+			$("#userName").val('${answervo.message_senderAndReceiver_name}');
+			//messageAnswer로 보낼 form만들기
+			var hiddenField = document.createElement("input");
+	        hiddenField.setAttribute("type", "hidden");
+	        hiddenField.setAttribute("name", "message_receiver_no");
+	        hiddenField.setAttribute("value", '${answervo.message_sender_no}');
+			$(".form-group").append(hiddenField);
+		}		
+		else{
 		//체크된 부서나 사원 가져오기
 		$('#checkDepAndEmp').click(function(){
 			$("#userName").val("");
@@ -63,11 +70,9 @@
 		    var receiverName="";
 		    var tmp= "";
 		    
-		    
 			for (var key in nodes) {
 				if (!nodes[key].parent) {
 					tmp+=(nodes[key].name+",");
-					
 					var hiddenField = document.createElement("input");
 				        hiddenField.setAttribute("type", "hidden");
 				        hiddenField.setAttribute("name", "message_receiver_no");
@@ -76,12 +81,11 @@
 				}
 			}
 			var receiverName = tmp.substring(0, tmp.length-1);
-			$("#userName").val(receiverName);
-			/* document.body.appendChild(form); */			
+			$("#userName").val(receiverName);			
 		});	
+		}
 		
 		//쪽지 보내기 버튼
-		
 		$("#sendBtn").click(function(){
 			if($("#userName").val()==""){
 				alert("받는 사람을 입력해주세요.");
@@ -97,48 +101,42 @@
 </head>
 <body>
 <div id="wrapper">
-
-		<!-- header,navigation div -->
-		<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
-
-		<!-- content div -->
-		<div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">쪽지작성</h1>
-                </div>
-            </div>
+	<jsp:include page="/WEB-INF/views/navigation.jsp"></jsp:include>
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-6">
+				<h1 class="page-header">쪽지작성</h1>
+			</div>
+		</div>
             
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-             <!-- 게시판 타입명  -->${sessionScope.loginInfo.employee_name}
-                        </div>
-                        <div class="panel-body">
-                            
-	       	 <!-- 받는이 선택 --> 
-	        				<form id="messageSave" action="messageWrite" method="post">
-	                            <div class="row">
-	                            	<div class="col-sm-12">
-	                            		<div class="form-group input-group">
-                                            <span class="input-group-addon">받는이</span>
-                                            <input id="userName" type="text" class="form-control" readonly="readonly" placeholder="Username" <c:if test="${messageAnswer=='messageAnswer'}">${vo.message_sender_no} </c:if> >
-                                            <span class="input-group-btn">
-                                                <button id="tree-btn" class="btn btn-warning" type="button"><i class="fa fa-search"></i>
-                                                </button>
-                                            </span>
-	                            		</div>
-	                            	</div>
-	                            </div>
-	         <!-- 쪽지 내용 입력  -->
-	                            <div class="row">
-                          		 	 <div class="col-sm-12">
-                          				  <textarea id="textMsg" style="resize: none;" class="form-control" rows="15" cols="80" name="message_contents" ></textarea>
-                           			 </div>
-	                            </div>
-	                        </form>    
-                        </div>
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+            <!-- 게시판 타입명  -->${sessionScope.loginInfo.employee_name}
+					</div>
+				<div class="panel-body">
+			<!-- 받는이 선택 --> 
+					<form id="messageSave" action="messageWrite" method="post">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group input-group">
+									<span class="input-group-addon">받는이</span>
+										<input id="userName" type="text" class="form-control" readonly="readonly" placeholder="Username">
+                                    	<span class="input-group-btn">
+                                    		<button id="tree-btn" class="btn btn-warning searchBtn" type="button"><i class="fa fa-search"></i></button>
+                                		</span>
+								</div>
+							</div>
+						</div>
+			<!-- 쪽지 내용 입력  -->
+						<div class="row">
+							<div class="col-sm-12">
+							<textarea id="textMsg" style="resize: none;" class="form-control" rows="15" cols="80" name="message_contents" ></textarea>
+                           	</div>
+						</div>
+					</form>    
+				</div>
     		<!-- 쪽지 보내기  -->                        
                         <div class="panel-footer">
                             <div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
