@@ -47,9 +47,7 @@
 		$("#listBtn").click(function(){
 			location.href = "messageList?box=${box}&curPage=${map.curPage}&page_scale=${map.page_scale}&searchOption=${map.searchOption}&keyword=${keyword}";
 		});
-		
-		//
-		
+				
 		//버튼(보관,답장,삭제) 클릭시
 		$(".btn-form").click(function(){
 						
@@ -61,7 +59,8 @@
 						$.ajax({
 							method : "POST",
 							url : "${pageContext.request.contextPath}/keepMessage",
-							data : {"message_no" : '${detailvo.message_no}'},
+							data : {"message_no" : '${detailvo.message_no}'
+									,"box" : '${box}' },
 							error : function() {
 								alert("보관실패");
 							},
@@ -101,6 +100,7 @@
 		//보낸 쪽지
 		if('${box}' == 'outBox'){
 			$(".page-header").text('보낸쪽지');
+			$("#answerBtn").hide();
 			$("title").text('보낸쪽지');
 			$("#senderAndreceiver").text('받는사람');
 		}
@@ -114,6 +114,7 @@
 		//내게쓴쪽지
 		else if('${box}' == 'myBox'){
 			$("#keepBtn").hide();
+			$("#answerBtn").hide();
 			$(".page-header").text('내게쓴쪽지');
 			$("title").text('내게쓴쪽지');
 			$("#senderAndreceiver").text('보낸사람');
@@ -125,7 +126,6 @@
 			$("title").text('쪽지보관');
 			$("#senderAndreceiver").text('보낸사람');
 		}
-		
 	});
 </script>
 
@@ -154,6 +154,8 @@
 	            	</label>
 	            	<form id="answerForm" action="messageAnswer" method="post"  >
 	            		<input type="hidden" name="message_sender_no" value="${detailvo.message_sender_no}" >
+	            		<input type="hidden" name="message_senderAndReceiver_name" value="${detailvo.message_senderAndReceiver_name}" >
+	            		<input type="hidden" name="box" value="${box}" >
 	            	</form>
                 </div>
             </div>

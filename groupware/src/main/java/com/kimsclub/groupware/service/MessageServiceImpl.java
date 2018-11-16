@@ -34,8 +34,8 @@ public class MessageServiceImpl implements MessageService {
 	
 	//쪽지 보관
 	@Override
-	public void keepMessage(int[] message_no) {
-		dao.keepMessage(message_no);
+	public void keepMessage(int[] message_no, String box) {
+		dao.keepMessage(message_no, box);
 	}
 	
 	//쪽지 삭제
@@ -49,12 +49,6 @@ public class MessageServiceImpl implements MessageService {
 	public MessageVO detailMessage(MessageVO vo, String box) {
 		return dao.detailMessage(vo, box);
 	}
-
-/*	//쪽지 답장하기
-	@Override
-	public MessageVO answerMessage(MessageVO vo) {
-		return null;
-	}*/
 
 	//쪽지 읽음
 	@Override

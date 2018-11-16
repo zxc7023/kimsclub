@@ -129,8 +129,11 @@ $(document).ready(function() {
                            		 </div>
                            		 <input type="hidden" id="boardNo">
                            		 <input type="hidden" id="boardType" name="board_type" value="${param.board_type}" >
-                           		 <button id="save" type="button" class="btn btn-outline btn-primary">저장</button>                        		 
+                           		                         		 
                            	</form>
+                        </div>
+                        <div class="panel-footer">
+                            <button id="save" type="button" class="btn btn-outline btn-primary">저장</button>
                         </div>
                     </div>
                 </div>
