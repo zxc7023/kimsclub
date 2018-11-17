@@ -95,10 +95,13 @@
 			var lastDateObj = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1,0);
 			var lastDateTerms = lastDateObj.getDate()-15;
 			for (var i = 0; i < lastDateTerms; i++) {
+				
+				//두번째 tr 내용 만드는작업
 				row2.append(td);
-				var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(),
-						cal_start_date.getDate() + i)
+				var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(),cal_start_date.getDate() + i)
 				row2.find("td:last-child").text(cell_date.getDate());
+				
+				
 			}
 			row2.append(td);
 			var next = "<button type='button' id='prevWeek()' onclick='prevWeekCalendar()' class='glyphicon glyphicon-chevron-left'></button>";
@@ -138,8 +141,6 @@
 						<thead></thead>
 						<tbody></tbody>
 					</table>
-					<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"></button>
-					<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right"></button>
 					<script type="text/javascript">
 						buildCalendar();
 					</script>
