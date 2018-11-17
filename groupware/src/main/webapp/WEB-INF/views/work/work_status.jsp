@@ -39,25 +39,50 @@
 	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11', '12');
 	function prevWeekCalendar() {
 		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),1);
-		buildCalendar();
+		getCalDataAjax(buildCalendar,cal_start_date);
 	}
 
 	function nextWeekCalendar() {
 		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),16);
-		buildCalendar();
+		getCalDataAjax(buildCalendar,cal_start_date);
 	}
 
 	function prevMonCalendar() {
 		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()-1,1);
-		buildCalendar();
+		getCalDataAjax(buildCalendar,cal_start_date);
 	}
 
 	function nextMonCalendar() {
 		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1,1);
-		buildCalendar();
+		getCalDataAjax(buildCalendar,cal_start_date);
 	}
+	
+	var getCalDataAjax = function (callback,cal_start_date) {
+		 
+	    $.ajax({
+			method : "post",
+			dataType : "json",
+			contentType : 'application/json;charset=UTF-8',
+			data : JSON.stringify(cal_start_date),
+			url : "${pageContext.request.contextPath}/work/getMyWorkStatus",
+			error : function() {
+				alert('전송 실패');
+			},
+	        success: function (result) { 
 
-	function buildCalendar() {
+	            if (callback) {
+	                callback(result);
+	            }
+	        }
+	    });
+	};
+
+	
+	
+	function buildCalendar(result) {
+		
+		var workRecode = result;
+		console.log(workRecode);
 		var tbCalendar = $("#calendar");
 
 		//초기에 테이블이의 row(tr)이 존재하는경우 초기화
@@ -79,6 +104,13 @@
 		//thead의 두 번째 row 추가 및 변수 선언
 		thead.append(tr);
 		var row2 = tbCalendar.find("thead tr:nth-child(2)").addClass("date");
+		
+		thead.append(tr);
+		var row3 = tbCalendar.find("thead tr:nth-child(3)").addClass("am");
+		
+		
+		thead.append(tr);
+		var row4 = tbCalendar.find("thead tr:nth-child(4)").addClass("pm");
 		if (cal_start_date.getDate()==1) {
 			
 			for (var i = 0; i < 15; i++) {
@@ -108,6 +140,60 @@
 			row2.find("td:last-child").html(next);
 			cnt = lastDateTerms+1;
 		}
+		for(var i=0; i < workRecode.length; i++){
+			row3.append(td);
+			row4.append(td);
+			var am_work_data ="-";
+			var pm_work_data ="-";
+			
+			//휴가를 쓴 경우를 맨처음 거른다.
+			if(workRecode[i].dayoffApply != null){
+				var detail = workRecode[i].dayoffApply.dayoff_apply_detail[0];
+				switch (detail.oneorhalf) {
+				case "0":
+					am_work_data =workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0,1);
+					pm_work_data =workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0,1);
+					break;
+				case "1":
+					am_work_data =workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0,1);
+					break;
+				case "2":
+					pm_work_data =workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0,1);
+					break;
+				default:
+					break;
+				}
+			}else{//휴가자가 아닌경우
+				if(workRecode[i].attendance_time != null){//출근했는경우
+					var attend_hour = new Date(workRecode[i].attendance_time);
+					console.log("출근시간: " + attend_hour.getHours());
+					if(attend_hour.getHours()>9){
+						am_work_data = "지";
+					}else{
+						am_work_data = "정";
+					}
+				}else{//안했는경우
+					am_work_data = "-";
+				}
+			
+				if(workRecode[i].leave_time != null){//출근했는경우
+					var leave_hour = new Date(workRecode[i].leave_time);
+					console.log("출근시간: " + leave_hour.getHours());
+					if(leave_hour.getHours()<18){
+						am_work_data = "조";
+					}else{
+						am_work_data = "정";
+					}
+				}else{//안했는경우
+					pm_work_data = "-";
+				}
+			}
+
+			row3.find("td:last-child").text(am_work_data);	
+			row4.find("td:last-child").text(pm_work_data);	
+		}
+		
+		
 		
 		row1.append(td);
 		var cell= row1.find("td:last-child").attr("colspan", cnt);
@@ -142,7 +228,7 @@
 						<tbody></tbody>
 					</table>
 					<script type="text/javascript">
-						buildCalendar();
+						getCalDataAjax(buildCalendar,cal_start_date);
 					</script>
 				</div>
 			</div>
