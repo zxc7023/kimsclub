@@ -274,12 +274,13 @@
         this.formatNode = function(opts){
         	var countString = '';
             var nameString = '';
-            
             if(typeof data.department_name !== 'undefined'){
                 nameString = '<h2>'+self.data.department_name+'</h2>';
             }
             if(typeof data.department_people_cnt !== 'undefined'){
             	countString += '<div class="people_cnt"> <i class="far fa-user"></i> ' + self.data.department_people_cnt + '</div>';
+            }else{
+            	countString += '<div class="people_cnt"> <i class="far fa-user"></i> ' + 0 + '</div>';
             }
             if(opts.showControls){
             	if(self.data.department_no==1){
