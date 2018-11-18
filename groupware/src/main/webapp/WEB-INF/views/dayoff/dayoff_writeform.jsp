@@ -446,13 +446,13 @@ function dateToFormat(date){
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="panel panel-default">
+					<div class="panel panel-default" style="position:relative; padding-bottom:50px;">
 						<div class="panel-heading">휴가신청양식</div>
 						<div class="panel-body">
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 								<div class="row">
 									<form id="approval" action="dayoff_write" method="get">
-										<table class="table  dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+										<table class="table  dataTable no-footer dtr-inline table-bordered" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<colgroup>
 												<col class="col-sm-1">
 												<col class="col-sm-11">
@@ -528,10 +528,9 @@ function dateToFormat(date){
 												<tr role="row">
 													<td>사유</td>
 													<td><textarea name="dayoff_reason" class="col-sm-12"></textarea>
-													<input type="submit" class="btn  btn-default float-right" id="draft" value="기안하기">
 													</td>
-													
 												</tr>
+												<input type="submit" class="btn  btn-default " id="draft" value="기안하기">
 											</tbody>
 										</table>
 										

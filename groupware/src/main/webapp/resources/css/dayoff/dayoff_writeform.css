@@ -146,3 +146,8 @@ th.t-tit:hover{
 textarea[name="dayoff_reason"]{
 	margin-bottom:20px;
 }
+#draft{
+	position:absolute;
+	right:10px;
+	bottom:30px;
+}
