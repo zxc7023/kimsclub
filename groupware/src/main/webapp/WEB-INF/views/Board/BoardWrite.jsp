@@ -53,20 +53,7 @@ $(document).ready(function() {
      	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
      	   		width:'100%',
 	            height:'400px',
-	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
-	        });
-     	    
-	        CKEDITOR.on('dialogDefinition', function( ev ){
-	            var dialogName = ev.data.name;
-	            var dialogDefinition = ev.data.definition;
-	          
-	            switch (dialogName) {
-	                case 'image': //Image Properties dialog
-	                    //dialogDefinition.removeContents('info');
-	                    dialogDefinition.removeContents('Link');
-	                    dialogDefinition.removeContents('advanced');
-	                    break;
-	            }
+	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/images'
 	        });
 	    });
 	

@@ -145,7 +145,7 @@ function post_to_url(path, params, method) {
 					<div class="panel-body">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<button type="button" id="tree-btn" class="btn btn-default">지정하여 문서 보내기</button>
+								<button type="button" id="tree-btn" class="btn btn-default call-tree-btn">지정하여 문서 보내기</button>
 								<button id="sendPublic-btn" class="btn btn-default">공람문서함 보내기</button>
 							</div>
 							<div class="panel-body">

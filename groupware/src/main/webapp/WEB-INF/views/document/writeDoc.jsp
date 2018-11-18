@@ -60,7 +60,7 @@ $(document).ready(function() {
 	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
 	    	height:'400px',
-	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
+	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/images'
 	    });
 	});
 
@@ -127,17 +127,19 @@ function loadForm(){
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">결재</h1>
+					<h1 class="page-header">새 문서 작성</h1>
 				</div>
 			</div>
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">문서 작성</div>
+					<div class="panel-heading">
+						<input type="button" class="btn btn-default" id="save_btn" value="저장하기">
+					</div>
 					<div class="panel-body">
 						<form class="col-sm-12" id="writeDocForm" method="post">
 							<div class="panel-heading">
 								<input type="hidden" name="document_state" id="type" value="">
-								<input type="button" class="btn btn-info" id="save_btn" value="저장하기">
+								
 							</div>
 							<div class="panel-body">
 								<table

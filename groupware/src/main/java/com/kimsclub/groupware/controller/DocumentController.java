@@ -147,16 +147,6 @@ public class DocumentController {
 		//map을 통해 해당하는 리스트 불러오기
 		List<DocumentVO> dlist = service2.getDocumentList(map);
 		
-		//현재 페이지가 page_scale 변경 시 최대 페이지보다 크면 1로 초기화
-		System.out.println("cur_page:"+cur_page);
-		System.out.println("tot_page:"+bpvo.getTotPage());
-
-		if(cur_page>bpvo.getTotPage()) {
-			bpvo.setCurPage(1);
-			System.out.println("2cur_page:"+cur_page);
-			System.out.println("2tot_page:"+bpvo.getTotPage());
-		}
-		
 		mav.addObject("map",map);
 		mav.addObject("dlist",dlist);
 		mav.addObject("page",bpvo);
