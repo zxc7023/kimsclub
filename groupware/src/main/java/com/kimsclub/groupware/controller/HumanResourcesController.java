@@ -1,4 +1,4 @@
-package com.kimsclub.groupware.controller;
+﻿package com.kimsclub.groupware.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,6 +157,7 @@ public class HumanResourcesController {
 		return mav;
 	}
 	
+
 	/**
 	 * 사용자 추가
 	 * @return
@@ -201,6 +202,23 @@ public class HumanResourcesController {
 		}
 		return mav;
 	}
+
+	@RequestMapping(value="/checkChildren", method=RequestMethod.POST)
+	@ResponseBody
+	public String checkChildren(@RequestBody Map<String,Object> map) {
+		String result ="1";
+		System.out.println(map);
+		DepartmentVO vo = department_service.checkChildren(map);
+		if(null == vo) {
+			department_service.changeParentDepartment(map);
+			System.out.println("변경완료");
+			result = "0";
+		}else {
+			System.out.println("하위경로로 존재");
+		}
+		return result;
+	}
+	
 	
 	/**
 	 * 사용자 수정 처리
