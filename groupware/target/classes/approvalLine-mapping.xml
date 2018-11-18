@@ -27,6 +27,7 @@
 		left join department d
 		on e.department_no = d.department_no
 		WHERE a.approval_path_no = #{approval_path_no}
+		ORDER BY b.approval_path_order
 	</select>
 	
 	
