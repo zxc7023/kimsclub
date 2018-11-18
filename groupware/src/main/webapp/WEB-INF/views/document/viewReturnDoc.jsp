@@ -50,6 +50,9 @@ text-align: center;
 </style>
 <script>
 $(document).ready(function() {
+    if('${dayOff}'==1){
+        $('#department_name').html("${dvo.approval[0].employee.department.department_name}");
+    }
 
 	//결재한 사람 확인해서 sign 넣어주기
 	var arr = {

@@ -48,6 +48,10 @@ height: 80px;
 </style>
 <script>
 $(document).ready(function() {
+    if('${dayOff}'==1){
+        $('#department_name').html("${dvo.approval[0].employee.department.department_name}");
+    }
+	
 	$("#approve-btn").click(function(){
 		window.location.href = "/groupware/approveDoc?document_no=${dvo.document_no}";
 	});
