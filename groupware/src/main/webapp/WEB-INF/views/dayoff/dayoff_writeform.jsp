@@ -490,8 +490,8 @@ function dateToFormat(date){
 															<thead></thead>
 															<tbody></tbody>
 														</table>
-														<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"></button>
-														<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right"></button>
+														<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left btn btn-light" ></button>
+														<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right btn btn-light"></button>
 														<p class="text-center">
 															휴가신청일수 : <span id="total_day_span">0</span>일<input type="hidden" name="total_days">
 														</p> <script type="text/javascript">
