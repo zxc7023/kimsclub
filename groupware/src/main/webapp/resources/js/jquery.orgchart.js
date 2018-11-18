@@ -70,6 +70,25 @@
                 }
                 e.stopPropagation();
             });
+            
+            $container.find('.org-move-button').click(function(e){
+            	
+                var thisId = $(this).parents("div.node").attr('node-department_no');
+
+                if(self.opts.onMoveNodeDB !== null){
+                	var tmpData = nodes[thisId].data;
+                	self.opts.onMoveNode(nodes[thisId]);
+                	/*self.opts.onMoveNodeDB(tmpData);*/
+                }
+                else{
+                    self.deleteNode(thisId);
+                }
+                e.stopPropagation();
+            });
+        }
+        
+        this.onSelectedDepNO = function(selected_department_no){
+        	alert(selected_department_no);
         }
 
         this.startEdit = function(department_no){
@@ -248,7 +267,7 @@
             	if(self.data.department_no==1){
             		var buttonsHtml = "<div><i class='fas fa-folder-plus org-add-button'></i></div>";
             	}else{
-            		var buttonsHtml = "<div><i class='fas fa-folder-plus org-add-button'></i><i class='org-del-button fas fa-folder-minus'></i><i class='fas fa-arrows-alt'></i></div>";
+            		var buttonsHtml = "<div><i class='fas fa-folder-plus org-add-button'></i><i class='org-del-button fas fa-folder-minus'></i><i class='org-move-button fas fa-arrows-alt'></i></div>";
             	}
             }
             else{

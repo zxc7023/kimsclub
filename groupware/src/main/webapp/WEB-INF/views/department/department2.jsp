@@ -48,9 +48,28 @@
 <script src="${pageContext.request.contextPath}/resources/js/jquery.orgchart.js"></script>
 
 <script>
+var org_chart;
+function beforeClick(treeId, treeNode) {
+	   if (treeNode.parent) {
+	      
+		   //parent 구분하기위해 부서 명 앞에 d적은 거 자르기
+	      department_no = treeNode.no.split('d')[1];
+	      $('#testTreeModal').modal('hide');
+	      alert(department_no);
+	      org_chart.onSelectedDepNO(department_no);
+	      
+	      //return true;
+	   } else {
+	      alert("사원 클릭 : "+name+":"+no);
+	      //return false;
+	   }
+
+}
+
+
 	$(document).ready(function() {
 		var department_json = ${requestScope.department_json};
-		var org_chart = $('#orgChart').orgChart({
+		org_chart = $('#orgChart').orgChart({
 			data : department_json, //데이터
 			showControls : true, //보여줄지말지
 			allowEdit : true, //제목이 수정가능할지 아닐지
@@ -132,6 +151,29 @@
 						console.log(result);
 					}
 				})
+			},
+			onMoveNode : function(node){
+    			console.log(node);
+    			$.ajax({
+    				method : "get",
+    				contentType : 'application/json;charset=UTF-8',
+    				url : "/groupware/humanResources/departmentList?load_type="+load_type,
+    				error : function() {
+    					alert("전송 실패");
+    				},
+    				success : function(server_result) {
+    					zNodes = JSON.parse(server_result);
+    					console.log(zNodes);
+    					
+    					var tree = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    					tree.expandAll(true);
+    				} 
+    			});
+    			$('#testTreeModal').modal('show');
+			},
+			
+			onMoveNodeDB : function(node){
+				
 			}
 		});
 		$("#orgSave").click(function() {
@@ -159,7 +201,14 @@
 			</div>
 		</div>
 	</div>
-
+	   <!-- 결재선 불러오기 modal -->
+   <!-- 사용려는 곳에 버튼 만든뒤 id에 tree-btn만들기 -->
+   <!-- value 0 : 부서만 1: 사원 포함 -->
+   <jsp:include page="/WEB-INF/views/treeModal.jsp">
+      <jsp:param value="0" name="load_type" />
+      <jsp:param value="beforeClick" name="beforeClick" />
+      <jsp:param value="beforeCheck" name="beforeCheck" />
+   </jsp:include>
 
 </body>
 </html>
