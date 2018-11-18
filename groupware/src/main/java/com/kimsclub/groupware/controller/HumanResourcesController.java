@@ -125,10 +125,13 @@ public class HumanResourcesController {
 	 * 사용자 관리를 눌렀을때 해당하는 url에 매핑되는 메소드
 	 * @return
 	 */
-	@RequestMapping(value="/employeeMangae", method=RequestMethod.GET)
+	@RequestMapping(value="/employee", method=RequestMethod.GET)
 	public ModelAndView getEmployee() {
 		
-		return null;
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("user/employeeManage");
+		return mav;
 	}
 	
 	

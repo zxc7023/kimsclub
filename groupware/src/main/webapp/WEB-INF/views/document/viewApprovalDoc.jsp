@@ -106,11 +106,9 @@ text-align: center;
 			<form class="col-sm-12" method="post">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<input type="button" id="approve-btn" class="btn btn-default"
-							value="승인하기"> <input type="button" id="return-btn"
-							class="btn btn-default" value="반려하기"> <input
-							type="button" class="btn btn-default"
-							onclick="location.href='/groupware/approvalDocList'" value="돌아가기">
+						<input type="button" id="approve-btn" class="btn btn-default" value="승인하기"> 
+						<input type="button" id="return-btn" class="btn btn-default" value="반려하기"> 
+						<input type="button" class="btn btn-default" onclick="location.href='/groupware/approvalDocList'" value="돌아가기">
 					</div>
 					<div class="panel-body">
 						<div role="row">
