@@ -79,6 +79,10 @@
 		order by GEN_DATE asc	]]>
 	</select>
 	
+	<select id="selectWorkSetting" resultType="WorkSetting">
+		select * from work_setting
+	</select>
+	
 
 	
 	

@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kimsclub.groupware.service.WorkRecodeService;
 import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.WorkRecodeVO;
+import com.kimsclub.groupware.vo.WorkSettingVO;
 
 import sun.print.resources.serviceui;
 
@@ -39,9 +40,24 @@ public class WorkController {
 	public ModelAndView workStatus(HttpSession session) {
 		EmployeeVO vo = (EmployeeVO)session.getAttribute("loginInfo");
 		
-	/*	List<WorkRecodeVO> wlist = service.getWorkRecodes(vo);*/
+
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		String json2 = null;
+		
+		WorkSettingVO sVo = service.getWorkSetting();
+		
+		try {
+			json = mapper.writeValueAsString(sVo);
+			json2 = mapper.writeValueAsString(vo);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("workSetting",json);
+		mav.addObject("employee",json2);
 		mav.setViewName("work/work_status");
 		return mav;
 	}
@@ -86,6 +102,39 @@ public class WorkController {
 		System.out.println(json);
 		
 
+		return json;
+	}
+	
+	
+	@RequestMapping(value="/workSetting", method=RequestMethod.GET)
+	public ModelAndView workSetting(HttpSession session) {
+		EmployeeVO vo = (EmployeeVO)session.getAttribute("loginInfo");
+		
+	/*	List<WorkRecodeVO> wlist = service.getWorkRecodes(vo);*/
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("work/work_setting");
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/getWorkSetting",method=RequestMethod.POST)
+	@ResponseBody
+	public String getWorkSetting() {
+		System.out.println("여기옴");
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		
+		WorkSettingVO sVo = service.getWorkSetting();
+		
+		try {
+			json = mapper.writeValueAsString(sVo);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return json;
 	}
 	
