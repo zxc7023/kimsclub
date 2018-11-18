@@ -158,7 +158,7 @@
 			$("#keepBtn").hide();
 			$(".page-header").text('쪽지보관');
 			$("title").text('쪽지보관');
-			$("#senderAndreceiver").text('보낸사람/받은사람');
+			$("#senderAndreceiver").text('보낸사람');
 			$(".panel-heading").text('전체쪽지[${map.count}]');
 		}
 		
