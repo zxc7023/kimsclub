@@ -89,15 +89,19 @@ div.orgChart div.node::before {
 }
 
 div.orgChart > table > tbody>tr:first-child div.node:before {
-	background:#3449b5
+	background:#28b508;
 }
 
-div.orgChart > table > tbody>tr > td > table div.node:before {
-	background:#3488b4
+div.orgChart > table > tbody > tr:last-child  td > table > tbody > tr:first-child div.node:before  {
+	background:#ebbb82;
 }
 
-div.orgChart > table > tbody>tr > td > table > tr.lines.v + tr table >div.node:before {
-	background:#34e177
+div.orgChart > table > tbody > tr:last-child  td > table > tbody > tr:last-child td > table > tbody > tr:first-child div.node:before  {
+	background:#ebe162;
+}
+
+div.orgChart > table > tbody > tr:last-child  td > table > tbody > tr:last-child td > table > tbody > tr:last-child  td > table > tbody > tr:first-child div.node:before  {
+	background:gray;
 }
 
 
