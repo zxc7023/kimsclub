@@ -32,32 +32,63 @@
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 <script>
+
 	//캘린더 html 요소를 찾아서 변수에 저장.
 	var today = new Date();
 	var cal_start_date = new Date(today.getFullYear(),today.getMonth(),1);
+	var work_setting;
 	
 	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11', '12');
 	function prevWeekCalendar() {
 		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),1);
-		buildCalendar();
+		getCalDataAjax(buildCalendar,cal_start_date);
 	}
 
 	function nextWeekCalendar() {
 		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth(),16);
-		buildCalendar();
+		getCalDataAjax(buildCalendar,cal_start_date);
 	}
 
 	function prevMonCalendar() {
 		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()-1,1);
-		buildCalendar();
+		getCalDataAjax(buildCalendar,cal_start_date);
 	}
 
 	function nextMonCalendar() {
 		cal_start_date = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1,1);
-		buildCalendar();
+		getCalDataAjax(buildCalendar,cal_start_date);
 	}
+	
+ 	var getCalDataAjax = function (callback,cal_start_date) {
+		 
+	    $.ajax({
+			method : "post",
+			dataType : "json",
+			contentType : 'application/json;charset=UTF-8',
+			data : JSON.stringify(cal_start_date),
+			url : "${pageContext.request.contextPath}/work/getMyWorkStatus",
+			error : function() {
+				alert('전송 실패');
+			},
+	        success: function (result) { 
 
-	function buildCalendar() {
+	            if (callback) {
+	                callback(result);
+	            }
+	        }
+	    });
+	};
+	 
+
+	
+	function buildCalendar(result) {
+		var workRecode = result;
+		console.log(workRecode);
+		console.log(work_setting);
+		
+		var tbPersonal = $("#personal_info");
+		
+		
 		var tbCalendar = $("#calendar");
 
 		//초기에 테이블이의 row(tr)이 존재하는경우 초기화
@@ -66,9 +97,13 @@
 		}
 
 		var cnt = 0;
+		var lateCnt =0;
+		var unMarkedCnt = 0;
 
 		var tr = "<tr></tr>";
 		var td = "<td></td>";
+				
+		
 		var thead = tbCalendar.find("thead");
 		var tbody = tbCalendar.find("tbody");
 
@@ -79,6 +114,13 @@
 		//thead의 두 번째 row 추가 및 변수 선언
 		thead.append(tr);
 		var row2 = tbCalendar.find("thead tr:nth-child(2)").addClass("date");
+		
+		tbody.append(tr);
+		var row3 = tbCalendar.find("tbody tr:nth-child(1)").addClass("am");
+		
+		
+		tbody.append(tr);
+		var row4 = tbCalendar.find("tbody tr:nth-child(2)").addClass("pm");
 		if (cal_start_date.getDate()==1) {
 			
 			for (var i = 0; i < 15; i++) {
@@ -95,9 +137,9 @@
 			var lastDateObj = new Date(cal_start_date.getFullYear(),cal_start_date.getMonth()+1,0);
 			var lastDateTerms = lastDateObj.getDate()-15;
 			for (var i = 0; i < lastDateTerms; i++) {
+				//두번째 tr 내용 만드는작업
 				row2.append(td);
-				var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(),
-						cal_start_date.getDate() + i)
+				var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(),cal_start_date.getDate() + i)
 				row2.find("td:last-child").text(cell_date.getDate());
 			}
 			row2.append(td);
@@ -105,16 +147,86 @@
 			row2.find("td:last-child").html(next);
 			cnt = lastDateTerms+1;
 		}
+		for(var i=0; i < workRecode.length; i++){
+			row3.append(td);
+			row4.append(td);
+			var am_work_data ="-";
+			var pm_work_data ="-";
+			
+			//휴가를 쓴 경우를 맨처음 거른다.
+			if(workRecode[i].dayoffApply != null){
+				var detail = workRecode[i].dayoffApply.dayoff_apply_detail[0];
+				switch (detail.oneorhalf) {
+				case "0":
+					am_work_data =workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0,1);
+					pm_work_data =workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0,1);
+					break;
+				case "1":
+					am_work_data =workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0,1);
+					unMarkedCnt++;
+					break;
+				case "2":
+					pm_work_data =workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0,1);
+					unMarkedCnt++;
+					break;
+				default:
+					break;
+				}
+			}else{//휴가자가 아닌경우
+				if(workRecode[i].attendance_time != null){//출근했는경우
+					var attend_hour = new Date(workRecode[i].attendance_time);
+					console.log("출근시간: " + attend_hour.getHours());
+					am_work_data = "정";
+					if(attend_hour.getHours()>=work_setting.start_hour){
+						if(attend_hour.getMinutes() >= work_setting.start_minute){
+							am_work_data = "지";
+							lateCnt++;
+							
+						}
+					}
+				}else{//안했는경우
+					am_work_data = "-";
+					unMarkedCnt++;
+				}
+			
+				if(workRecode[i].leave_time != null){//출근했는경우
+					var leave_hour = new Date(workRecode[i].leave_time);
+					console.log("출근시간: " + leave_hour.getHours());
+					am_work_data = "정";
+					if(leave_hour.getHours()<=work_setting.end_hour){
+						if(leave_hour.getMinutes()<=work_setting.end_minute){
+							am_work_data = "조";
+						}
+					}
+				}else{//안했는경우
+					pm_work_data = "-";
+					unMarkedCnt++;
+				}
+			}
+			console.log(i +"번째 : " + unMarkedCnt);
+
+			row3.find("td:last-child").text(am_work_data);	
+			row4.find("td:last-child").text(pm_work_data);	
+		}
+		
 		
 		row1.append(td);
+		row3.append(td);
+		row4.append(td);
+		
 		var cell= row1.find("td:last-child").attr("colspan", cnt);
 		var leftBtn = "<button type='button' id='prevMonthBtn' onclick='prevMonCalendar()' class='glyphicon glyphicon-chevron-left'></button>";
 		var rightBtn = "<button type='button' id='nextMonthBtn' onclick='nextMonCalendar()' class='glyphicon glyphicon-chevron-right'></button>";
 		cell.html(leftBtn + cal_start_date.getFullYear() + "." +  month[cal_start_date.getMonth()] + rightBtn);
 
+		var conStr ='';
+		conStr += "<tr><td>" + employee.employee_name+ "</td>" + "<td>" + employee.department.department_name+"<td>" + lateCnt + "/" + unMarkedCnt + "</td><td></td></tr>"
+		tbPersonal.find("tbody").html(conStr);
+		
 	}
 	$(document).ready(function() {
-
+		work_setting = ${requestScope.workSetting};
+		employee = ${requestScope.employee};
 	});
 </script>
 <title>근태현황</title>
@@ -133,15 +245,28 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-12">
+				<div class="col-lg-12 month_year_div">
+					<table id="personal_info">
+						<thead>
+							<tr>
+								<th>이름</th>
+								<th>소속</th>
+								<th>지각/미체크</th>
+								<th>상세보기</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			
+				<div class="col-lg-12 month_year_div">
 					<table id="calendar">
 						<thead></thead>
 						<tbody></tbody>
 					</table>
-					<button type="button" id="before" onclick="prevCalendar()" class="glyphicon glyphicon-chevron-left"></button>
-					<button type="button" id="next" onclick="nextCalendar()" class="glyphicon glyphicon-chevron-right"></button>
 					<script type="text/javascript">
-						buildCalendar();
+						getCalDataAjax(buildCalendar,cal_start_date);
 					</script>
 				</div>
 			</div>

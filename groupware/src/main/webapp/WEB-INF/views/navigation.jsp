@@ -215,6 +215,12 @@
 								<li><a href="#"><i class="fas fa-address-card"></i> 직원 휴가 관리</a></li>
 							</ul> <!-- /.nav-third-level -->
 						</li>
+						<li><a href="#"><i class="far fa-calendar-alt"></i> 근태 관리<span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level collapse">
+								<li><a href="${pageContext.request.contextPath}/work/workSetting"><i class="fas fa-cog"></i> 기본 설정</a></li>
+								<li><a href="#"><i class="fas fa-address-card"></i> 직원 휴가 관리</a></li>
+							</ul> <!-- /.nav-third-level -->
+						</li>
 					</ul> <!-- /.nav-second-level -->
 				</li>
 						

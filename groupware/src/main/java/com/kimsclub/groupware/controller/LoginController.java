@@ -39,7 +39,7 @@ public class LoginController {
 			if(resultUser != null) {
 				model.addAttribute("loginInfo",resultUser);
 				session.setMaxInactiveInterval(60 * 30);
-				System.out.println(employee);
+				System.out.println(resultUser);
 				service.updateLastLogin(employee);
 				returnURL = "redirect:/";
 			}else {
