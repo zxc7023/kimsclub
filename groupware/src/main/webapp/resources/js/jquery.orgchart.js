@@ -58,6 +58,10 @@
             });
 
             $container.find('.org-del-button').click(function(e){
+            	var con_val = confirm("정말 삭제하시겠어요?");
+            	if(!con_val){
+            		return;
+            	}
                 var thisId = $(this).parents("div.node").attr('node-department_no');
 
                 if(self.opts.onDeleteNode !== null){
@@ -74,8 +78,7 @@
             $container.find('.org-move-button').click(function(e){
             	
                 var thisId = $(this).parents("div.node").attr('node-department_no');
-
-                if(self.opts.onMoveNodeDB !== null){
+                if(self.opts.onMoveNode !== null){
                 	var tmpData = nodes[thisId].data;
                 	self.opts.onMoveNode(nodes[thisId]);
                 	/*self.opts.onMoveNodeDB(tmpData);*/
@@ -87,8 +90,22 @@
             });
         }
         
-        this.onSelectedDepNO = function(selected_department_no){
-        	alert(selected_department_no);
+        this.beforeMoveCheck = function(prev,next){
+        /*	console.log(prev + "/" + next);
+        	console.log(nodes);*/
+        	self.opts.checkNodes(prev,next);
+        }
+        this.moveNode = function(prev,next){
+        	
+        	console.log("제거전");
+        	console.log(nodes);
+        	console.log(nodes[prev].data.department_parent_no);
+            nodes[nodes[prev].data.department_parent_no].removeChild(prev);
+            nodes[prev].data.department_parent_no = next;
+            nodes[nodes[prev].data.department_parent_no].addChild(nodes[prev]);
+            self.draw();
+            
+          /*  nodes[];*/
         }
 
         this.startEdit = function(department_no){
@@ -169,6 +186,7 @@
                 nodes[nodes[i].data.department_parent_no].addChild(nodes[i]);
             }
         }
+
 
         // draw org chart
         $container.addClass('orgChart');
