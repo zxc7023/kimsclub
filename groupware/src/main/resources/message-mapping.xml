@@ -100,10 +100,10 @@
 				where employee_no=message_sender_no and message_receiver_no=#{employee_no} and message_to_me_del='N' and  message_sender_no = message_receiver_no
 			</when>
 			<when test="box == 'keepBox'">
-				<!-- where employee_no=message_sender_no and message_keep='Y' and message_keep_del='N' and message_sender_no=#{employee_no} -->
-				where (employee_no=message_sender_no and message_send_keep='Y' and message_keep_del='N' and message_sender_no=#{employee_no})
+				where 
+				(employee_no=message_receiver_no and message_send_keep='Y' and message_send_keep_del='N' and message_sender_no=#{employee_no})
 				or
-				(employee_no=message_sender_no and message_receive_keep='Y' and message_keep_del='N' and message_receiver_no=#{employee_no})
+				(employee_no=message_sender_no and message_receive_keep='Y' and message_receive_keep_del='N' and message_receiver_no=#{employee_no})
 			</when>
 		</choose>
 	</sql>
@@ -138,5 +138,4 @@
 		</choose>
 	</sql>
 	
-<!-- -->
 </mapper>
