@@ -49,8 +49,8 @@ var initializeCalendar = function() {
 		      return;
 		    }
 
-		    var a = moment( event.start, 'YYYY-MM-DD' ),
-		      b = moment( event.end, 'YYYY-MM-DD' ),
+		    var a = moment( event.start, 'YYYY/MM/DD' ),
+		      b = moment( event.end, 'YYYY/MM/DD' ),
 		      duration = moment.duration( b.diff( a ) ),
 		      row = element.closest( '.fc-row' ),
 		      d = a.clone(), i, c;

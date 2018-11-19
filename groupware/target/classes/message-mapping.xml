@@ -40,7 +40,7 @@
 		
 <!-- 쪽지 삭제 -->
 	<update id="updateDeleteMessage" parameterType="hashmap" >
-		update message
+		<!-- update message
 		set
 			message_receive_keep_del = 
 				case
@@ -53,7 +53,7 @@
 				when message_no IN<foreach item="message_no" collection="message_no" open="(" close=")" separator=",">#{message_no}</foreach> and message_sender_no=4 and message_send_keep='Y'
 				then 'Y'
 				else 'N'
-		end
+		end -->
 		
 		update message
 		set ${message_del} = 'Y' where message_no IN<foreach item="message_no" collection="message_no" open="(" close=")" separator=",">#{message_no}</foreach>

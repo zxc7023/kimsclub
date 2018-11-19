@@ -429,16 +429,17 @@ $(document).on("click","#index_submit",function() {
 									<!--t수정  -->
 									<label class="form-control-label">내용</label>
 									<textarea rows="5" cols="30" id="content" class="form-control"></textarea>
-									<label class="form-control-label">색상</label> <select
-										name="color" id="color" class="form-control">
-										<option value="#ff7473" style="background-color: #ff7473">주황</option>
-										<option value="#ffc952" style="background-color: #ffc952;">업무</option>
-										<option value="#47b8e0" style="background-color: #47b8e0;">노랑</option>
-										<option value="#34314c" style="background-color: #34314c;">파란</option>
-									</select> <label class="form-control-label">시작날짜</label> <input
+									 <label class="form-control-label">시작날짜</label> <input
 										type="text" class="form-control" id="starts_at"> <label
 										class="form-control-label">종료날짜</label> <input type="text"
 										class="form-control" id="ends_at">
+									<label class="form-control-label">카테고리</label> <select
+										name="color" id="color" class="form-control">
+										<option value="#ff7473" style="background-color: #ff7473">휴가</option>
+										<option value="#ffc952" style="background-color: #ffc952;">프로젝트A</option>
+										<option value="#47b8e0" style="background-color: #47b8e0;">출장</option>
+										<option value="#34314c" style="background-color: #34314c;">나의프로젝트</option>
+									</select>
 									<!--수정끝  -->
 								</div>
 							</div>
@@ -472,16 +473,17 @@ $(document).on("click","#index_submit",function() {
 									<!--t수정  -->
 									<label class="form-control-label">내용</label>
 									<textarea rows="5" cols="30" id="content2" class="form-control"></textarea>
-									<label class="form-control-label">색상</label> <select
-										name="color" id="color2" class="form-control">
-										<option value="#ff7473" style="background-color: #ff7473">주황</option>
-										<option value="#ffc952" style="background-color: #ffc952;">빨강</option>
-										<option value="#47b8e0" style="background-color: #47b8e0;">노랑</option>
-										<option value="#34314c" style="background-color: #34314c;">파란</option>
-									</select> <label class="form-control-label">시작날짜</label> <input
+									<label class="form-control-label">시작날짜</label> <input
 										type="text" class="form-control" id="starts_at2"> <label
 										class="form-control-label">종료날짜</label> <input type="text"
 										class="form-control" id="ends_at2">
+									<label class="form-control-label">색상</label> <select
+										name="color" id="color2" class="form-control">
+										<option value="#ff7473" style="background-color: #ff7473">휴가</option>
+										<option value="#ffc952" style="background-color: #ffc952;">프로젝트A</option>
+										<option value="#47b8e0" style="background-color: #47b8e0;">출장</option>
+										<option value="#34314c" style="background-color: #34314c;">나의프로젝트</option>
+									</select> 
 									<!--수정끝  -->
 								</div>
 							</div>
