@@ -125,7 +125,7 @@
 
 	});//ready end
 </script>
-
+<title>양식 목록</title>
 </head>
 <body>
 

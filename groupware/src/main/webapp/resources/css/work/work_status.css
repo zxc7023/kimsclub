@@ -8,22 +8,22 @@
 	color: skyblue;
 }
 
-table#calendar{
+.month_year_div table{
 	top:0;
 	height:60%;
 	margin: auto;
 	text-align: center;
 }
-table#calendar td{
+.month_year_div table td{
 	border:1px solid #dedede;
 	width:5%;
 	position:relative;
 }
-table#calendar thead tr{
+.month_year_div table thead tr{
 	line-height:30px;
 }
-table#calendar tbody tr{
-	height: 72px;
+.month_year_div table tbody tr{
+	height: 30px;
 	border: 1px solid gray;
 }
 

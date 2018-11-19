@@ -164,6 +164,7 @@ $(document).ready(function() {
 				} 
 			});
 		}
+		
 		$('#testTreeModal').modal('show');
 	});
 });//ready end

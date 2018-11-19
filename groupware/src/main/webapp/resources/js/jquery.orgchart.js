@@ -58,6 +58,10 @@
             });
 
             $container.find('.org-del-button').click(function(e){
+            	var con_val = confirm("정말 삭제하시겠어요?");
+            	if(!con_val){
+            		return;
+            	}
                 var thisId = $(this).parents("div.node").attr('node-department_no');
 
                 if(self.opts.onDeleteNode !== null){
@@ -70,6 +74,38 @@
                 }
                 e.stopPropagation();
             });
+            
+            $container.find('.org-move-button').click(function(e){
+            	
+                var thisId = $(this).parents("div.node").attr('node-department_no');
+                if(self.opts.onMoveNode !== null){
+                	var tmpData = nodes[thisId].data;
+                	self.opts.onMoveNode(nodes[thisId]);
+                	/*self.opts.onMoveNodeDB(tmpData);*/
+                }
+                else{
+                    self.deleteNode(thisId);
+                }
+                e.stopPropagation();
+            });
+        }
+        
+        this.beforeMoveCheck = function(prev,next){
+        /*	console.log(prev + "/" + next);
+        	console.log(nodes);*/
+        	self.opts.checkNodes(prev,next);
+        }
+        this.moveNode = function(prev,next){
+        	
+        	console.log("제거전");
+        	console.log(nodes);
+        	console.log(nodes[prev].data.department_parent_no);
+            nodes[nodes[prev].data.department_parent_no].removeChild(prev);
+            nodes[prev].data.department_parent_no = next;
+            nodes[nodes[prev].data.department_parent_no].addChild(nodes[prev]);
+            self.draw();
+            
+          /*  nodes[];*/
         }
 
         this.startEdit = function(department_no){
@@ -150,6 +186,7 @@
                 nodes[nodes[i].data.department_parent_no].addChild(nodes[i]);
             }
         }
+
 
         // draw org chart
         $container.addClass('orgChart');
@@ -237,18 +274,19 @@
         this.formatNode = function(opts){
         	var countString = '';
             var nameString = '';
-            
             if(typeof data.department_name !== 'undefined'){
                 nameString = '<h2>'+self.data.department_name+'</h2>';
             }
             if(typeof data.department_people_cnt !== 'undefined'){
             	countString += '<div class="people_cnt"> <i class="far fa-user"></i> ' + self.data.department_people_cnt + '</div>';
+            }else{
+            	countString += '<div class="people_cnt"> <i class="far fa-user"></i> ' + 0 + '</div>';
             }
             if(opts.showControls){
             	if(self.data.department_no==1){
             		var buttonsHtml = "<div><i class='fas fa-folder-plus org-add-button'></i></div>";
             	}else{
-            		var buttonsHtml = "<div><i class='fas fa-folder-plus org-add-button'></i><i class='org-del-button fas fa-folder-minus'></i><i class='fas fa-arrows-alt'></i></div>";
+            		var buttonsHtml = "<div><i class='fas fa-folder-plus org-add-button'></i><i class='org-del-button fas fa-folder-minus'></i><i class='org-move-button fas fa-arrows-alt'></i></div>";
             	}
             }
             else{

@@ -54,10 +54,10 @@
 <script>
 $(document).ready(function() {
 	 $(function(){
-      	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
+      	    CKEDITOR.replace( 'editor1', {//해당 이름으로 된 textarea에 에디터를 적용
 	            width:'100%',
 	            height:'400px',
-	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/ckeditor_upload.asp'
+	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload'
 	        });
 	    });
 });//ready end
@@ -176,7 +176,7 @@ $(document).ready(function() {
 									</div>
 								</div>
 								<div class="col-lg-12">
-									<textarea name="form_contents" id="ckeditor"></textarea>
+									<textarea name="form_contents" id="editor1"></textarea>
 								</div>
 								<div class="col-lg-12">
 									<input type="submit" class="btn-primary btn-block" value="확인">

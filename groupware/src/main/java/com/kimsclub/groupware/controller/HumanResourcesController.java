@@ -1,9 +1,11 @@
-package com.kimsclub.groupware.controller;
+﻿package com.kimsclub.groupware.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kimsclub.groupware.service.DepartmentService;
 import com.kimsclub.groupware.service.EmployeeService;
+import com.kimsclub.groupware.vo.BoardPageVO;
 import com.kimsclub.groupware.vo.DepartmentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.TreeVO;
@@ -125,11 +128,108 @@ public class HumanResourcesController {
 	 * 사용자 관리를 눌렀을때 해당하는 url에 매핑되는 메소드
 	 * @return
 	 */
-	@RequestMapping(value="/employeeMangae", method=RequestMethod.GET)
-	public ModelAndView getEmployee() {
+	@RequestMapping(value="/employee", method=RequestMethod.GET)
+	public ModelAndView getEmployee(@RequestParam(name="page_scale", defaultValue="20") int page_scale,
+			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
+			@RequestParam(name="keyword", defaultValue="") String keyword,
+			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session,
+			@RequestParam(name="whereOption", defaultValue="1=1")String whereOption) {
+		System.out.println("getEmployee	 메소드 호출");
+		Map<String, Object> map = new HashMap<String,Object>();
+		//List<EmployeeVO> elist = employee_service.loadAllEmp();
 		
-		return null;
+		ModelAndView mav = new ModelAndView();
+		map.put("fromOption", "employee e left join department d on e.department_no = d.department_no");
+		map.put("searchOption", search_option);
+		map.put("keyword", keyword);
+		map.put("order", "employee_no");
+		map.put("whereOption", whereOption);
+		map.put("selectOption", "employee_no,password,hiredate,usertype,email,phonenumber,d.department_name as department_name, d.department_no as department_no, position, employee_name");
+		BoardPageVO bpvo = new BoardPageVO(employee_service.getEmployeeCnt(map), cur_page, page_scale); 
+		map.put("start", bpvo.getPageBegin());
+		map.put("end", bpvo.getPageEnd());
+		List<EmployeeVO> elist = employee_service.loadAllEmpList(map);
+		System.out.println(elist);
+		mav.addObject("map",map);
+		mav.addObject("elist", elist);
+		mav.addObject("page",bpvo);
+		mav.setViewName("user/employeeManage");
+		return mav;
+	}
+	
+
+	/**
+	 * 사용자 추가
+	 * @return
+	 */
+	@RequestMapping(value="/addEmployee", method=RequestMethod.GET)
+	public ModelAndView addEmployee() {
+		System.out.println("addEmployee 메소드 호출");
+
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("user/addEmployee");
+		return mav;
+	}
+	
+	/**
+	 * 사용자 추가
+	 * @return
+	 */
+	@RequestMapping(value="/addEmployee", method=RequestMethod.POST)
+	@ResponseBody
+	public String addEmployeeResult(@RequestBody EmployeeVO evo,HttpSession session) {
+		System.out.println("addEmployeeResult 메소드 호출");
+		System.out.println(evo);
+		employee_service.addEmployee(evo);
+		return "employee";
+	}
+	
+	/**
+	 * 사용자 수정
+	 * @return
+	 */
+	@RequestMapping(value="/modifyEmployee", method=RequestMethod.GET)
+	public ModelAndView modifyEmployee(@RequestParam("employee_no")int employee_no,HttpSession session) {
+		System.out.println("modifyEmployee 메소드 호출");
+		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
+		ModelAndView mav = new ModelAndView();
+		if(evo.getEmployee_no()==employee_no||employee_no==0) {
+			mav.addObject("evo", evo);
+			mav.setViewName("user/modifyEmployee");
+		}else {
+			mav.setViewName("login");
+		}
+		return mav;
+	}
+
+	@RequestMapping(value="/checkChildren", method=RequestMethod.POST)
+	@ResponseBody
+	public String checkChildren(@RequestBody Map<String,Object> map) {
+		String result ="1";
+		System.out.println(map);
+		DepartmentVO vo = department_service.checkChildren(map);
+		if(null == vo) {
+			department_service.changeParentDepartment(map);
+			System.out.println("변경완료");
+			result = "0";
+		}else {
+			System.out.println("하위경로로 존재");
+		}
+		return result;
 	}
 	
 	
+	/**
+	 * 사용자 수정 처리
+	 * @return
+	 */
+	@RequestMapping(value="/modifyEmployee", method=RequestMethod.POST)
+	public String modifyEmployeeResult(@RequestBody EmployeeVO evo,HttpSession session) {
+		System.out.println("modifyEmployeeResult 메소드 호출");
+		System.out.println(evo);
+		employee_service.modifyEmployeeResult(evo);
+		session.invalidate();
+		return "redirect:/login";
+	}
 }

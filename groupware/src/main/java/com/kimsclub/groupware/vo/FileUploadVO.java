@@ -1,4 +1,4 @@
-package com.kimsclub.groupware.controller;
+package com.kimsclub.groupware.vo;
 
 import org.springframework.web.multipart.MultipartFile;
 

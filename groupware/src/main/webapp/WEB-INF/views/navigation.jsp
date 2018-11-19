@@ -164,7 +164,7 @@
 		<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i> ${sessionScope.loginInfo.employee_name} <i class="fa fa-caret-down"></i>
 		</a>
 			<ul class="dropdown-menu dropdown-user">
-				<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
+				<li><a href="humanResources/modifyEmployee?employee_no=${sessionScope.loginInfo.employee_no}"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
 				<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
 				<li class="divider"></li>
 				<li><a href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out fa-fw"></i>Logout</a></li>
@@ -212,6 +212,12 @@
 							<ul class="nav nav-third-level collapse">
 								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffSetting"><i class="fas fa-cog"></i> 기본 설정</a></li>
 								<li><a href="${pageContext.request.contextPath}/dayoff/dayoffCreation"><i class="far fa-calendar-plus"></i> 휴가 생성</a></li>
+								<li><a href="#"><i class="fas fa-address-card"></i> 직원 휴가 관리</a></li>
+							</ul> <!-- /.nav-third-level -->
+						</li>
+						<li><a href="#"><i class="far fa-calendar-alt"></i> 근태 관리<span class="fa arrow"></span></a>
+							<ul class="nav nav-third-level collapse">
+								<li><a href="${pageContext.request.contextPath}/work/workSetting"><i class="fas fa-cog"></i> 기본 설정</a></li>
 								<li><a href="#"><i class="fas fa-address-card"></i> 직원 휴가 관리</a></li>
 							</ul> <!-- /.nav-third-level -->
 						</li>

@@ -1,7 +1,5 @@
 package com.kimsclub.groupware.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,16 +146,6 @@ public class DocumentController {
 				
 		//map을 통해 해당하는 리스트 불러오기
 		List<DocumentVO> dlist = service2.getDocumentList(map);
-		
-		//현재 페이지가 page_scale 변경 시 최대 페이지보다 크면 1로 초기화
-		System.out.println("cur_page:"+cur_page);
-		System.out.println("tot_page:"+bpvo.getTotPage());
-
-		if(cur_page>bpvo.getTotPage()) {
-			bpvo.setCurPage(1);
-			System.out.println("2cur_page:"+cur_page);
-			System.out.println("2tot_page:"+bpvo.getTotPage());
-		}
 		
 		mav.addObject("map",map);
 		mav.addObject("dlist",dlist);
@@ -307,6 +295,12 @@ public class DocumentController {
 		ModelAndView mav = new ModelAndView();
 		DocumentVO dvo = service2.viewDoc(document_no);
 		
+        System.out.println(dvo.getDocument_title());
+        if("휴가신청".equals(dvo.getDocument_title())) {
+            System.out.println("휴가신청 페이지 호출");
+            mav.addObject("dayOff",1);
+        }
+
 		mav.addObject("dvo", dvo);
 		if(document_type == 0) {
 			System.out.println("임시저장페이지 호출");

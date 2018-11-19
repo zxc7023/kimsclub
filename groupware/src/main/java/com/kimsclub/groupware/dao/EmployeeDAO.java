@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class EmployeeDAO {
 	SqlSession session;
 	
 	public List<EmployeeVO> loadAllEmp(){
-		return session.selectList("employee.loadAllEmployee"); 
+		return session.selectList("employee.loadAllEmployee");
 	}
 	
 	
@@ -31,5 +32,27 @@ public class EmployeeDAO {
 	public void updatelastLogin(EmployeeVO vo) {
 		System.out.println(vo);
 		session.update("employee.updateLastLogin",vo);
+	}
+
+
+	public void insertEmployee(EmployeeVO evo) {
+		session.insert("employee.insertEmployee",evo);
+		
+	}
+
+
+	public List<EmployeeVO> loadAllEmpList(Map<String, Object> map) {
+		return session.selectList("employee.loadAllEmpList", map);
+	}
+
+
+	public int getEmployeeCnt(Map<String, Object> map) {
+		return session.selectOne("employee.countArticle", map);
+	}
+
+
+	public void modifyEmployeeResult(EmployeeVO evo) {
+		session.update("employee.updateEmployee", evo);
+		
 	}
 }

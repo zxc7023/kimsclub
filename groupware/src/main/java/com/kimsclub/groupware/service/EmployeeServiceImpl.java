@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void updateLastLogin(EmployeeVO vo) {
 		dao.updatelastLogin(vo);
+	}
+
+	@Override
+	public void addEmployee(EmployeeVO evo) {
+		dao.insertEmployee(evo);
+	}
+
+	@Override
+	public List<EmployeeVO> loadAllEmpList(Map<String, Object> map) {
+		return dao.loadAllEmpList(map);
+	}
+
+	@Override
+	public int getEmployeeCnt(Map<String, Object> map) {
+		return dao.getEmployeeCnt(map);
+	}
+
+	@Override
+	public void modifyEmployeeResult(EmployeeVO evo) {
+		dao.modifyEmployeeResult(evo);
 	}
 
 }

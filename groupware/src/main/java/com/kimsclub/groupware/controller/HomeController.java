@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kimsclub.groupware.service.DocumentService;
 import com.kimsclub.groupware.service.MessageService;
 import com.kimsclub.groupware.vo.EmployeeVO;
 
@@ -18,6 +19,8 @@ import com.kimsclub.groupware.vo.EmployeeVO;
 public class HomeController {
 	@Autowired 
 	MessageService msgservice; 
+	@Autowired 
+	DocumentService service; 
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(HttpSession session) {

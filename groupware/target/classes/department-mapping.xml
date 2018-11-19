@@ -55,5 +55,19 @@
 		where department_no in 
 		(select department_no from department start with department_no = #{department_no} connect by prior department_no = department_parent_no)
 	</delete>
+	
+	<select id="checkChildren" parameterType="map" resultType="department">
+		select *
+		from department
+		where department_no = #{next}
+		start with department_parent_no = #{prev}
+		connect by prior department_no = department_parent_no
+	</select>
+	
+	<update id="changeParentDepartment" parameterType="map">
+		update department
+		set department_parent_no = #{next}
+		where department_no = #{prev}
+	</update>
 
 </mapper>

@@ -48,6 +48,12 @@ height: 80px;
 </style>
 <script>
 $(document).ready(function() {
+    if('${dayOff}'==1){
+        $('#department_name').html("${dvo.approval[0].employee.department.department_name}");
+    }
+    
+
+	
 	$("#retrieve-btn").click(function(){
 		if("${dvo.approval[1].approval_state}"==1){
 			alert("이미 결재가 진행중입니다.");

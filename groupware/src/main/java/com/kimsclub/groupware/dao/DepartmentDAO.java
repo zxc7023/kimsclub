@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,16 @@ public class DepartmentDAO {
 
 	public void deleteDepartments(DepartmentVO vo) {
 		session.delete("department.deleteDepartments",vo);
+	}
+
+
+	public DepartmentVO checkChildren(Map<String, Object> map) {
+		return session.selectOne("department.checkChildren",map);
+	}
+
+
+	public void changeParentDepartment(Map<String, Object> map) {
+		session.update("department.changeParentDepartment",map);
 	}
 
 }

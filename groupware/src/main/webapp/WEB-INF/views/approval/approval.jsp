@@ -53,7 +53,7 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">제목을 입력하세요</h1>
+					<h1 class="page-header">KIM'S CLUB</h1>
 				</div>
 			</div>
 

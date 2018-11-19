@@ -1,6 +1,7 @@
 package com.kimsclub.groupware.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,15 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public void removeDepartment(DepartmentVO vo) {
 		dao.deleteDepartments(vo);
+	}
+
+	@Override
+	public DepartmentVO checkChildren(Map<String, Object> map) {
+		return dao.checkChildren(map);
+	}
+
+	@Override
+	public void changeParentDepartment(Map<String, Object> map) {
+		dao.changeParentDepartment(map);
 	}
 }

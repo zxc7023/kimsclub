@@ -26,6 +26,23 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
+		//결재선에 자신이 포함되거나 중복된 사람이 있는지 체크
+		function checkApprovalLine(i){
+			if(i=="${sessionScope.loginInfo.employee_no}"){
+				alert("자기 자신은 추가 할 수 없습니다.");	
+				return false;
+			}
+			else{
+		    	for(var index = 0; index<6;index++){
+		    		if($('.modal_name[index='+index+']').children().children().val()==i){
+		    			alert("이미 결재선에 있는 사원 입니다.");
+		    			return false;
+		    		}
+		    	}
+		    	return true;
+			}
+		}
+		
 		//결재선 위치 바꾸고 index 다시 설정해주는 부분
 	    $("#sortable").sortable({
 	        items: "td:not(.ui-state-disabled)",
@@ -152,9 +169,13 @@
 	        	if(index>5){
 	        		alert("결재선이 꽉 찼습니다. 최대 6명");
 	        	}else{
-		        	$('.modal_name[index='+index+']').html("<label><input type='hidden' name='approval[][employee][employee_no]' value="+ui.item.no +">"+ui.item.category+"<br>("+ui.item.label+" "+ui.item.position+")</label>");
-					index++;
-					sortDisabled(index);
+					var check = checkApprovalLine(ui.item.no);
+					
+		        	if(check){
+		        		$('.modal_name[index='+index+']').html("<label><input type='hidden' name='approval[][employee][employee_no]' value="+ui.item.no +">"+ui.item.category+"<br>("+ui.item.label+" "+ui.item.position+")</label>");
+						index++;
+						sortDisabled(index);
+		        	}
 	        	}
 		    }
 	    });
