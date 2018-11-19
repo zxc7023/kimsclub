@@ -70,7 +70,6 @@ public class DocumentController {
 	 *  그 결재자가 마지막 결재자면 문서의 상태를 '완료'로 변경한다.
 	 */
 	@RequestMapping(value = "/approveDoc", method=RequestMethod.GET)
-	@ResponseBody
 	public String approveDoc(HttpSession session, @RequestParam(name="document_no") int document_no){
 		System.out.println("approveDoc() 메소드 호출");
 		Map<String, Object> map = new HashMap<String,Object>();

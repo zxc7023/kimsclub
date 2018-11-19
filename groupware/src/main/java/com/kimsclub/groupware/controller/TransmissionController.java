@@ -68,14 +68,14 @@ public class TransmissionController {
 	public ModelAndView docSetting(int employee_no,int page_scale, String[] searchOption, String keyword,int cur_page,int doc_type) {
 		Map<String, Object> map = new HashMap<String,Object>();
 		ModelAndView mav = new ModelAndView();
-		map.put("fromOption", "(SELECT e1.employee_name as sender_name, e2.employee_name as receiver_name, d.DOCUMENT_TITLE,d.DOCUMENT_NO ,t.* FROM document d, transmission t,employee e1, employee e2 WHERE d.document_no = t.transmission_document_no AND t.transmission_sender_no= e1.employee_no AND t.transmission_receiver_no=e2.employee_no)");
+		map.put("fromOption", "(SELECT e1.employee_name as sender_name, e2.employee_name as receiver_name, d.DOCUMENT_TITLE,d.DOCUMENT_NO ,t.* FROM document d, transmission t,employee e1, employee e2 WHERE (d.document_no = t.transmission_document_no AND t.transmission_receiver_no= e2.employee_no) OR (d.document_no = t.transmission_document_no AND t.transmission_sender_no = e1.employee_no))");
 		map.put("searchOption", searchOption);
 		map.put("keyword", keyword);
 		map.put("order", "TRANSMISSION_SENDER_DATE");
 		if(doc_type==0) {
-			map.put("whereOption", "TRANSMISSION_SENDER_NO = "+employee_no);
+			map.put("whereOption", "TRANSMISSION_SENDER_NO = "+employee_no+"AND SENDER_NAME is not null");
 		}else if (doc_type==1) {
-			map.put("whereOption", "TRANSMISSION_RECEIVER_NO = "+employee_no);
+			map.put("whereOption", "TRANSMISSION_RECEIVER_NO = "+employee_no+"AND receiver_NAME is not null");
 		}else if (doc_type==2) {
 			map.put("fromOption", "(SELECT * FROM transmission, document)");
 			map.put("whereOption", "transmission_document_no = document_no AND TRANSMISSION_RECEIVER_NO is null");
@@ -171,7 +171,7 @@ public class TransmissionController {
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
 		ModelAndView mav = new ModelAndView();
 		DocumentVO dvo = service2.viewDoc(document_no);
-		
+		System.out.println(dvo);
 		mav.addObject("dvo", dvo);
 		if(document_type == 0) {
 			System.out.println("발송문서함페이지 호출");

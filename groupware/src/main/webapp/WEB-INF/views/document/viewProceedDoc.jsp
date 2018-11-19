@@ -78,7 +78,8 @@ $(document).ready(function() {
 	
 	for(var i = 0; i<arr.approval_state.length; i++){
 		if(arr.approval_state[i]==1){
-			$('#sign[index='+i+']').html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
+			
+			$("#sign[index='"+i+"']").html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
 		}
 	}
 });

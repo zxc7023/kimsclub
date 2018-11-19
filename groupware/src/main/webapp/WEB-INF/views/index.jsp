@@ -95,7 +95,7 @@
                                     <i class="fa fa-file-signature fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
+                                    <div class="huge">1</div>
                                     <div>결재해야 하는 문서</div>
                                 </div>
                             </div>

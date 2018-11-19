@@ -109,7 +109,7 @@ $(document).ready(function() {
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<button class="btn btn-default" type="button" id="modifyEmployee-btn">사용자 수정	</button>
+						<button class="btn btn-default" type="button" id="modifyEmployee-btn">사용자 수정</button>
 					</div>
 					<div class="panel-body">
 						<form id="addEmployee" action="addEmployee" method="post">

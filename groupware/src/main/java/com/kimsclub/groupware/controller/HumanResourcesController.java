@@ -225,11 +225,11 @@ public class HumanResourcesController {
 	 * @return
 	 */
 	@RequestMapping(value="/modifyEmployee", method=RequestMethod.POST)
+	@ResponseBody
 	public String modifyEmployeeResult(@RequestBody EmployeeVO evo,HttpSession session) {
 		System.out.println("modifyEmployeeResult 메소드 호출");
 		System.out.println(evo);
 		employee_service.modifyEmployeeResult(evo);
-		session.invalidate();
-		return "redirect:/login";
+		return "employee";
 	}
 }

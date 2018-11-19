@@ -54,7 +54,7 @@
 <script>
 $(document).ready(function() {
 	 $(function(){
-      	    CKEDITOR.replace( 'editor1', {//해당 이름으로 된 textarea에 에디터를 적용
+      	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 	            width:'100%',
 	            height:'400px',
 	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload'
@@ -176,7 +176,7 @@ $(document).ready(function() {
 									</div>
 								</div>
 								<div class="col-lg-12">
-									<textarea name="form_contents" id="editor1"></textarea>
+									<textarea name="form_contents" id="ckeditor"></textarea>
 								</div>
 								<div class="col-lg-12">
 									<input type="submit" class="btn-primary btn-block" value="확인">

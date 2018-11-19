@@ -77,7 +77,6 @@ $(document).ready(function() {
 			        form.appendChild(hiddenField);
 			}
 		}
-		alert($('.check:checked').val());
 		var hiddenField = document.createElement("input");
         hiddenField.setAttribute("type", "hidden");
         hiddenField.setAttribute("name", "document_no");

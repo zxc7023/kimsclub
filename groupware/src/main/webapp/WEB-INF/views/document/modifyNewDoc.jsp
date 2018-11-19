@@ -55,7 +55,7 @@ background-color: #f5f5f5;
 <script>
 $(document).ready(function() {
 	$(function(){
-	    CKEDITOR.replace( 'editor1', {//해당 이름으로 된 textarea에 에디터를 적용
+	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
 	    	height:'400px',
 	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload',
@@ -69,7 +69,7 @@ $(document).ready(function() {
 	});
 
 	function submitBtn(){
-		$('#ckeditor').html(CKEDITOR.instances.editor1.getData());
+		$('#ckeditor').html(CKEDITOR.instances.ckeditor.getData());
 		var tmpArr = $("form#writeDocForm").serializeObject();
 
 		$.ajax({
@@ -195,7 +195,7 @@ function loadForm(){
 										<tr>
 											<td colspan="2">
 												<div class="col-lg-12">
-													<textarea name="document_contents" id="editor1" class="form">${dvo.document_contents}</textarea>
+													<textarea name="document_contents" id="ckeditor" class="form">${dvo.document_contents}</textarea>
 												</div>
 											</td>
 										</tr>

@@ -48,13 +48,16 @@ height: 80px;
 </style>
 <script>
 $(document).ready(function() {
+	$("#sendPublic-btn").click(function(){
+		if(!alert("이 문서를 전 사원이 볼 수 있는 공람문서함으로 보내시겠습니까?")){
+			var send = {"document_no" : '${dvo.document_no}'};
+			console.log(send);
+			post_to_url('/groupware/sendPublicDoc',send);
+		}
+	});
     if('${dayOff}'==1){
         $('#department_name').html("${dvo.approval[0].employee.department.department_name}");
     }
-
-	$("#approve-btn").click(function(){
-		window.location.href = "/groupware/approveDoc?document_no=${dvo.document_no}";
-	});
 	
 	//결재한 사람 확인해서 sign 넣어주기
 	var arr = {
@@ -68,18 +71,18 @@ $(document).ready(function() {
 		arr.employee_no.push("${approval.employee.employee_no}");
 	</c:forEach>
 	
-	 /* 	for(var i = 0; i<arr.approval_state.length; i++){
-	if(arr.approval_state[i]==1){
-		alert(arr.employee_no[i]);
-		$("#sign[index='"+i+"']").html("<img src='${pageContext.request.contextPath}/resources/images/"+arr.employee_no[i]+".jpg' onError='javascript:noImageError(this)'>");
+	/* for(var i = 0; i<arr.approval_state.length; i++){
+		if(arr.approval_state[i]==1){
+			alert(arr.employee_no[i]);
+			$("#sign[index='"+i+"']").html("<img src='${pageContext.request.contextPath}/resources/images/"+arr.employee_no[i]+".jpg' onError='javascript:noImageError(this)'>");
+		}
 	}
-}
 });
-function noImageError(obj){
-if(obj != null){
-	obj.src = "${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg";
-}
-}  */
+	function noImageError(obj){
+		if(obj != null){
+			obj.src = "${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg";
+		}
+	} */
 	
 	for(var i = 0; i<arr.approval_state.length; i++){
 		if(arr.approval_state[i]==1){
@@ -88,6 +91,30 @@ if(obj != null){
 		}
 	}
 }); 
+
+//폼생성하여 post 방식으로 값 보내기 
+function post_to_url(path, params, method) {
+    method = method || "post"; // 전송 방식 기본값을 POST로
+ 
+ 	console.log(params);
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+ 
+    //히든으로 값을 주입시킨다.
+    for(var key in params) {
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+ 
+        form.appendChild(hiddenField);
+    }
+    
+   	document.body.appendChild(form);
+ 	console.log(document.body);
+	form.submit();
+}
 </script>
 <style type="text/css">
 #sign img{
@@ -117,7 +144,7 @@ height: 65px;
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<button type="button" id="tree-btn" class="btn btn-default">지정하여 문서 보내기</button>
-						<button id="modify-btn" class="btn btn-default">공람문서함 보내기</button>
+						<button id="sendPublic-btn"  type="button" class="btn btn-default">공람문서함 보내기</button>
 						<input type="button" class="btn btn-default" onclick="location.href='/groupware/completeDocList'" value="돌아가기">
 					</div>
 					<div class="panel-body">
@@ -216,5 +243,13 @@ height: 65px;
 			</form>
 		</div>
 	</div>
+	<!-- 결재선 불러오기 modal -->
+	<!-- 사용려는 곳에 버튼 만든뒤 id에 tree-btn만들기 -->
+	<!-- value 0 : 부서만 1: 사원 포함 -->
+	<jsp:include page="/WEB-INF/views/treeModal.jsp">
+		<jsp:param value="1" name="load_type" />
+		<jsp:param value="null" name="beforeClick" />
+		<jsp:param value="beforeCheck" name="beforeCheck" />
+	</jsp:include>
 </body>
 </html>
