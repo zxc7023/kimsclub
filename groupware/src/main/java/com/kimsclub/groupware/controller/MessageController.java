@@ -119,7 +119,7 @@ public class MessageController {
 				message_del="message_to_me_del";
 				service.deleteMessage(message_no, message_del);
 			}else {//보관쪽지 삭제시
-				message_del="message_keep_del";
+				message_del="message_receive_keep_del";
 				service.deleteMessage(message_no, message_del);
 			}
 		}
@@ -135,7 +135,7 @@ public class MessageController {
 			
 			//받은쪽지만 read
 			if(box.equals("inBox")) {
-				service.readMessage(vo);	
+				service.readMessage(vo);
 			}
 
 			//해당쪽지 세부내용 가져오기

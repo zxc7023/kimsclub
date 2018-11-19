@@ -67,6 +67,9 @@
 		else if(boardType=='n'){
 		  $(".panel-heading").text('공지사항');
 		  $("title").text('공지사항');
+		  if(${map.board_writer_no != 0}){
+			 $(".writeBtnDiv").hide();
+		  }
 		}
 	//page scale
 		$(".selectPageScale").change(function(){
@@ -215,14 +218,13 @@
 			                            </div>
 	                            </div>
                             </div>
-                            
-                            
+
                         </div>
                         
-                        <div class="panel-footer">
+                        <div class="panel-footer writeBtnDiv">
                             <div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">
-	                            		 <button id="writeBtn" type="button" class="btn btn-primary"><i class="fa fa-edit"></i></button>
-	                            		 </div>
+	                        		<button id="writeBtn" type="button" class="btn btn-primary"><i class="fa fa-edit"></i></button>
+	                    	</div>
                         </div>
                         
                     </div>

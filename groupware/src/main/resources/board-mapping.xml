@@ -104,7 +104,6 @@
 	<insert id="insertBoardReplyOfReplyOfReply" parameterType="boardReply">
 		<selectKey resultType="boardReply" keyProperty="reply_no,reply_depth" order="BEFORE">
 			select (select nvl(max(reply_no),0)+1 from reply where reply_board_type=#{reply_board_type}) as reply_no,
-		  		   <!-- ((select reply_order from reply where board_no=#{board_no} and reply_board_type=#{reply_board_type} and reply_group=#{reply_group} and reply_no=#{reply_no})+1)as reply_order, -->
 		  		   ((select reply_depth from reply where reply_group=#{reply_group} and board_no=#{board_no} and reply_board_type=#{reply_board_type} and reply_no=#{reply_no})+1)as reply_depth
 		  		   from dual
 		</selectKey>

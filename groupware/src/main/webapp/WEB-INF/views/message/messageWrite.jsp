@@ -46,8 +46,6 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		
-		
-		
 		//메세지 답장할 경우
 		if('${messageAnswer}' == 'messageAnswer'){
 			$(".page-header").text("답장하기");
@@ -63,6 +61,7 @@
 		else{
 		//체크된 부서나 사원 가져오기
 		$('#checkDepAndEmp').click(function(){
+			$(".empNoCheck").remove();
 			$("#userName").val("");
 			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 			var nodes = treeObj.getCheckedNodes(true);
@@ -75,6 +74,7 @@
 					tmp+=(nodes[key].name+",");
 					var hiddenField = document.createElement("input");
 				        hiddenField.setAttribute("type", "hidden");
+				        hiddenField.setAttribute("class", "empNoCheck");
 				        hiddenField.setAttribute("name", "message_receiver_no");
 				        hiddenField.setAttribute("value", nodes[key].no.split('e')[1]);
 						$(".form-group").append(hiddenField);
@@ -91,6 +91,7 @@
 				alert("받는 사람을 입력해주세요.");
 			}
 			else{
+			
 			$("#messageSave").submit();
 			}
 		});

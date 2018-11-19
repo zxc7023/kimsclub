@@ -35,11 +35,16 @@ public class BoardController {
 		
 	//게시판(커뮤니티,공지사항)게시글 목록
 	@RequestMapping("/boardList")
-	public ModelAndView boardList(@RequestParam("board_type") String board_type,
+	public ModelAndView boardList(HttpSession session,
+			@RequestParam("board_type") String board_type,
 			@RequestParam(name="searchOption", defaultValue="all") String searchOption,					  
 			@RequestParam(name="keyword",defaultValue="") String keyword,
 			@RequestParam(name="page_scale",defaultValue="10") int page_scale,
 			@RequestParam(name="curPage",defaultValue="1") int curPage){
+		
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		int board_writer_no = evo.getEmployee_no();
+		
 		
 		//게시글 수
 		int count = service.countArticle(board_type, searchOption, keyword);
@@ -57,6 +62,7 @@ public class BoardController {
 		map.put("board_type", board_type); //게시판 타입(board_type):커뮤니티:c, 공지사항:n
 		map.put("count", count); //게시글 갯수
 		map.put("boardPager", boardPager); //게시글 행,페이징
+		map.put("board_writer_no", board_writer_no);
 		mav.addObject("map", map);
 		mav.setViewName("/Board/BoardList");
 		return mav;

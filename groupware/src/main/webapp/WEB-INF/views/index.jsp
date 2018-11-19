@@ -40,6 +40,9 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		
+		if('${map.unReadMsgCnt}'>0){
+			$(".unReadMsgCnt").css("color","yellow")
+		}
 	});
 </script>
 <title>Kim's Club</title>
@@ -68,10 +71,10 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa  fa-envelope fa-5x"></i>
+                                    <i class="fa  fa-envelope fa-5x "></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">${map.unReadMsgCnt}</div>
+                                    <div class="huge unReadMsgCnt">${map.unReadMsgCnt}</div>
                                     <div>읽지않은 쪽지</div>
                                 </div>
                             </div>
@@ -112,7 +115,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
+                                    <i class="fa  fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">124</div>

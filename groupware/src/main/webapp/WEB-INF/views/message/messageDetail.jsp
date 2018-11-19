@@ -100,6 +100,7 @@
 		//보낸 쪽지
 		if('${box}' == 'outBox'){
 			$(".page-header").text('보낸쪽지');
+			$("#keepBtn").hide();
 			$("#answerBtn").hide();
 			$("title").text('보낸쪽지');
 			$("#senderAndreceiver").text('받는사람');
@@ -109,7 +110,6 @@
 			$(".page-header").text('받은쪽지');
 			$("title").text('받은쪽지');
 			$("#senderAndreceiver").text('보낸사람');
-			
 		}
 		//내게쓴쪽지
 		else if('${box}' == 'myBox'){

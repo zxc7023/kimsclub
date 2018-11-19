@@ -41,6 +41,21 @@
 <!-- 쪽지 삭제 -->
 	<update id="updateDeleteMessage" parameterType="hashmap" >
 		update message
+		set
+			message_receive_keep_del = 
+				case
+				when message_no IN<foreach item="message_no" collection="message_no" open="(" close=")" separator=",">#{message_no}</foreach> and message_receiver_no=4 and message_receive_keep='Y'
+				then 'Y'
+				else 'N'
+		end,
+			message_send_keep_del = 
+				case
+				when message_no IN<foreach item="message_no" collection="message_no" open="(" close=")" separator=",">#{message_no}</foreach> and message_sender_no=4 and message_send_keep='Y'
+				then 'Y'
+				else 'N'
+		end
+		
+		update message
 		set ${message_del} = 'Y' where message_no IN<foreach item="message_no" collection="message_no" open="(" close=")" separator=",">#{message_no}</foreach>
 	</update>
 		
@@ -61,7 +76,7 @@
 	<select id="selectUnReadMessage" parameterType="hashmap" resultType="int" >
 		select count(*)
 		from message
-		where message_receiver_no=#{employee_no} and message_read_state='N' and message_sender_no != message_receiver_no
+		where message_receiver_no=#{employee_no} and message_read_state='N' and message_sender_no != message_receiver_no and message_receive_del='N'
 	</select>
 		
 <!-- sql검색 -->
@@ -121,7 +136,7 @@
 				where employee_no=message_sender_no and message_no=#{message_no} and message_to_me_del='N' and message_sender_no = message_receiver_no
 			</when>
 			<otherwise>
-				where employee_no=message_receiver_no and message_no=#{message_no}
+				where employee_no=message_sender_no and message_no=#{message_no}
 			</otherwise>
 		</choose>
 	</sql>
