@@ -57,10 +57,10 @@ background-color: #f5f5f5;
 $(document).ready(function() {
 	var type;
 	$(function(){
-	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
+	    CKEDITOR.replace( 'editor1', {//해당 이름으로 된 textarea에 에디터를 적용
 			width:'100%',
 	    	height:'400px',
-	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload/images'
+	    	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload'
 	    });
 	});
 
@@ -70,7 +70,7 @@ $(document).ready(function() {
 	});
 	
 	function submitBtn(){
-		$('#ckeditor').html(CKEDITOR.instances.ckeditor.getData());
+		$('#ckeditor').html(CKEDITOR.instances.editor1.getData());
 		var tmpArr = $("form#writeDocForm").serializeObject();
 
 		$.ajax({
@@ -94,7 +94,7 @@ $(document).ready(function() {
 	
 	$('.selectForm').change(function() {
 		if($(this).val()!='default'){
-			if(CKEDITOR.instances.ckeditor.getData()!=''){
+			if(CKEDITOR.instances.editor1.getData()!=''){
 				$('#deleteCheckModal').modal('show'); //This can also be $("#deleteCheckModal").modal({ show: true });
 			}else{
 				loadForm();
@@ -114,7 +114,7 @@ function loadForm(){
 			alert("양식 불러오기 실패");
 		},
 		success : function(data) {
-			CKEDITOR.instances.ckeditor.setData(data);
+			CKEDITOR.instances.editor1.setData(data);
 			//keditor.element.appendText(data);
 		}
 	});
@@ -175,7 +175,7 @@ function loadForm(){
 										<tr>
 											<td colspan="2">
 												<div class="col-lg-12">
-													<textarea name="document_contents" id="ckeditor" class="form"></textarea>
+													<textarea name="document_contents" id="editor1" class="form"></textarea>
 												</div>
 											</td>
 										</tr>

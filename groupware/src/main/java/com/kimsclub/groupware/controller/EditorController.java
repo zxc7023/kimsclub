@@ -1,10 +1,6 @@
 package com.kimsclub.groupware.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,14 +12,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kimsclub.groupware.service.EditorService;
+
 @Controller
 public class EditorController {
-    /**
+	@Autowired
+	EditorService fileService;
+	
+	/**
      * 이미지 업로드
      * @param request
      * @param response
      * @param upload
+	 * @throws IOException 
      */
+	@RequestMapping(value="/upload", method=RequestMethod.POST)
+	public void ckeditorImageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile upload) throws IOException{
+		String callback = request.getParameter("CKEditorFuncNum");
+		System.out.println(callback);
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset-utf-8");
+
+		fileService.ckeditorImageUpload(request, response, upload);
+
+	}
+}
+
+
+
+
+/*@Controller
+public class EditorController {
+    *//**
+     * 이미지 업로드
+     * @param request
+     * @param response
+     * @param upload
+     *//*
     @RequestMapping(value = "/upload/images", method = RequestMethod.POST)
     public void communityImageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile upload) {
  
@@ -75,3 +100,4 @@ public class EditorController {
         return;
     }
 }
+*/
