@@ -13,10 +13,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
-@Service("service2")
+@Service
 public class EditorServiceImpl implements EditorService {
 
 	@SuppressWarnings("resource")
+	public void ckeditorImageUpload(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws Exception {
+		OutputStream out = null;
+		PrintWriter printWriter = null;	
+		String fileName = file.getOriginalFilename();
+		byte[] bytes = file.getBytes();
+		
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/upload") + "/" + fileName;
+		
+		System.out.println(uploadPath);
+		out = new FileOutputStream(new File(uploadPath));
+		out.write(bytes);
+		String callback = request.getParameter("CKEditorFuncNum");
+
+		printWriter = response.getWriter();
+		String fileUrl = request.getContextPath()+"/resources/upload/" +fileName; //url 경로
+		System.out.println("callback:" + callback);
+		System.out.println(fileUrl);
+
+		
+		String json =  "{\"fileName\" : \""+fileName+"\", \"uploaded\" : 1, \"url\" : \""+ fileUrl+ "\"}";
+		System.out.println(json);
+		printWriter.println(json);
+		/*printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
+				+ "0,'"
+	               + fileUrl
+	               + "','이미지를 업로드 하였습니다.'"
+	               + ");</script>");*/
+	       printWriter.flush();
+	}
+	
+	/*@SuppressWarnings("resource")
 	public void ckeditorImageUpload(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws IOException {
 		// TODO Auto-generated method stub
 		OutputStream out = null;
@@ -36,8 +67,9 @@ public class EditorServiceImpl implements EditorService {
                 + fileUrl
                 + "','이미지를 업로드 하였습니다.'"
                 + ")</script>");
-		/*printWriter.println("{\"filename\" : "+fileName+", \"uploaded\" : 2, \"url\": "+uploadPath+"}");*/
+		printWriter.println("{\"filename\" : "+fileName+", \"uploaded\" : 2, \"url\": "+uploadPath+"}");
 	    printWriter.flush();
 	}
-
+*/
 }
+

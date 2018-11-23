@@ -45,6 +45,7 @@ height: 80px;
 }
 </style>
 <script>
+
 //폼생성하여 post 방식으로 값 보내기 
 function post_to_url(path, params, method) {
     method = method || "post"; // 전송 방식 기본값을 POST로
@@ -90,7 +91,7 @@ function post_to_url(path, params, method) {
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<a class="btn btn-default" href="javascript:post_to_url('/groupware/approvalDoc',{'document_no':${dvo.document_no}})">기안하기</a>
-						<button type="button" onclick="location.href='modifyNewDoc?document_no=${dvo.document_no}'" class="btn btn-default">수정하기</button>
+						<a href="javascript:post_to_url('/groupware/modifyNewDoc',{'document_no':${dvo.document_no}})" class="btn btn-default">수정하기</a>
 						<input type="button" class="btn btn-default" onclick="location.href='/groupware/newDocList'" value="돌아가기">
 					</div>
 					<div class="panel-body">

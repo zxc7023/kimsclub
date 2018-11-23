@@ -30,17 +30,84 @@ import com.kimsclub.groupware.vo.FormVO;
 @Controller
 public class DocumentController {
 	@Autowired
-	ApprovalService service;
+	EmployeeService service;
 	@Autowired
 	DocumentService service2;
 	@Autowired
 	FormService service3;
 	
 	/**
+	 *  해당하는 조건의 문서의 목록을 가져오기 위한 세팅
+	 *  doc_type = 0 새 문서함(자신이 작성한 문서중 아직 기안하지 않은 문서의 목록)  - document_writer_no = 자신의 번호 AND document_state = 0 
+	 */
+	public ModelAndView docSetting(int employee_no,int page_scale, String[] searchOption, String keyword,int cur_page,int doc_type) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		ModelAndView mav = new ModelAndView();
+		
+		//기본 설정들
+		map.put("fromOption", "document");
+		map.put("searchOption", searchOption);
+		map.put("keyword", keyword);
+		map.put("order", "document_no");
+		map.put("whereOption", "1=1");
+	
+		if(doc_type==0) {
+			//임시저장문서 - 자신이 작성한 문서 중 상태가 임시저장상태 인 것들
+			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '임시저장'");
+		}else if (doc_type==1) {
+			//진행문서 - 결재선에 자신이 포함되어있는 문서들
+			map.put("fromOption", "(SELECT d.*, a.employee_no FROM document d, approval a WHERE d.document_no = a.document_no)");
+			map.put("whereOption", "employee_no = "+employee_no+" and document_state = '진행'");
+		}else if (doc_type==3) {
+			//반려문서 - 자신이 작성한 문서 중 반려상태인 문서들
+			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '반려'");
+		}else if (doc_type==4) {
+			//반려문서 - 자신이 작성한 문서 중 완료상태인 문서들
+			map.put("fromOption", " (SELECT d.document_no, document_title,document_date FROM document d , approval a WHERE d.DOCUMENT_NO = a.document_no AND a.employee_no = "+employee_no+ " AND document_state = '완료' )");
+		}else if (doc_type==2) {
+			//결재문서 - 자신이 결재할 차례인 문서들
+			map.put("fromOption", "(SELECT d.* FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=0 AND a1.approval_state =1 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
+		}
+		
+		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음
+		map.put("selectOption", "B.document_no, B.document_title, B.document_date,document_writer_no");
+		//페이징
+		BoardPageVO bpvo = new BoardPageVO(service2.getDocumentCnt(map), cur_page, page_scale); 
+		map.put("start", bpvo.getPageBegin());
+		map.put("end", bpvo.getPageEnd());
+		
+		//map을 통해 해당하는 리스트 불러오기
+		List<DocumentVO> dlist = service2.getDocumentList(map);
+		mav.addObject("map",map);
+		mav.addObject("dlist",dlist);
+		mav.addObject("page",bpvo);
+		
+		return mav;
+	}
+	
+	/**
+	 *  새 문서함 기안 전 작성한 문서 목록 문서를 선택해 기안, 삭제, 수정 할 수 있다.
+	 *  view : 새문서함(newDocList) 
+	 */
+	@RequestMapping(value = "/newDocList", method=RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView newDocList(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
+			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
+			@RequestParam(name="keyword", defaultValue="") String keyword,
+			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
+		System.out.println("newDocList() 메소드 호출");
+		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
+		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,0);
+		mav.setViewName("document/newDocList");
+		
+		return mav;
+	}
+	
+	/**
 	 *  선택한 문서의 제목, 내용을 수정함
 	 *  view : 문서 수정 페이지(modifyNewDoc) model : flist-활성화된 양식 목록 양식 불러올 때 사용 dvo-수정 할 문서의 정보
 	 */
-	@RequestMapping(value = "/modifyNewDoc", method=RequestMethod.GET)
+	@RequestMapping(value = "/modifyNewDoc", method=RequestMethod.POST)
 	public ModelAndView approvalDocModify(@RequestParam(name="document_no") int document_no){
 		ModelAndView mav = new ModelAndView();
 		
@@ -111,65 +178,6 @@ public class DocumentController {
 		return "/groupware/newDocList";
 	}
 	
-	/**
-	 *  해당하는 조건의 문서의 목록을 가져오기 위한 세팅
-	 *  doc_type = 0 새 문서함(자신이 작성한 문서중 아직 기안하지 않은 문서의 목록)  - document_writer_no = 자신의 번호 AND document_state = 0 
-	 */
-	public ModelAndView docSetting(int employee_no,int page_scale, String[] searchOption, String keyword,int cur_page,int doc_type) {
-		Map<String, Object> map = new HashMap<String,Object>();
-		ModelAndView mav = new ModelAndView();
-		map.put("fromOption", "document");
-		map.put("searchOption", searchOption);
-		map.put("keyword", keyword);
-		map.put("order", "document_no");
-		if(doc_type==0) {
-			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '임시저장'");
-		}else if (doc_type==1) {
-			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '진행'");
-		}else if (doc_type==3) {
-			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '반려'");
-		}else if (doc_type==4) {
-			map.put("fromOption", " (SELECT d.document_no, document_title,document_date FROM document d , approval a WHERE d.DOCUMENT_NO = a.document_no AND a.employee_no = "+employee_no+ " AND document_state = '완료' )");
-			map.put("whereOption", "1 = 1 ");
-		}else if (doc_type==2) {
-			map.put("fromOption", "(SELECT d.document_no, d.document_title, d.document_date FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=0 AND a1.approval_state =1 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
-			map.put("whereOption", "1=1");
-		}
-		
-		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음
-		map.put("selectOption", "B.document_no, B.document_title, B.document_date ");
-		//페이징
-		BoardPageVO bpvo = new BoardPageVO(service2.getDocumentCnt(map), cur_page, page_scale); 
-		map.put("start", bpvo.getPageBegin());
-		map.put("end", bpvo.getPageEnd());
-				
-		//map을 통해 해당하는 리스트 불러오기
-		List<DocumentVO> dlist = service2.getDocumentList(map);
-		
-		mav.addObject("map",map);
-		mav.addObject("dlist",dlist);
-		mav.addObject("page",bpvo);
-		
-		return mav;
-	}
-	
-	/**
-	 *  새 문서함 기안 전 작성한 문서 목록 문서를 선택해 기안, 삭제, 수정 할 수 있다.
-	 *  view : 새문서함(newDocList) 
-	 */
-	@RequestMapping(value = "/newDocList", method=RequestMethod.GET)
-	@ResponseBody
-	public ModelAndView newDocList(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
-			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
-			@RequestParam(name="keyword", defaultValue="") String keyword,
-			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session){
-		System.out.println("newDocList() 메소드 호출");
-		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
-		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,0);
-		mav.setViewName("document/newDocList");
-		
-		return mav;
-	}
 	
 	/**
 	 *  새 문서함 기안 전 작성한 문서 목록 문서를 선택해 기안, 삭제, 수정 할 수 있다.
@@ -191,7 +199,7 @@ public class DocumentController {
 	
 	/**
 	 *  새 문서함 기안 전 작성한 문서 목록 문서를 선택해 기안, 삭제, 수정 할 수 있다.
-	 *  view : 완료문서함(proceedDocList) 
+	 *  view : 완료문서함(completeDocList) 
 	 */
 	@RequestMapping(value = "/completeDocList", method=RequestMethod.GET)
 	public ModelAndView completeDocList(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
@@ -220,6 +228,7 @@ public class DocumentController {
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
 		ModelAndView mav = docSetting(evo.getEmployee_no(), page_scale, search_option, keyword, cur_page,1);
 	
+		
 		mav.setViewName("document/proceedDocList");
 		
 		return mav;
@@ -299,7 +308,8 @@ public class DocumentController {
             System.out.println("휴가신청 페이지 호출");
             mav.addObject("dayOff",1);
         }
-
+ 
+        System.out.println(dvo);
 		mav.addObject("dvo", dvo);
 		if(document_type == 0) {
 			System.out.println("임시저장페이지 호출");

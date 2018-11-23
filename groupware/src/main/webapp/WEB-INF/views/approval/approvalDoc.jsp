@@ -39,7 +39,7 @@
 
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
-
+<title>문서 기안</title>
 <style type="text/css">
 .odd {
 background-color: #f5f5f5;
@@ -82,8 +82,6 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-
-	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
 
@@ -95,86 +93,82 @@ $(document).ready(function() {
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">결재</h1>
+					<h1 class="page-header">문서 기안(결재선 선택)</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-heading">문서 기안(결재선 선택)</div>
+						<div class="panel-heading">
+							<button type="button" id="app_btn" class="btn btn-default">기안하기</button>
+						</div>
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="panel-body">
 									<form class="col-sm-12" id="writeDocForm" method="post">
-										<div class="panel-heading">
-											<input type="hidden" name="document_no" value="${dvo.document_no}">
-											<input type="hidden" name="document_state" id="type" value="">
-											<button type="button" id="app_btn" class="btn btn-default">기안하기</button>
-										</div>
-										<div class="panel-body">
-											<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
-												<colgroup>
-													<col width="150">
-													<col width="auto">
-												</colgroup>
-												<tbody>
-													<tr>
-														<td class="odd">작성자</td>
-														<td>${dvo.employee.employee_name}</td>
-													</tr>
-													<tr>
-														<td class="odd">문서 제목<br>
-														</td>
-														<td>${dvo.document_title}</td>
-													</tr>
-													<tr>
-														<td class="odd">결재</td>
-														<td>
-															<div role="row">
-																<div class="col-lg-10">
-																	<div class="panel panel-default" id="approvalLine">
-																		<table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
-																			<colgroup>
-																				<col width="15%">
-																				<col width="17%">
-																				<col width="17%">
-																				<col width="17%">
-																				<col width="17%">
-																				<col width="17%">
-																			</colgroup>
-																			<tbody class="t-body">
-																				<tr>
-																					<th colspan="6">결재 순서
-																						<p class="fa fa-long-arrow-right"></p>
-																					</th>
-																				</tr>
-																				<tr id="paste">
-																					<c:forEach begin="0" end="5" varStatus="i">
-																						<td class="name" index="${i.index}" style="text-align: center;">${dvo.approval[i.index].employee.department.department_name}<br> ${dvo.approval[i.index].employee.employee_name} ${dvo.approval[i.index].employee.position}
-																						</td>
-																					</c:forEach>
-																				</tr>
-																			</tbody>
-																		</table>
-																	</div>
-																</div>
-																<div class="col-lg-2">
-																	<button class="btn-ApprovalLine" type="button" data-toggle="modal" data-target="#approvalLineSelect">결재선 선택</button>
+										<input type="hidden" name="document_no" value="${dvo.document_no}"> <input type="hidden" name="document_state" id="type" value="">
+										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+											<colgroup>
+												<col width="150">
+												<col width="auto">
+											</colgroup>
+											<tbody>
+												<tr>
+													<td class="odd">작성자</td>
+													<td>${dvo.employee.employee_name}</td>
+												</tr>
+												<tr>
+													<td class="odd">문서 제목<br>
+													</td>
+													<td>${dvo.document_title}</td>
+												</tr>
+												<tr>
+													<td class="odd">결재</td>
+													<td>
+														<div role="row">
+															<div class="col-lg-10">
+																<div class="panel panel-default" id="approvalLine">
+																	<table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+																		<colgroup>
+																			<col width="15%">
+																			<col width="17%">
+																			<col width="17%">
+																			<col width="17%">
+																			<col width="17%">
+																			<col width="17%">
+																		</colgroup>
+																		<tbody class="t-body">
+																			<tr>
+																				<th colspan="6">결재 순서
+																					<p class="fa fa-long-arrow-right"></p>
+																				</th>
+																			</tr>
+																			<tr id="paste">
+																				<c:forEach begin="0" end="5" varStatus="i">
+																					<td class="name" index="${i.index}" style="text-align: center;">${dvo.approval[i.index].employee.department.department_name}<br> ${dvo.approval[i.index].employee.employee_name} ${dvo.approval[i.index].employee.position}
+																					</td>
+																				</c:forEach>
+																			</tr>
+																		</tbody>
+																	</table>
 																</div>
 															</div>
-														</td>
-													</tr>
-													<tr>
-														<td colspan="2" class="odd">문서 내용</td>
-													</tr>
-													<tr>
-														<td colspan="2">
-															<div class="col-lg-12">${dvo.document_contents}</div>
-														</td>
-													</tr>
-												</tbody>
-											</table>
-										</div>
+															<div class="col-lg-2">
+																<button class="btn-ApprovalLine" type="button" data-toggle="modal" data-target="#approvalLineSelect">결재선 선택</button>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2" class="odd">문서 내용</td>
+												</tr>
+												<tr>
+													<td colspan="2">
+														<div class="col-lg-12">${dvo.document_contents}</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
 									</form>
 								</div>
 							</div>

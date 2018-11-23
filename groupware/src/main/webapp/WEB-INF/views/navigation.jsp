@@ -232,7 +232,7 @@
 						<li><a href="${pageContext.request.contextPath}/returnDocList">반려문서함</a></li>
 						<li><a href="${pageContext.request.contextPath}/completeDocList">완료문서함</a></li>
 						<!-- 문서양식관리는 나중에 아이디 넘겨주면 관리자확인이 되면 보여지게 변경 -->
-						<li><a href="${pageContext.request.contextPath}/form">문서양식관리</a></li>
+						<li><a href="${pageContext.request.contextPath}/form/formList">문서양식관리</a></li>
 						
 						<li><a href="#">문서수발<span class="fa arrow"></span></a>
 							<ul class="nav nav-third-level collapse">

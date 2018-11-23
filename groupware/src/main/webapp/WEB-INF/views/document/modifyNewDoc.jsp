@@ -47,6 +47,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/1.12.1/jquery-ui.css">
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
+<title>문서 수정</title>
 <style>
 .odd {
 background-color: #f5f5f5;
@@ -145,63 +146,51 @@ function loadForm(){
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">결재</h1>
+					<h1 class="page-header">문서 수정</h1>
 				</div>
 			</div>
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">문서 작성</div>
+					<div class="panel-heading">
+						 <input type="button" class="btn btn-default" id="modify_btn" value="저장하기"> <input type="button" class="btn btn-default" onclick="location.href='/groupware/newDocList'" value="돌아가기">
+					</div>
 					<div class="panel-body">
 						<form class="col-sm-12" id="writeDocForm" method="post">
-							<div class="panel-heading">
-								<input type="hidden" name="document_no" value="${dvo.document_no}">
-								<input type="hidden" name="document_state" id="type" value="">
-								<input type="button" class="btn btn-default" id="modify_btn" value="저장하기">
-								<input type="button" class="btn btn-default" onclick="location.href='/groupware/newDocList'" value="돌아가기">
-							</div>
-							<div class="panel-body">
-								<table
-									class="table table-bordered dataTable no-footer dtr-inline"
-									id="dataTables-example" role="grid"
-									aria-describedby="dataTables-example_info">
-									<colgroup>
-										<col width="150">
-										<col width="auto">
-									</colgroup>
-									<tbody>
-										<tr>
-											<td class="odd">문서 양식</td>
-											<td><select class="selectForm">
-													<option selected="selected" value="default">양식 선택</option>
-													<c:forEach items="${flist}" var="fvo">
-														<option class="selectFormNo" value="${fvo.form_no}">${fvo.form_name}</option>
-													</c:forEach>
-											</select></td>
-										</tr>
-										<tr>
-											<td class="odd">작성자</td>
-											<td>${dvo.employee.employee_name}</td>
-										</tr>
-										<tr>
-											<td class="odd">문서 제목<br>
-											</td>
-											<td><input type="text" name="document_title"
-												class="form-control" required="required"
-												autofocus="autofocus" maxlength="40" value="${dvo.document_title}"></td>
-										</tr>
-										<tr>
-											<td colspan="2" class="odd">문서 내용</td>
-										</tr>
-										<tr>
-											<td colspan="2">
-												<div class="col-lg-12">
-													<textarea name="document_contents" id="ckeditor" class="form">${dvo.document_contents}</textarea>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+							<input type="hidden" name="document_no" value="${dvo.document_no}"> <input type="hidden" name="document_state" id="type" value="">
+							<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+								<colgroup>
+									<col width="150">
+									<col width="auto">
+								</colgroup>
+								<tbody>
+									<tr>
+										<td class="odd">문서 양식</td>
+										<td><select class="selectForm">
+												<option selected="selected" value="default">양식 선택</option>
+												<c:forEach items="${flist}" var="fvo">
+													<option class="selectFormNo" value="${fvo.form_no}">${fvo.form_name}</option>
+												</c:forEach>
+										</select></td>
+									</tr>
+									<tr>
+										<td class="odd">작성자</td>
+										<td>${dvo.employee.employee_name}</td>
+									</tr>
+									<tr>
+										<td class="odd">문서 제목<br>
+										</td>
+										<td><input type="text" name="document_title" class="form-control" required="required" autofocus="autofocus" maxlength="40" value="${dvo.document_title}"></td>
+									</tr>
+									<tr>
+										<td colspan="2" class="odd">문서 내용</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<textarea name="document_contents" id="ckeditor" class="form">${dvo.document_contents}</textarea>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</form>
 					</div>
 				</div>

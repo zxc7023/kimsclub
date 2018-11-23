@@ -9,5 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 public interface EditorService {
-	public void ckeditorImageUpload(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws IOException;
+	public void ckeditorImageUpload(HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws IOException, Exception;
 }

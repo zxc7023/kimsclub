@@ -17,18 +17,17 @@ import com.kimsclub.groupware.vo.BoardPageVO;
 import com.kimsclub.groupware.vo.FormVO;
 
 @Controller
+@RequestMapping(value = "/form/*")
 public class FormController {
 	@Autowired
 	FormService service;
 	
-	//양식 관리 페이지 호출
-	@RequestMapping(value = "/form", method=RequestMethod.GET)
-	public ModelAndView form(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
+	@RequestMapping(value = "/formList", method=RequestMethod.GET)
+	public ModelAndView formList(@RequestParam(name="page_scale", defaultValue="10") int page_scale,
 			@RequestParam(name="searchOption", defaultValue="form_name")String[] search_option,					  
 			@RequestParam(name="keyword", defaultValue="") String keyword,
 			@RequestParam(name="cur_page",defaultValue="1") int cur_page){
-		
-		System.out.println("form() 메소드 호출");
+		System.out.println("formList 메소드 호출");
 		
 		//map에 페이지에 필요한 리스트를 불러오기 위한 파라미터들 입력
 		Map<String, Object> map = new HashMap<String,Object>();
@@ -36,9 +35,10 @@ public class FormController {
 		map.put("searchOption", search_option);
 		map.put("keyword", keyword);
 		map.put("order", "form_no");
-		map.put("whereOption", "form_activation != '히든'");
-		//내용 제외
+		
+		//리스트를 보여줄 때 내용은 필요 없으므로 form_contents는  제외
 		map.put("selectOption", "B.form_no, B.form_name, B.form_activation, B.form_desc");
+		//페이징 처리를 위한
 		BoardPageVO bpvo = new BoardPageVO(service.getFormCnt(map), cur_page, page_scale); 
 		map.put("start", bpvo.getPageBegin());
 		map.put("end", bpvo.getPageEnd());
@@ -51,22 +51,22 @@ public class FormController {
 		mav.addObject("map",map);
 		mav.addObject("formList",flist);
 		mav.addObject("page",bpvo);
-		mav.setViewName("form/form");
+		mav.setViewName("form/formList");
 		
 		return mav;
 	}
 	
 	//양식 생성 페이지 호출
-	@RequestMapping(value = "/createform", method=RequestMethod.GET)
+	@RequestMapping(value = "/createForm", method=RequestMethod.GET)
 	public String create_form(){
-		System.out.println("create_form() 메소드 호출");
+		System.out.println("createform() 메소드 호출");
 		return "form/formCreate";
 	}
 	
 	//양식 수정 페이지 호출
-	@RequestMapping(value = "/modifyform", method=RequestMethod.GET)
-	public ModelAndView modify_form(@RequestParam(value="form_no")int form_no){
-		System.out.println("modify_form() 메소드 호출");
+	@RequestMapping(value = "/modifyForm", method=RequestMethod.GET)
+	public ModelAndView modifyForm(@RequestParam(value="form_no")int form_no){
+		System.out.println("modifyForm() 메소드 호출");
 		FormVO fvo = service.modifyForm(form_no);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("fvo",fvo);
@@ -75,21 +75,21 @@ public class FormController {
 	}
 	
 	//양식 저장 후 양식관리 페이지 호출
-	@RequestMapping(value = "/createform", method=RequestMethod.POST)
-	public String save_form(FormVO vo){
-		System.out.println("save_form() 메소드 호출");
+	@RequestMapping(value = "/createForm", method=RequestMethod.POST)
+	public String saveForm(FormVO vo){
+		System.out.println("saveForm() 메소드 호출");
 		System.out.println(vo.getForm_contents());
 		System.out.println(vo.getForm_no());
 		service.saveForm(vo);
-		return "redirect:/form";
+		return "redirect:/form/formList";
 	}
 	
 	//양식 삭제
-	@RequestMapping(value = "/removeForm" ,method=RequestMethod.GET)
-	public String remove_form(@RequestParam(value="form_no")String[] form_no){
-		System.out.println("remove_form() 메소드 호출");
+	@RequestMapping(value = "/removeForm" ,method=RequestMethod.POST)
+	public String removeForm(@RequestParam(value="form_no")String[] form_no){
+		System.out.println("removeForm() 메소드 호출");
 		service.deleteForm(form_no);
-		return "redirect:/form";
+		return "redirect:/form/formList";
 	}
 	
 	/**

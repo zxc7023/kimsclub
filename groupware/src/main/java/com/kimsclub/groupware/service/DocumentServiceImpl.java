@@ -60,7 +60,7 @@ public class DocumentServiceImpl implements DocumentService {
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void retrieveDocument(int document_no) {
 		ddao.retrieveDoc(document_no);
-		adao.removeApproval(document_no);
+		//adao.removeApproval(document_no);
 	}
 
 	//문서 결재하기

@@ -35,15 +35,16 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <!-- ckeditor -->
-<script src="resources/ckeditor/ckeditor.js"></script>
+<script src="${pageContext.request.contextPath}/resources/ckeditor/ckeditor.js"></script>
+
+<title>양식 생성</title>
 <script>
 $(document).ready(function() {
 	 $(function(){
-				
       	    CKEDITOR.replace( 'ckeditor', {//해당 이름으로 된 textarea에 에디터를 적용
 	            width:'100%',
 	            height:'400px',
-	        	filebrowserUploadUrl: '${pageContext.request.contextPath}/upload'
+	            filebrowserUploadUrl: '${pageContext.request.contextPath}/file/ckeditorImageUpload'
 	        });
 	    });
 });//ready end
@@ -111,7 +112,6 @@ $(document).ready(function() {
 </style>
 </head>
 <body>
-	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
 
@@ -123,51 +123,58 @@ $(document).ready(function() {
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">결재</h1>
+					<h1 class="page-header">양식</h1>
 				</div>
 			</div>
-
-			<div class="col-lg-12">
-				<div class="panel panel-primary">
-					<div class="panel-heading">양식 생성</div>
-					<div class="panel-body">
-						<form action="/groupware/createform" method="post">
-							<div class="form-group">
-								<div class="form-row">
-									<div class="col-md-8">
-										<div class="form-label-group">
-					                    	<input type="text" id="form_name" name="form_name" class="form-control" required="required" autofocus="autofocus" value="${fvo.form_name}">
-											<label for="form_name">양식 이름</label>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-primary">
+						<div class="panel-heading">양식 생성</div>
+						<div class="panel-body">
+							<form action="/groupware/form/createForm" method="post">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-lg-8">
+											<div class="form-label-group">
+												<input type="text" id="form_name" name="form_name" class="form-control" required="required" autofocus="autofocus" value="${fvo.form_name}"> <label for="form_name">양식 이름</label>
+											</div>
+										</div>
+										<div class="col-lg-2">
+											<div class="form-label-group">
+												<label><input type="radio" name="form_activation" value="활성화" <c:if test="${fvo.form_activation=='활성화'}">checked="checked"</c:if>>양식 활성화</label>
+											</div>
+										</div>
+										<div class="col-lg-2">
+											<div class="form-label-group">
+												<label><input type="radio" name="form_activation" value="비활성화" <c:if test="${fvo.form_activation=='비활성화'}">checked="checked"</c:if>>양식 비활성화</label>
+											</div>
 										</div>
 									</div>
-									<div class="col-md-2">
-										<div class="form-label-group">
-											<label><input type="radio" name="form_activation" value="활성화" <c:if test="${fvo.form_activation=='활성화'}">checked="checked"</c:if>>양식 활성화</label>
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="form-label-group">
+												<input type="text" id="form_desc" name="form_desc" class="form-control" placeholder="양식 설명" required="required" maxlength="150" value="${fvo.form_desc}"> <label for="form_desc">양식 설명</label>
+											</div>
 										</div>
 									</div>
-									<div class="col-md-2">
-										<div class="form-label-group">
-											<label><input type="radio" name="form_activation" value="비활성화" <c:if test="${fvo.form_activation=='비활성화'}">checked="checked"</c:if>>양식 비활성화</label>
+									<div class="row">
+										<div class="col-lg-12">
+											<textarea name="form_contents" id="ckeditor">${fvo.form_contents}</textarea>
 										</div>
 									</div>
-									<div class="col-md-12">
-										<div class="form-label-group">
-											<input type="text" id="form_desc" name="form_desc" class="form-control" placeholder="양식 설명" required="required" maxlength="150"  value="${fvo.form_desc}">
-											<label for="form_desc">양식 설명</label>
+									<div class="row">
+										<div class="col-lg-12">
+											<input type="hidden" name="form_no" value="${fvo.form_no}" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-12">
+											<input type="submit" class="btn-primary btn-block" value="확인">
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-12">
-									<textarea name="form_contents" id="ckeditor">${fvo.form_contents}</textarea>
-								</div>
-								<div class="col-lg-12">
-									<input type="hidden" name="form_no" value="${fvo.form_no}"/>
-								</div>
-								<div class="col-lg-12">
-									<input type="submit" class="btn-primary btn-block" value="확인">
-								</div>
-							</div>
-						</form>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>

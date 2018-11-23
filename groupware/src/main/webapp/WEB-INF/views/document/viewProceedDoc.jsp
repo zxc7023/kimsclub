@@ -40,29 +40,14 @@
 
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
+<title>진행문서</title>
 <style type="text/css">
-
 #sign td{
 height: 80px;
 }
 </style>
 <script>
 $(document).ready(function() {
-    if('${dayOff}'==1){
-        $('#department_name').html("${dvo.approval[0].employee.department.department_name}");
-    }
-    
-
-	
-	$("#retrieve-btn").click(function(){
-		if("${dvo.approval[1].approval_state}"==1){
-			alert("이미 결재가 진행중입니다.");
-		}
-		else{
-			window.location.href = "/groupware/retrieveDoc?document_no=${dvo.document_no}";
-		}
-	});
-	
 	//결재한 사람 확인해서 sign 넣어주기
 	var arr = {
 			approval_state: [],
@@ -82,6 +67,33 @@ $(document).ready(function() {
 			$("#sign[index='"+i+"']").html("<img src='${pageContext.request.contextPath}/resources/images/kimsClubSign.jpg'>");
 		}
 	}
+    if('${dayOff}'==1){
+        $('#department_name').html("${dvo.approval[0].employee.department.department_name}");
+    }
+    
+	$("#retrieve-btn").click(function(){
+		if(!alert("정말로 결재를 회수하시겠습니까?")){
+			if("${dvo.approval[1].approval_state}"==1){
+				alert("이미 결재가 진행중입니다.");
+			}
+			else{
+				window.location.href = "/groupware/retrieveDoc?document_no=${dvo.document_no}";
+			}
+		}
+	});
+	
+	$("#cancel-btn").click(function(){
+		for(var i = 0; i<arr.approval_state.length; i++){
+			if(arr.employee_no[i]==${sessionScope.loginInfo.employee_no}){
+				if(arr.approval_state[i+1]==1){
+					alert("상위 결재권자가 이미 결재를 하였습니다.");	
+				}else if(arr.approval_state[i+1]==0){
+					window.location.href = "/groupware/retrieveDoc?document_no=${dvo.document_no}";
+				}
+			}
+		}
+	}); 
+
 });
 </script>
 <style type="text/css">
@@ -92,7 +104,6 @@ height: 65px;
 </style>
 </head>
 <body>
-	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
 
@@ -101,113 +112,107 @@ height: 65px;
 
 		<!-- content div -->
 		<div id="page-wrapper">
-
 			<div class="row">
 				<div class="col-lg-12">
 					<h1 class="page-header">진행 문서</h1>
 				</div>
 			</div>
 
-			<form class="col-sm-12" method="post">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<input type="button" id="retrieve-btn" class="btn btn-default" value="결재회수">
-							<input type="button"  class="btn btn-default" onclick="location.href='/groupware/proceedDocList'" value="돌아가기">
-					</div>
-					<div class="panel-body">
-						<div role="row">
-							<!--<div class="col-lg-12">
+			<div class="row">
+				<form class="col-sm-12" method="post">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<c:if test="${sessionScope.loginInfo.employee_no==dvo.employee.employee_no}">
+								<input type="button" id="retrieve-btn" class="btn btn-default" value="결재회수">
+							</c:if>
+							<c:if test="${sessionScope.loginInfo.employee_no!=dvo.employee.employee_no}">
+								<input type="button" id="cancel-btn" class="btn btn-default" value="결재취소">
+							</c:if>
+							<input type="button" class="btn btn-default" onclick="location.href='/groupware/proceedDocList'" value="돌아가기">
+						</div>
+						<div class="panel-body">
+							<div role="row">
+								<!--<div class="col-lg-12">
 								 <div class="panel panel-default" id="approvalLine">  -->
-							<table
-								class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
-								role="grid" aria-describedby="dataTables-example_info"
-								style="width: 100%;">
-								<colgroup>
-									<col width="15%">
-									<col width="17%">
-									<col width="17%">
-									<col width="17%">
-									<col width="17%">
-									<col width="17%">
-								</colgroup>
-								<tbody class="t-body">
-									<tr>
-										<th colspan="6">결재 순서
-											<p class="fa fa-long-arrow-right"></p>
-										</th>
-									</tr>
-									<tr id="paste">
-										<c:forEach begin="0" end="5" varStatus="i">
-											<td class="name" index="${i.index}"
-												style="text-align: center;">${dvo.approval[i.index].employee.department.department_name}<br>
-												${dvo.approval[i.index].employee.employee_name}
-												${dvo.approval[i.index].employee.position}
-											</td>
-										</c:forEach>
-									</tr>
-									<tr>
-										<c:forEach begin="0" end="5" varStatus="i">
-											<td index="${i.index}" style="text-align: center;">
+								<table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
+									<colgroup>
+										<col width="15%">
+										<col width="17%">
+										<col width="17%">
+										<col width="17%">
+										<col width="17%">
+										<col width="17%">
+									</colgroup>
+									<tbody class="t-body">
+										<tr>
+											<th colspan="6">결재 순서
+												<p class="fa fa-long-arrow-right"></p>
+											</th>
+										</tr>
+										<tr id="paste">
+											<c:forEach begin="0" end="5" varStatus="i">
+												<td class="name" index="${i.index}" style="text-align: center;">${dvo.approval[i.index].employee.department.department_name}<br> ${dvo.approval[i.index].employee.employee_name} ${dvo.approval[i.index].employee.position}
+												</td>
+											</c:forEach>
+										</tr>
+										<tr>
+											<c:forEach begin="0" end="5" varStatus="i">
+												<td index="${i.index}" style="text-align: center;">
 
-												<div>
-													<fmt:formatDate
-														value="${dvo.approval[i.index].approval_date}"
-														pattern="yyyy/MM/dd" />
-												</div>
-											</td>
-										</c:forEach>
+													<div>
+														<fmt:formatDate value="${dvo.approval[i.index].approval_date}" pattern="yyyy/MM/dd" />
+													</div>
+												</td>
+											</c:forEach>
+										</tr>
+										<tr>
+											<c:forEach begin="0" end="5" varStatus="i">
+												<td id=sign index="${i.index}" style="text-align: center;" width="50px;" height="50px;"></td>
+											</c:forEach>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+
+							<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+								<colgroup>
+									<col width="20%">
+									<col width="30%">
+									<col width="20%">
+									<col width="30%">
+								</colgroup>
+								<tbody>
+
+									<tr>
+										<td class="odd">작성자</td>
+										<td colspan="3">${dvo.employee.employee_name}</td>
 									</tr>
 									<tr>
-										<c:forEach begin="0" end="5" varStatus="i">
-											<td id=sign index="${i.index}" style="text-align: center;"
-												width="50px;" height="50px;"></td>
-										</c:forEach>
+										<td class="odd">문서 제목<br>
+										</td>
+										<td colspan="3">${dvo.document_title}</td>
+									</tr>
+									<tr>
+										<td class="odd">문서 생성일</td>
+										<td><fmt:formatDate value="${dvo.document_date}" pattern="yyyy/MM/dd" /></td>
+										<td class="odd">문서 상태</td>
+										<td>${dvo.document_state}</td>
+									</tr>
+									<tr>
+										<td colspan="4" class="odd">문서 내용</td>
+									</tr>
+									<tr>
+										<td colspan="4">
+											<div class="col-lg-12">${dvo.document_contents}</div>
+										</td>
 									</tr>
 								</tbody>
 							</table>
 						</div>
-
-
-						<table class="table table-bordered dataTable no-footer dtr-inline"
-							id="dataTables-example" role="grid"
-							aria-describedby="dataTables-example_info">
-							<colgroup>
-								<col width="20%">
-								<col width="30%">
-								<col width="20%">
-								<col width="30%">
-							</colgroup>
-							<tbody>
-
-								<tr>
-									<td class="odd">작성자</td>
-									<td colspan="3">${dvo.employee.employee_name}</td>
-								</tr>
-								<tr>
-									<td class="odd">문서 제목<br>
-									</td>
-									<td colspan="3">${dvo.document_title}</td>
-								</tr>
-								<tr>
-									<td class="odd">문서 생성일</td>
-									<td><fmt:formatDate value="${dvo.document_date}"
-											pattern="yyyy/MM/dd" /></td>
-									<td class="odd">문서 상태</td>
-									<td>${dvo.document_state}</td>
-								</tr>
-								<tr>
-									<td colspan="4" class="odd">문서 내용</td>
-								</tr>
-								<tr>
-									<td colspan="4">
-										<div class="col-lg-12">${dvo.document_contents}</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
 					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

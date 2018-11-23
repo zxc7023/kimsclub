@@ -48,6 +48,7 @@
 
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
+<title>새 문서 작성</title>
 <style>
 .odd {
 background-color: #f5f5f5;
@@ -106,7 +107,7 @@ $(document).ready(function() {
 function loadForm(){
 	$.ajax({
 		method : "GET",
-		url : "/groupware/loadForm",
+		url : "/groupware/form/loadForm",
 		data : {
 			"form_no" : $('.selectFormNo:selected').val()
 		},
@@ -137,51 +138,39 @@ function loadForm(){
 					</div>
 					<div class="panel-body">
 						<form class="col-sm-12" id="writeDocForm" method="post">
-							<div class="panel-heading">
-								<input type="hidden" name="document_state" id="type" value="">
-								
-							</div>
-							<div class="panel-body">
-								<table
-									class="table table-bordered dataTable no-footer dtr-inline"
-									id="dataTables-example" role="grid"
-									aria-describedby="dataTables-example_info">
-									<colgroup>
-										<col width="150">
-										<col width="auto">
-									</colgroup>
-									<tbody>
-										<tr>
-											<td class="odd">문서 양식</td>
-											<td><select class="selectForm">
-													<option selected="selected" value="default">양식 선택</option>
-													<c:forEach items="${flist}" var="fvo">
-														<option class="selectFormNo" value="${fvo.form_no}">${fvo.form_name}</option>
-													</c:forEach>
-											</select></td>
-										</tr>
-										<tr>
-											<td class="odd">작성자</td>
-											<td>${sessionScope.loginInfo.employee_name}</td>
-										</tr>
-										<tr>
-											<td class="odd">문서 제목<br>
-											</td>
-											<td><input type="text" size="20" name="document_title" class="form-control" required="required" autofocus="autofocus" maxlength="40"></td>
-										</tr>
-										<tr>
-											<td colspan="2" class="odd">문서 내용</td>
-										</tr>
-										<tr>
-											<td colspan="2">
-												<div class="col-lg-12">
-													<textarea name="document_contents" id="ckeditor" class="form"></textarea>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
+							<input type="hidden" name="document_state" id="type" value="">
+							<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+								<colgroup>
+									<col width="150">
+									<col width="auto">
+								</colgroup>
+								<tbody>
+									<tr>
+										<td class="odd">문서 양식</td>
+										<td><select class="selectForm">
+												<option selected="selected" value="default">양식 선택</option>
+												<c:forEach items="${flist}" var="fvo">
+													<option class="selectFormNo" value="${fvo.form_no}">${fvo.form_name}</option>
+												</c:forEach>
+										</select></td>
+									</tr>
+									<tr>
+										<td class="odd">작성자</td>
+										<td>${sessionScope.loginInfo.employee_name}</td>
+									</tr>
+									<tr>
+										<td class="odd">문서 제목<br>
+										</td>
+										<td><input type="text" size="20" name="document_title" class="form-control" required="required" autofocus="autofocus" maxlength="40"></td>
+									</tr>
+									<tr>
+										<td colspan="2" class="odd">문서 내용</td>
+									</tr>
+									<tr>
+										<td colspan="2"><textarea name="document_contents" id="ckeditor" class="form"></textarea></td>
+									</tr>
+								</tbody>
+							</table>
 						</form>
 					</div>
 				</div>

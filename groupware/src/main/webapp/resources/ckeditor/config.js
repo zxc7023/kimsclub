@@ -21,6 +21,6 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'others', groups: [ 'others' ] },
 		{ name: 'about', groups: [ 'about' ] }
 	];
-	config.extraPlugins = 'tableresize,uploadimage';
+	config.extraPlugins = 'filetools,tableresize,uploadimage,uploadwidget,widget';
 	config.removeButtons = 'Save,Preview,Print,Templates,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Language,Anchor,Unlink,Link,Flash,Smiley,Iframe,About';
 };
