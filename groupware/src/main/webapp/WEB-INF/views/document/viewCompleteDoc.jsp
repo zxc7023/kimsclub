@@ -40,8 +40,8 @@
 
 <!-- jquery-serializeObject.js  -->
 <script src="${pageContext.request.contextPath}/resources/js/jquery-serializeObject.js"></script>
+<title>완료 문서함</title>
 <style type="text/css">
-
 #sign td{
 height: 80px;
 }
@@ -139,7 +139,8 @@ height: 65px;
 					<h1 class="page-header">완료 문서</h1>
 				</div>
 			</div>
-
+			
+			<div class="row">
 			<form class="col-sm-12" method="post">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -241,6 +242,7 @@ height: 65px;
 					</div>
 				</div>
 			</form>
+		</div>
 		</div>
 	</div>
 	<!-- 결재선 불러오기 modal -->

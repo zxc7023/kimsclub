@@ -95,7 +95,7 @@
 	</update>
 	
 	<!-- 리스트 조회 -->		
-	<select id="selectList" resultType="Document" parameterType="hashmap" >
+	<select id="selectList" resultMap="documentMap" parameterType="hashmap" >
 		<include refid="pagingHeader"></include>
 		select
 		<if test="selectOption != null">

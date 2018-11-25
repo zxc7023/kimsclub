@@ -47,9 +47,9 @@
 			 ${selectOption}
 		</if>
 		<if test="selectOption == null">
-		 B.*
+		 *
 		</if>
-		from (${fromOption}) B
+		from ${fromOption}
 		<where>
 			${whereOption}
 			<if test="searchOption != null">

@@ -84,11 +84,11 @@ $(document).ready(function() {
 	
 	$("#cancel-btn").click(function(){
 		for(var i = 0; i<arr.approval_state.length; i++){
-			if(arr.employee_no[i]==${sessionScope.loginInfo.employee_no}){
+			if(arr.employee_no[i]=="${sessionScope.loginInfo.employee_no}"){
 				if(arr.approval_state[i+1]==1){
 					alert("상위 결재권자가 이미 결재를 하였습니다.");	
 				}else if(arr.approval_state[i+1]==0){
-					window.location.href = "/groupware/retrieveDoc?document_no=${dvo.document_no}";
+					window.location.href = "/groupware/cancelDoc?document_no=${dvo.document_no}";
 				}
 			}
 		}

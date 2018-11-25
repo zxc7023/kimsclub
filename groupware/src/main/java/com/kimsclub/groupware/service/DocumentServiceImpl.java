@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kimsclub.groupware.dao.ApprovalDAO;
 import com.kimsclub.groupware.dao.DocumentDAO;
+import com.kimsclub.groupware.vo.ApprovalVO;
 import com.kimsclub.groupware.vo.DocumentVO;
 
 @Service
@@ -79,5 +80,10 @@ public class DocumentServiceImpl implements DocumentService {
 	public void returnDocument(Map<String, Object> map) {
 		ddao.returnDocState(map);
 		adao.returnApproval(map);
+	}
+
+	@Override
+	public void cancelApproval(ApprovalVO avo) {
+		adao.cancelApproval(avo);
 	}
 }

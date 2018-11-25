@@ -23,6 +23,11 @@ public class ApprovalVO {
 		this.approval_next_no = approval_next_no;
 	}
 
+	public ApprovalVO(int document_no, int employee_no) {
+		this.document = new DocumentVO(document_no);
+		this.employee = new EmployeeVO(employee_no);
+	}
+
 	public int getApproval_no() {
 		return approval_no;
 	}

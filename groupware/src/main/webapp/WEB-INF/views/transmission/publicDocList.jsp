@@ -37,7 +37,7 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
-
+<title>공람 문서함</title>
 <script>
 //폼생성하여 post 방식으로 값 보내기 
 function post_to_url(path, params, method) {
@@ -65,15 +65,13 @@ function post_to_url(path, params, method) {
 $(document).ready(function() {
 	// 페이지당 보여줄 개수 변경시 호출
 	$('.pg-scale').change(function() {
-		location.href = 'form?page_scale=' + $(this).val()+'&keyword=${map.keyword}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
+		location.href = 'publicDocList?page_scale=' + $(this).val()+'&keyword=${map.keyword}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>';
 	});
 });
 
 </script>
 </head>
 <body>
-
-	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
 
@@ -85,88 +83,83 @@ $(document).ready(function() {
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">결재</h1>
+					<h1 class="page-header">공람 문서함</h1>
 				</div>
 			</div>
-
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">공람 문서함</div>
-					<div class="panel-body">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-							</div>
-							<div class="panel-body">
-								<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<div class="row">
-										<div class="col-sm-5">
-											<div class="dataTables_length" id="dataTables-example_length">
-												<label>Show <select name="page_scale" class="form-control input-sm pg-scale">
-														<option value="10" <c:if test="${page.page_scale==10}">selected="selected"</c:if>>10</option>
-														<option value="25" <c:if test="${page.page_scale==25}">selected="selected"</c:if>>25</option>
-														<option value="50" <c:if test="${page.page_scale==50}">selected="selected"</c:if>>50</option>
-														<option value="100" <c:if test="${page.page_scale==100}">selected="selected"</c:if>>100</option>
-												</select> entries
-												</label>
-											</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading"></div>
+						<div class="panel-body">
+							<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+								<div class="row">
+									<div class="col-lg-5">
+										<div class="dataTables_length" id="dataTables-example_length">
+											<label>Show <select name="page_scale" class="form-control input-sm pg-scale">
+													<option value="10" <c:if test="${page.page_scale==10}">selected="selected"</c:if>>10</option>
+													<option value="25" <c:if test="${page.page_scale==25}">selected="selected"</c:if>>25</option>
+													<option value="50" <c:if test="${page.page_scale==50}">selected="selected"</c:if>>50</option>
+													<option value="100" <c:if test="${page.page_scale==100}">selected="selected"</c:if>>100</option>
+											</select> entries
+											</label>
 										</div>
-										<form action="sendDocList">
-											<input type="hidden" name="page_scale" value="${page.page_scale}">
-											<div class="col-sm-3">
-												<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목   </label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
-											</div>
-											<div class="col-sm-4">
-												<div id="dataTables-example_filter" class="dataTables_filter">
-													<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword">
-													</label>
-													<button class="btn btn-primary btn-sm">
-														<i class="fa fa-search"></i>
-													</button>
-												</div>
-											</div>
-										</form>
 									</div>
-									<table class="table table-bordered" id="dataTable">
-										<colgroup>
-											<col width="10%">
-											<col width="75%">
-											<col width="15%">
-										</colgroup>
-										<thead>
-											<tr role="row">
-												<th>문서번호</th>
-												<th>제목</th>
-												<th>문서 발송일</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach items="${tlist}" var="list">
-												<tr>
-													<td>${list.document.document_no}</td>
-													<td><a href="javascript:post_to_url('/groupware/viewTransmissionDoc',{'document_type':'2','document_no':'${list.document.document_no}'})">${list.document.document_title}</a></td>
-													<td><fmt:formatDate value="${list.transmission_sender_date}" pattern="yyyy/MM/dd" /></td>
-												</tr>
-											</c:forEach>
-										</tbody>
-									</table>
-									<div class="row">
-										<div class="col-sm-6">
-											<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">Showing ${page.pageBegin} to ${page.pageEnd} of ${page.count} entries</div>
+									<form action="publicDocList">
+										<input type="hidden" name="page_scale" value="${page.page_scale}">
+										<div class="col-lg-3">
+											<label><input type="checkbox" name="searchOption" value="document_title" checked="checked" multiple="multiple">제목 </label><label><input type="checkbox" name="searchOption" value="document_contents" multiple="multiple">내용</label>
 										</div>
-										<div class="col-sm-6">
-											<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
-												<ul class="pagination">
-													<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
-															<a href="sendDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
-														</c:if></li>
-													<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
-														<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="sendDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
-													</c:forEach>
-													<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
-															<a href="sendDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
-														</c:if></li>
-												</ul>
+										<div class="col-lg-4">
+											<div id="dataTables-example_filter" class="dataTables_filter">
+												<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword">
+												</label>
+												<button class="btn btn-primary btn-sm">
+													<i class="fa fa-search"></i>
+												</button>
 											</div>
+										</div>
+									</form>
+								</div>
+								<table class="table table-bordered" id="dataTable">
+									<colgroup>
+										<col width="10%">
+										<col width="75%">
+										<col width="15%">
+									</colgroup>
+									<thead>
+										<tr role="row">
+											<th>문서번호</th>
+											<th>제목</th>
+											<th>문서 발송일</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${tlist}" var="list">
+											<tr>
+												<td>${list.document.document_no}</td>
+												<td><a href="javascript:post_to_url('/groupware/viewTransmissionDoc',{'document_type':'2','document_no':'${list.document.document_no}'})">${list.document.document_title}</a></td>
+												<td><fmt:formatDate value="${list.transmission_sender_date}" pattern="yyyy/MM/dd" /></td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">Showing ${page.pageBegin} to ${page.pageEnd} of ${page.count} entries</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+											<ul class="pagination">
+												<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
+														<a href="publicDocList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
+													</c:if></li>
+												<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
+													<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="publicDocList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
+												</c:forEach>
+												<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
+														<a href="publicDocList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
+													</c:if></li>
+											</ul>
 										</div>
 									</div>
 								</div>

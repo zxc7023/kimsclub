@@ -128,8 +128,6 @@
 <title>양식 목록</title>
 </head>
 <body>
-
-	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
 
@@ -141,97 +139,87 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">결재</h1>
+					<h1 class="page-header">양식 관리</h1>
 				</div>
 			</div>
-
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fas fa-table"></i>양식 관리
-					</div>
-					<div class="panel-body">
-						<div class="col-lg-12">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<button onclick="location='createForm'" class="btn btn-default">양식 생성</button>
-									<button class="btn btn-default btn-form" type="button" value="삭제">양식 삭제</button>
-									<button class="btn btn-default btn-form" type="button" value="활성화">양식 활성화</button>
-									<button class="btn btn-default btn-form" type="button" value="비활성화">양식 비활성화</button>
-								</div>
-								<div class="panel-body">
-									<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<div class="row">
-											<div class="col-lg-5">
-												<div class="dataTables_length" id="dataTables-example_length">
-													<label>Show <select name="page_scale" class="form-control input-sm pg-scale">
-															<option value="10" <c:if test="${page.page_scale==10}">selected="selected"</c:if>>10</option>
-															<option value="25" <c:if test="${page.page_scale==25}">selected="selected"</c:if>>25</option>
-															<option value="50" <c:if test="${page.page_scale==50}">selected="selected"</c:if>>50</option>
-															<option value="100" <c:if test="${page.page_scale==100}">selected="selected"</c:if>>100</option>
-													</select> entries
-													</label>
-												</div>
-											</div>
-											<form action="formList">
-												<input type="hidden" name="page_scale" value="${page.page_scale}">
-												<div class="col-lg-3">
-													<label><input type="checkbox" name="searchOption" value="form_name" checked="checked" multiple="multiple">이름 </label> 
-													<label><input type="checkbox" name="searchOption" value="form_desc" multiple="multiple">설명 </label>
-													<label><input type="checkbox" name="searchOption" value="form_contents" multiple="multiple">내용</label>
-												</div>
-												<div class="col-lg-4">
-													<div id="dataTables-example_filter" class="dataTables_filter">
-														<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword" value="${map.keyword}">
-														</label>
-														<button class="btn btn-primary btn-sm">
-															<i class="fa fa-search"></i>
-														</button>
-													</div>
-												</div>
-											</form>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<button onclick="location='createForm'" class="btn btn-default">양식 생성</button>
+							<button class="btn btn-default btn-form" type="button" value="삭제">양식 삭제</button>
+							<button class="btn btn-default btn-form" type="button" value="활성화">양식 활성화</button>
+							<button class="btn btn-default btn-form" type="button" value="비활성화">양식 비활성화</button>
+						</div>
+						<div class="panel-body">
+							<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+								<div class="row">
+									<div class="col-lg-5">
+										<div class="dataTables_length" id="dataTables-example_length">
+											<label>Show <select name="page_scale" class="form-control input-sm pg-scale">
+													<option value="10" <c:if test="${page.page_scale==10}">selected="selected"</c:if>>10</option>
+													<option value="25" <c:if test="${page.page_scale==25}">selected="selected"</c:if>>25</option>
+													<option value="50" <c:if test="${page.page_scale==50}">selected="selected"</c:if>>50</option>
+													<option value="100" <c:if test="${page.page_scale==100}">selected="selected"</c:if>>100</option>
+											</select> entries
+											</label>
 										</div>
-										<table class="table table-bordered" id="dataTable">
-											<thead>
-												<tr role="row">
-													<th><p>
-															<input type="checkbox" name="check-all" class="check-all">양식 번호
-														</p></th>
-													<th>사용 여부</th>
-													<th>양식 이름</th>
-													<th>양식 설명</th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach items="${formList}" var="list">
-													<tr>
-														<td><input type="checkbox" name="check" class="check" value="${list.form_no}"> ${list.form_no}</td>
-														<td>${list.form_activation}</td>
-														<td><a href="modifyForm?form_no=${list.form_no}">${list.form_name}</a></td>
-														<td>${list.form_desc}</td>
-													</tr>
+									</div>
+									<form action="formList">
+										<input type="hidden" name="page_scale" value="${page.page_scale}">
+										<div class="col-lg-3">
+											<label><input type="checkbox" name="searchOption" value="form_name" checked="checked" multiple="multiple">이름 </label> <label><input type="checkbox" name="searchOption" value="form_desc" multiple="multiple">설명 </label> <label><input type="checkbox" name="searchOption" value="form_contents" multiple="multiple">내용</label>
+										</div>
+										<div class="col-lg-4">
+											<div id="dataTables-example_filter" class="dataTables_filter">
+												<label>Search: <input type="search" class="form-control input-sm search" placeholder="" name="keyword" value="${map.keyword}">
+												</label>
+												<button class="btn btn-primary btn-sm">
+													<i class="fa fa-search"></i>
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<table class="table table-bordered" id="dataTable">
+									<thead>
+										<tr role="row">
+											<th><p>
+													<input type="checkbox" name="check-all" class="check-all">양식 번호
+												</p></th>
+											<th>사용 여부</th>
+											<th>양식 이름</th>
+											<th>양식 설명</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${formList}" var="list">
+											<tr>
+												<td><input type="checkbox" name="check" class="check" value="${list.form_no}"> ${list.form_no}</td>
+												<td>${list.form_activation}</td>
+												<td><a href="modifyForm?form_no=${list.form_no}">${list.form_name}</a></td>
+												<td>${list.form_desc}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">Showing ${page.pageBegin} to ${page.pageEnd} of ${page.count} entries</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+											<ul class="pagination">
+												<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
+														<a href="formList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
+													</c:if></li>
+												<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
+													<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="formList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
 												</c:forEach>
-											</tbody>
-										</table>
-										<div class="row">
-											<div class="col-sm-6">
-												<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">Showing ${page.pageBegin} to ${page.pageEnd} of ${page.count} entries</div>
-											</div>
-											<div class="col-sm-6">
-												<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
-													<ul class="pagination">
-														<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if test="${page.curBlock > 1}">
-																<a href="formList?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
-															</c:if></li>
-														<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
-															<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a href="formList?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
-														</c:forEach>
-														<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
-																<a href="formList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
-															</c:if></li>
-													</ul>
-												</div>
-											</div>
+												<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if test="${page.curBlock <= page.totBlock}">
+														<a href="formList?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
+													</c:if></li>
+											</ul>
 										</div>
 									</div>
 								</div>

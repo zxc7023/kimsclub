@@ -71,8 +71,6 @@ function post_to_url(path, params, method) {
 </script>
 </head>
 <body>
-
-	<!-- 아래의 구조로 복사하시오 -->
 	<!-- 전체 div-->
 	<div id="wrapper">
 
@@ -87,50 +85,50 @@ function post_to_url(path, params, method) {
 				</div>
 			</div>
 
-			<form class="col-sm-12" method="post">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<a class="btn btn-default" href="javascript:post_to_url('/groupware/approvalDoc',{'document_no':${dvo.document_no}})">기안하기</a>
-						<a href="javascript:post_to_url('/groupware/modifyNewDoc',{'document_no':${dvo.document_no}})" class="btn btn-default">수정하기</a>
-						<input type="button" class="btn btn-default" onclick="location.href='/groupware/newDocList'" value="돌아가기">
+			<div class="row">
+				<form class="col-sm-12" method="post">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a class="btn btn-default" href="javascript:post_to_url('/groupware/approvalDoc',{'document_no':${dvo.document_no}})">기안하기</a> <a href="javascript:post_to_url('/groupware/modifyNewDoc',{'document_no':${dvo.document_no}})" class="btn btn-default">수정하기</a> <input type="button" class="btn btn-default" onclick="location.href='/groupware/newDocList'" value="돌아가기">
+						</div>
+						<div class="panel-body">
+							<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+								<colgroup>
+									<col width="20%">
+									<col width="30%">
+									<col width="20%">
+									<col width="30%">
+								</colgroup>
+								<tbody>
+									<tr>
+										<td class="odd">작성자</td>
+										<td colspan="3">${dvo.employee.employee_name}</td>
+									</tr>
+									<tr>
+										<td class="odd">문서 제목<br>
+										</td>
+										<td colspan="3">${dvo.document_title}</td>
+									</tr>
+									<tr>
+										<td class="odd">문서 생성일</td>
+										<td><fmt:formatDate value="${dvo.document_date}" pattern="yyyy/MM/dd" /></td>
+										<td class="odd">문서 상태</td>
+										<td>${dvo.document_state}</td>
+									</tr>
+									<tr>
+										<td colspan="4" class="odd">문서 내용</td>
+									</tr>
+									<tr>
+										<td colspan="4">
+											<div class="col-lg-12">${dvo.document_contents}</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
-					<div class="panel-body">
-						<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
-							<colgroup>
-								<col width="20%">
-								<col width="30%">
-								<col width="20%">
-								<col width="30%">
-							</colgroup>
-							<tbody>
-								<tr>
-									<td class="odd">작성자</td>
-									<td colspan="3">${dvo.employee.employee_name}</td>
-								</tr>
-								<tr>
-									<td class="odd">문서 제목<br>
-									</td>
-									<td colspan="3">${dvo.document_title}</td>
-								</tr>
-								<tr>
-									<td class="odd">문서 생성일</td>
-									<td><fmt:formatDate value="${dvo.document_date}" pattern="yyyy/MM/dd" /></td>
-									<td class="odd">문서 상태</td>
-									<td>${dvo.document_state}</td>
-								</tr>
-								<tr>
-									<td colspan="4" class="odd">문서 내용</td>
-								</tr>
-								<tr>
-									<td colspan="4">
-										<div class="col-lg-12">${dvo.document_contents}</div>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

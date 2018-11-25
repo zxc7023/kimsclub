@@ -68,6 +68,11 @@ public class ApprovalDAO {
 		}
 		
 	}
+
+	public void cancelApproval(ApprovalVO avo) {
+		session.update("Approval.cancelApproval", avo);
+		
+	}
 	
 
 }

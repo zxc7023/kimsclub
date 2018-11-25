@@ -50,14 +50,15 @@ public class DocumentController {
 		map.put("keyword", keyword);
 		map.put("order", "document_no");
 		map.put("whereOption", "1=1");
-	
+		map.put("selectOption", "*");
+		
 		if(doc_type==0) {
 			//임시저장문서 - 자신이 작성한 문서 중 상태가 임시저장상태 인 것들
 			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '임시저장'");
 		}else if (doc_type==1) {
 			//진행문서 - 결재선에 자신이 포함되어있는 문서들
-			map.put("fromOption", "(SELECT d.*, a.employee_no FROM document d, approval a WHERE d.document_no = a.document_no)");
-			map.put("whereOption", "employee_no = "+employee_no+" and document_state = '진행'");
+			map.put("fromOption", "(SELECT d.*, a.employee_no,a.approval_state, e.employee_name FROM document d, approval a, employee e WHERE d.document_no = a.document_no AND d.DOCUMENT_WRITER_NO = e.employee_no)");
+			map.put("whereOption", "employee_no = "+employee_no+" and document_state = '진행' and approval_state=1");
 		}else if (doc_type==3) {
 			//반려문서 - 자신이 작성한 문서 중 반려상태인 문서들
 			map.put("whereOption", "document_writer_no = "+employee_no+" and document_state = '반려'");
@@ -69,8 +70,6 @@ public class DocumentController {
 			map.put("fromOption", "(SELECT d.* FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=0 AND a1.approval_state =1 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
 		}
 		
-		//내용 제외- 문서 목록에서는 내용을 보여줄 필요없음
-		map.put("selectOption", "B.document_no, B.document_title, B.document_date,document_writer_no");
 		//페이징
 		BoardPageVO bpvo = new BoardPageVO(service2.getDocumentCnt(map), cur_page, page_scale); 
 		map.put("start", bpvo.getPageBegin());
@@ -129,6 +128,16 @@ public class DocumentController {
 		System.out.println("retrieveDoc() 메소드 호출");
 		service2.retrieveDocument(document_no);
 		return "redirect:proceedDocList";
+	}
+	
+	/* 결재권자는 상위 결재선에 아무도 결재를 안했을 시에 자신의 결재 승인을 취소 할 수 있다.*/
+	@RequestMapping(value = "/cancelDoc", method=RequestMethod.GET)
+	public String cancelDoc(@RequestParam(name="document_no") int document_no,HttpSession session){
+		System.out.println("cancelDoc() 메소드 호출");
+		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
+		ApprovalVO avo = new ApprovalVO(document_no,evo.getEmployee_no());
+		service2.cancelApproval(avo);
+		return "redirect:approvalDocList";
 	}
 	
 	/**

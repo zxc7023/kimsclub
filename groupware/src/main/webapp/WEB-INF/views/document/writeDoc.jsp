@@ -131,76 +131,74 @@ function loadForm(){
 					<h1 class="page-header">새 문서 작성</h1>
 				</div>
 			</div>
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<input type="button" class="btn btn-default" id="save_btn" value="저장하기">
-					</div>
-					<div class="panel-body">
-						<form class="col-sm-12" id="writeDocForm" method="post">
-							<input type="hidden" name="document_state" id="type" value="">
-							<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
-								<colgroup>
-									<col width="150">
-									<col width="auto">
-								</colgroup>
-								<tbody>
-									<tr>
-										<td class="odd">문서 양식</td>
-										<td><select class="selectForm">
-												<option selected="selected" value="default">양식 선택</option>
-												<c:forEach items="${flist}" var="fvo">
-													<option class="selectFormNo" value="${fvo.form_no}">${fvo.form_name}</option>
-												</c:forEach>
-										</select></td>
-									</tr>
-									<tr>
-										<td class="odd">작성자</td>
-										<td>${sessionScope.loginInfo.employee_name}</td>
-									</tr>
-									<tr>
-										<td class="odd">문서 제목<br>
-										</td>
-										<td><input type="text" size="20" name="document_title" class="form-control" required="required" autofocus="autofocus" maxlength="40"></td>
-									</tr>
-									<tr>
-										<td colspan="2" class="odd">문서 내용</td>
-									</tr>
-									<tr>
-										<td colspan="2"><textarea name="document_contents" id="ckeditor" class="form"></textarea></td>
-									</tr>
-								</tbody>
-							</table>
-						</form>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<input type="button" class="btn btn-default" id="save_btn" value="저장하기">
+						</div>
+						<div class="panel-body">
+							<form class="col-sm-12" id="writeDocForm" method="post">
+								<input type="hidden" name="document_state" id="type" value="">
+								<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
+									<colgroup>
+										<col width="150">
+										<col width="auto">
+									</colgroup>
+									<tbody>
+										<tr>
+											<td class="odd">문서 양식</td>
+											<td><select class="selectForm">
+													<option selected="selected" value="default">양식 선택</option>
+													<c:forEach items="${flist}" var="fvo">
+														<option class="selectFormNo" value="${fvo.form_no}">${fvo.form_name}</option>
+													</c:forEach>
+											</select></td>
+										</tr>
+										<tr>
+											<td class="odd">작성자</td>
+											<td>${sessionScope.loginInfo.employee_name}</td>
+										</tr>
+										<tr>
+											<td class="odd">문서 제목<br>
+											</td>
+											<td><input type="text" size="20" name="document_title" class="form-control" required="required" autofocus="autofocus" maxlength="40"></td>
+										</tr>
+										<tr>
+											<td colspan="2" class="odd">문서 내용</td>
+										</tr>
+										<tr>
+											<td colspan="2"><textarea name="document_contents" id="ckeditor" class="form"></textarea></td>
+										</tr>
+									</tbody>
+								</table>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- 양식 수정 체크 modal -->
-	<div class="modal fade" id="deleteCheckModal"
-		aria-labelledby="modalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h3 class="modal-title" id="modalLabel">
-						주의!
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</h3>
-				</div>
-				<div class="modal-body">
-					저장하지 않은 문서 양식이 삭제 될 수 있습니다. 정말로 진행하시겠습니까?
-					<!--해당 글 삭제하는 주소값받는 input 태그-->
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" onclick="loadForm();"
-						data-dismiss="modal">확인</button>
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">취소</button>
+		<!-- 양식 수정 체크 modal -->
+		<div class="modal fade" id="deleteCheckModal" aria-labelledby="modalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="modalLabel">
+							주의!
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</h3>
+					</div>
+					<div class="modal-body">
+						저장하지 않은 문서 양식이 삭제 될 수 있습니다. 정말로 진행하시겠습니까?
+						<!--해당 글 삭제하는 주소값받는 input 태그-->
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="loadForm();" data-dismiss="modal">확인</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+					</div>
 				</div>
 			</div>
 		</div>

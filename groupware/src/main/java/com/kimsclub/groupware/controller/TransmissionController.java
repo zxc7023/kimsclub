@@ -68,21 +68,19 @@ public class TransmissionController {
 	public ModelAndView docSetting(int employee_no,int page_scale, String[] searchOption, String keyword,int cur_page,int doc_type) {
 		Map<String, Object> map = new HashMap<String,Object>();
 		ModelAndView mav = new ModelAndView();
-		map.put("fromOption", "(SELECT e1.employee_name as sender_name, e2.employee_name as receiver_name, d.DOCUMENT_TITLE,d.DOCUMENT_NO ,t.* FROM document d, transmission t,employee e1, employee e2 WHERE (d.document_no = t.transmission_document_no AND t.transmission_receiver_no= e2.employee_no) OR (d.document_no = t.transmission_document_no AND t.transmission_sender_no = e1.employee_no))");
+		map.put("fromOption", "document d join transmission t on d.document_no = t.transmission_document_no LEFT JOIN employee e1 on transmission_sender_no = e1.employee_no LEFT JOIN employee e2 on t.TRANSMISSION_RECEIVER_NO = e2.employee_no");
 		map.put("searchOption", searchOption);
 		map.put("keyword", keyword);
 		map.put("order", "TRANSMISSION_SENDER_DATE");
 		if(doc_type==0) {
-			map.put("whereOption", "TRANSMISSION_SENDER_NO = "+employee_no+"AND SENDER_NAME is not null");
+			map.put("whereOption", "TRANSMISSION_SENDER_NO = "+employee_no);
 		}else if (doc_type==1) {
-			map.put("whereOption", "TRANSMISSION_RECEIVER_NO = "+employee_no+"AND receiver_NAME is not null");
+			map.put("whereOption", "TRANSMISSION_RECEIVER_NO = "+employee_no);
 		}else if (doc_type==2) {
-			map.put("fromOption", "(SELECT * FROM transmission, document)");
-			map.put("whereOption", "transmission_document_no = document_no AND TRANSMISSION_RECEIVER_NO is null");
+			map.put("whereOption", "TRANSMISSION_RECEIVER_NO is null");
 		}
 		
-		
-		map.put("selectOption", "*");
+		map.put("selectOption", "d.*,t.*,e1.EMPLOYEE_NAME as sender_name,e2.employee_name as receiver_name");
 		//페이징
 		BoardPageVO bpvo = new BoardPageVO(service2.getDocumentCnt(map), cur_page, page_scale); 
 		map.put("start", bpvo.getPageBegin());
@@ -173,6 +171,10 @@ public class TransmissionController {
 		DocumentVO dvo = service2.viewDoc(document_no);
 		System.out.println(dvo);
 		mav.addObject("dvo", dvo);
+        if("휴가신청".equals(dvo.getDocument_title())) {
+            System.out.println("휴가신청 페이지 호출");
+            mav.addObject("dayOff",1);
+        }
 		if(document_type == 0) {
 			System.out.println("발송문서함페이지 호출");
 			mav.setViewName("transmission/viewSendDoc");			

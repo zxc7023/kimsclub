@@ -38,6 +38,14 @@
 		WHERE document_no = #{document_no} AND employee_no = #{employee_no} AND '반려' = (SELECT document_state FROM document WHERE document_no = #{document_no})
 	</update>
 	
+	<!-- 결재 취소 -->	
+	<update id="cancelApproval" parameterType="Approval">
+		UPDATE approval
+		SET approval_state = 0,
+		approval_date = null
+		WHERE document_no = #{document.document_no} AND employee_no = #{employee.employee_no}
+	</update>
+	
 	<select id="checkComplete" parameterType="hashmap" resultType="int">
 		SELECT approval_next_no
 		FROM approval
