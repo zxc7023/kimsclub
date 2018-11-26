@@ -65,7 +65,7 @@
 			</div>
 
 			<div class="row">
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-4 col-md-4">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
@@ -87,7 +87,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-4 col-md-4">
                     <div class="panel panel-green">
                         <div class="panel-heading">
                             <div class="row">
@@ -95,12 +95,12 @@
                                     <i class="fa fa-file-signature fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1</div>
+                                    <div class="huge">${apdCnt}</div>
                                     <div>결재해야 하는 문서</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="${pageContext.request.contextPath}/approvalDocList">
                             <div class="panel-footer">
                                 <span class="pull-left">결재 문서함</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -109,8 +109,29 @@
                         </a>
                     </div>
                 </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="far fa-file-alt fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">${pdCnt}(${pMydCnt})</div>
+                                    <div>진행중인 문서(내가 기안한 문서)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="${pageContext.request.contextPath}/proceedDocList">
+                            <div class="panel-footer">
+                                <span class="pull-left">진행 문서함</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
-
 		</div>
 	</div>
 </body>

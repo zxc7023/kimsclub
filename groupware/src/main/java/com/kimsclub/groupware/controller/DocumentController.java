@@ -68,6 +68,7 @@ public class DocumentController {
 		}else if (doc_type==2) {
 			//결재문서 - 자신이 결재할 차례인 문서들
 			map.put("fromOption", "(SELECT d.* FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=0 AND a1.approval_state =1 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
+			map.put("whereOption", "document_state = '진행'");
 		}
 		
 		//페이징

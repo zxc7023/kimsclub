@@ -32,7 +32,20 @@ public class HomeController {
 	//안읽은 쪽지 확인 서비스	
 		int unReadMsgCnt = msgservice.unReadMessage(employee_no);
 	//결재 문서 서비스
+		map.put("fromOption", "(SELECT d.* FROM document d, approval a1, approval a2 WHERE a1.approval_next_no = a2.approval_no AND a2.approval_state=0 AND a1.approval_state =1 AND a2.document_no=d.document_no AND a2.employee_no ="+employee_no+")");
+		map.put("whereOption", "document_state = '진행'");
+		int approvalDocCnt = service.getDocumentCnt(map);
 		
+		map.put("fromOption", "(SELECT d.*, a.employee_no,a.approval_state, e.employee_name FROM document d, approval a, employee e WHERE d.document_no = a.document_no AND d.DOCUMENT_WRITER_NO = e.employee_no)");
+		map.put("whereOption", "employee_no = "+employee_no+" and document_state = '진행' and approval_state=1");
+		int proceedDocCnt = service.getDocumentCnt(map);
+		
+		map.put("whereOption", "employee_no = "+employee_no+" and document_state = '진행' and approval_state=1 AND document_writer_no = "+employee_no);
+		int proceedMyDocCnt = service.getDocumentCnt(map);
+		
+		mav.addObject("apdCnt", approvalDocCnt);
+		mav.addObject("pdCnt", proceedDocCnt);
+		mav.addObject("pMydCnt", proceedMyDocCnt);
 	//-------//	
 
 	//-------//
