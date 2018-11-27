@@ -201,7 +201,7 @@
 	</select>
 
 	<insert id="insertDocument" parameterType="DayoffApply">
-        insert into document values (document_seq.nextval,'휴가신청',#{document.document_contents},#{employee.employee_no},sysdate,'진행')
+        insert into document (document_no, document_title, document_contents,document_writer_no, document_date, document_state) values (document_seq.nextval,'휴가신청',#{document.document_contents},#{employee.employee_no},sysdate,'진행')
 	</insert>
 
 	<insert id="insertApprovalFirst" parameterType="approval">

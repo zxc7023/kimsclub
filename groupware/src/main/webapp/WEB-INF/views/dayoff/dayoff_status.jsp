@@ -61,6 +61,24 @@ function beforeClick(treeId, treeNode) {
 
 	$(document).ready(function(){
 		
+		$("#applyDetailModal").on("click","#approval_cancel",function(){
+			var move = confirm('기안을 취소하시겠습니까?');
+			if(move) {  
+				window.location.replace = "/groupware/retrieveDoc?document_no=201";
+			else { //no
+			}
+			
+			if(!alert("정말로 결재를 회수하시겠습니까?")){
+				if("0"==1){
+					alert("이미 결재가 진행중입니다.");
+				}
+				else{
+					
+				}
+			}
+
+		});
+		
 		
 		var eventList;
 	
@@ -232,7 +250,8 @@ function beforeClick(treeId, treeNode) {
 					var documentVO = applyVO.document;
 					var applyDetailList = applyVO.dayoff_apply_detail;
 					var approvalList = documentVO.approval;
-					
+					console.log(approvalList);
+					$("#approvalLineTb tbody td").empty();
 					for(var i=0; i <approvalList.length; i++){
 						$("#approvalLineTb tbody tr:eq(0) td").eq(i).text(approvalList[i].employee.employee_name);
 						var stateTxt;
@@ -266,11 +285,27 @@ function beforeClick(treeId, treeNode) {
 					$("#dayoff_day").html(dateText);
 					$(".modal-footer").empty();
 					$(".modal-footer").append("<button type='button' class='btn btn-default' data-dismiss='modal'>닫기</button>")
-					if(documentVO.document_state.indexOf("완료") == -1){
-						var btn = "<button type='button' class='btn btn-danger' id='approval_cancel''>기안 취소</button>";
-						$("#applyDetailModal .modal-footer").append(btn);
+					var approvalCnt =0;
+					for(var i=1 ; i<approvalList.length; i++){
+						if(approvalList[i].approval_state == 1 || approvalList[i].approval_state == 2 ){
+							approvalCnt++;
+						}
+					}
+
+					if(documentVO.document_state != '취소'){
+						if(approvalCnt == 0){
+							var btn = "<button type='button' class='btn btn-danger' id='approval_cancel''>기안 취소</button>";
+							$("#applyDetailModal .modal-footer").prepend(btn);
+						}	
 					}
 					
+						
+					
+		 			/* if(documentVO.document_state.indexOf("완료") == -1){
+						var btn = "<button type='button' class='btn btn-danger' id='approval_cancel''>기안 취소</button>";
+						$("#applyDetailModal .modal-footer").append(btn);
+					} */
+					 
 					$("#dayoff_reason").text(applyVO.dayoff_reason);
 					$("#applyDetailModal").modal('show');	
 				}

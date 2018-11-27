@@ -58,12 +58,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
-    	System.out.println("postHandle 호출");
     	
-    	System.out.println(request.getRequestURI());
-    	
-    	HttpSession session = request.getSession();
-    	
+    	HttpSession session = request.getSession();    	
     	EmployeeVO empvo = (EmployeeVO) session.getAttribute("loginInfo");
     	String dest = (String) session.getAttribute("dest");
     	session.removeAttribute("dest");
@@ -72,7 +68,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     	if(empvo != null && dest != null) {
     		response.sendRedirect(dest);
     	}
-    	
+    
     	
     }
 
