@@ -24,6 +24,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView home(HttpSession session) {
+		System.out.println("home 호출");
 		ModelAndView mav = new ModelAndView();
 		Map<String, Object> map = new HashMap<String,Object>();
 		EmployeeVO evo = (EmployeeVO) session.getAttribute("loginInfo");
