@@ -64,18 +64,12 @@ function beforeClick(treeId, treeNode) {
 		$("#applyDetailModal").on("click","#approval_cancel",function(){
 			var move = confirm('기안을 취소하시겠습니까?');
 			if(move) {  
-				window.location.replace = "/groupware/retrieveDoc?document_no=201";
+				/* window.location.replace("/groupware/retrieveDoc?document_no=201"); */
+			}
 			else { //no
 			}
 			
-			if(!alert("정말로 결재를 회수하시겠습니까?")){
-				if("0"==1){
-					alert("이미 결재가 진행중입니다.");
-				}
-				else{
-					
-				}
-			}
+	
 
 		});
 		
