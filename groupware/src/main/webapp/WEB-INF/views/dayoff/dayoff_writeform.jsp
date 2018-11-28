@@ -187,7 +187,12 @@ function dateToFormat(date){
 					var server_json = server_result;
 					var result = server_json.result;
 					if (result == 1) {
-						alert("휴가신청 성공");
+						var move = confirm('신청 성공하였습니다. 휴가신청 내역을 보시겠습니까?');
+						if(move) {  
+							location.replace("/groupware/dayoff/dayoffStatus");
+						}
+						else { //no
+						}
 					} else {
 						alert("휴가신청 실패");
 					}
