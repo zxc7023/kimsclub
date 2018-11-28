@@ -48,9 +48,46 @@ height: 80px;
 </style>
 <script>
 $(document).ready(function() {
+	var send = {
+			document_no : ${dvo.document_no}
+	};
+	//체크된 부서나 사원 가져오기
+	$('#checkDepAndEmp').click(function(){
+		var send = [];
+		var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+		var nodes = treeObj.getCheckedNodes(true);
+	   	var method = method || "post"; // 전송 방식 기본값을 POST로
+	    
+	    
+	    var form = document.createElement("form");
+	    form.setAttribute("method", method);
+	    form.setAttribute("action", "/groupware/sendDoc");
+		
+		for (var key in nodes) {
+			if (!nodes[key].parent) {
+				 var hiddenField = document.createElement("input");
+			        hiddenField.setAttribute("type", "hidden");
+			        hiddenField.setAttribute("name", "employee_no");
+			        hiddenField.setAttribute("value", nodes[key].no.split('e')[1]);
+				
+			        form.appendChild(hiddenField);
+			}
+		}
+		var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "document_no");
+        hiddenField.setAttribute("value", ${dvo.document_no});
+        form.appendChild(hiddenField);
+		document.body.appendChild(form);
+	    console.log(document.body);
+	    form.submit();
+		
+	});
+	
+	
 	$("#sendPublic-btn").click(function(){
-		if(!alert("이 문서를 전 사원이 볼 수 있는 공람문서함으로 보내시겠습니까?")){
-			var send = {"document_no" : '${dvo.document_no}'};
+		if(confirm("이 문서를 전 사원이 볼 수 있는 공람문서함으로 보내시겠습니까?")){
+
 			console.log(send);
 			post_to_url('/groupware/sendPublicDoc',send);
 		}

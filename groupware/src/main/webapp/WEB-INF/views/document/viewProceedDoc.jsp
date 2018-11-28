@@ -48,6 +48,9 @@ height: 80px;
 </style>
 <script>
 $(document).ready(function() {
+	var document = {
+			document_no : ${dvo.document_no}
+		};
 	//결재한 사람 확인해서 sign 넣어주기
 	var arr = {
 			approval_state: [],
@@ -72,12 +75,12 @@ $(document).ready(function() {
     }
     
 	$("#retrieve-btn").click(function(){
-		if(!alert("정말로 결재를 회수하시겠습니까?")){
+		if(confirm("정말로 기안을 취소 하시겠습니까?")){
 			if("${dvo.approval[1].approval_state}"==1){
 				alert("이미 결재가 진행중입니다.");
 			}
 			else{
-				window.location.href = "/groupware/retrieveDoc?document_no=${dvo.document_no}";
+				post_to_url("/groupware/retrieveDoc",document);
 			}
 		}
 	});
@@ -88,13 +91,37 @@ $(document).ready(function() {
 				if(arr.approval_state[i+1]==1){
 					alert("상위 결재권자가 이미 결재를 하였습니다.");	
 				}else if(arr.approval_state[i+1]==0){
-					window.location.href = "/groupware/cancelDoc?document_no=${dvo.document_no}";
+					//window.location.href = "/groupware/cancelDoc?document_no=${dvo.document_no}";
+					post_to_url("/groupware/cancelDoc",document);
 				}
 			}
 		}
 	}); 
 
 });
+
+//폼생성하여 post 방식으로 값 보내기 
+function post_to_url(path, params, method) {
+    method = method || "post"; // 전송 방식 기본값을 POST로
+	
+    console.log(params);
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+ 
+    //히든으로 값을 주입시킨다.
+    for(var key in params) {
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+ 
+        form.appendChild(hiddenField);
+    }
+	document.body.appendChild(form);
+	console.log(document.body);
+	form.submit();
+}
 </script>
 <style type="text/css">
 #sign img{
@@ -123,7 +150,7 @@ height: 65px;
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<c:if test="${sessionScope.loginInfo.employee_no==dvo.employee.employee_no}">
-								<input type="button" id="retrieve-btn" class="btn btn-default" value="결재회수">
+								<input type="button" id="retrieve-btn" class="btn btn-default" value="기안취소">
 							</c:if>
 							<c:if test="${sessionScope.loginInfo.employee_no!=dvo.employee.employee_no}">
 								<input type="button" id="cancel-btn" class="btn btn-default" value="결재취소">

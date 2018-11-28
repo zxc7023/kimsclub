@@ -45,7 +45,7 @@ public class TransmissionController {
 			tlist.add(new TransmissionVO(evo.getEmployee_no(),receiver_no,document_no));
 		}
 		service.sendDocs(tlist);
-		return "transmission/sendDocList";
+		return "redirect:sendDocList";
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class TransmissionController {
 		
 		TransmissionVO tvo = new TransmissionVO(evo.getEmployee_no(),0,document_no);
 		service.sendPublicDoc(tvo);
-		return "transmission/publicDocList";
+		return "redirect:publicDocList";
 	}
 	
 	/**

@@ -35,17 +35,6 @@ public class ApprovalController {
 	@Autowired
 	DocumentService service3;	
 		
-	/**
-	 *  
-	 */
-	@RequestMapping(value = "/approval", method=RequestMethod.GET)
-	public ModelAndView approval(){
-		System.out.println("approval() 메소드 호출");
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("approval/approval");
-		
-		return mav;
-	}
 	
 	/**
 	 *  선택한 문서를 기안하기 위한 페이지 결재선을 선택 후 기안한다
@@ -105,7 +94,7 @@ public class ApprovalController {
 			System.out.println(dvo.getDocument_state());
 			avo.setDocument(dvo);
 		}
-		service.approvalNewDoc(dvo);
+		//service.approvalNewDoc(dvo);
 		return "/groupware/proceedDocList";
 	}
 	

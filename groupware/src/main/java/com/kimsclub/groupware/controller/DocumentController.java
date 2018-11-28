@@ -124,7 +124,7 @@ public class DocumentController {
 	/**
 	 *  자기자신을 제외한 결재선에 아무도 결재를 안했을 시에 결재를 회수할 수 있다.
 	 */
-	@RequestMapping(value = "/retrieveDoc", method=RequestMethod.GET)
+	@RequestMapping(value = "/retrieveDoc", method=RequestMethod.POST)
 	public String retrieveDoc(@RequestParam(name="document_no") int document_no){
 		System.out.println("retrieveDoc() 메소드 호출");
 		service2.retrieveDocument(document_no);
@@ -132,7 +132,7 @@ public class DocumentController {
 	}
 	
 	/* 결재권자는 상위 결재선에 아무도 결재를 안했을 시에 자신의 결재 승인을 취소 할 수 있다.*/
-	@RequestMapping(value = "/cancelDoc", method=RequestMethod.GET)
+	@RequestMapping(value = "/cancelDoc", method=RequestMethod.POST)
 	public String cancelDoc(@RequestParam(name="document_no") int document_no,HttpSession session){
 		System.out.println("cancelDoc() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
@@ -293,13 +293,14 @@ public class DocumentController {
 	 */	
 	@RequestMapping(value = "/newDocList", method=RequestMethod.POST)
 	@ResponseBody
-	public String approvalSaveDoc(HttpSession session,@RequestBody DocumentVO dvo){
+	public Map<String, Object> approvalSaveDoc(HttpSession session,@RequestBody DocumentVO dvo){
 		System.out.println("approvalSaveDoc() 메소드 호출");
 		EmployeeVO evo = (EmployeeVO)session.getAttribute("loginInfo");
+		Map<String, Object> map = new HashMap<String, Object>();
 		dvo.setEmployee(evo);
 		service2.saveDocument(dvo);
-		String result = "/groupware/newDocList";
-		return result;
+		map.put("result", "/groupware/newDocList");
+		return map;
 	}
 	
 	/**

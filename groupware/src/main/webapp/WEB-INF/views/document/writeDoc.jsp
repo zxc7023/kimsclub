@@ -66,8 +66,12 @@ $(document).ready(function() {
 	});
 
 	$("#save_btn").click(function(){
-		$("#type").attr("value","임시저장");
-		submitBtn();
+		if($("input[name=document_title]").val()!=""){
+			$("#type").attr("value","임시저장");
+			submitBtn();
+		}else{
+			alert("제목을 입력하세요.");
+		}
 	});
 	
 	function submitBtn(){
@@ -84,8 +88,8 @@ $(document).ready(function() {
 				alert("양식 불러오기 실패");
 			},
 			success : function(data) {
-				
-				window.location.href = data;
+				console.log(data);
+				window.location.href = data.result;
 			}
 		});
 	}

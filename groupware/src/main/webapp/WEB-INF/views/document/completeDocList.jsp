@@ -45,7 +45,7 @@ $(document).ready(function() {
 			alert("선택한 문서가 없습니다.");
 		}
 		else{
-			if(!alert("이 문서를 전 사원이 볼 수 있는 공람문서함으로 보내시겠습니까?")){
+			if(confirm("이 문서를 전 사원이 볼 수 있는 공람문서함으로 보내시겠습니까?")){
 				var send = {
 						document_no : $('.check:checked').val()
 				};

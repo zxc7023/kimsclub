@@ -13,7 +13,8 @@ public class DocumentVO {
 	private String document_state;
 	private int rn;
 	private TransmissionVO transmission;
-	
+	private int cooperation_no;
+	private int cooIndex;
 	
 
 	public DocumentVO() {
@@ -110,12 +111,30 @@ public class DocumentVO {
 	public void setRn(int rn) {
 		this.rn = rn;
 	}
+	
+	
+	public int getCooperation_no() {
+		return cooperation_no;
+	}
+
+	public void setCooperation_no(int cooperation_no) {
+		this.cooperation_no = cooperation_no;
+	}
+	
+	
+	public int getCooIndex() {
+		return cooIndex;
+	}
+
+	public void setCooIndex(int cooIndex) {
+		this.cooIndex = cooIndex;
+	}
 
 	@Override
 	public String toString() {
-		return "DocumentVO [document_no=" + document_no + ", document_title=" + document_title + ", document_contents=" + document_contents + ", employee=" + employee + ", approval=" + approval + ", document_date=" + document_date
-				+ ", document_state=" + document_state + ", rn=" + rn + "]";
+		return "DocumentVO [document_no=" + document_no + ", document_title=" + document_title + ", document_contents=" + document_contents + ", employee=" + employee + ", approval=" + approval + ", document_date=" + document_date + ", document_state=" + document_state + ", rn=" + rn + ", transmission=" + transmission + ", cooperation_no=" + cooperation_no + "]";
 	}
+	
 	
 	
 	

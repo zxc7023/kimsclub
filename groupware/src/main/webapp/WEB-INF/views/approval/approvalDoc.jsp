@@ -56,7 +56,8 @@ $(document).ready(function() {
 			return false;
 		}
 		$("#type").attr("value","진행");
-		submitBtn();
+
+		//submitBtn();
 	});
 	
 	function submitBtn(){
@@ -106,7 +107,9 @@ $(document).ready(function() {
 							<div class="col-lg-12">
 								<div class="panel-body">
 									<form class="col-sm-12" id="writeDocForm" method="post">
-										<input type="hidden" name="document_no" value="${dvo.document_no}"> <input type="hidden" name="document_state" id="type" value="">
+										<input type="hidden" name="document_no" value="${dvo.document_no}"> 
+										<input type="hidden" name="document_state" id="type" value="">
+										
 										<table class="table table-bordered dataTable no-footer dtr-inline" id="dataTables-example" role="grid" aria-describedby="dataTables-example_info">
 											<colgroup>
 												<col width="150">
@@ -126,7 +129,7 @@ $(document).ready(function() {
 													<td class="odd">결재</td>
 													<td>
 														<div role="row">
-															<div class="col-lg-10">
+															<div class="col-lg-12">
 																<div class="panel panel-default" id="approvalLine">
 																	<table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" role="grid" aria-describedby="dataTables-example_info" style="width: 100%;">
 																		<colgroup>
@@ -139,8 +142,9 @@ $(document).ready(function() {
 																		</colgroup>
 																		<tbody class="t-body">
 																			<tr>
-																				<th colspan="6">결재 순서
+																				<th colspan="6" class="t-tit text-center">결재 순서
 																					<p class="fa fa-long-arrow-right"></p>
+																					<button type="button" class="btn  btn-default float-right" data-toggle="modal" data-target="#approvalLineSelect" id="LineSelectBtn">결재선 선택</button>
 																				</th>
 																			</tr>
 																			<tr id="paste">
@@ -152,9 +156,6 @@ $(document).ready(function() {
 																		</tbody>
 																	</table>
 																</div>
-															</div>
-															<div class="col-lg-2">
-																<button class="btn-ApprovalLine" type="button" data-toggle="modal" data-target="#approvalLineSelect">결재선 선택</button>
 															</div>
 														</div>
 													</td>
