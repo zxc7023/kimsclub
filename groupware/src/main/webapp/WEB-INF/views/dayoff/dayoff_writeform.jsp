@@ -190,6 +190,7 @@ function dateToFormat(date){
 						var move = confirm('신청 성공하였습니다. 휴가신청 내역을 보시겠습니까?');
 						if(move) {  
 							location.replace("/groupware/dayoff/dayoffStatus");
+						}
 						else { //no
 						}
 					} else {

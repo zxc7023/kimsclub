@@ -66,23 +66,23 @@ public class WorkController {
 	@ResponseBody
 	public String getMyWorkStatus(HttpSession session,@RequestBody Date serchTime) {
 		EmployeeVO vo = (EmployeeVO)session.getAttribute("loginInfo");
-		Calendar attendance_time = Calendar.getInstance();
-		attendance_time.setTime(serchTime);
+		Calendar start_time = Calendar.getInstance();
+		start_time.setTime(serchTime);
 	
-		Calendar leave_time = Calendar.getInstance();
-		System.out.println(attendance_time.get(attendance_time.DAY_OF_MONTH));
-		if(attendance_time.get(attendance_time.DAY_OF_MONTH) ==1 ) {
-			leave_time.set(attendance_time.get(attendance_time.YEAR), attendance_time.get(attendance_time.MONTH), 15);
+		Calendar end_time = Calendar.getInstance();
+		System.out.println(start_time.get(start_time.DAY_OF_MONTH));
+		if(start_time.get(start_time.DAY_OF_MONTH) ==1 ) {
+			end_time.set(start_time.get(start_time.YEAR), start_time.get(start_time.MONTH), 15);
 		}else {			
-			leave_time.set(attendance_time.get(attendance_time.YEAR), attendance_time.get(attendance_time.MONTH), attendance_time.getActualMaximum(Calendar.DAY_OF_MONTH));
+			end_time.set(start_time.get(start_time.YEAR), start_time.get(start_time.MONTH), start_time.getActualMaximum(Calendar.DAY_OF_MONTH));
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println("시작일시" + sdf.format(attendance_time.getTime()));
-		System.out.println("종료일시" + sdf.format(leave_time.getTime()));
+		System.out.println("시작일시" + sdf.format(start_time.getTime()));
+		System.out.println("종료일시" + sdf.format(end_time.getTime()));
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("attendance_time", sdf.format(attendance_time.getTime()));
-		map.put("leave_time", sdf.format(leave_time.getTime()));
+		map.put("start_time", sdf.format(start_time.getTime()));
+		map.put("end_time", sdf.format(end_time.getTime()));
 		map.put("employee_no", vo.getEmployee_no());
 		
 		List<WorkRecodeVO> wList = service.getWorkRecodes(map);

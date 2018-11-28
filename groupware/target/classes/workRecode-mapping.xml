@@ -70,8 +70,13 @@
 	</resultMap>
 	
 	<select id="selectWorkRecodes" parameterType="map" resultMap="workRecodeMap">
-		<![CDATA[ SELECT gen_date as work_date, employee_no, attendance_time, leave_time, dayoff_name, days, oneorhalf FROM (SELECT TO_CHAR(TO_DATE(#{attendance_time}) + LEVEL - 1, 'yyyy-MM-dd') AS GEN_DATE FROM DUAL
-		CONNECT BY LEVEL <= (TO_DATE(#{leave_time}) - TO_DATE(#{attendance_time}) + 1)) 
+		<![CDATA[ 
+		SELECT gen_date as work_date, employee_no, attendance_time, leave_time, dayoff_name, days, oneorhalf 
+		FROM 
+			(SELECT TO_CHAR (TO_DATE(#{start_time}) + LEVEL - 1, 'yyyy-MM-dd') AS GEN_DATE 
+			FROM DUAL
+			CONNECT BY LEVEL <= (TO_DATE(#{end_time}) - TO_DATE(#{start_time}) + 1)
+			) 
 		LEFT JOIN (SELECT * FROM work_recode WHERE employee_no=#{employee_no}) wr
 		on gen_date = work_date
 		LEFT JOIN (SELECT dayoff_name, dad.* FROM dayoff_apply da JOIN dayoff_apply_detail dad ON da.dayoff_no=dad.dayoff_no join dayoff_kinds dk on da.dayoff_type_code = dk.dayoff_type_code join DOCUMENT d on d.document_no = da.document_no WHERE document_state != '3' and document_state !='4' and employee_no =#{employee_no})

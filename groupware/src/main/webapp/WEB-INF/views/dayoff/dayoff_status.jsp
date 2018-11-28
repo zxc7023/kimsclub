@@ -474,7 +474,7 @@ function beforeClick(treeId, treeNode) {
 						</div>
 						<div class="tab-pane fade" id="tab02">
 							<div>
-								<span>부서:<a id="tree-btn">모든 조직</a></span>
+								<span>부서:<a id="tree-btn">kimsclub</a></span>
 								<input type="checkbox" name="oneorhalf" value="0" checked="checked">일차
 							 	<input type="checkbox" name="oneorhalf" value="1" checked="checked">오전반차
 							 	<input type="checkbox" name="oneorhalf" value="2" checked="checked">오후반자

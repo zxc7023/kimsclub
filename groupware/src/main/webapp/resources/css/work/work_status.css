@@ -27,3 +27,20 @@
 	border: 1px solid gray;
 }
 
+/* a#conditions:after {
+	content: '';
+	display: block;
+	position: absolute;
+	right: 6px;
+	top: 1px;
+	width: 9px;
+	height: 9px;
+	border-left: 1px solid #333;
+	border-bottom: 1px solid #333;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+ */
