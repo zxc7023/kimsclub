@@ -32,193 +32,155 @@
 <!-- Metis Menu Plugin JavaScript -->
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js"></script>
 <script>
+
+	var todayObj = new Date();
+	var workhourObj;
 	
-	//처음시작 됫을때 오늘날짜를 지정하는작업 
-	var today = new Date();
-	var cal_start_date = new Date(today.getFullYear(), today.getMonth(), 1);
-	
-	//처음에 출근/퇴근시간이 저장된 VO객체를 DOM tree가 시작 됫을때 json스트링으로 받아옴?
-	var work_setting;
-
-	//캘린더 month의 값을 표기하기위해 사용
-	var month = new Array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12');
-	
-	//간략통계에서 cal_start_date 기준 1일에서 ~ 15일까지의 데이터를 받아옴
-	function prevWeekCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), 1);
-		getCalDataAjax(buildCalendar, cal_start_date);
-	}
-	//간략통계에서 cal_start_date기준 16일에서 ~ 마지막일까지의 데이터를 받아옴
-	function nextWeekCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), 16);
-		getCalDataAjax(buildCalendar, cal_start_date);
-	}
-
-	//간략통계에서 cal_start_date 기준 이전달의 데이터를 받아옴
-	function prevMonCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() - 1, 1);
-		getCalDataAjax(buildCalendar, cal_start_date);
-	}
-
-	//간략통계에서 cal_start_date 기준 다음달 데이터를 받아옴
-	function nextMonCalendar() {
-		cal_start_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth() + 1, 1);
-		getCalDataAjax(buildCalendar, cal_start_date);
-	}
-
-	//처음시작할때 cal_start_date를 기준으로 시작함
-	var getCalDataAjax = function(callback, cal_start_date) {
+	function getMyWorkRecode(callback,dateObj){
 		$.ajax({
-			method : "post",
+			method : "POST",
 			dataType : "json",
+			data : JSON.stringify(dateObj), 
 			contentType : 'application/json;charset=UTF-8',
-			data : JSON.stringify(cal_start_date),
-			url : "${pageContext.request.contextPath}/work/getMyWorkStatus",
+			url : "${pageContext.request.contextPath}/work/getMyWorkRecode",
 			error : function() {
 				alert('전송 실패');
 			},
 			success : function(result) {
-
-				if (callback) {
+				if(callback){
 					callback(result);
 				}
 			}
 		});
-	};
-
-	function buildCalendar(result) {
+	}
+	
+	//받아온 근태 내역을 보여주는곳
+	function prepareMyWorkData(result){
+		var workList = result;
+		console.log(workList);
+		var work_recode_table = $(".work_recode_tb");
+		var work_recode_tbody = work_recode_table.find("tbody");
+		work_recode_tbody.empty();
 		
-		//ajax로받은 
-		var workRecode = result;
-		console.log(workRecode);
-		var tbCalendar = $("#calendar");
-
-		//초기에 테이블이의 row(tr)이 존재하는경우 초기화
-		if (tbCalendar.find("tr").length > 0) {
-			tbCalendar.find("tr").remove();
-		}
-
-		var cnt = 0;
-
-		var tr = "<tr></tr>";
-		var td = "<td></td>";
-
-		var thead = tbCalendar.find("thead");
-		var tbody = tbCalendar.find("tbody");
-
-		//년-월
-		thead.append(tr);
-		var row1 = tbCalendar.find("thead tr:last-child").addClass("year_month");
-
-		//일자
-		thead.append(tr);
-		var row2 = tbCalendar.find("thead tr:nth-child(2)").addClass("date");
-
-		tbody.append(tr);
-		var row3 = tbCalendar.find("tbody tr:nth-child(1)").addClass("am");
-
-		tbody.append(tr);
-		var row4 = tbCalendar.find("tbody tr:nth-child(2)").addClass("pm");
+		var tr ="<tr></tr>";
 		
+		for(var i=0 ; i < workList.length; i++){
+			work_recode_tbody.append(tr);
+			var last_tr = work_recode_tbody.find("tr:last-child");
 		
-		
-		
-		//첫 번째 tr (년-월 일)에 해당하는 tr을 출력하는부분
-		row1.append(td);
-		var cell = row1.find("td:last-child").attr("colspan", workRecode.length +1);
-		var leftBtn = "<button type='button' id='prevMonthBtn' onclick='prevMonCalendar()' class='glyphicon glyphicon-chevron-left'></button>";
-		var rightBtn = "<button type='button' id='nextMonthBtn' onclick='nextMonCalendar()' class='glyphicon glyphicon-chevron-right'></button>";
-		cell.html(leftBtn + cal_start_date.getFullYear() + "." + month[cal_start_date.getMonth()] + rightBtn);
-		
-		
-		
-		//두 번째 tr (일자)를 출력해주는 부분
-		for(var i=0; i < workRecode.length ; i++){
-			row2.append(td);
-			var cell_date = new Date(cal_start_date.getFullYear(), cal_start_date.getMonth(), cal_start_date.getDate() + i);
-			row2.find("td:last-child").text(cell_date.getDate());
-		}
-		
-		//이전 주 혹은 다음 주를 선택하는 버튼을 만드는부분
-		row2.append(td);
-		console.log(cal_start_date.getDate());
-		var prevOrNext;
-		if(cal_start_date.getDate() == 1){
-			prevOrNext = "<button type='button' id='nextWeek()' onclick='nextWeekCalendar()' class='glyphicon glyphicon-chevron-right'></button>";		
-		}else{
-			prevOrNext = "<button type='button' id='prevWeek()' onclick='prevWeekCalendar()' class='glyphicon glyphicon-chevron-left'></button>";
-		}
-		row2.find("td:last-child").html(prevOrNext);
-		
-		
-		
-		
-		
-		//tr 3번째, 4번째를 출력하는 부분
-		for (var i = 0; i < workRecode.length; i++) {
-			row3.append(td);
-			row4.append(td);
-			var am_work_data = "-";
-			var pm_work_data = "-";
-
-			//휴가를 쓴 경우를 맨처음 거른다.
-			if (workRecode[i].dayoffApply != null) {
-				var detail = workRecode[i].dayoffApply.dayoff_apply_detail[0];
-				switch (detail.oneorhalf) {
+			
+			var start_time;
+			if(workList[i].attendance_time != null){
+				var start_date = new Date(workList[i].attendance_time);
+				start_time = ("00" + start_date.getHours()).slice(-2)+":"+("00" + start_date.getMinutes()).slice(-2)+":"+("00" + start_date.getSeconds()).slice(-2);
+			}else{
+				start_time ="00:00:00";
+			}
+			
+			var end_time;
+			if(workList[i].leave_time != null){
+				var leave_date = new Date(workList[i].leave_time); 
+				end_time = ("00" + leave_date.getHours()).slice(-2)+":"+("00" + leave_date.getMinutes()).slice(-2)+":"+("00" + leave_date.getSeconds()).slice(-2);
+			}else{
+				end_time ="00:00:00";
+			}
+			
+			var work_status ="-";
+			if(workList[i].dayoffApply != null){
+				var dayoff_name = workList[i].dayoffApply.dayoff_kind.dayoff_name;
+				var oneorhalf;
+				console.log(workList[i].dayoffApply.dayoff_apply_detail[0].oneorhalf);
+				switch (workList[i].dayoffApply.dayoff_apply_detail[0].oneorhalf) {
 				case "0":
-					am_work_data = workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0, 1);
-					pm_work_data = workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0, 1);
+					oneorhalf="일차";
 					break;
 				case "1":
-					am_work_data = workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0, 1);
+					oneorhalf="오전반차";
 					break;
 				case "2":
-					pm_work_data = workRecode[i].dayoffApply.dayoff_kind.dayoff_name.substring(0, 1);
+					oneorhalf="오후반차";
 					break;
 				default:
 					break;
 				}
-			} else {//휴가자가 아닌경우
-				if (workRecode[i].attendance_time != null) {//출근했는경우
-					var attend_hour = new Date(workRecode[i].attendance_time);
-					console.log("출근시간: " + attend_hour.getHours());
-					am_work_data = "정";
-					if (attend_hour.getHours() >= work_setting.start_hour) {
-						if (attend_hour.getMinutes() >= work_setting.start_minute) {
-							am_work_data = "지";
-						}
-					}
-				} else {//안했는경우
-					am_work_data = "-";
-				}
+				work_status = dayoff_name + "/" + oneorhalf;
+				console.log(work_status);
+			}
+			
+			var tds = "<td>" + workList[i].work_date + "</td>"+ "<td>" + start_time + "</td>"+ "<td>" + end_time + "</td>"+"<td>"+work_status+"</td>";
+			last_tr.append(tds);
 
-				if (workRecode[i].leave_time != null) {//출근했는경우
-					var leave_hour = new Date(workRecode[i].leave_time);
-					console.log("출근시간: " + leave_hour.getHours());
-					am_work_data = "정";
-					if (leave_hour.getHours() <= work_setting.end_hour) {
-						if (leave_hour.getMinutes() <= work_setting.end_minute) {
-							am_work_data = "조";
-						}
-					}
-				} else {//안했는경우
-					pm_work_data = "-";
+		}
+		
+	
+		
+	}
+
+	
+	
+	//ajax로 나의 입사년도,출퇴근 시간을 받아오고 callback 메소드에 전달
+	function getInitalData(callback){
+		$.ajax({
+			method : "get",
+			dataType : "json",
+			contentType : 'application/json;charset=UTF-8',
+			url : "${pageContext.request.contextPath}/work/getInitalData",
+			error : function() {
+				alert('전송 실패');
+			},
+			success : function(result) {
+				if(callback){
+					callback(result);
 				}
 			}
-
-			row3.find("td:last-child").text(am_work_data);
-			row4.find("td:last-child").text(pm_work_data);
-		}
-
-		row3.append(td);
-		row4.append(td);
-		
-
-
+		});
 	}
+	
+	//ajax로 받아온 나의 입사연도를 가지고 yaer, month에 대한 select option 태그 생성.
+	function prepareSelectTag(result){
+		console.log("prepareSelectTag 메소드");
+		var hiredateObj  = new Date(result.hiredate);
+		workhourObj = result.workhour;
+		//select [name=year]
+		var yearSelectTag = $("select[name=year]"); 
+		for(var i = hiredateObj.getFullYear(); i <=todayObj.getFullYear() ; i++){
+			var optionTag = "<option value='"+ i +"'>"+i+"년</option>";
+			yearSelectTag.append(optionTag);
+			if(todayObj.getFullYear()==i){
+				yearSelectTag.find("option:last").prop("selected", true);
+			}
+		}
+		
+		//select [name=month]
+		var monthSelectTag = $("select[name=month]");
+		for(var i=1; i<=12; i ++){
+			var optionTag = "<option value='"+ i +"'>"+i+"월</option>";
+			monthSelectTag.append(optionTag);
+			if(todayObj.getMonth()==(i-1)){
+				monthSelectTag.find("option:last").prop("selected", true);
+			}
+		}
+		//현재 년도월을 기준으로 데이터를 가져온다.		
+		getMyWorkRecode(prepareMyWorkData,todayObj);
+	}
+
 	$(document).ready(function() {
-		work_setting = ${requestScope.workSetting};
-		employee = ${requestScope.employee};
+		
+		//입사연도를 기준으로 현재 연도까지의 연도수를 받아온다.
+		getInitalData(prepareSelectTag);
+		
+		//select 이벤트 감지 
+		$("select").change(function(){
+			
+			//선택한 값을 가지고 Date생성
+			var send_date = new Date($("#year option:selected").val(),$("#month option:selected").val()-1,todayObj.getDate());
+			
+			//선택한 년월을 가지고 만든 Date 객체를 ajax를 통해 해당하는 날짜의 근무기록표를 가져온다. 
+			getMyWorkRecode(prepareMyWorkData,send_date);
+			return false;
+		});
+		
+		
 	});
 </script>
 <title>근태현황</title>
@@ -233,26 +195,37 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-sm-12">
-					<h1 class="page-header">근태현황</h1>
+					<h1 class="page-header">근태 현황</h1>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">간략 보기</div>
-						<div class="panel-body">
-							<div class="select_mon_year"><span>보기:<a id="conditions">월단위</a></span></div>
-							<div>
-								<table id="calendar" class="table table-bordered">
-									<thead></thead>
-									<tbody></tbody>
-								</table>
-								<script type="text/javascript">
-									getCalDataAjax(buildCalendar, cal_start_date);
-								</script>
-							</div>
-						</div>
-					</div>
+					<form id="selects">
+						<select name="year" id="year">
+						</select> 
+						<select name="month" id="month">
+						</select>
+					</form>
+				</div>
+				<div class ="col-sm-10">
+					<table class="work_recode_tb table table-bordered">
+						<colgroup>
+							<col width="25%">
+							<col width="30%">
+							<col width="30%">
+							<col width="15%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>날짜</th>
+								<th>출근(시간/결과)</th>
+								<th>퇴근(시간/결과)</th>
+								<th>휴가종류/구분</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

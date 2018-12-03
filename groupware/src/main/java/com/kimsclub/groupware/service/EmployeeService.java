@@ -25,4 +25,12 @@ public interface EmployeeService {
 	public int getEmployeeCnt(Map<String, Object> map);
 
 	public void modifyEmployeeResult(EmployeeVO evo);
+
+	
+	/**
+	 * 세션에 저장된 사용자의 hiredate를 가져오기 위한 메소드 
+	 * @param employeeVO 세션에 저장된 employee 객체
+	 * @return EmployeeVO객체 (hiredate가 맴버변수에 저장되어 있다.)
+	 */
+	public EmployeeVO getEmployeeHiredate(EmployeeVO employeeVO);
 }

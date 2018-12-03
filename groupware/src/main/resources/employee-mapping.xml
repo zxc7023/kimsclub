@@ -119,4 +119,10 @@
 		)A
 		)where rn between #{start} and #{end}
 	</sql>
+	
+	<select id="selectEmloyeeHiredate" resultType="employee">
+		select hiredate from employee where employee_no = #{employee_no}
+	</select>
+	
+	
 </mapper>

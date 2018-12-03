@@ -3,42 +3,6 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="workRecode">
 
-	<resultMap id="employeeMap" type="employee">
-		<id column="employee_no" property="employee_no"/>
-		<result column="employee_name" property="employee_name"/>
-		<result column="position" property="position"/>
-		<association property="department" javaType="department">
-			<id column="department_no" property="department_no" />
-			<result column="department_name" property="department_name"/>
-		</association>
-	</resultMap>
-	
-	<select id="loadAllEmployee" resultMap="employeeMap">
-		SELECT employee_no,department_name, d.department_no as department_no, position, employee_name
-		from employee e
-		left join department d
-		on e.department_no = d.department_no
-	</select>
-	
-	
-	<!-- <select id="login" resultMap="employeeMap">
-		select * from employee where employee_no = #{employee_no} and password = #{password}
-	</select> -->
-	
-	
-	<select id="login" resultMap="employeeMap">
-		select e.*, department_name 
-		from employee e
-		left join department d
-		on e.department_no = d.department_no
-		where employee_no = #{employee_no} and password = #{password}
-	</select>
-	
-	
-	<update id="updateLastLogin" parameterType="employee">
-		update employee set last_login = sysdate where employee_no = #{employee_no}
-	</update>
-	
 	<resultMap type="WorkRecode" id="workRecodeMap">
 		<id column="work_date" property="work_date"/>
 		<result column="attendance_time" property="attendance_time"/>
@@ -69,25 +33,38 @@
 		
 	</resultMap>
 	
-	<select id="selectWorkRecodes" parameterType="map" resultMap="workRecodeMap">
+	<select id="selectWorkRecodeList" parameterType="map" resultMap="workRecodeMap" >
 		<![CDATA[ 
-		SELECT gen_date as work_date, employee_no, attendance_time, leave_time, dayoff_name, days, oneorhalf 
-		FROM 
-			(SELECT TO_CHAR (TO_DATE(#{start_time}) + LEVEL - 1, 'yyyy-MM-dd') AS GEN_DATE 
-			FROM DUAL
-			CONNECT BY LEVEL <= (TO_DATE(#{end_time}) - TO_DATE(#{start_time}) + 1)
-			) 
-		LEFT JOIN (SELECT * FROM work_recode WHERE employee_no=#{employee_no}) wr
-		on gen_date = work_date
-		LEFT JOIN (SELECT dayoff_name, dad.* FROM dayoff_apply da JOIN dayoff_apply_detail dad ON da.dayoff_no=dad.dayoff_no join dayoff_kinds dk on da.dayoff_type_code = dk.dayoff_type_code join DOCUMENT d on d.document_no = da.document_no WHERE document_state != '3' and document_state !='4' and employee_no =#{employee_no})
-		on gen_date = TO_CHAR(DAYOFF_DAY,'yyyy-MM-dd')
-		order by GEN_DATE asc	]]>
+			select cal.work_date work_date, attendance_time, leave_time, dayoff_name, days, oneorhalf
+			from(
+			    select work_date
+			    from
+			        (SELECT TO_CHAR(SDT + LEVEL - 1, 'yyyy-mm-dd') work_date, TO_CHAR(SDT + LEVEL - 1, 'D') day
+			            FROM(
+			                SELECT TO_DATE(#{startTime}, 'yyyy-mm-dd') SDT, TO_DATE(#{endTime}, 'yyyy-mm-dd') EDT
+			                FROM DUAL)
+			        CONNECT BY LEVEL <= EDT - SDT + 1)
+			    where day in (select workday from workday_setting where iswork = '1')
+			) cal
+			left join (select * from work_recode where employee_no = #{employee_no}) wr
+			on cal.work_date = wr.work_date
+			LEFT JOIN ( SELECT dayoff_name, dad.* 
+			            FROM dayoff_apply da 
+			            JOIN dayoff_apply_detail dad 
+			            ON da.dayoff_no=dad.dayoff_no 
+			            join dayoff_kinds dk 
+			            on da.dayoff_type_code = dk.dayoff_type_code
+			            join DOCUMENT d on d.document_no = da.document_no WHERE document_state != '3' and document_state !='4' and employee_no = #{employee_no})
+			on cal.work_date = TO_CHAR(DAYOFF_DAY,'yyyy-MM-dd')
+			order by cal.work_date
+
+		]]>
 	</select>
 	
-	<select id="selectWorkSetting" resultType="WorkSetting">
-		select * from work_setting
-	</select>
 	
+	<select id="selectWorkhourSetting" resultType="WorkhourSetting">
+		select * from workhour_setting
+	</select>
 
 	
 	

@@ -55,4 +55,9 @@ public class EmployeeDAO {
 		session.update("employee.updateEmployee", evo);
 		
 	}
+
+
+	public EmployeeVO selectEmloyeeHiredate(EmployeeVO employeeVO) {
+		return session.selectOne("employee.selectEmloyeeHiredate", employeeVO);
+	}
 }

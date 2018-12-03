@@ -55,4 +55,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		dao.modifyEmployeeResult(evo);
 	}
 
+	@Override
+	public EmployeeVO getEmployeeHiredate(EmployeeVO employeeVO) {
+		return dao.selectEmloyeeHiredate(employeeVO);
+	}
+
 }

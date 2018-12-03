@@ -1,6 +1,5 @@
 package com.kimsclub.groupware.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,27 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kimsclub.groupware.dao.WorkRecodeDAO;
-import com.kimsclub.groupware.vo.EmployeeVO;
 import com.kimsclub.groupware.vo.WorkRecodeVO;
-import com.kimsclub.groupware.vo.WorkSettingVO;
+import com.kimsclub.groupware.vo.WorkdaySettingVO;
+import com.kimsclub.groupware.vo.WorkhourSettingVO;
 
 @Service
-public class WorkRecodeServiceImpl implements WorkRecodeService {
+public class WorkServiceImpl implements WorkService {
 
 	
 	@Autowired
 	WorkRecodeDAO dao;
 	
 
+
+
 	@Override
-	public List<WorkRecodeVO> getWorkRecodes(Map<String, Object> map) {
-		return dao.getWorkRecodes(map);
+	public List<WorkRecodeVO> getMyWorkRecode(Map<String, Object> map) {
+		return dao.selectWorkRecodeList(map);
 	}
 
 
 	@Override
-	public WorkSettingVO getWorkSetting() {
-		return dao.getWorkSetting();
+	public WorkhourSettingVO getWorkhourSetting() {
+		return dao.selectWorkhourSetting();
 	}
 
 }

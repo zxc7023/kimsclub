@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kimsclub.groupware.vo.WorkRecodeVO;
-import com.kimsclub.groupware.vo.WorkSettingVO;
+import com.kimsclub.groupware.vo.WorkhourSettingVO;
 
 @Repository
 public class WorkRecodeDAO {
@@ -17,12 +17,12 @@ public class WorkRecodeDAO {
 	@Autowired
 	SqlSession session;
 	
-	public List<WorkRecodeVO> getWorkRecodes(Map<String, Object> map) {
-		return session.selectList("workRecode.selectWorkRecodes",map);
+	public List<WorkRecodeVO> selectWorkRecodeList(Map<String, Object> map) {
+		return session.selectList("workRecode.selectWorkRecodeList",map);
 	}
 
-	public WorkSettingVO getWorkSetting() {
-		return session.selectOne("workRecode.selectWorkSetting");
+	public WorkhourSettingVO selectWorkhourSetting() {
+		return session.selectOne("workRecode.selectWorkhourSetting");
 	}
 
 }

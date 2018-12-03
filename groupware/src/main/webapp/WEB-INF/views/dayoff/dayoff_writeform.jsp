@@ -187,12 +187,7 @@ function dateToFormat(date){
 					var server_json = server_result;
 					var result = server_json.result;
 					if (result == 1) {
-						var move = confirm('신청 성공하였습니다. 휴가신청 내역을 보시겠습니까?');
-						if(move) {  
-							location.replace("/groupware/dayoff/dayoffStatus");
-						}
-						else { //no
-						}
+						location.replace("/groupware/dayoff/dayoffWriteform");
 					} else {
 						alert("휴가신청 실패");
 					}
@@ -509,6 +504,8 @@ function dateToFormat(date){
 												<tr role="row">
 													<td>휴가기간</td>
 													<td class="calendar_wrap">
+															
+														<span>셀을 클릭하면, [일차 >> 오전반차 >> 오후반차 >> 해제] 순으로 바뀝니다.</span>
 														<table id="calendar" class="col-10">
 															<thead></thead>
 															<tbody></tbody>
