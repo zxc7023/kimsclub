@@ -232,4 +232,30 @@ public class HumanResourcesController {
 		employee_service.modifyEmployeeResult(evo);
 		return "employee";
 	}
+	
+	
+	@RequestMapping(value="/departmentList2", method=RequestMethod.GET, produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String departmentList2() {
+		
+		List<TreeVO> tlist = new ArrayList<TreeVO>();
+		List<DepartmentVO> dlist = new ArrayList<DepartmentVO>();
+		
+		dlist = department_service.getDepartmentList();
+		for(DepartmentVO dvo : dlist) {
+			
+			tlist.add(new TreeVO(dvo));
+		}
+		
+		String json = null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			json = mapper.writeValueAsString(tlist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return json;
+	}
 }
