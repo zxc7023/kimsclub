@@ -28,6 +28,7 @@
 		<interceptor>
 			<mapping path="/**" />
 			<exclude-mapping path="/login" />
+			<exclude-mapping path="/resources/**" />
 			<beans:ref bean="authenticationInterceptor" />
 		</interceptor>
 	</interceptors>

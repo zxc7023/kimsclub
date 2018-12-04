@@ -23,7 +23,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
 	    } else {
 	      query = "?" + query;
 	    }
-
+	    System.out.println(uri + query);
 	    if (req.getMethod().equals("GET")) {
 	      req.getSession().setAttribute("dest", uri + query);
 	    }
@@ -40,9 +40,8 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession();
         // login처리를 담당하는 사용자 정보를 담고 있는 객체를 가져옴
         Object obj = session.getAttribute("loginInfo");
-         
+        
         if ( obj == null ){
-        	System.out.println("로그인 없는상태 및 destnation 있음");
         	saveDest(request);
             // 로그인이 안되어 있는 상태임으로 로그인 폼으로 다시 돌려보냄(redirect)
             response.sendRedirect(request.getContextPath()+"/login");
@@ -62,6 +61,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter {
     	HttpSession session = request.getSession();    	
     	EmployeeVO empvo = (EmployeeVO) session.getAttribute("loginInfo");
     	String dest = (String) session.getAttribute("dest");
+    	System.out.println("dest:" + dest);
     	session.removeAttribute("dest");
     	
     	//로그인된 상태이고 경로가 있다면 해당 redirect사용
