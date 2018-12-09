@@ -15,7 +15,7 @@ public class Criteria {
 	
 	public Criteria() {
 		this.page = 1;
-		this.perPageNum = 3;
+		this.perPageNum = 5;
 	}
 
 	/**
@@ -67,7 +67,11 @@ public class Criteria {
 	 * @return
 	 */
 	public int getPageStart() {
-		return (this.page-1) * perPageNum;
+		return ((this.page-1) * perPageNum  + 1);
+	}
+	
+	public int getPageEnd() {
+		return (getPageStart()+perPageNum-1);
 	}
 
 

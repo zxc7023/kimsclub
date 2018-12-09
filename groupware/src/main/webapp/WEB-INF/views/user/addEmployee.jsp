@@ -54,7 +54,7 @@ $(document).ready(function() {
 			contentType: "application/json;charset=UTF-8",
 			data :  JSON.stringify(tmpArr),
 			error : function(error) {
-				alert("양식 불러오기 실패");
+				alert("추가실패");
 			},
 			success : function(data) {
 				

@@ -60,6 +60,7 @@
 }
 </style>
 <script type="text/javascript">
+	var page = 1;
 	var tree;
 	var setting = {
 		view : {
@@ -93,55 +94,15 @@
 			}
 		}
 	};
-
+	
+	
+	//시작
 	//DepartmentList를 통해 부서목록을 받아오고 callback함수로 Ztree를 준비한다.
 	getDepartmentList(prepareZtree);
-
-	function getEmployeeWithCreteria() {
-		console.log($("form[name=searchCriteria]").serialize());
-		$.ajax({
-			method : "get",
-			contentType : 'application/json;charset=UTF-8',
-			url : "/groupware/humanResources/getEmpWithCreteria",
-			error : function() {
-				alert("전송 실패");
-			},
-			success : function(result) {
-				if (callback) {
-					callback(result);
-				}
-			}
-		});
-	}
 	
-	function prepareData(result){
-		employeeList();
-		pagination();
-	}
-	
-	function employeeList(){
-		
-	}
-	function paginaton(){
-		
-	}
-
-	//부서 클릭했을때 이벤트
-	function beforeClick(treeId, treeNode) {
-	}
-
-	// 부서를 클릭하고나서 해야할 작업들
-	function departmentClick() {
-		var zTree = $.fn.zTree.getZTreeObj("org_list");
-		var nodes = zTree.getSelectedNodes();
-		$("#result_menu").text(nodes[0].department_name);
-		$("input[name=department_no]").val(nodes[0].department_name);
-		hideMenu();
-		getEmployeeWithCreteria();
-	}
-
 	//ajax로 Department번호를 가져온다.
 	function getDepartmentList(callback) {
+		console.log("부서번호들 받으러감");
 		$.ajax({
 			method : "get",
 			contentType : 'application/json;charset=UTF-8',
@@ -159,21 +120,127 @@
 
 	//Ajax를 통해 받은결과를 가지고 tree를 만든다
 	function prepareZtree(result) {
+		console.log("부서들 정렬중");
 		var zNodes = [];
 		var rootObj = {
+			department_no : 1,
 			department_parent_no : 0,
 			department_name : "모든 사용자"
 		};
 		var noDepartmentObj = {
+			department_no : 2,
 			department_parent_no : 0,
 			department_name : "소속 없음"
 		};
 		zNodes.push(rootObj);
 		zNodes.push(noDepartmentObj);
 		var items = zNodes.concat(JSON.parse(result));
-		console.log(items);
 		tree = $.fn.zTree.init($("#org_list"), setting, items);
+		var node = tree.getNodeByParam("department_no",1,null);
+		tree.selectNode(node);
 		tree.expandAll(true);
+		
+		//초기값으로 검색한다.
+		getEmployeeWithCreteria(prepareData);
+	}
+
+	function getEmployeeWithCreteria(callback) {
+		console.log("getEmployeeWithCreteria 실행");
+		var nodes = tree.getSelectedNodes();
+		console.log($("form[name=searchCriteria]").serialize() + "&department_no=" + nodes[0].department_no );
+		$.ajax({
+			method : "get",
+			data : $("form[name=searchCriteria]").serialize() + "&department_no=" + nodes[0].department_no + "&page=" +page,
+			contentType : 'application/json;charset=UTF-8',
+			url : "/groupware/humanResources/getEmpWithCreteria",
+			error : function() {
+				alert("전송 실패");
+			},
+			success : function(result) {
+				if (callback) {
+					callback(result);
+				}
+			}
+		});
+	}
+	
+	function prepareData(result){
+		var totalObj = JSON.parse(result);
+		employeeList(totalObj.empList);
+		pagination(totalObj.pageMaker);
+	}
+	
+	function employeeList(empList){
+		console.log("사원들 출력중");
+		var empTable = $("#employee_table");
+		var empTbody = empTable.find("tbody");
+		empTbody.empty();
+		
+		if(empList.length == 0){
+			alert("해당하는 데이터가 없습니다.");
+			return false;
+		}
+		
+		for(var i=0; i < empList.length; i++){
+			var empObj = empList[i];
+			var row = "<tr>";
+			row += "<td><a>" + empObj.employee_no +"</a></td>";
+			row += "<td>" + empObj.employee_name +"</td>";
+			row += "<td>" + empObj.password +"</td>";
+			row += "<td>" + empObj.department.department_name +"</td>";
+			row += "<td>" + empObj.position + "</td>";
+			row += "<td>" + empObj.hiredate + "</td>";
+			row += "<td>" + empObj.email + "</td>";
+			row += "<td>" + empObj.phonenumber + "</td>";
+			row += "<td>" + empObj.usertype + "</td>";
+			row += "</tr>";
+			empTbody.append(row);
+		}
+		
+	}
+	function pagination(pageMaker){
+		console.log("페이징처리중");
+		/* console.log(pageMaker); */
+		var pagination = $("ul.pagination");
+		pagination.empty();
+		if(pageMaker.prev){
+ 			var row ="<li>";
+			row += "<a href=" + (pageMaker.startPage - 1) + ">" + "&laquo" + "</a>";
+			row += "</li>"; 
+			pagination.append(row);
+		}
+		for(var i= pageMaker.startPage; i <= pageMaker.endPage; i++){
+			var row = "<li ";
+			row += pageMaker.cri.page == i ? "class = active" : '' ;
+			row += ">";
+			row += "<a href=" + i + ">" + i + "</a>";
+			row += "</li>";
+			pagination.append(row);
+		}
+		
+		if(pageMaker.next && pageMaker.endPage > 0){			
+				var row ="<li>";
+				row += "<a href=" + (pageMaker.endPage + 1) + ">" + "&raquo;" + "</a>";
+				row += "</li>"; 
+			pagination.append(row);
+		}
+		
+	}
+
+	//부서 클릭했을때 이벤트
+	function beforeClick(treeId, treeNode) {
+		console.log("클릭되기전");
+	}
+
+	// 부서를 클릭하고나서 해야할 작업들
+	function departmentClick() {
+		console.log("클릭되고난후");
+		var zTree = $.fn.zTree.getZTreeObj("org_list");
+		var nodes = zTree.getSelectedNodes();
+		$("#result_menu").text(nodes[0].department_name);
+		$("input[name=department_no]").val(nodes[0].department_name);
+		hideMenu();
+		getEmployeeWithCreteria(prepareData);
 	}
 
 	function showMenu() {
@@ -196,16 +263,29 @@
 			hideMenu();
 		}
 	}
-
+	
 	$(document).ready(function() {
-		//초기값으로 검색한다.
-		getEmployeeWithCreteria();
-		
-		//보기 클릭시 어느 부서를 볼 지 정할 수 있다.
+		//조직 선택시
 		$('#menu1').click(function() {
-			//모달을 보여준다.
 			showMenu();
+			return false;
 		});
+		//검색했을때
+		$("form[name=searchCriteria]").submit(function(){
+			getEmployeeWithCreteria(prepareData);
+			return false;
+		});
+		//페이지 클릭했을때
+		$(".pagination").on("click","a",function(){
+			page = $(this).attr("href");
+			getEmployeeWithCreteria(prepareData);
+			return false;
+		});
+		$("#employee_table").on("click","tbody td",function(){
+			alert("회원정보수정 작업중");
+		});
+		
+		
 	});
 </script>
 <title>Kim's Club</title>
@@ -221,7 +301,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">사용자 관리</h1>
+					<h1 class="page-header">사원 관리</h1>
 				</div>
 			</div>
 
@@ -233,28 +313,37 @@
 						</div>
 						<div class="panel-body">
 							<div class="row">
-								<form name="searchCriteria" class="form-inline">
-									<div class="col-sm-5 text-left">
+								<div class="col-sm-5 text-left">
 										부서 : <a id="menu1"> <input name="department_no" type="hidden" value="모든 사용자"> <span id="result_menu">모든 사용자</span><span class="caret"></span>
 										</a>
-									</div>
+								</div>
+								
 									<div class="col-sm-7 text-right">
+										<form name="searchCriteria" class="form-inline">
 										<select name="searchType">
 											<option value="employee_name" selected="selected">이름</option>
 											<option value="employee_no">사원번호</option>
 										</select>
-										<input type="search" class="form-control input-sm search" placeholder="검색어를 입력하세요." autofocus="autofocus" name="keyword">
-										<button type="button" id="search-btn" class="btn btn-primary btn-sm">
-											<i class="fa fa-search"></i>
-										</button>
+										<input type="text" class="form-control input-sm search" placeholder="검색어를 입력하세요." autofocus="autofocus" name="keyword">
+										</form>
 									</div>
-								</form>
 							</div>
 							<div class="row">
 								<div class="col-lg-12">
-									<table class="table table-striped table-bordered table-hover no-footer dtr-inline" id="employee_table">
-										<thead>
-											<tr role="row">
+									<table class="table table-bordered table-hover" id="employee_table">
+										<colgroup>
+											<col width="10%">
+											<col width="10%">
+											<col width="10%">
+											<col width="10%">
+											<col width="10%">
+											<col width="10%">
+											<col width="15%">
+											<col width="15%">
+											<col width="10%">
+										</colgroup>
+										<thead class="thead-light">
+											<tr>
 												<th>사원번호</th>
 												<th>이름</th>
 												<th>비밀번호</th>
@@ -270,7 +359,9 @@
 										</tbody>
 									</table>
 									<div class="row">
-										<div class="col-sm-12 text-center"></div>
+										<div class="col-sm-12 text-center">
+											<ul class="pagination pagination-md"></ul>
+										</div>
 									</div>
 								</div>
 							</div>

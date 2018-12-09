@@ -125,10 +125,39 @@
 	</select>
 	
 	
-	<select id="selectEmpListWithCri" parameterType="map">
+	<select id="selectEmpListWithCri" parameterType="map" resultMap="employeeMap">
+		select * from(
+			select * from(
+				select rownum rnum, employee_no, regexp_replace(password,'.','*') password, hiredate, usertype, email, phonenumber, d.department_name as department_name, d.department_no as department_no, position, employee_name
+				from employee e left join department d on e.department_no = d.department_no
+				<include refid="criteria"></include>
+				order by employee_no desc
+			) <![CDATA[ where rnum <= (#{cri.pageEnd})
+		)where rnum >= #{cri.pageStart}]]>
+		</select>
 		
-	</select>
+	<select id="selectEmpCntWithCri" parameterType="map" resultType="int">
+		select count(e.employee_no) from employee e
+		<include refid="criteria"></include>
+	</select>	
+	
 
+	<!-- 검색조건에 해당하는 where을 동적으로 불러오기 위하여 만든 mybatis sql문  -->
+	<sql id="criteria">
+		<where>
+			<if test="cri.keyword != null and cri.keyword !=''">
+				${cri.searchType} like '%' || #{cri.keyword} || '%'
+			</if>
+			<choose>
+				<when test="department_no == 2">
+					and e.department_no is null
+				</when>				
+				<when test="department_no != 1 and department_no !=2">
+					and e.department_no = #{department_no}
+				</when>
+			</choose>
+		</where>
+	</sql>
 	
 	
 	

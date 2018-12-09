@@ -65,4 +65,9 @@ public class EmployeeDAO {
 	public List<EmployeeVO> selectEmpListWithCri(Map<String, Object> map) {
 		return session.selectList("employee.selectEmpListWithCri", map);
 	}
+
+
+	public int selectEmpCntWithCri(Map<String, Object> map) {
+		return session.selectOne("employee.selectEmpCntWithCri",map);
+	}
 }

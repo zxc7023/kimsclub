@@ -38,7 +38,7 @@ public class PageMaker {
 	/**
 	 * 보여줄 페이지의 갯수
 	 */
-	private int displayPageNum = 10;
+	private int displayPageNum = 3;
 
 
 	public Criteria getCri() {
@@ -61,7 +61,7 @@ public class PageMaker {
 		calcData();
 	}
 	
-	private void calcData() {		
+	private void calcData() {
 		endPage = (int) ( Math.ceil( cri.getPage() / (double) displayPageNum ) * displayPageNum);
 		startPage = (endPage - displayPageNum) + 1;
 		int tempEndPage = (int) (Math.ceil( totalConunt / (double) cri.getPerPageNum()));

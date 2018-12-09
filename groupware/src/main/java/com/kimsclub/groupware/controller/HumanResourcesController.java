@@ -1,5 +1,7 @@
 ﻿package com.kimsclub.groupware.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +25,11 @@ import com.kimsclub.groupware.service.EmployeeService;
 import com.kimsclub.groupware.vo.BoardPageVO;
 import com.kimsclub.groupware.vo.DepartmentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
+import com.kimsclub.groupware.vo.PageMaker;
 import com.kimsclub.groupware.vo.SearchCriteria;
 import com.kimsclub.groupware.vo.TreeVO;
+
+import oracle.net.aso.p;
 
 
 @Controller
@@ -131,30 +136,9 @@ public class HumanResourcesController {
 	 * @return
 	 */
 	@RequestMapping(value="/employee", method=RequestMethod.GET)
-	public ModelAndView getEmployee(@RequestParam(name="page_scale", defaultValue="20") int page_scale,
-			@RequestParam(name="searchOption", defaultValue="")String[] search_option,					  
-			@RequestParam(name="keyword", defaultValue="") String keyword,
-			@RequestParam(name="cur_page",defaultValue="1") int cur_page,HttpSession session,
-			@RequestParam(name="whereOption", defaultValue="1=1")String whereOption) {
+	public ModelAndView getEmployee() {
 		System.out.println("getEmployee	 메소드 호출");
-		Map<String, Object> map = new HashMap<String,Object>();
-		//List<EmployeeVO> elist = employee_service.loadAllEmp();
-		
 		ModelAndView mav = new ModelAndView();
-		map.put("fromOption", "employee e left join department d on e.department_no = d.department_no");
-		map.put("searchOption", search_option);
-		map.put("keyword", keyword);
-		map.put("order", "employee_no");
-		map.put("whereOption", whereOption);
-		map.put("selectOption", "employee_no,password,hiredate,usertype,email,phonenumber,d.department_name as department_name, d.department_no as department_no, position, employee_name");
-		BoardPageVO bpvo = new BoardPageVO(employee_service.getEmployeeCnt(map), cur_page, page_scale); 
-		map.put("start", bpvo.getPageBegin());
-		map.put("end", bpvo.getPageEnd());
-		List<EmployeeVO> elist = employee_service.loadAllEmpList(map);
-		System.out.println(elist);
-		mav.addObject("map",map);
-		mav.addObject("elist", elist);
-		mav.addObject("page",bpvo);
 		mav.setViewName("user/employeeManage");
 		return mav;
 	}
@@ -268,18 +252,35 @@ public class HumanResourcesController {
 	 * 기본적으로 page는 1, department_no = "모든 사용자" searchType/searchValue = null 이다.
 	 * @return
 	 */
-	@RequestMapping(value = "/getEmpWithCreteria", method=RequestMethod.GET)
-	public String getEmpList(SearchCriteria cri,@RequestParam String department_no) {
+	@RequestMapping(value = "/getEmpWithCreteria", method=RequestMethod.GET,produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String getEmpList(SearchCriteria cri,@RequestParam(required=false, defaultValue="1") String department_no) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cri", cri);
 		map.put("department_no", department_no);
 		List<EmployeeVO> empList = employee_service.getEmpListWithCri(map);
-	/*	PageMaker pageMaker = new PageMaker();
+		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalConunt(dao.countPaging(cri));
-		model.addAttribute("pageMaker", pageMaker);*/
-
-		return null;
+		pageMaker.setTotalConunt(employee_service.getEmpCntWithCri(map));
+		System.out.println(cri);
+		System.out.println(empList);
+		System.out.println(pageMaker);
+		
+		String json = null;
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("pageMaker", pageMaker);
+		resultMap.put("empList", empList);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+			mapper.setDateFormat(fmt);
+			json = mapper.writeValueAsString(resultMap);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return json;
 		
 	}
 }

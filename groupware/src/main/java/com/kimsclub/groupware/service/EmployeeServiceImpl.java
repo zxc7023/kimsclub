@@ -65,4 +65,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return dao.selectEmpListWithCri(map);
 	}
 
+	@Override
+	public int getEmpCntWithCri(Map<String, Object> map) {
+		return dao.selectEmpCntWithCri(map);
+	}
+
 }

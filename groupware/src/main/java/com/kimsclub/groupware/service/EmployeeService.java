@@ -40,4 +40,11 @@ public interface EmployeeService {
 	 * @return
 	 */
 	public List<EmployeeVO> getEmpListWithCri(Map<String, Object> map);
+	
+	/**
+	 * map(cri + department_no)을 기준으로 총 검색수를 가져온다.
+	 * @param map
+	 * @return
+	 */
+	public int getEmpCntWithCri(Map<String, Object> map);
 }
