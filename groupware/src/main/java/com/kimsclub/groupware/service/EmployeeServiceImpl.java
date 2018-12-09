@@ -57,7 +57,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeVO getEmployeeHiredate(EmployeeVO employeeVO) {
-		return dao.selectEmloyeeHiredate(employeeVO);
+		return dao.selectEmployeeHiredate(employeeVO);
+	}
+
+	@Override
+	public List<EmployeeVO> getEmpListWithCri(Map<String, Object> map) {
+		return dao.selectEmpListWithCri(map);
 	}
 
 }

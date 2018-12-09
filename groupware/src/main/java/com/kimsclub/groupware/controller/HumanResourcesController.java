@@ -23,7 +23,9 @@ import com.kimsclub.groupware.service.EmployeeService;
 import com.kimsclub.groupware.vo.BoardPageVO;
 import com.kimsclub.groupware.vo.DepartmentVO;
 import com.kimsclub.groupware.vo.EmployeeVO;
+import com.kimsclub.groupware.vo.SearchCriteria;
 import com.kimsclub.groupware.vo.TreeVO;
+
 
 @Controller
 @RequestMapping(value = "/humanResources/*")
@@ -242,20 +244,42 @@ public class HumanResourcesController {
 		List<DepartmentVO> dlist = new ArrayList<DepartmentVO>();
 		
 		dlist = department_service.getDepartmentList();
+		System.out.println(dlist);
+		
 		for(DepartmentVO dvo : dlist) {
 			
 			tlist.add(new TreeVO(dvo));
 		}
-		
+		System.out.println(tlist);
 		String json = null;
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			json = mapper.writeValueAsString(tlist);
+			json = mapper.writeValueAsString(dlist);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return json;
+	}
+	
+	/**
+	 * 해당하는 기준을 가지고 데이터를 가져온다.
+	 * 기본적으로 page는 1, department_no = "모든 사용자" searchType/searchValue = null 이다.
+	 * @return
+	 */
+	@RequestMapping(value = "/getEmpWithCreteria", method=RequestMethod.GET)
+	public String getEmpList(SearchCriteria cri,@RequestParam String department_no) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cri", cri);
+		map.put("department_no", department_no);
+		List<EmployeeVO> empList = employee_service.getEmpListWithCri(map);
+	/*	PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalConunt(dao.countPaging(cri));
+		model.addAttribute("pageMaker", pageMaker);*/
+
+		return null;
+		
 	}
 }

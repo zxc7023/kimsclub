@@ -120,9 +120,16 @@
 		)where rn between #{start} and #{end}
 	</sql>
 	
-	<select id="selectEmloyeeHiredate" resultType="employee">
+	<select id="selectEmployeeHiredate" resultType="employee">
 		select hiredate from employee where employee_no = #{employee_no}
 	</select>
+	
+	
+	<select id="selectEmpListWithCri" parameterType="map">
+		
+	</select>
+
+	
 	
 	
 </mapper>

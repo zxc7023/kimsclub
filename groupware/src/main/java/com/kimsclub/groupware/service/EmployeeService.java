@@ -33,4 +33,11 @@ public interface EmployeeService {
 	 * @return EmployeeVO객체 (hiredate가 맴버변수에 저장되어 있다.)
 	 */
 	public EmployeeVO getEmployeeHiredate(EmployeeVO employeeVO);
+
+	/**
+	 * map(cri + department_no)을 검색 기준으로 리스트 받아온다.
+	 * @param map
+	 * @return
+	 */
+	public List<EmployeeVO> getEmpListWithCri(Map<String, Object> map);
 }

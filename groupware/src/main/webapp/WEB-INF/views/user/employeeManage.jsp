@@ -40,6 +40,7 @@
 <script src="https://blackrockdigital.github.io/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
 
 <script src="http://www.treejs.cn/v3//js/jquery.ztree.core.js"></script>
+<script src="http://www.treejs.cn/v3/js/jquery.ztree.excheck.js"></script>
 <!-- z-tree CSS -->
 <link href="http://www.treejs.cn/v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
 
@@ -59,11 +60,11 @@
 }
 </style>
 <script type="text/javascript">
-var zNodes = [];
-var tree;
-var setting = {
+	var tree;
+	var setting = {
 		view : {
-			selectedMulti : false
+			selectedMulti : false,
+			showIcon : false
 		},
 		//체크박스 사용 여부 부분
 		check : {
@@ -73,19 +74,17 @@ var setting = {
 		data : {
 			key : {
 				isParent : "parent",
-				name : "name"
-
+				name : "department_name"
 			},
 			simpleData : {
 				enable : true,
-				idKey : "no",
-				pIdKey : "pNo",
-				cnt : "cnt",
-
+				idKey : "department_no",
+				pIdKey : "department_parent_no"
 			}
 		},
 		callback : {
-			beforeClick : beforeClick
+			beforeClick : beforeClick,
+			onClick : departmentClick
 		},
 		edit : {
 			enable : true,
@@ -94,55 +93,55 @@ var setting = {
 			}
 		}
 	};
-	
+
+	//DepartmentList를 통해 부서목록을 받아오고 callback함수로 Ztree를 준비한다.
 	getDepartmentList(prepareZtree);
-	
-	$(document).ready(function() {
-		//사용자 추가 부분에서 부서 선택클릭 시 부서 목록불러오기
-		$('#menu2').click(function() {
-			callTree("menu2");
-		});
 
-		//보기 클릭시 어느 부서를 볼 지 정할 수 있다.
-		$('#menu1').click(function() {
-			/* callTree("menu1"); */
-			tree.menuType = "menu1";
-			tree.expandAll(true);
-		});
-		function callTree(menu) {
-			$.ajax({
-				method : "get",
-				contentType : 'application/json;charset=UTF-8',
-				url : "/groupware/humanResources/departmentList?load_type=0",
-				error : function() {
-					alert("전송 실패");
-				},
-				success : function(server_result) {
-					zNodes = JSON.parse(server_result);
-					console.log(zNodes);
-					var tree = $.fn.zTree.init($("#dropdown-" + menu), setting, zNodes);
-					tree.menuType = menu;
-					tree.expandAll(true);
-					/* console.log(tree); */
-
+	function getEmployeeWithCreteria() {
+		console.log($("form[name=searchCriteria]").serialize());
+		$.ajax({
+			method : "get",
+			contentType : 'application/json;charset=UTF-8',
+			url : "/groupware/humanResources/getEmpWithCreteria",
+			error : function() {
+				alert("전송 실패");
+			},
+			success : function(result) {
+				if (callback) {
+					callback(result);
 				}
-			});
-		}
-	});
+			}
+		});
+	}
+	
+	function prepareData(result){
+		employeeList();
+		pagination();
+	}
+	
+	function employeeList(){
+		
+	}
+	function paginaton(){
+		
+	}
 
-	
+	//부서 클릭했을때 이벤트
 	function beforeClick(treeId, treeNode) {
-		var treeObj = $.fn.zTree.getZTreeObj("tree");
-		var dep_no = treeNode.no.split('d')[1];
-	/* 	window.location.href = "/groupware/humanResources/employee?whereOption=d.department_no=" + dep_no; */
-		console.log(treeId);
-		$('#result-' + treeId).html(treeNode.name);
 	}
-	function removeButton() {
-		$('span').removeClass("button");
+
+	// 부서를 클릭하고나서 해야할 작업들
+	function departmentClick() {
+		var zTree = $.fn.zTree.getZTreeObj("org_list");
+		var nodes = zTree.getSelectedNodes();
+		$("#result_menu").text(nodes[0].department_name);
+		$("input[name=department_no]").val(nodes[0].department_name);
+		hideMenu();
+		getEmployeeWithCreteria();
 	}
-	
-	function getDepartmentList(callback){
+
+	//ajax로 Department번호를 가져온다.
+	function getDepartmentList(callback) {
 		$.ajax({
 			method : "get",
 			contentType : 'application/json;charset=UTF-8',
@@ -151,20 +150,63 @@ var setting = {
 				alert("전송 실패");
 			},
 			success : function(result) {
-				if(callback){
+				if (callback) {
 					callback(result);
 				}
 			}
 		});
 	}
-	
-	function prepareZtree(result){
-		zNodes = JSON.parse(result);
-		tree = $.fn.zTree.init($("#dropdown-menu1"), setting, zNodes);
-		console.log(zNodes);
-		console.log(tree);
+
+	//Ajax를 통해 받은결과를 가지고 tree를 만든다
+	function prepareZtree(result) {
+		var zNodes = [];
+		var rootObj = {
+			department_parent_no : 0,
+			department_name : "모든 사용자"
+		};
+		var noDepartmentObj = {
+			department_parent_no : 0,
+			department_name : "소속 없음"
+		};
+		zNodes.push(rootObj);
+		zNodes.push(noDepartmentObj);
+		var items = zNodes.concat(JSON.parse(result));
+		console.log(items);
+		tree = $.fn.zTree.init($("#org_list"), setting, items);
+		tree.expandAll(true);
 	}
-	
+
+	function showMenu() {
+		var menuObj = $("#menu1");
+		var menuOffset = $("#menu1").offset();
+		$("#menuContent").css({
+			left : menuOffset.left + "px",
+			top : menuOffset.top + menuObj.outerHeight() + "px"
+		}).slideDown("fast");
+		$("body").bind("mousedown", onBodyDown);
+	}
+
+	function hideMenu() {
+		$("#menuContent").fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDown);
+	}
+
+	function onBodyDown(event) {
+		if (!(event.target.id == "menu1" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length > 0)) {
+			hideMenu();
+		}
+	}
+
+	$(document).ready(function() {
+		//초기값으로 검색한다.
+		getEmployeeWithCreteria();
+		
+		//보기 클릭시 어느 부서를 볼 지 정할 수 있다.
+		$('#menu1').click(function() {
+			//모달을 보여준다.
+			showMenu();
+		});
+	});
 </script>
 <title>Kim's Club</title>
 </head>
@@ -183,99 +225,54 @@ var setting = {
 				</div>
 			</div>
 
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<a class="btn btn-default" href="addEmployee">사용자 추가</a>
-					</div>
-					<div class="panel-body">
-						<div class="panel">
-							<div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-								<form action="employee">
-									<div class="row">
-										<div class="col-sm-5">
-											<div class="dropdown">
-												보기 : <a class="dropdown-toggle" id="menu1" data-toggle="dropdown"> <span id="result-dropdown-menu1">전체 조직</span><span class="caret"></span>
-												</a>
-												<ul class="dropdown-menu ztree" id="dropdown-menu1" role="menu" aria-labelledby="menu1">
-												</ul>
-											</div>
-										</div>
-										<div class="col-sm-7 text-right">
-											<label>Search: <input type="hidden" name="searchOption" value="employee_name,employee_no"> <input type="search"
-													class="form-control input-sm search" placeholder="이름,사원번호로 검색" autofocus="autofocus" name="keyword">
-											</label>
-											<button id="search-btn" class="btn btn-primary btn-sm">
-												<i class="fa fa-search"></i>
-											</button>
-										</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a class="btn btn-default" href="addEmployee">사용자 추가</a>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<form name="searchCriteria" class="form-inline">
+									<div class="col-sm-5 text-left">
+										부서 : <a id="menu1"> <input name="department_no" type="hidden" value="모든 사용자"> <span id="result_menu">모든 사용자</span><span class="caret"></span>
+										</a>
 									</div>
-									<div class="row">
-										<div class="col-lg-12">
-											<table class="table table-striped table-bordered table-hover no-footer dtr-inline">
-												<thead>
-													<tr role="row">
-														<th>사원번호</th>
-														<th>이름</th>
-														<th>비밀번호</th>
-														<th>부서명</th>
-														<th>직위</th>
-														<th>입사일</th>
-														<th>이메일</th>
-														<th>전화번호</th>
-														<th>상태</th>
-													</tr>
-												</thead>
-												<tbody>
-													<c:forEach items="${elist}" var="list">
-														<tr>
-															<td>${list.employee_no}</td>
-															<td>${list.employee_name}</td>
-															<td>
-																<input type="password" value="${list.password}" disabled="disabled" size="7">
-															</td>
-															<td>${list.department.department_name}</td>
-															<td>${list.position}</td>
-															<td>
-																<fmt:formatDate value="${list.hiredate}" pattern="yyyy/MM/dd" />
-															</td>
-															<td>${list.email}</td>
-															<td>${list.phonenumber}</td>
-															<td></td>
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-											<div class="row">
-												<div class="col-sm-6">
-													<div class="dataTables_info" id="dataTables-example_info" role="status" aria-live="polite">Showing ${page.pageBegin} to
-														${page.pageEnd} of ${page.count} entries</div>
-												</div>
-												<div class="col-sm-6">
-													<div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
-														<ul class="pagination">
-															<li class="paginate_button previous" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_previous"><c:if
-																	test="${page.curBlock > 1}">
-																	<a
-																		href="employee?cur_page=${page.prevPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Previous</a>
-																</c:if></li>
-															<c:forEach var="num" begin="${page.blockBegin}" end="${page.blockEnd }">
-																<li class="paginate_button <c:if test="${num == page.curPage}"> active</c:if>" aria-controls="dataTables-example" tabindex="0"><a
-																	href="employee?cur_page=${num}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">${num}</a></li>
-															</c:forEach>
-															<li class="paginate_button next" aria-controls="dataTables-example" tabindex="0" id="dataTables-example_next"><c:if
-																	test="${page.curBlock <= page.totBlock}">
-																	<a
-																		href="employee?cur_page=${page.nextPage}<c:forEach items="${map.searchOption}" var="searchOption">&searchOption=${searchOption}</c:forEach>&keyword=${map.keyword}&page_scale=${page.page_scale}">Next</a>
-																</c:if>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
+									<div class="col-sm-7 text-right">
+										<select name="searchType">
+											<option value="employee_name" selected="selected">이름</option>
+											<option value="employee_no">사원번호</option>
+										</select>
+										<input type="search" class="form-control input-sm search" placeholder="검색어를 입력하세요." autofocus="autofocus" name="keyword">
+										<button type="button" id="search-btn" class="btn btn-primary btn-sm">
+											<i class="fa fa-search"></i>
+										</button>
 									</div>
 								</form>
+							</div>
+							<div class="row">
+								<div class="col-lg-12">
+									<table class="table table-striped table-bordered table-hover no-footer dtr-inline" id="employee_table">
+										<thead>
+											<tr role="row">
+												<th>사원번호</th>
+												<th>이름</th>
+												<th>비밀번호</th>
+												<th>부서명</th>
+												<th>직위</th>
+												<th>입사일</th>
+												<th>이메일</th>
+												<th>전화번호</th>
+												<th>상태</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+									<div class="row">
+										<div class="col-sm-12 text-center"></div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -284,6 +281,11 @@ var setting = {
 		</div>
 	</div>
 	</div>
+	</div>
+	<div id="menuContent" class="menuContent" style="display: none; position: absolute;">
+		<ul id="org_list" class="ztree"
+			style="margin-top: 0; width: 160px; border: 1px solid #617775; background: #f0f6e4; overflow-y: scroll; overflow-x: auto;">
+		</ul>
 	</div>
 </body>
 </html>

@@ -57,7 +57,12 @@ public class EmployeeDAO {
 	}
 
 
-	public EmployeeVO selectEmloyeeHiredate(EmployeeVO employeeVO) {
-		return session.selectOne("employee.selectEmloyeeHiredate", employeeVO);
+	public EmployeeVO selectEmployeeHiredate(EmployeeVO employeeVO) {
+		return session.selectOne("employee.selectEmployeeHiredate", employeeVO);
+	}
+
+
+	public List<EmployeeVO> selectEmpListWithCri(Map<String, Object> map) {
+		return session.selectList("employee.selectEmpListWithCri", map);
 	}
 }

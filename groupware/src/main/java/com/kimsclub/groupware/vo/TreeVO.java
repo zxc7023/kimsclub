@@ -57,6 +57,10 @@ public class TreeVO {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
+	@Override
+	public String toString() {
+		return "TreeVO [no=" + no + ", pNo=" + pNo + ", name=" + name + ", cnt=" + cnt + ", isParent=" + isParent + "]";
+	}
 	
 	
 	
