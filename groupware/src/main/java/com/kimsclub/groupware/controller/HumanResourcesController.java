@@ -60,7 +60,7 @@ public class HumanResourcesController {
 		
 		ModelAndView mov = new ModelAndView();
 		mov.addObject("department_json",json);
-		mov.setViewName("department/department2");
+		mov.setViewName("department/department");
 		return mov;
 	}
 	
