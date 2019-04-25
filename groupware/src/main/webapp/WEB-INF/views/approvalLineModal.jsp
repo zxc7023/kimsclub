@@ -252,7 +252,7 @@ width: 80%;
 		$('#confirm').click(function(){
 			if($('.modal_name[coo_index=0]')!=null){
 				$("#cooIndex").attr("value",index);
-				alert($("#cooIndex").val());
+				//alert($("#cooIndex").val());
 			}
 			$('#approvalLine').find('#paste').html($('#sortable').html());
 		});

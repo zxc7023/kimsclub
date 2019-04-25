@@ -94,7 +94,7 @@ public class ApprovalController {
 			System.out.println(dvo.getDocument_state());
 			avo.setDocument(dvo);
 		}
-		//service.approvalNewDoc(dvo);
+		service.approvalNewDoc(dvo);
 		return "/groupware/proceedDocList";
 	}
 	

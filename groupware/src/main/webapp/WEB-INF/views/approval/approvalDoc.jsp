@@ -27,7 +27,7 @@ $(document).ready(function() {
 		}
 		$("#type").attr("value","진행");
 
-		//submitBtn();
+		submitBtn();
 	});
 	
 	function submitBtn(){
